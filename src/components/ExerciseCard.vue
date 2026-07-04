@@ -39,7 +39,7 @@ const int = computed(() => INTENSITY[props.exercise.intensity]);
       </span>
 
       <span
-        class="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-700/60 text-slate-500 dark:text-slate-300"
+        class="inline-flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-700/60 text-slate-500 dark:text-slate-300"
       >
         <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <circle cx="12" cy="12" r="9" />
@@ -65,7 +65,7 @@ const int = computed(() => INTENSITY[props.exercise.intensity]);
         <li
           v-for="tag in exercise.tags"
           :key="tag"
-          class="text-xs font-semibold px-2.5 py-1 rounded-full"
+          class="text-xs font-semibold px-3 py-1 rounded-full"
           :class="cat.tag"
         >
           {{ tag }}
