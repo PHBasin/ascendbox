@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <g transform="translate(-32,-2) scale(1.45)">
+    <!-- Cube isométrique -->
+    <path d="M40 70 L70 90 L70 50 L40 30 Z" stroke="#64748b" stroke-width="10"/>
+    <path d="M70 50 L100 30 L100 70 L70 90" stroke="#64748b" stroke-width="10"/>
+
+    <!-- Chevron ascendant -->
+    <path d="M55 20 L70 10 L85 20" stroke="#a855f7" stroke-width="10"/>
+  </g>
+</svg>

@@ -1,0 +1,22 @@
+// src/domain/exercise.ts
+// Domain: pure business entities & types (no framework/data dependency).
+
+// Single source of truth for the piliers: { technical id (JSON) → displayed label }.
+export const CATEGORIES = [
+  { id: 'force', label: 'Force' },
+  { id: 'technique', label: 'Technique' },
+  { id: 'mental', label: 'Mental' },
+] as const;
+
+export type CategoryId = (typeof CATEGORIES)[number]['id'];
+export type Intensity = 1 | 2 | 3; // 1 = low, 2 = moderate, 3 = high
+
+export interface Exercise {
+  id: number;
+  title: string;
+  description: string;
+  categoryId: CategoryId;
+  tags: string[];
+  intensity: Intensity;
+  duration: number; // minutes
+}
