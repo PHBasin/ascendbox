@@ -80,14 +80,53 @@ comme les piliers. La map niveau → token vit dans [`ExerciseCard.vue`](src/com
 
 ---
 
-## 4. Espacement, rayons & surfaces
+## 4. Espacement
+
+### 4.1 Échelle
+
+**Grille de 4px.** Tous les espacements (padding, margin, gap) sont des multiples de `4px`,
+posés via les utilitaires natifs Tailwind (`--spacing` = `0.25rem`). On ne tokenise **pas**
+l'espacement en `@theme` — contrairement aux couleurs, l'échelle numérique de Tailwind *est*
+déjà la source de vérité. On se contente d'en **restreindre** les pas à ceux ci-dessous et de
+leur donner un rôle.
+
+| Pas | rem | px | Tailwind | Rôle |
+|---|---|---|---|---|
+| `3xs` | 0.125 | 2 | `-0.5` | micro-gap serré (barres d'intensité) |
+| `2xs` | 0.25 | 4 | `-1` | gap icône↔texte, écart titre↔description |
+| `xs` | 0.375 | 6 | `-1.5` | gap inline (dot↔label, mètre, tags) |
+| `sm` | 0.5 | 8 | `-2` | gap entre chips / dans une rangée |
+| `md` | 0.75 | 12 | `-3` | rythme **intra-carte** (blocs, header, footer), padding horizontal des chips |
+| `lg` | 1 | 16 | `-4` | **padding de carte** (`p-4`), padding horizontal des filtres |
+| `xl` | 1.5 | 24 | `-6` | **gouttière du feed** (`gap-6`) + padding du conteneur (`p-6`) |
+| `2xl` | 2 | 32 | `-8` | rythme de **section** (`main py-8`, sentinelle `h-8`) |
+| `3xl` | 3 | 48 | `-12` | respiration des états vides / erreur (`py-12`) |
+
+### 4.2 Rythme (du plus fin au plus large)
+
+1. **Inline** (`3xs`→`xs`) — ce qui vit sur une même ligne : icône et son texte, points, barres.
+2. **Intra-carte** (`md`) — les blocs empilés d'une carte respirent à `12px` (`flex flex-col gap-3`).
+3. **Carte** (`lg`) — padding interne à `16px`.
+4. **Entre cartes / conteneur** (`xl`) — gouttière du feed *et* marge du conteneur partagent `24px`,
+   pour que le feed « respire » du même pas à l'intérieur comme autour.
+5. **Section** (`2xl`) — le décrochage vertical entre zones de page.
+6. **Vide** (`3xl`) — un état vide/erreur prend deux fois le pas de section pour ne pas paraître cassé.
+
+### 4.3 Règles
+
+- **Rester sur les pas ci-dessus.** Pas de valeur arbitraire (`px-5`, `px-2.5`, `p-[13px]`…) :
+  choisir le pas nommé le plus proche. *(Régularisé : les filtres passent de `px-5`→`px-4`,
+  les chips de `px-2.5`→`px-3`.)*
+- **Un rôle = un pas.** Deux éléments jouant le même rôle utilisent le même pas (ex. gouttière feed
+  et padding conteneur = `xl`) — c'est ce qui rend le rythme lisible.
+- **La cible tactile n'est pas un pas de rythme.** `min-h-11` (44px) est une contrainte
+  d'accessibilité (§8), indépendante de l'échelle.
+- **Dimensions (`w-*`/`h-*`) suivent la même grille** quand c'est possible (dot `w-2 h-2`,
+  sentinelle `h-8`), sauf le dimensionnement d'icône, laissé pragmatique (`w-3.5 h-3.5`).
+
+### 4.4 Rayons & surfaces
 
 - **Rayons** : `rounded-3xl` (cartes), `rounded-full` (pastilles, chips, boutons de filtre).
-- **Padding carte** : `p-4`.
-- **Chips / tags** : `px-2.5 py-1`.
-- **Boutons de filtre** : `px-5 min-h-11` (⇒ cible tactile ≥ 44px).
-- **Rythme vertical du feed** : `grid gap-6`.
-- **Conteneur** : `max-w-2xl mx-auto p-6` — feed centré, lisible sur desktop comme mobile.
 - **Élévation** : **pas d'ombres** par défaut. La séparation se fait par `border` + contraste de surface (`white` vs `slate-50`).
 
 ---
@@ -185,7 +224,7 @@ dans [`ExerciseCard.vue`](src/components/ExerciseCard.vue).
 
 - [x] ~~**Charger réellement la police Inter**~~ — chargée depuis Google Fonts dans [`index.html`](index.html) (§3).
 - [x] ~~**Tokeniser les couleurs sémantiques d'intensité**~~ — tokens `--color-intensity-*` dans `@theme` (§2.3).
-- [ ] **Formaliser une échelle d'espacement** (aujourd'hui les valeurs — `p-4`, `gap-6`, `px-5` — sont posées au cas par cas).
+- [x] ~~**Formaliser une échelle d'espacement**~~ — échelle nommée sur grille de 4px + rythme + règles (§4) ; `px-5` et `px-2.5` régularisés.
 - [ ] **Self-hoster Inter** — le chargement actuel dépend de Google Fonts (requête tierce). Envisager un `@font-face` local pour la perf/confidentialité.
 
 ---
@@ -198,3 +237,4 @@ dans [`ExerciseCard.vue`](src/components/ExerciseCard.vue).
 | Ajouter une catégorie (pilier) | [`domain/exercise.ts`](src/domain/exercise.ts) (`CATEGORIES`) **+** token couleur en `@theme` |
 | Créer une classe réutilisable (ex. `.card`) | `@layer components` dans [`main.css`](src/assets/main.css) |
 | Changer un style de carte / chip | le composant concerné dans [`src/components/`](src/components/) |
+| Choisir un espacement (padding/margin/gap) | l'échelle §4 — pas nommé le plus proche, jamais de valeur arbitraire |

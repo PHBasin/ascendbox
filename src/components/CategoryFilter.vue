@@ -24,7 +24,7 @@ const activeClasses: Record<CategoryId, string> = {
       type="button"
       @click="$emit('select', cat.id)"
       :aria-pressed="activeCategory === cat.id"
-      class="px-5 min-h-11 rounded-full capitalize font-bold ring-1 transition-all duration-300 active:scale-95"
+      class="px-4 min-h-11 rounded-full capitalize font-bold ring-1 transition-all duration-300 active:scale-95"
       :class="
         activeCategory === cat.id
           ? activeClasses[cat.id]
