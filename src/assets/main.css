@@ -1,0 +1,39 @@
+/* src/assets/main.css */
+
+@import "tailwindcss";
+
+@theme {
+  /* Pilier (category) colors */
+  --color-force: #f43f5e;    /* Rose-500 */
+  --color-technique: #06b6d4; /* Cyan-500 */
+  --color-mental: #a855f7;    /* Purple-500 */
+
+  /* Exercise intensity (semantic scale) */
+  --color-intensity-low: #059669;  /* Emerald-600 — Faible */
+  --color-intensity-mid: #d97706;  /* Amber-600 — Modérée */
+  --color-intensity-high: #e11d48; /* Rose-600 — Élevée */
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  body {
+    /* Default light mode */
+    @apply bg-slate-50 text-slate-800 antialiased transition-colors duration-300;
+  }
+
+  /* automatic - based on the OS system settings */
+  @media (prefers-color-scheme: dark) {
+    body {
+      @apply bg-slate-900 text-slate-100;
+    }
+  }
+}
+
+/* 4. Custom utilities (Optional) */
+@layer components {
+  .card {
+    @apply bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700
+           rounded-3xl p-4 transition-all duration-300;
+  }
+}

@@ -1,0 +1,1163 @@
+[
+  {
+    "id": 1,
+    "title": "Suspensions Max (Morts)",
+    "description": "Tenir 7 secondes sur réglette 15mm. 3 minutes de repos. 5 séries.",
+    "categoryId": "force",
+    "tags": [
+      "poutre"
+    ],
+    "intensity": 3,
+    "duration": 20
+  },
+  {
+    "id": 2,
+    "title": "Tracter et Bloquer (90°)",
+    "description": "Traction asymétrique : bloquer un bras à 90°, redescendre l'autre. 5s par bras.",
+    "categoryId": "force",
+    "tags": [
+      "poutre",
+      "bloc"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 3,
+    "title": "Pan Güllich (Montée 1-3-5)",
+    "description": "Montée dynamique sur lattes moyennes en sautant une latte. Redescente contrôlée.",
+    "categoryId": "force",
+    "tags": [
+      "poutre"
+    ],
+    "intensity": 3,
+    "duration": 10
+  },
+  {
+    "id": 4,
+    "title": "Gainage Dynamique",
+    "description": "Sur un mur à 30°, lâcher les pieds volontairement et gainer violemment pour les replacer.",
+    "categoryId": "force",
+    "tags": [
+      "devers",
+      "bloc"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 5,
+    "title": "Résistance Courte (4x4)",
+    "description": "Enchaîner 4 blocs modérés sans repos. 3 min de repos, répéter 4 fois.",
+    "categoryId": "force",
+    "tags": [
+      "bloc"
+    ],
+    "intensity": 3,
+    "duration": 30
+  },
+  {
+    "id": 6,
+    "title": "Tractions Lestées (+10kg)",
+    "description": "Séries de 3 à 5 répétitions explosives à la montée avec baudrier lesté.",
+    "categoryId": "force",
+    "tags": [
+      "poutre"
+    ],
+    "intensity": 3,
+    "duration": 20
+  },
+  {
+    "id": 7,
+    "title": "No-Foot Alterné",
+    "description": "Traversée en dévers uniquement avec les bras. Les pieds ne touchent jamais le mur.",
+    "categoryId": "force",
+    "tags": [
+      "devers",
+      "bloc"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 8,
+    "title": "Suspensions Intermittentes (7/3)",
+    "description": "7 secondes de suspension, 3 secondes de repos. À répéter 6 fois de suite.",
+    "categoryId": "force",
+    "tags": [
+      "poutre"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 9,
+    "title": "Campus Board : Touches",
+    "description": "Garder une main sur la latte de départ, monter l'autre le plus haut possible et revenir.",
+    "categoryId": "force",
+    "tags": [
+      "poutre"
+    ],
+    "intensity": 3,
+    "duration": 10
+  },
+  {
+    "id": 10,
+    "title": "Blocs en No-Hand",
+    "description": "Grimper un bloc en dalle sans utiliser les mains, uniquement sur l'équilibre des jambes.",
+    "categoryId": "force",
+    "tags": [
+      "dalle",
+      "bloc"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 11,
+    "title": "Pompes Déclinées",
+    "description": "Pieds surélevés, pompes lentes pour compenser le travail des muscles antagonistes.",
+    "categoryId": "force",
+    "tags": [
+      "gainage"
+    ],
+    "intensity": 2,
+    "duration": 10
+  },
+  {
+    "id": 12,
+    "title": "Tractions à un bras (Assistées)",
+    "description": "Traction avec une main sur la barre et l'autre main qui tient le poignet ou une corde.",
+    "categoryId": "force",
+    "tags": [
+      "poutre"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 13,
+    "title": "Gainage L-Sit",
+    "description": "Assis au sol, soulever le bassin et les jambes tendues à l'équerre pendant 10s.",
+    "categoryId": "force",
+    "tags": [
+      "gainage"
+    ],
+    "intensity": 3,
+    "duration": 10
+  },
+  {
+    "id": 14,
+    "title": "Circuit Training 30/30",
+    "description": "30s d'escalade intense, 30s de repos. À tenir sur 10 minutes.",
+    "categoryId": "force",
+    "tags": [
+      "voie"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 15,
+    "title": "Pincettes (Pinch Blocks)",
+    "description": "Soulever des poids depuis le sol en utilisant uniquement une prise en pince.",
+    "categoryId": "force",
+    "tags": [
+      "poutre"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 16,
+    "title": "Frenchies (Tractions fractionnées)",
+    "description": "Traction complète, blocage en haut (5s), descente à moitié, blocage (5s), redescente.",
+    "categoryId": "force",
+    "tags": [
+      "poutre"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 17,
+    "title": "Jetés à deux mains",
+    "description": "Sauter d'une bonne prise vers une autre en décollant les deux mains simultanément.",
+    "categoryId": "force",
+    "tags": [
+      "bloc",
+      "dynamique"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 18,
+    "title": "Traversée Lestée",
+    "description": "Faire des traversées avec un gilet lesté (5-10% du poids du corps) pour la force-endurance.",
+    "categoryId": "force",
+    "tags": [
+      "voie",
+      "bloc"
+    ],
+    "intensity": 2,
+    "duration": 20
+  },
+  {
+    "id": 19,
+    "title": "Relevés de genoux suspendus",
+    "description": "Suspendu à la barre, remonter les genoux jusqu'au torse sans balancer le corps.",
+    "categoryId": "force",
+    "tags": [
+      "gainage"
+    ],
+    "intensity": 2,
+    "duration": 10
+  },
+  {
+    "id": 20,
+    "title": "Dragon Flags",
+    "description": "Allongé sur un banc, soulever tout le corps droit en appui sur les épaules.",
+    "categoryId": "force",
+    "tags": [
+      "gainage"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 21,
+    "title": "Lock-offs Max",
+    "description": "Bloquer un mouvement à l'amplitude maximale de son bras pendant 10s avant de saisir la prise.",
+    "categoryId": "force",
+    "tags": [
+      "bloc",
+      "devers"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 22,
+    "title": "Suspensions Demi-Crimp",
+    "description": "Travail spécifique de la position arquée (pouce non verrouillé) sur 20mm.",
+    "categoryId": "force",
+    "tags": [
+      "poutre"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 23,
+    "title": "Descentes Excentriques",
+    "description": "Sauter pour attraper la barre en position haute de traction, et descendre le plus lentement possible.",
+    "categoryId": "force",
+    "tags": [
+      "poutre"
+    ],
+    "intensity": 2,
+    "duration": 10
+  },
+  {
+    "id": 24,
+    "title": "Montées de corde",
+    "description": "Monter à la corde lisse sans l'aide des pieds. Redescente contrôlée.",
+    "categoryId": "force",
+    "tags": [
+      "dynamique"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 25,
+    "title": "Blocs en 1 minute",
+    "description": "Avoir exactement 1 minute pour réussir un bloc. S'il n'est pas fait, asser au suivant.",
+    "categoryId": "force",
+    "tags": [
+      "bloc"
+    ],
+    "intensity": 3,
+    "duration": 20
+  },
+  {
+    "id": 26,
+    "title": "Gainage Latéral Étoile",
+    "description": "Planche latérale, lever le bras et la jambe libres vers le plafond.",
+    "categoryId": "force",
+    "tags": [
+      "gainage"
+    ],
+    "intensity": 2,
+    "duration": 10
+  },
+  {
+    "id": 27,
+    "title": "Typewriter Pull-ups",
+    "description": "En position haute de traction, déplacer le corps de gauche à droite vers chaque main.",
+    "categoryId": "force",
+    "tags": [
+      "poutre"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 28,
+    "title": "Bidoigts (Pocket Hangs)",
+    "description": "Suspension ciblée sur l'index et le majeur, puis le majeur et l'annulaire.",
+    "categoryId": "force",
+    "tags": [
+      "poutre"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 29,
+    "title": "Gainage sur Boules",
+    "description": "Faire la planche en posant les mains sur des boules instables (ou medecine balls).",
+    "categoryId": "force",
+    "tags": [
+      "gainage"
+    ],
+    "intensity": 2,
+    "duration": 10
+  },
+  {
+    "id": 30,
+    "title": "Séries de 40 Mouvements",
+    "description": "Enchaîner 40 mouvements continus en traversée ou circuit sans repos pour la continuité.",
+    "categoryId": "force",
+    "tags": [
+      "voie"
+    ],
+    "intensity": 3,
+    "duration": 25
+  },
+  {
+    "id": 31,
+    "title": "Monodoigts assistés",
+    "description": "Suspension sur un doigt avec les pieds sur une chaise ou une bande élastique.",
+    "categoryId": "force",
+    "tags": [
+      "poutre"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 32,
+    "title": "Blocs Lestés",
+    "description": "Faire des blocs 2 niveaux sous son max avec un baudrier lesté (+5kg).",
+    "categoryId": "force",
+    "tags": [
+      "bloc"
+    ],
+    "intensity": 3,
+    "duration": 20
+  },
+  {
+    "id": 33,
+    "title": "Tractions Claquées",
+    "description": "Traction très explosive jusqu'à pouvoir lâcher la barre et taper dans ses mains en l'air.",
+    "categoryId": "force",
+    "tags": [
+      "poutre",
+      "dynamique"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 34,
+    "title": "Ab Wheel",
+    "description": "Déploiements complets avec la roulette à abdos jusqu'à toucher le sol avec le torse.",
+    "categoryId": "force",
+    "tags": [
+      "gainage"
+    ],
+    "intensity": 3,
+    "duration": 10
+  },
+  {
+    "id": 35,
+    "title": "Campus Double Jetés",
+    "description": "Lâcher les deux lattes simultanément et monter d'un cran avec les deux mains.",
+    "categoryId": "force",
+    "tags": [
+      "poutre",
+      "dynamique"
+    ],
+    "intensity": 3,
+    "duration": 10
+  },
+  {
+    "id": 36,
+    "title": "Le Ninja (Silence absolu)",
+    "description": "Grimper en s'interdisant le moindre bruit de pied. Si un chausson claque, on redescend.",
+    "categoryId": "technique",
+    "tags": [
+      "dalle",
+      "voie"
+    ],
+    "intensity": 1,
+    "duration": 15
+  },
+  {
+    "id": 37,
+    "title": "Escalade à Une Main",
+    "description": "Mettre une main dans le dos pour obliger la recherche d'équilibres précaires.",
+    "categoryId": "technique",
+    "tags": [
+      "dalle",
+      "bloc"
+    ],
+    "intensity": 2,
+    "duration": 20
+  },
+  {
+    "id": 38,
+    "title": "Pieds à l'Aveugle",
+    "description": "Regarder la prise, fermer les yeux, poser le pied, rouvrir pour vérifier la précision.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "lecture"
+    ],
+    "intensity": 1,
+    "duration": 15
+  },
+  {
+    "id": 39,
+    "title": "Gommer les Prises",
+    "description": "Supprimer mentalement deux bonnes prises dans un bloc connu et trouver une alternative.",
+    "categoryId": "technique",
+    "tags": [
+      "bloc",
+      "devers"
+    ],
+    "intensity": 2,
+    "duration": 20
+  },
+  {
+    "id": 40,
+    "title": "Mouvements Décomposés (Robot)",
+    "description": "Arrêt strict de 3s à chaque étape : initiation, point mort, préhension.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "statique"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 41,
+    "title": "Croisés Systématiques",
+    "description": "S'imposer de croiser les mains à chaque mouvement, forçant les pivots de bassin.",
+    "categoryId": "technique",
+    "tags": [
+      "bloc",
+      "dalle"
+    ],
+    "intensity": 1,
+    "duration": 15
+  },
+  {
+    "id": 42,
+    "title": "Talons Obligatoires",
+    "description": "Interdiction d'utiliser la pointe des chaussons, progression uniquement en crochet talon.",
+    "categoryId": "technique",
+    "tags": [
+      "devers",
+      "bloc"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 43,
+    "title": "Escalade Lente (Slow Motion)",
+    "description": "Interdiction formelle d'utiliser l'élan. Chaque mouvement doit prendre 5 secondes minimum.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "statique"
+    ],
+    "intensity": 3,
+    "duration": 20
+  },
+  {
+    "id": 44,
+    "title": "Pied / Main",
+    "description": "Monter le pied exactement sur la prise que la main vient de quitter, à chaque mouvement.",
+    "categoryId": "technique",
+    "tags": [
+      "souplesse",
+      "bloc"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 45,
+    "title": "Jeu du Miroir",
+    "description": "Grimper un bloc en inversant la séquence exacte (main droite prend la prise de la gauche).",
+    "categoryId": "technique",
+    "tags": [
+      "lecture",
+      "bloc"
+    ],
+    "intensity": 1,
+    "duration": 20
+  },
+  {
+    "id": 46,
+    "title": "Drapeaux Forcés",
+    "description": "À chaque mouvement de main, la jambe opposée doit être tendue en drapeau pour équilibrer.",
+    "categoryId": "technique",
+    "tags": [
+      "statique",
+      "dalle"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 47,
+    "title": "Balles de Tennis",
+    "description": "Tenir une balle de tennis dans les mains et grimper en utilisant uniquement la paume/poignets.",
+    "categoryId": "technique",
+    "tags": [
+      "dalle",
+      "souplesse"
+    ],
+    "intensity": 1,
+    "duration": 15
+  },
+  {
+    "id": 48,
+    "title": "Downclimbing (Désescalade)",
+    "description": "Interdiction de sauter du bloc. Redescendre en désescaladant de manière contrôlée.",
+    "categoryId": "technique",
+    "tags": [
+      "bloc",
+      "voie"
+    ],
+    "intensity": 2,
+    "duration": 20
+  },
+  {
+    "id": 49,
+    "title": "Pivot de Bassin",
+    "description": "Coller le flanc droit au mur, puis le flanc gauche au mur à chaque mouvement successif.",
+    "categoryId": "technique",
+    "tags": [
+      "devers",
+      "statique"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 50,
+    "title": "Lolottes Uniquement",
+    "description": "Progression en tournant le genou vers l'intérieur à chaque poussée sur les jambes.",
+    "categoryId": "technique",
+    "tags": [
+      "devers",
+      "souplesse"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 51,
+    "title": "Saisies 3 Doigts",
+    "description": "Interdiction d'utiliser l'auriculaire pour forcer l'usage parfait de l'index et du majeur.",
+    "categoryId": "technique",
+    "tags": [
+      "bloc"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 52,
+    "title": "Pieds Collés",
+    "description": "Les deux pieds doivent toujours toucher la même prise simultanément avant qu'une main ne bouge.",
+    "categoryId": "technique",
+    "tags": [
+      "dalle",
+      "souplesse"
+    ],
+    "intensity": 1,
+    "duration": 15
+  },
+  {
+    "id": 53,
+    "title": "Prise de pied lointaine",
+    "description": "Interdiction d'utiliser les pieds intermédiaires. Chercher la prise la plus haute possible.",
+    "categoryId": "technique",
+    "tags": [
+      "souplesse",
+      "dynamique"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 54,
+    "title": "Saisie Dynamique Parfaite",
+    "description": "Lancer un mouvement dynamique, mais interdiction absolue de replacer ses doigts sur la prise d'arrivée.",
+    "categoryId": "technique",
+    "tags": [
+      "dynamique",
+      "bloc"
+    ],
+    "intensity": 3,
+    "duration": 20
+  },
+  {
+    "id": 55,
+    "title": "Grimpe en Diagonale",
+    "description": "Traverser un mur en montant de manière diagonale stricte (1m à droite, 1m en haut).",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "lecture"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 56,
+    "title": "Pieds dans les Mains",
+    "description": "Grimper un toit en s'obligeant à coincer la pointe du pied sous la prise que l'on tient en main.",
+    "categoryId": "technique",
+    "tags": [
+      "devers",
+      "souplesse"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 57,
+    "title": "Adhérence Pure",
+    "description": "Grimper un volume sans aucune prise positive. Uniquement jeu de paumes et pointes à plat.",
+    "categoryId": "technique",
+    "tags": [
+      "dalle"
+    ],
+    "intensity": 1,
+    "duration": 15
+  },
+  {
+    "id": 58,
+    "title": "Changements de pieds rapides",
+    "description": "S'entraîner à échanger les deux pieds sur une toute petite prise sans regarder et sans tomber.",
+    "categoryId": "technique",
+    "tags": [
+      "dalle",
+      "statique"
+    ],
+    "intensity": 2,
+    "duration": 10
+  },
+  {
+    "id": 59,
+    "title": "Crochet Pointe (Toe Hook)",
+    "description": "Progression en utilisant au moins un crochet pointe par mouvement de bras.",
+    "categoryId": "technique",
+    "tags": [
+      "devers",
+      "bloc"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 60,
+    "title": "Grimpe en Carré",
+    "description": "Monter de 3 mètres, traverser à droite de 2 mètres, redescendre de 3 mètres.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "statique"
+    ],
+    "intensity": 1,
+    "duration": 20
+  },
+  {
+    "id": 61,
+    "title": "Prises Inversées Uniquement",
+    "description": "Ne saisir les prises qu'en poigne inversée (pouce vers le bas), forçant le gainage des biceps.",
+    "categoryId": "technique",
+    "tags": [
+      "devers",
+      "bloc"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 62,
+    "title": "Main Plate",
+    "description": "Interdiction de pincer ou d'arquer. Toutes les prises doivent être tenues à plat.",
+    "categoryId": "technique",
+    "tags": [
+      "voie"
+    ],
+    "intensity": 2,
+    "duration": 20
+  },
+  {
+    "id": 63,
+    "title": "Le Compas",
+    "description": "Garder un bras tendu au maximum et pivoter autour pour chercher la prise suivante.",
+    "categoryId": "technique",
+    "tags": [
+      "souplesse",
+      "statique"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 64,
+    "title": "Dynamique à l'Aveugle",
+    "description": "Repérer la prise cible, fermer les yeux et lancer le mouvement dynamique.",
+    "categoryId": "technique",
+    "tags": [
+      "dynamique",
+      "bloc"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 65,
+    "title": "Pied Flottant",
+    "description": "Interdiction de poser le pied gauche pendant tout le parcours du bloc.",
+    "categoryId": "technique",
+    "tags": [
+      "bloc",
+      "statique"
+    ],
+    "intensity": 3,
+    "duration": 10
+  },
+  {
+    "id": 66,
+    "title": "Lecture Chronométrée",
+    "description": "Avoir exactement 20 secondes pour lire une voie avant de démarrer l'ascension.",
+    "categoryId": "technique",
+    "tags": [
+      "lecture",
+      "voie"
+    ],
+    "intensity": 1,
+    "duration": 10
+  },
+  {
+    "id": 67,
+    "title": "Mémorisation Totale",
+    "description": "Lire le bloc, tourner le dos au mur et décrire toute la séquence à voix haute avant de partir.",
+    "categoryId": "technique",
+    "tags": [
+      "lecture",
+      "bloc"
+    ],
+    "intensity": 1,
+    "duration": 15
+  },
+  {
+    "id": 68,
+    "title": "Relais Virtuel",
+    "description": "Au milieu d'une voie, s'arrêter, s'auto-assurer virtuellement avec une main et clipper la dégaine.",
+    "categoryId": "technique",
+    "tags": [
+      "voie"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 69,
+    "title": "Décalage d'un temps",
+    "description": "Monter le pied droit, puis le pied gauche, avant de bouger la main droite. Garder ce rythme 2-1.",
+    "categoryId": "technique",
+    "tags": [
+      "voie"
+    ],
+    "intensity": 1,
+    "duration": 20
+  },
+  {
+    "id": 70,
+    "title": "Pieds Croisés",
+    "description": "Le pied droit ne peut se poser que sur des prises à gauche du corps, et inversement.",
+    "categoryId": "technique",
+    "tags": [
+      "souplesse",
+      "dalle"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 71,
+    "title": "École de Vol (Le Plomb)",
+    "description": "Prendre une chute volontaire 1m au-dessus du point, en soufflant au moment du vol.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "respiration"
+    ],
+    "intensity": 3,
+    "duration": 30
+  },
+  {
+    "id": 72,
+    "title": "Visualisation au Sol",
+    "description": "Mimer chaque mouvement au sol, yeux fermés. Engager la respiration sur les crux.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "bloc",
+      "lecture"
+    ],
+    "intensity": 1,
+    "duration": 5
+  },
+  {
+    "id": 73,
+    "title": "Respiration Synchronisée",
+    "description": "Inspirer à l'initiation du mouvement, expirer bruyamment lors du contact avec la prise.",
+    "categoryId": "mental",
+    "tags": [
+      "respiration",
+      "devers"
+    ],
+    "intensity": 1,
+    "duration": 15
+  },
+  {
+    "id": 74,
+    "title": "Grimper Désengagé",
+    "description": "Grimper au-dessus de son max avec l'objectif assumé de tomber pour supprimer la pression.",
+    "categoryId": "mental",
+    "tags": [
+      "voie"
+    ],
+    "intensity": 2,
+    "duration": 25
+  },
+  {
+    "id": 75,
+    "title": "Micro-Pauses au Crux",
+    "description": "Avant la difficulté, trouver une position de repos et s'y obliger à rester 10 secondes.",
+    "categoryId": "mental",
+    "tags": [
+      "respiration",
+      "voie"
+    ],
+    "intensity": 2,
+    "duration": 10
+  },
+  {
+    "id": 76,
+    "title": "Règle des 3 Essais",
+    "description": "Se limiter à 3 essais très qualitatifs. En cas d'échec, abandonner sans frustration et passer à autre chose.",
+    "categoryId": "mental",
+    "tags": [
+      "bloc"
+    ],
+    "intensity": 1,
+    "duration": 20
+  },
+  {
+    "id": 77,
+    "title": "Chute Inopinée",
+    "description": "L'assureur crie 'Tombe !' au hasard pendant l'ascension. Le grimpeur doit lâcher immédiatement.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "dynamique"
+    ],
+    "intensity": 3,
+    "duration": 20
+  },
+  {
+    "id": 78,
+    "title": "Dialogue Constant",
+    "description": "Expliquer à voix haute chaque mouvement à son assureur tout en grimpant pour éviter l'apnée.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "respiration"
+    ],
+    "intensity": 1,
+    "duration": 20
+  },
+  {
+    "id": 79,
+    "title": "Exagération de l'Expiration",
+    "description": "Sur un passage dur, crier ou expirer très bruyamment (façon tennisman) pour relâcher la tension.",
+    "categoryId": "mental",
+    "tags": [
+      "bloc",
+      "respiration"
+    ],
+    "intensity": 2,
+    "duration": 10
+  },
+  {
+    "id": 80,
+    "title": "Focus Prise Suivante",
+    "description": "Interdiction de penser au relais. Toute la concentration doit être focalisée uniquement sur la prochaine main.",
+    "categoryId": "mental",
+    "tags": [
+      "voie"
+    ],
+    "intensity": 1,
+    "duration": 20
+  },
+  {
+    "id": 81,
+    "title": "Sourire Forcé",
+    "description": "Se forcer physiquement à sourire dans les passages où la peur ou la difficulté monte (trompe le cerveau).",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "devers"
+    ],
+    "intensity": 1,
+    "duration": 15
+  },
+  {
+    "id": 82,
+    "title": "Vérification des Appuis",
+    "description": "Au milieu d'un crux, se répéter mentalement 'mes pieds tiennent' pour transférer la confiance.",
+    "categoryId": "mental",
+    "tags": [
+      "dalle",
+      "lecture"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 83,
+    "title": "Repos Tête en Bas",
+    "description": "Trouver un coincement de genou et lâcher les deux mains pour s'habituer à l'exposition du vide.",
+    "categoryId": "mental",
+    "tags": [
+      "devers",
+      "voie"
+    ],
+    "intensity": 3,
+    "duration": 10
+  },
+  {
+    "id": 84,
+    "title": "Acceptation de la Pompe",
+    "description": "Garder son calme et une respiration fluide malgré des avant-bras totalement tétanisés.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "respiration"
+    ],
+    "intensity": 3,
+    "duration": 25
+  },
+  {
+    "id": 85,
+    "title": "Grimpe à la Sensation",
+    "description": "Monter un bloc facile les yeux mi-clos pour ressentir la texture et le frottement plutôt que la performance.",
+    "categoryId": "mental",
+    "tags": [
+      "bloc",
+      "dalle"
+    ],
+    "intensity": 1,
+    "duration": 10
+  },
+  {
+    "id": 86,
+    "title": "Le Mantra",
+    "description": "Se répéter un mot apaisant ('Fluide', 'Solide', 'Calme') au rythme de ses poses de pied.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "respiration"
+    ],
+    "intensity": 1,
+    "duration": 20
+  },
+  {
+    "id": 87,
+    "title": "Délier les Mains",
+    "description": "Au repos, secouer consciemment les mains et les épaules pour évacuer l'acide lactique et le stress.",
+    "categoryId": "mental",
+    "tags": [
+      "voie"
+    ],
+    "intensity": 1,
+    "duration": 15
+  },
+  {
+    "id": 88,
+    "title": "Saut dans le Vide",
+    "description": "Sauter volontairement depuis le haut du mur de bloc pour habituer le corps à la chute au sol.",
+    "categoryId": "mental",
+    "tags": [
+      "bloc",
+      "dynamique"
+    ],
+    "intensity": 2,
+    "duration": 10
+  },
+  {
+    "id": 89,
+    "title": "Volonté de Lâcher",
+    "description": "Arrivé à la dernière dégaine, refuser de la clipper et redescendre d'un point pour lutter contre la panique.",
+    "categoryId": "mental",
+    "tags": [
+      "voie"
+    ],
+    "intensity": 3,
+    "duration": 20
+  },
+  {
+    "id": 90,
+    "title": "Scan Corporel",
+    "description": "Sur un point de repos, scanner mentalement son corps des pieds à la tête pour repérer les crispations inutiles.",
+    "categoryId": "mental",
+    "tags": [
+      "respiration",
+      "voie"
+    ],
+    "intensity": 1,
+    "duration": 15
+  },
+  {
+    "id": 91,
+    "title": "Escalade en Duo",
+    "description": "Grimper un bloc en même temps qu'un partenaire sur un bloc parallèle pour gérer la distraction externe.",
+    "categoryId": "mental",
+    "tags": [
+      "bloc"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 92,
+    "title": "Désescalade de Crux",
+    "description": "Réussir le passage dur, puis le désescalader. Brise le mythe psychologique de la prise 'impossible'.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "bloc"
+    ],
+    "intensity": 3,
+    "duration": 20
+  },
+  {
+    "id": 93,
+    "title": "Célébration des Échecs",
+    "description": "S'applaudir ou se féliciter à voix haute après un bel essai raté. Désamorce la frustration.",
+    "categoryId": "mental",
+    "tags": [
+      "bloc"
+    ],
+    "intensity": 1,
+    "duration": 15
+  },
+  {
+    "id": 94,
+    "title": "Focalisation Tactile",
+    "description": "Se concentrer uniquement sur la température de la prise ou la rugosité pour ignorer l'exposition au vide.",
+    "categoryId": "mental",
+    "tags": [
+      "dalle",
+      "voie"
+    ],
+    "intensity": 2,
+    "duration": 15
+  },
+  {
+    "id": 95,
+    "title": "Contrôle du Tremblement",
+    "description": "Si la jambe commence à trembler (couscous), s'arrêter, expirer profondément et descendre le talon.",
+    "categoryId": "mental",
+    "tags": [
+      "dalle",
+      "respiration"
+    ],
+    "intensity": 2,
+    "duration": 10
+  },
+  {
+    "id": 96,
+    "title": "Découpage d'Objectif",
+    "description": "Face à une voie longue, ne penser qu'aux 3 prochaines dégaines. Oublier le sommet.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "lecture"
+    ],
+    "intensity": 2,
+    "duration": 25
+  },
+  {
+    "id": 97,
+    "title": "Refus de la Prise de Repli",
+    "description": "S'interdire d'utiliser la grosse prise rassurante à côté du crux pour s'obliger à engager le mouvement dur.",
+    "categoryId": "mental",
+    "tags": [
+      "bloc",
+      "dynamique"
+    ],
+    "intensity": 3,
+    "duration": 15
+  },
+  {
+    "id": 98,
+    "title": "L'Observation Active",
+    "description": "Regarder un autre grimpeur échouer et analyser mentalement sa peur ou son erreur de placement.",
+    "categoryId": "mental",
+    "tags": [
+      "lecture"
+    ],
+    "intensity": 1,
+    "duration": 10
+  },
+  {
+    "id": 99,
+    "title": "Ancrage Positif",
+    "description": "Toucher son baudrier ou taper dans ses mains avant de partir comme un rituel de confiance.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "bloc"
+    ],
+    "intensity": 1,
+    "duration": 5
+  },
+  {
+    "id": 100,
+    "title": "Le Lâcher Prise Final",
+    "description": "Une fois le relais atteint, fermer les yeux 2 secondes pour ressentir l'accomplissement avant de redescendre.",
+    "categoryId": "mental",
+    "tags": [
+      "respiration"
+    ],
+    "intensity": 1,
+    "duration": 5
+  }
+]
