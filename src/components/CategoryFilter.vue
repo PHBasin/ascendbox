@@ -22,7 +22,6 @@ const activeClasses: Record<CategoryId, string> = {
       v-for="cat in CATEGORIES"
       :key="cat.id"
       type="button"
-      @click="$emit('select', cat.id)"
       :aria-pressed="activeCategory === cat.id"
       class="px-4 min-h-11 rounded-full capitalize font-bold ring-1 transition-all duration-300 active:scale-95"
       :class="
@@ -30,6 +29,7 @@ const activeClasses: Record<CategoryId, string> = {
           ? activeClasses[cat.id]
           : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 ring-transparent hover:bg-slate-200 dark:hover:bg-slate-700'
       "
+      @click="$emit('select', cat.id)"
     >
       {{ cat.label }}
     </button>

@@ -41,7 +41,14 @@ const int = computed(() => INTENSITY[props.exercise.intensity]);
       <span
         class="inline-flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-700/60 text-slate-500 dark:text-slate-300"
       >
-        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <svg
+          class="w-3.5 h-3.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
           <circle cx="12" cy="12" r="9" />
           <path stroke-linecap="round" d="M12 7v5l3 2" />
         </svg>
@@ -72,10 +79,7 @@ const int = computed(() => INTENSITY[props.exercise.intensity]);
         </li>
       </ul>
 
-      <div
-        class="shrink-0 inline-flex items-center gap-1.5"
-        :title="`Intensité : ${int.label}`"
-      >
+      <div class="shrink-0 inline-flex items-center gap-1.5" :title="`Intensité : ${int.label}`">
         <span class="flex items-end gap-0.5" aria-hidden="true">
           <span
             v-for="n in 3"

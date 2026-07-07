@@ -26,6 +26,7 @@ The data file (`public/data/exercises.json`) is a **bare array**; each entry is 
 ### Styling — Tailwind CSS v4
 
 Uses the **v4** engine (`tailwindcss@next`), wired into Vite via the `@tailwindcss/postcss` plugin in `postcss.config.js`. There is no `tailwind.config.js`; config is CSS-first in `src/assets/main.css`:
+
 - `@import "tailwindcss";` replaces the old `@tailwind` directives.
 - The `@theme` block defines tokens including category colors `--color-force` (rose), `--color-technique` (cyan), `--color-mental` (purple), usable as utilities `bg-force`, `text-force`, `shadow-force`, etc.
 - Dark mode is driven by `@media (prefers-color-scheme: dark)` (OS setting), NOT a `dark` class toggle.

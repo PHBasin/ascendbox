@@ -28,13 +28,11 @@ async function load(): Promise<void> {
 }
 
 const filtered = computed<Exercise[]>(() =>
-  all.value.filter((ex) => ex.categoryId === activeCategory.value),
+  all.value.filter((ex) => ex.categoryId === activeCategory.value)
 );
 
 // Pagination: only the visible slice is mounted into the DOM.
-const exercises = computed<Exercise[]>(() =>
-  filtered.value.slice(0, visibleCount.value),
-);
+const exercises = computed<Exercise[]>(() => filtered.value.slice(0, visibleCount.value));
 const totalCount = computed(() => filtered.value.length);
 const hasMore = computed(() => visibleCount.value < filtered.value.length);
 
