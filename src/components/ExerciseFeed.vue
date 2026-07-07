@@ -25,7 +25,7 @@ watch(sentinel, (el) => {
     (entries) => {
       if (entries[0].isIntersecting) emit('loadMore');
     },
-    { rootMargin: '200px' }, // preload before reaching the bottom
+    { rootMargin: '200px' } // preload before reaching the bottom
   );
   observer.observe(el);
 });
@@ -41,12 +41,7 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
     </p>
 
     <!-- Skeleton during the fetch: the shell stays interactive -->
-    <div
-      v-else-if="isLoading"
-      class="grid gap-6"
-      aria-busy="true"
-      aria-live="polite"
-    >
+    <div v-else-if="isLoading" class="grid gap-6" aria-busy="true" aria-live="polite">
       <div v-for="n in 4" :key="n" class="card animate-pulse">
         <div class="h-6 w-2/3 rounded bg-slate-200 dark:bg-slate-700"></div>
         <div class="mt-3 h-4 w-full rounded bg-slate-200 dark:bg-slate-700"></div>

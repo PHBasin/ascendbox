@@ -13,13 +13,8 @@ const { exercises, activeCategory, hasMore, loadMore, setCategory, isLoading, er
 
 <template>
   <div class="min-h-screen font-sans">
-
     <main class="py-8">
-
-      <CategoryFilter
-        :active-category="activeCategory"
-        @select="setCategory"
-      />
+      <CategoryFilter :active-category="activeCategory" @select="setCategory" />
 
       <ExerciseFeed
         :exercises="exercises"
@@ -29,7 +24,6 @@ const { exercises, activeCategory, hasMore, loadMore, setCategory, isLoading, er
         :error="error"
         @load-more="loadMore"
       />
-
     </main>
   </div>
 </template>
