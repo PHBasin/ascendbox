@@ -50,14 +50,14 @@ npm run dev      # start the dev server at http://localhost:3000
 | -------------------- | -------------------------------------------------------------- |
 | `npm run dev`        | Vite development server (port **3000**).                       |
 | `npm run type-check` | Type-checking via `vue-tsc` (emits no files).                  |
-| `npm run build`      | Type-check **then** production build into `dist/`.             |
+| `npm run build`      | Production build into `dist/`.                                 |
 | `npm run preview`    | Serve the production build locally.                            |
 | `npm run lint`       | ESLint over the project, auto-fixing where possible (`--fix`). |
 | `npm run format`     | Prettier write across the project.                             |
 
 > ℹ️ There is **no test runner yet**. Type safety is enforced by `vue-tsc` (`strict: true`) and
-> style/consistency by ESLint + Prettier. `type-check` is **not** run by `dev` — only by `build`.
-> An invalid type breaks the build, not the dev server.
+> style/consistency by ESLint + Prettier.
+> CI runs `type-check` on every push and pull request.
 
 ## 🧱 Tech stack
 
