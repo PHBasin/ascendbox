@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/PHBasin/ascendbox/compare/v1.0.0...v1.1.0) (2026-07-08)
+
+
+### Features
+
+* make the app an installable offline-first PWA ([b748921](https://github.com/PHBasin/ascendbox/commit/b748921fbe216b3d2b826e03bf13e251ce21a9d3))
+
 # 1.0.0 (2026-07-07)
 
 
