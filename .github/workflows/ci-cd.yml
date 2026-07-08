@@ -42,6 +42,7 @@ jobs:
     runs-on: ubuntu-24.04
     permissions:
       contents: read
+      actions: write # to upload-pages-artifact
     steps:
       - name: Checkout Repository
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -59,7 +60,7 @@ jobs:
   release:
     name: 📦 Semantic Release
     needs: [build]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-24.04
     permissions:
       contents: write # push the release commit + tag
@@ -94,7 +95,7 @@ jobs:
     name: 🚀 Deploy to Production
     needs: [release]
     # Only deploy when a new version was actually published.
-    if: needs.release.outputs.released == 'true'
+    if: needs.release.outputs.released == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     permissions:
       pages: write
