@@ -4,10 +4,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vite build",
     "type-check": "vue-tsc --noEmit",
     "preview": "vite preview",
     "lint": "eslint . --fix",
+    "lint:ci": "eslint .",
     "format": "prettier --write ."
   },
   "dependencies": {

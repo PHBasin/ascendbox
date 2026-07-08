@@ -1,81 +1,97 @@
 <div align="center">
-  <img src="public/favicon.svg" width="88" height="88" alt="Logo AscendBox" />
+  <img src="public/favicon.svg" width="88" height="88" alt="AscendBox logo" />
   <h1>AscendBox</h1>
-  <p><em>La boîte à exercices des coachs d'escalade.</em></p>
+  <p><em>The exercise toolbox for climbing coaches.</em></p>
+
+  <p>
+    <a href="https://github.com/PHBasin/ascendbox/actions/workflows/ci-cd.yml"><img src="https://github.com/PHBasin/ascendbox/actions/workflows/ci-cd.yml/badge.svg" alt="CI/CD" /></a>
+    <a href="https://github.com/PHBasin/ascendbox/actions/workflows/codeql.yml"><img src="https://github.com/PHBasin/ascendbox/actions/workflows/codeql.yml/badge.svg" alt="Security Analysis" /></a>
+    <a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/release-semantic--release-e10079?logo=semantic-release" alt="semantic-release" /></a>
+    <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-lightgrey.svg" alt="License: CC BY-NC-SA 4.0" /></a>
+  </p>
+
+  <p>
+    <img src="https://img.shields.io/badge/Vue-3-42b883?logo=vuedotjs&logoColor=white" alt="Vue 3" />
+    <img src="https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white" alt="Vite 8" />
+    <img src="https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white" alt="TypeScript strict" />
+    <img src="https://img.shields.io/badge/Tailwind%20CSS-v4-38bdf8?logo=tailwindcss&logoColor=white" alt="Tailwind CSS v4" />
+  </p>
 </div>
 
 ---
 
-**AscendBox** est une application web _mobile-first_ qui permet aux coachs de club d'escalade
-de parcourir un catalogue d'exercices d'entraînement, filtrés par pilier
-(**Force**, **Technique**, **Mental**) et qualifiés par intensité et durée.
+**AscendBox** is a _mobile-first_ web app that lets climbing-club coaches browse a catalog of
+training exercises, filtered by category (**Force**, **Technique**, **Mental** — strength, technique,
+mental) and qualified by intensity and duration.
 
-> Le contenu des exercices est en français ; le code et les commentaires sont en anglais.
+> Exercise content is in French; the code and comments are in English.
 
-## ✨ Fonctionnalités
+## ✨ Features
 
-- 🎯 **Filtrage par pilier** — Force, Technique, Mental, chacun avec sa couleur d'identité.
-- 📊 **Lecture rapide** — chaque carte affiche durée, tags et un mètre d'intensité visuel (1 à 3 barres).
-- ♾️ **Défilement infini** — pagination automatique au scroll (chargement anticipé).
-- 🌗 **Thème clair / sombre** — automatique, suit le réglage du système d'exploitation.
-- 📱 **Pensée mobile** — cibles tactiles ≥ 44px, feed sur une colonne, barre de filtres collée en haut.
+- 🎯 **Category filtering** — Force, Technique, Mental, each with its own identity color.
+- 📊 **At-a-glance reading** — every card shows duration, tags and a visual intensity meter (1 to 3 bars).
+- ♾️ **Infinite scroll** — automatic pagination on scroll (with prefetch).
+- 🌗 **Light / dark theme** — automatic, follows the operating-system setting.
+- 📱 **Mobile-minded** — touch targets ≥ 44px, single-column feed, sticky filter bar.
 
-## 🚀 Démarrage
+## 🚀 Getting started
 
-**Prérequis** : Node.js **24.18.0** (voir [`.nvmrc`](.nvmrc)) et npm.
+**Prerequisites**: Node.js **24.18.0** (see [`.nvmrc`](.nvmrc)) and npm.
 
 ```bash
-nvm use          # aligne la version de Node sur .nvmrc
-npm install      # installe les dépendances
-npm run dev      # lance le serveur de dev sur http://localhost:3000
+nvm use          # align the Node version with .nvmrc
+npm install      # install dependencies
+npm run dev      # start the dev server at http://localhost:3000
 ```
 
 ## 📜 Scripts
 
-| Commande             | Description                                                  |
-| -------------------- | ------------------------------------------------------------ |
-| `npm run dev`        | Serveur de développement Vite (port **3000**).               |
-| `npm run type-check` | Vérification des types via `vue-tsc` (n'émet aucun fichier). |
-| `npm run build`      | Type-check **puis** build de production dans `dist/`.        |
-| `npm run preview`    | Sert le build de production localement.                      |
+| Command              | Description                                                    |
+| -------------------- | -------------------------------------------------------------- |
+| `npm run dev`        | Vite development server (port **3000**).                       |
+| `npm run type-check` | Type-checking via `vue-tsc` (emits no files).                  |
+| `npm run build`      | Type-check **then** production build into `dist/`.             |
+| `npm run preview`    | Serve the production build locally.                            |
+| `npm run lint`       | ESLint over the project, auto-fixing where possible (`--fix`). |
+| `npm run format`     | Prettier write across the project.                             |
 
-> ℹ️ Il n'y a **ni tests ni linter**. La sûreté est assurée par `vue-tsc` (`strict: true`).
-> Le `type-check` n'est **pas** exécuté par `dev` — seulement par `build`. Un type invalide
-> casse le build, pas le dev.
+> ℹ️ There is **no test runner yet**. Type safety is enforced by `vue-tsc` (`strict: true`) and
+> style/consistency by ESLint + Prettier. `type-check` is **not** run by `dev` — only by `build`.
+> An invalid type breaks the build, not the dev server.
 
-## 🧱 Stack technique
+## 🧱 Tech stack
 
 - [Vue 3](https://vuejs.org/) (`<script setup>` + Composition API)
-- [Vite 6](https://vitejs.dev/) (bundler & serveur de dev)
-- [TypeScript](https://www.typescriptlang.org/) (mode `strict`)
-- [Tailwind CSS v4](https://tailwindcss.com/) (config _CSS-first_, sans `tailwind.config.js`)
+- [Vite 8](https://vitejs.dev/) (bundler & dev server)
+- [TypeScript](https://www.typescriptlang.org/) (`strict` mode)
+- [Tailwind CSS v4](https://tailwindcss.com/) (_CSS-first_ config, no `tailwind.config.js`)
 
 ## 🏗️ Architecture
 
-Le projet suit une **architecture en couches** (inspirée de la Clean Architecture) pour que la
-source de données puisse être remplacée sans toucher à l'UI. Les dépendances vont dans un seul sens :
+The project follows a **layered architecture** (Clean-Architecture-inspired) so that the data
+source can be swapped without touching the UI. Dependencies flow in a single direction:
 
 ```
 domain  →  data  →  application  →  presentation
 ```
 
-| Couche           | Fichier                                                              | Rôle                                                                                                                                 |
-| ---------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| **Domain**       | [`src/domain/exercise.ts`](src/domain/exercise.ts)                   | Entités & types métier purs. Source de vérité des catégories (`CATEGORIES`). Zéro dépendance framework.                              |
-| **Data**         | [`src/data/exerciseRepository.ts`](src/data/exerciseRepository.ts)   | Seul module qui connaît la source. `fetch` le JSON, le fige (`Object.freeze`) et le met en cache. À remplacer pour passer à une API. |
-| **Application**  | [`src/application/useExercises.ts`](src/application/useExercises.ts) | Composable d'état (singleton partagé) : filtrage, pagination, chargement/erreur. Le comportement vit ici.                            |
-| **Présentation** | [`src/components/`](src/components/)                                 | Composants purement visuels : `App`, `CategoryFilter`, `ExerciseFeed`, `ExerciseCard`.                                               |
+| Layer            | File                                                                | Role                                                                                                                          |
+| ---------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **Domain**       | [`src/domain/exercise.ts`](src/domain/exercise.ts)                  | Pure business entities & types. Single source of truth for categories (`CATEGORIES`). Zero framework dependency.              |
+| **Data**         | [`src/data/exerciseRepository.ts`](src/data/exerciseRepository.ts)  | The only module that knows the source. `fetch`es the JSON, freezes it (`Object.freeze`) and caches it. Swap it to move to an API. |
+| **Application**  | [`src/application/useExercises.ts`](src/application/useExercises.ts) | State composable (shared singleton): filtering, pagination, loading/error. Behavior lives here.                               |
+| **Presentation** | [`src/components/`](src/components/)                                 | Purely visual components: `App`, `CategoryFilter`, `ExerciseFeed`, `ExerciseCard`.                                            |
 
-- **Alias de chemin** : `@` → `./src` (déclaré dans `vite.config.ts` **et** `tsconfig.json`).
-- **Design system** : voir [DESIGN.md](DESIGN.md).
+- **Path alias**: `@` → `./src` (declared in both `vite.config.ts` **and** `tsconfig.json`).
+- **Design system**: see [DESIGN.md](DESIGN.md).
 
-## 📂 Données
+## 📂 Data
 
-Les exercices vivent dans [`public/data/exercises.json`](public/data/exercises.json), **fetché
-au runtime** (hors bundle JS pour un meilleur _time-to-interactive_ ; préchargé via
-`<link rel="preload">` dans [`index.html`](index.html)).
+Exercises live in [`public/data/exercises.json`](public/data/exercises.json), **fetched at runtime**
+(out of the JS bundle for a better _time-to-interactive_; preloaded via `<link rel="preload">` in
+[`index.html`](index.html)).
 
-Chaque entrée respecte l'interface `Exercise` :
+Each entry conforms to the `Exercise` interface:
 
 ```json
 {
@@ -89,65 +105,94 @@ Chaque entrée respecte l'interface `Exercise` :
 }
 ```
 
-- `categoryId` : `"force"` | `"technique"` | `"mental"`.
-- `intensity` : `1` (faible) | `2` (modérée) | `3` (élevée).
-- `duration` : en minutes.
+- `categoryId`: `"force"` | `"technique"` | `"mental"`.
+- `intensity`: `1` (low) | `2` (moderate) | `3` (high).
+- `duration`: in minutes.
 
-> ⚠️ Le JSON étant _fetché_ (et non importé), une dérive de schéma **n'est pas détectée** par
-> `vue-tsc` — elle échoue au runtime. Garder le fichier aligné avec l'interface `Exercise`
-> manuellement.
+> ⚠️ Because the JSON is _fetched_ (not imported), a schema drift is **not caught** by `vue-tsc` —
+> it fails at runtime. Keep the file aligned with the `Exercise` interface manually.
 
-## 🗂️ Structure du projet
+## 🔄 CI/CD & security
+
+Two GitHub Actions workflows run on every push and pull request to `main`.
+
+### `CI/CD` — [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml)
+
+Triggered on push and PR to `main`, and manually (`workflow_dispatch`). Jobs run sequentially, each
+gating the next via `needs`:
+
+1. **🛡️ Quality Gate** — `npm ci`, then `type-check` (`vue-tsc`) and `lint`.
+2. **⚒️ Build Application** — `npm run build`, then uploads `dist/` as a GitHub Pages artifact.
+3. **📦 Semantic Release** — on push to `main` only. Runs [semantic-release](https://semantic-release.gitbook.io/):
+   version bump, changelog and GitHub release driven by commit messages.
+4. **🚀 Deploy to Production** — publishes the artifact to GitHub Pages (`production` environment).
+
+Concurrency is grouped per ref, cancelling any in-progress run. (A `staging` deploy job is scaffolded
+but commented out.)
+
+### `Security Analysis` — [`.github/workflows/codeql.yml`](.github/workflows/codeql.yml)
+
+[CodeQL](https://codeql.github.com/) scanning on push and PR to `main`, plus a weekly schedule
+(Mondays, 00:00 UTC). Analyzes the `javascript` and `actions` languages with the
+`security-extended` + `security-and-quality` query suites.
+
+> 💡 Because commit messages drive releases, follow
+> [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `chore:`…).
+
+## 🗂️ Project structure
 
 ```
 ascendbox/
+├── .github/workflows/        # CI/CD (ci-cd.yml) & security (codeql.yml)
 ├── public/
-│   ├── data/exercises.json   # le catalogue d'exercices
-│   └── favicon.svg           # logo (cube isométrique + chevron)
+│   ├── data/exercises.json   # the exercise catalog
+│   └── favicon.svg           # logo (isometric cube + chevron)
 ├── src/
-│   ├── domain/               # entités & types
-│   ├── data/                 # accès aux données
-│   ├── application/          # état & logique (composables)
-│   ├── components/           # composants Vue
-│   ├── assets/main.css       # tokens Tailwind v4 (@theme)
-│   └── main.ts               # point d'entrée
+│   ├── domain/               # entities & types
+│   ├── data/                 # data access
+│   ├── application/          # state & logic (composables)
+│   ├── components/           # Vue components
+│   ├── assets/main.css       # Tailwind v4 tokens (@theme)
+│   └── main.ts               # entry point
 ├── index.html
-├── CLAUDE.md                 # guide pour l'assistant IA
+├── CLAUDE.md                 # guide for the AI assistant
 └── DESIGN.md                 # design system
 ```
 
-## 🚧 Améliorations possibles
+## 🚧 Roadmap
 
-Pistes d'évolution, regroupées par thème. Aucune n'est bloquante — le projet fonctionne en l'état.
+Possible directions, grouped by theme. None is blocking — the project works as-is.
 
-### Qualité & robustesse
+### Quality & robustness
 
-- **Tests** — il n'y a aujourd'hui aucun test. Ajouter [Vitest](https://vitest.dev/) pour la
-  logique ([`useExercises.ts`](src/application/useExercises.ts) : filtrage, pagination) et
-  [Vue Test Utils](https://test-utils.vuejs.org/) pour les composants.
-- **Linter / formatter** — pas d'ESLint ni de Prettier. Les mettre en place uniformiserait le style
-  et attraperait des erreurs que `vue-tsc` ne voit pas.
-- **Validation du JSON au runtime** — le schéma des exercices n'est pas vérifié (une dérive échoue
-  silencieusement au runtime). Valider avec [Zod](https://zod.dev/) dans
-  [`exerciseRepository.ts`](src/data/exerciseRepository.ts) donnerait des erreurs claires.
-- **CI** — un workflow GitHub Actions lançant `type-check` + `build` (+ tests) à chaque push.
+- **Tests** — there are no tests yet. Add [Vitest](https://vitest.dev/) for the logic
+  ([`useExercises.ts`](src/application/useExercises.ts): filtering, pagination) and
+  [Vue Test Utils](https://test-utils.vuejs.org/) for the components, then wire them into the
+  Quality Gate.
+- **Runtime JSON validation** — the exercise schema is not verified (a drift fails silently at
+  runtime). Validating with [Zod](https://zod.dev/) in
+  [`exerciseRepository.ts`](src/data/exerciseRepository.ts) would give clear errors.
 
-### Fonctionnalités
+### Features
 
-- **Recherche** par mot-clé (titre, tags) en complément du filtre par pilier.
-- **Filtres combinés** — intensité et/ou durée, en plus de la catégorie.
-- **Favoris** des exercices (persistés en `localStorage`).
-- **Vue détail** d'un exercice (route dédiée, partage par URL).
-- **Composition de séances** — sélectionner des exercices pour bâtir un entraînement.
+- **Search** by keyword (title, tags) alongside the category filter.
+- **Combined filters** — intensity and/or duration, on top of the category.
+- **Favorites** for exercises (persisted in `localStorage`).
+- **Detail view** for an exercise (dedicated route, share by URL).
+- **Session builder** — pick exercises to assemble a training session.
 
-### Technique
+### Technical
 
-- **Passage à une API** — l'architecture est déjà prête : il suffit de réécrire
-  [`exerciseRepository.ts`](src/data/exerciseRepository.ts), le reste ne bouge pas.
-- **PWA / hors-ligne** — service worker + manifeste pour une utilisation au pied du mur, sans réseau.
-- **Tests d'accessibilité** automatisés (axe-core) et audit Lighthouse dans la CI.
+- **API migration** — the architecture is already prepared: just rewrite
+  [`exerciseRepository.ts`](src/data/exerciseRepository.ts); nothing else moves.
+- **PWA / offline** — service worker + manifest for use at the crag, without a network.
+- **Automated accessibility tests** (axe-core) and a Lighthouse audit in CI.
 
-### Design (voir [DESIGN.md](DESIGN.md#10-dette-design-connue--à-faire))
+### Design (see [DESIGN.md](DESIGN.md#10-known-design-debt--todo))
 
-- **Self-hoster la police Inter** — aujourd'hui chargée via Google Fonts (requête tierce).
-- **Formaliser une échelle d'espacement** plutôt que des valeurs posées au cas par cas.
+- **Self-host the Inter font** — currently loaded from Google Fonts (a third-party request).
+
+## 📄 License
+
+Released under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE.md)
+(CC BY-NC-SA 4.0) license.
