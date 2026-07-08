@@ -2,6 +2,17 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Product context
+AscendBox is a mobile-first PWA for climbing-club coaches to browse ~100 training exercises (content
+is in French). It is used **outdoors, often in a hurry**. The
+non-negotiables that follow: high contrast (aim AAA), large touch targets, **no meaning carried by
+colour alone** (colour-vision safety), state always visible.
+
+## Design source of truth
+**Read `DESIGN.md` before any UI work** — colours, type, spacing, components, motion, accessibility.
+UI must conform to it; do not restate its spec here. On any design change, update `DESIGN.md` in the
+same move.
+
 ## Commands
 
 - `npm run dev` — start Vite dev server on **port 3000** (configured in `vite.config.ts`)
@@ -23,13 +34,38 @@ AscendBox is a mobile-first Vue 3 + Vite single-page app for climbing-club coach
 
 The data file (`public/data/exercises.json`) is a **bare array**; each entry is `{ id, title, description, categoryId, tags, intensity, duration }` (`intensity` is `1 | 2 | 3`, `duration` in minutes). The `Exercise` interface (`src/domain/exercise.ts`) mirrors it exactly. Categories are lowercase ids (`force`/`technique`/`mental`) that intentionally match the `--color-*` tokens; display labels come from the `CATEGORIES` array. Since the JSON is fetched (not imported), a schema drift won't be caught by `vue-tsc` — it fails at runtime, so keep the file aligned with the interface manually.
 
+> ⚠ **Taxonomy migration in progress (see Tasks).** The description above reflects the **current**
+> code. Pending: `Force → Physique`, add a 4th category `Sécurité`, and `Intensity → Niveau`
+> (`Débutant | Intermédiaire | Avancé`). Update this section as the code changes.
+
 ### Styling — Tailwind CSS v4
 
 Uses the **v4** engine (`tailwindcss@next`), wired into Vite via the `@tailwindcss/postcss` plugin in `postcss.config.js`. There is no `tailwind.config.js`; config is CSS-first in `src/assets/main.css`:
 
 - `@import "tailwindcss";` replaces the old `@tailwind` directives.
-- The `@theme` block defines tokens including category colors `--color-force` (rose), `--color-technique` (cyan), `--color-mental` (purple), usable as utilities `bg-force`, `text-force`, `shadow-force`, etc.
-- Dark mode is driven by `@media (prefers-color-scheme: dark)` (OS setting), NOT a `dark` class toggle.
+- The `@theme` block defines the tokens (category `--color-*`, neutrals, etc.), usable as utilities (`bg-force`, `text-force`, …).
 - Reusable classes (e.g. `.card`) live in `@layer components` via `@apply`.
+- **Token values, the category palette and the dark-mode policy live in `DESIGN.md`** (§2, §7) — not duplicated here.
 
-**Critical Tailwind v4 gotcha**: the JIT scanner only sees class names that appear as complete static strings in source. Never build class names by concatenation (`'bg-' + cat`) — they won't be generated. Map dynamic choices to full static strings (see the `activeClasses` record in `CategoryFilter.vue`).
+**Critical Tailwind v4 gotcha** (also `DESIGN.md` §10): the JIT scanner only sees class names that appear as complete static strings in source. Never build class names by concatenation (`'bg-' + cat`) — they won't be generated. Map dynamic choices to full static strings (see the `activeClasses` record in `CategoryFilter.vue`).
+
+## Taxonomy — 4 categories
+Primary scope, mutually exclusive: **Physique · Technique · Mental · Sécurité**.
+- `Sécurité` is the home for rope-work (belaying, knots, fall management, hauling…).
+- Cross-cutting themes (e.g. fall management = Mental + Sécurité) → **tags**, never a duplicate category.
+- Volume rule: a category with < ~5 exercises reverts to a tag.
+- `CATEGORIES` in `src/domain/exercise.ts` remains the single source of truth for ids/labels.
+
+## Tasks
+
+### Taxonomy — decided here, reflect in `DESIGN.md` §2.1
+- [ ] Rename `Force` → `Physique` (token, `domain/exercise.ts`, labels).
+- [ ] Add the 4th category `Sécurité`: token `--color-securite` (green/amber is free — the level
+      gauge is neutral) + icon + `CATEGORIES` entry + static string in `activeClasses` /
+      `CATEGORY_STYLE` (JIT constraint above).
+- [ ] File rope-work exercises there; tag `#corde` / `#chute` the cross-cutting ones.
+- [ ] Update `DESIGN.md` §2.1 (3 → 4 categories).
+
+### Design migration
+→ Follow the checklist in **`DESIGN.md` §12** (Niveau, neutral gauge, neutral tags, category
+icon+label, ~52px CTA, filter sheet, detail page, self-host Inter).
