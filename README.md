@@ -50,7 +50,7 @@ npm run dev      # start the dev server at http://localhost:3000
 | -------------------- | -------------------------------------------------------------- |
 | `npm run dev`        | Vite development server (port **3000**).                       |
 | `npm run type-check` | Type-checking via `vue-tsc` (emits no files).                  |
-| `npm run build`      | Production build into `dist/`                                  |
+| `npm run build`      | Production build into `dist/`.                                 |
 | `npm run preview`    | Serve the production build locally.                            |
 | `npm run lint`       | ESLint over the project, auto-fixing where possible (`--fix`). |
 | `npm run format`     | Prettier write across the project.                             |
