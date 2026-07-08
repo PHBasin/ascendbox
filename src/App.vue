@@ -5,7 +5,6 @@ import { useExercises } from '@/application/useExercises';
 // Import UI components
 import CategoryFilter from '@/components/CategoryFilter.vue';
 import ExerciseFeed from '@/components/ExerciseFeed.vue';
-import PwaUpdatePrompt from '@/components/PwaUpdatePrompt.vue';
 
 // Destructure the state and methods from the composable
 const { exercises, activeCategory, hasMore, loadMore, setCategory, isLoading, error } =
@@ -26,7 +25,5 @@ const { exercises, activeCategory, hasMore, loadMore, setCategory, isLoading, er
         @load-more="loadMore"
       />
     </main>
-
-    <PwaUpdatePrompt />
   </div>
 </template>

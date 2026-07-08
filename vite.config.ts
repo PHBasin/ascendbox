@@ -8,9 +8,10 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
-      // 'prompt' = we control WHEN the new version activates (see PwaUpdatePrompt.vue).
-      // A climber mid-session is never force-reloaded under their feet.
-      registerType: 'prompt',
+      // 'autoUpdate' = a new deploy activates and reloads the page automatically,
+      // no prompt. Safe here: the app is a read-only catalog (nothing to lose but
+      // scroll position), and updates only fetch when online — never at the crag.
+      registerType: 'autoUpdate',
 
       // Served at the domain root (custom domain www.ascendbox.fr) → base '/'.
       // On a project-pages URL (github.io/ascendbox/) you would set scope/base to
