@@ -4,14 +4,20 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Inter (the --font-sans token); display=swap avoids blocking first paint -->
+    <!-- PWA: theme + iOS home-screen support (iOS ignores the manifest icons) -->
+    <meta name="theme-color" content="#0f172a" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="AscendBox" />
+    <!-- Inter (the --font-sans token) display=swap avoids blocking first paint -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <!-- Preload the data in parallel with the JS bundle → the fetch is already (nearly) ready at mount -->
+    <!-- Preload the data in parallel with the JS bundle -->
     <link
       rel="preload"
       href="/data/exercises.json"
@@ -21,10 +27,10 @@
     />
     <!-- Social Media Preview (Open Graph) -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://phbasin.github.io/ascendbox/" />
+    <meta property="og:url" content="https://www.ascendbox.fr/" />
     <meta property="og:title" content="AscendBox - Le catalogue d'escalade" />
     <meta property="og:description" content="Découvrez notre catalogue d'exercices pour vos séances."/>
-    <meta property="og:image" content="https://phbasin.github.io/ascendbox/social-preview.jpg" />
+    <meta property="og:image" content="https://www.ascendbox.fr/social-preview.jpg" />
 
     <title>AscendBox</title>
   </head>
