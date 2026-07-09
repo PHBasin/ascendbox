@@ -6,7 +6,7 @@ audience) lives in `CLAUDE.md` — the rules here implement it.
 
 > **Technical context** — Vue 3 + Tailwind CSS **v4** (`tailwindcss@next`), _CSS-first_ config in
 > [`src/assets/main.css`](src/assets/main.css) via `@theme` (no `tailwind.config.js`). Tokens are
-> CSS variables exposed as utilities (`bg-force`, `text-mental`, …). Read §10 (Tailwind v4 JIT)
+> CSS variables exposed as utilities (`bg-physique`, `text-mental`, …). Read §10 (Tailwind v4 JIT)
 > before writing any dynamic class.
 
 ---
@@ -33,20 +33,20 @@ audience) lives in `CLAUDE.md` — the rules here implement it.
 
 ### 2.1 Categories (navigation, not a filter)
 
-Category is the app's **primary scope** (Force / Technique / Mental) — mutually exclusive, always
+Category is the app's **primary scope** (Physique / Technique / Mental) — mutually exclusive, always
 visible. Source of truth: `@theme` in [`main.css`](src/assets/main.css).
 
 | Category      | Token               | Hex       | Base       | Mandatory icon |
 | ------------- | ------------------- | --------- | ---------- |  ------------- |
-| **Force**     | `--color-force`     | `#f43f5e` | Rose 500   | dumbbell       |
+| **Physique**  | `--color-physique`     | `#f43f5e` | Rose 500   | dumbbell       |
 | **Technique** | `--color-technique` | `#06b6d4` | Cyan 500   | target         |
 | **Mental**    | `--color-mental`    | `#a855f7` | Purple 500 | spark          |
 
-> **Redundancy is mandatory.** Force (rose) and Mental (purple) are adjacent hues and can merge for
+> **Redundancy is mandatory.** Physique (rose) and Mental (purple) are adjacent hues and can merge for
 > protan/deutan users and in glare. Category is therefore **always** rendered as *icon + label*, with
 > colour as reinforcement — never a bare coloured dot as the sole marker.
 
-Usable as `bg-force`, `text-technique`, `ring-mental`, with opacity `bg-force/10`.
+Usable as `bg-physique`, `text-technique`, `ring-mental`, with opacity `bg-physique/10`.
 
 ### 2.2 Neutrals (Slate scale)
 
@@ -80,11 +80,11 @@ read from **how many segments are filled** and the word — *not* from hue.
 
 ### 2.4 Contrast targets
 
-| Content | Target |
-| --- | --- |
-| Primary text, primary actions | **≥ 7:1 (AAA)** wherever achievable |
-| Secondary text, borders on surface | ≥ 4.5:1 (AA), never below |
-| Do **not** use faint tints (`/10`) to carry meaning | tints are decoration only |
+| Content                                             | Target                              |
+| --------------------------------------------------- | ----------------------------------- |
+| Primary text, primary actions                       | **≥ 7:1 (AAA)** wherever achievable |
+| Secondary text, borders on surface                  | ≥ 4.5:1 (AA), never below           |
+| Do **not** use faint tints (`/10`) to carry meaning | tints are decoration only           |
 
 ---
 
@@ -266,7 +266,7 @@ The scanner only generates classes present as **complete static strings**. **Nev
 
 // ✅ map each choice to a full static string
 const activeClasses: Record<CategoryId, string> = {
-  force:     'bg-force/10 dark:bg-force/20 text-force ring-force/30',
+  physique:  'bg-physique/10 dark:bg-physique/20 text-physique ring-physique/30',
   technique: 'bg-technique/10 dark:bg-technique/20 text-technique ring-technique/30',
   mental:    'bg-mental/10 dark:bg-mental/20 text-mental ring-mental/30',
 };
@@ -286,3 +286,15 @@ in [`ExerciseCard.vue`](src/components/ExerciseCard.vue).
 | Create a reusable class (`.card`) | `@layer components` in [`main.css`](src/assets/main.css)                                   |
 | Change a card / chip / gauge      | the relevant component in [`src/components/`](src/components/)                             |
 | Pick spacing                      | the §4 scale — nearest named step, never arbitrary                                         |
+
+## 12. Migration & design debt
+
+Changes in this revision that require code follow-up:
+
+- [ ] **Rename intensity → level** everywhere: `Intensity 1|2|3` → `Niveau` `Débutant|Intermédiaire|Avancé`; `--color-intensity-*` → `--color-level-*` (kept for optional label accent only).
+- [ ] **Replace the hue meter with the neutral segment gauge** (§5.3) in `ExerciseCard.vue` + detail.
+- [ ] **Neutralise tags** (§5.4): drop `bg-{category}/10 text-{category}`.
+- [ ] **Enforce category icon + label** (§2.1) — replace bare category dots.
+- [ ] **Raise the primary CTA to a comfortable full-width ~52px** and darken text tokens (§2.2 / §8).
+- [ ] **Add the filter sheet** (§5.5) and **exercise detail page** (§5.6).
+- [ ] Self-host Inter (perf/privacy) instead of the Google Fonts request.

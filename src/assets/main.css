@@ -4,14 +4,14 @@
 
 @theme {
   /* Pilier (category) colors */
-  --color-force: #f43f5e; /* Rose-500 */
+  --color-physique: #f43f5e; /* Rose-500 */
   --color-technique: #06b6d4; /* Cyan-500 */
   --color-mental: #a855f7; /* Purple-500 */
 
-  /* Exercise intensity (semantic scale) */
-  --color-intensity-low: #059669; /* Emerald-600 — Faible */
-  --color-intensity-mid: #d97706; /* Amber-600 — Modérée */
-  --color-intensity-high: #e11d48; /* Rose-600 — Élevée */
+  /* Exercise level (semantic scale) */
+  --color-level-low: #059669; /* Emerald-600 — Faible */
+  --color-level-mid: #d97706; /* Amber-600 — Modérée */
+  --color-level-high: #e11d48; /* Rose-600 — Élevée */
 
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
