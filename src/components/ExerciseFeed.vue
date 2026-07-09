@@ -35,7 +35,7 @@ watch(sentinel, (el) => {
   if (!el) return;
   observer = new IntersectionObserver(
     (entries) => {
-      if (entries[0].isIntersecting) emit('loadMore');
+      if (entries[0]?.isIntersecting) emit('loadMore');
     },
     { rootMargin: '200px' } // preload before reaching the bottom
   );

@@ -35,6 +35,7 @@ mental) and qualified by level and duration.
 - ♾️ **Infinite scroll** — automatic pagination on scroll (with prefetch).
 - 🌗 **Light / dark theme** — automatic, follows the operating-system setting.
 - 📱 **Mobile-minded** — touch targets ≥ 44px, single-column feed, sticky filter bar.
+- 📶 **Installable PWA** — service worker + manifest; the app shell, exercises and fonts are precached, so it works **fully offline** at the crag and auto-updates on a new deploy.
 
 ## 🚀 Getting started
 
@@ -55,18 +56,25 @@ npm run dev      # start the dev server at http://localhost:3000
 | `npm run build`      | Production build into `dist/`.                                 |
 | `npm run preview`    | Serve the production build locally.                            |
 | `npm run lint`       | ESLint over the project, auto-fixing where possible (`--fix`). |
-| `npm run format`     | Prettier write across the project.                             |
+| `npm run lint:ci`    | ESLint with no auto-fix — the exact gate CI runs.             |
+| `npm run format`     | Prettier write across the project.                            |
 
-> ℹ️ There is **no test runner yet**. Type safety is enforced by `vue-tsc` (`strict: true`) and
-> style/consistency by ESLint + Prettier.
-> CI runs `type-check` on every push and pull request.
+> ℹ️ There is **no test runner yet**, but correctness is enforced **statically**:
+>
+> - a **hardened `tsconfig`** checked by `vue-tsc` — `strict` plus `noUncheckedIndexedAccess`,
+>   `noImplicitReturns`, `noFallthroughCasesInSwitch`, `verbatimModuleSyntax`, `noImplicitOverride`…
+> - **type-aware ESLint** (`typescript-eslint` _recommendedTypeChecked_ via `projectService`), which
+>   catches type-level bugs `vue-tsc` compiles through — e.g. floating promises — plus Prettier.
+>
+> CI runs `type-check`, `lint:ci` and a **Lighthouse accessibility gate** on every push and pull request.
 
 ## 🧱 Tech stack
 
 - [Vue 3](https://vuejs.org/) (`<script setup>` + Composition API)
 - [Vite 8](https://vitejs.dev/) (bundler & dev server)
-- [TypeScript](https://www.typescriptlang.org/) (`strict` mode)
+- [TypeScript](https://www.typescriptlang.org/) (`strict` + hardened compiler flags)
 - [Tailwind CSS v4](https://tailwindcss.com/) (_CSS-first_ config, no `tailwind.config.js`)
+- [Inter](https://rsms.me/inter/) — **self-hosted** (`@fontsource-variable/inter`), no third-party request
 
 ## 🏗️ Architecture
 
@@ -125,7 +133,7 @@ gating the next via `needs`:
 
 1. **🛡️ Quality Gate** — `npm ci`, then `type-check` (`vue-tsc`) and `lint`.
 2. **⚒️ Build Application** — `npm run build`, then uploads `dist/` as a GitHub Pages artifact.
-3. **🔦 Lighthouse (a11y)** — builds and audits the app with [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci) (`lighthouserc.json`): asserts an **accessibility** floor (error) plus best-practices (warn). Independent of the release/deploy chain.
+3. **🔦 Lighthouse** — builds and audits the app with [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci) (`lighthouserc.json`): asserts an **accessibility** floor (error) plus best-practices (warn). Independent of the release/deploy chain.
 4. **📦 Semantic Release** — on push to `main` only. Runs [semantic-release](https://semantic-release.gitbook.io/):
    version bump, changelog and GitHub release driven by commit messages.
 5. **🚀 Deploy to Production** — publishes the artifact to GitHub Pages (`production` environment).
@@ -178,18 +186,16 @@ Possible directions, grouped by theme. None is blocking — the project works as
 
 ### Features
 
-- **Search** by keyword (title, tags) alongside the category filter.
 - **Favorites** for exercises (persisted in `localStorage`).
 - **Detail view** for an exercise (dedicated route, share by URL) — spec'd in [DESIGN.md §5.6](DESIGN.md); needs a router and richer `Exercise` fields.
 - **Session builder** — pick exercises to assemble a training session.
 
-> Duration / level / tag filtering (**combined filters**) is now implemented via the filter sheet.
+> Search and duration / level / tag filtering (**combined filters**) are already shipped (see Features).
 
 ### Technical
 
 - **API migration** — the architecture is already prepared: just rewrite
   [`exerciseRepository.ts`](src/data/exerciseRepository.ts); nothing else moves.
-- **PWA / offline** — service worker + manifest for use at the crag, without a network.
 - **Automated accessibility tests** (axe-core) on components — the CI already runs a Lighthouse **a11y gate** (`lighthouserc.json`); axe-core component tests would come with the Vitest setup above.
 
 ### Design (see [DESIGN.md](DESIGN.md) — status tracked in [CLAUDE.md](CLAUDE.md))
