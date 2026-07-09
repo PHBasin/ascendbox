@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/PHBasin/ascendbox/compare/v1.1.0...v1.1.1) (2026-07-09)
+
+
+### Bug Fixes
+
+* taxonomie ([9847944](https://github.com/PHBasin/ascendbox/commit/984794462d8ee2fcdd601d9d3688bf149e6abc04))
+
 # [1.1.0](https://github.com/PHBasin/ascendbox/compare/v1.0.0...v1.1.0) (2026-07-08)
 
 
