@@ -1,10 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" width="100%" height="100%" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <g>
-    <!-- Cube isométrique -->
-    <path d="M25 100 L70 130 L70 70 L25 40 Z" stroke="#64748b" stroke-width="15"/>
-    <path d="M70 70 L115 40 L115 100 L70 130" stroke="#64748b" stroke-width="15"/>
+    <!-- Left face of the cube -->
+    <path class="cube-color" d="M15.5 101 L70 132.5 L70 70 L15.5 39 Z" stroke="#8A94A6" stroke-width="15"/>
 
-    <!-- Chevron ascendant -->
-    <path d="M47.5 25 L70 10 L92.5 25" stroke="#a855f7" stroke-width="15"/>
+    <!-- Right face of the cube -->
+    <path class="cube-color" d="M70 70 L124.5 39 L124.5 101 L70 132.5" stroke="#8A94A6" stroke-width="15"/>
+
+    <!-- Herringbone -->
+    <path d="M46 22 L70 7.5 L94 22" stroke="#a855f7" stroke-width="15"/>
   </g>
 </svg>
