@@ -15,16 +15,16 @@ export default [
     languageOptions: {
       globals: {
         ...globals.browser,
-        ...globals.node
+        ...globals.node,
       },
       parserOptions: {
         parser: tseslint.parser,
         extraFileExtensions: ['.vue'],
-        sourceType: 'module'
-      }
+        sourceType: 'module',
+      },
     },
     rules: {
-      'vue/multi-word-component-names': 'off'
-    }
-  }
+      'vue/multi-word-component-names': 'off',
+    },
+  },
 ];

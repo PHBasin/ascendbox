@@ -77,12 +77,12 @@ source can be swapped without touching the UI. Dependencies flow in a single dir
 domain  →  data  →  application  →  presentation
 ```
 
-| Layer            | File                                                                | Role                                                                                                                          |
-| ---------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **Domain**       | [`src/domain/exercise.ts`](src/domain/exercise.ts)                  | Pure business entities & types. Single source of truth for categories (`CATEGORIES`). Zero framework dependency.              |
-| **Data**         | [`src/data/exerciseRepository.ts`](src/data/exerciseRepository.ts)  | The only module that knows the source. `fetch`es the JSON, freezes it (`Object.freeze`) and caches it. Swap it to move to an API. |
-| **Application**  | [`src/application/useExercises.ts`](src/application/useExercises.ts) | State composable (shared singleton): filtering, pagination, loading/error. Behavior lives here.                               |
-| **Presentation** | [`src/components/`](src/components/)                                 | Purely visual components: `App`, `CategoryFilter`, `ExerciseFeed`, `ExerciseCard`.                                            |
+| Layer            | File                                                                 | Role                                                                                                                              |
+| ---------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Domain**       | [`src/domain/exercise.ts`](src/domain/exercise.ts)                   | Pure business entities & types. Single source of truth for categories (`CATEGORIES`). Zero framework dependency.                  |
+| **Data**         | [`src/data/exerciseRepository.ts`](src/data/exerciseRepository.ts)   | The only module that knows the source. `fetch`es the JSON, freezes it (`Object.freeze`) and caches it. Swap it to move to an API. |
+| **Application**  | [`src/application/useExercises.ts`](src/application/useExercises.ts) | State composable (shared singleton): filtering, pagination, loading/error. Behavior lives here.                                   |
+| **Presentation** | [`src/components/`](src/components/)                                 | Purely visual components: `App`, `CategoryFilter`, `ExerciseFeed`, `ExerciseCard`.                                                |
 
 - **Path alias**: `@` → `./src` (declared in both `vite.config.ts` **and** `tsconfig.json`).
 - **Design system**: see [DESIGN.md](DESIGN.md).
@@ -125,9 +125,10 @@ gating the next via `needs`:
 
 1. **🛡️ Quality Gate** — `npm ci`, then `type-check` (`vue-tsc`) and `lint`.
 2. **⚒️ Build Application** — `npm run build`, then uploads `dist/` as a GitHub Pages artifact.
-3. **📦 Semantic Release** — on push to `main` only. Runs [semantic-release](https://semantic-release.gitbook.io/):
+3. **🔦 Lighthouse (a11y)** — builds and audits the app with [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci) (`lighthouserc.json`): asserts an **accessibility** floor (error) plus best-practices (warn). Independent of the release/deploy chain.
+4. **📦 Semantic Release** — on push to `main` only. Runs [semantic-release](https://semantic-release.gitbook.io/):
    version bump, changelog and GitHub release driven by commit messages.
-4. **🚀 Deploy to Production** — publishes the artifact to GitHub Pages (`production` environment).
+5. **🚀 Deploy to Production** — publishes the artifact to GitHub Pages (`production` environment).
 
 Concurrency is grouped per ref, cancelling any in-progress run. (A `staging` deploy job is scaffolded
 but commented out.)
@@ -189,9 +190,10 @@ Possible directions, grouped by theme. None is blocking — the project works as
 - **API migration** — the architecture is already prepared: just rewrite
   [`exerciseRepository.ts`](src/data/exerciseRepository.ts); nothing else moves.
 - **PWA / offline** — service worker + manifest for use at the crag, without a network.
-- **Automated accessibility tests** (axe-core) and a Lighthouse audit in CI.
+- **Automated accessibility tests** (axe-core) on components — the CI already runs a Lighthouse **a11y gate** (`lighthouserc.json`); axe-core component tests would come with the Vitest setup above.
 
 ### Design (see [DESIGN.md](DESIGN.md) — status tracked in [CLAUDE.md](CLAUDE.md))
 
-- **Self-host the Inter font** — currently loaded from Google Fonts (a third-party request).
 - **Exercise detail page** ([DESIGN.md §5.6](DESIGN.md)) — full protocol / execution view.
+
+> Inter is now **self-hosted** (`@fontsource-variable/inter`) — no third-party font request.

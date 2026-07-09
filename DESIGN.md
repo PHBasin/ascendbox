@@ -37,27 +37,27 @@ Category is the app's **primary scope** (Physique / Technique / Mental) — mutu
 visible. Source of truth: `@theme` in [`main.css`](src/assets/main.css).
 
 | Category      | Token               | Hex       | Base       | Mandatory icon |
-| ------------- | ------------------- | --------- | ---------- |  ------------- |
-| **Physique**  | `--color-physique`     | `#f43f5e` | Rose 500   | dumbbell       |
+| ------------- | ------------------- | --------- | ---------- | -------------- |
+| **Physique**  | `--color-physique`  | `#f43f5e` | Rose 500   | dumbbell       |
 | **Technique** | `--color-technique` | `#06b6d4` | Cyan 500   | target         |
 | **Mental**    | `--color-mental`    | `#a855f7` | Purple 500 | spark          |
 
 > **Redundancy is mandatory.** Physique (rose) and Mental (purple) are adjacent hues and can merge for
-> protan/deutan users and in glare. Category is therefore **always** rendered as *icon + label*, with
+> protan/deutan users and in glare. Category is therefore **always** rendered as _icon + label_, with
 > colour as reinforcement — never a bare coloured dot as the sole marker.
 
 Usable as `bg-physique`, `text-technique`, `ring-mental`, with opacity `bg-physique/10`.
 
 ### 2.2 Neutrals (Slate scale)
 
-| Usage                        | Light       | Dark        |
-| ---------------------------- | ----------- | ----------- |
-| Page background              | `slate-50`  | `slate-900` |
-| Surface (card)               | `white`     | `slate-800` |
-| Border                       | `slate-200` | `slate-700` |
-| Primary text                 | `slate-900` | `slate-50`  |
-| Secondary text               | `slate-600` | `slate-300` |
-| Inactive chip bg             | `slate-100` | `slate-800` |
+| Usage            | Light       | Dark        |
+| ---------------- | ----------- | ----------- |
+| Page background  | `slate-50`  | `slate-900` |
+| Surface (card)   | `white`     | `slate-800` |
+| Border           | `slate-200` | `slate-700` |
+| Primary text     | `slate-900` | `slate-50`  |
+| Secondary text   | `slate-600` | `slate-300` |
+| Inactive chip bg | `slate-100` | `slate-800` |
 
 > Primary/secondary text darkened one step vs. the previous spec (`slate-800`→`slate-900`,
 > `slate-500`→`slate-600`) to hold contrast (§2.4).
@@ -65,17 +65,17 @@ Usable as `bg-physique`, `text-technique`, `ring-mental`, with opacity `bg-physi
 ### 2.3 Level scale (`Niveau`)
 
 Each exercise is classified by required **level**: `Débutant` (1) · `Intermédiaire` (2) · `Avancé` (3).
-This is an **ordinal** scale — an échauffement lands in *Débutant*, a max-strength drill in *Avancé*.
+This is an **ordinal** scale — an échauffement lands in _Débutant_, a max-strength drill in _Avancé_.
 
 **Encoding = a 3-segment gauge, filled left-to-right by level, plus the text label.** The level is
-read from **how many segments are filled** and the word — *not* from hue.
+read from **how many segments are filled** and the word — _not_ from hue.
 
 - Filled segment → `slate-900 dark:slate-50` (neutral ink). Empty → `slate-200 dark:slate-700`.
 - The label (`Débutant`/`Intermédiaire`/`Avancé`) is **always present** next to the gauge.
 - Optional semantic accent (`--color-level-*`) may tint the label **only** where it clears AAA —
   never the gauge, and never as the sole cue.
 
-> **Changed from the old model:** the previous emerald→amber→rose *hue* meter is dropped — hue
+> **Changed from the old model:** the previous emerald→amber→rose _hue_ meter is dropped — hue
 > collapses for CVD users. Count + label is the robust, glove-readable encoding.
 
 ### 2.4 Contrast targets
@@ -90,8 +90,10 @@ read from **how many segments are filled** and the word — *not* from hue.
 
 ## 3. Typography
 
-- **Family**: `--font-sans: "Inter", system-ui, -apple-system, sans-serif`, loaded from Google Fonts
-  in [`index.html`](index.html) (400/500/600/700, `display=swap` + `preconnect`).
+- **Family**: `--font-sans: "Inter Variable", "Inter", system-ui, -apple-system, sans-serif`.
+  **Self-hosted** via `@fontsource-variable/inter` (weight axis), imported in
+  [`main.ts`](src/main.ts) — no third-party request; the `.woff2` ship from our origin and are
+  precached for offline (latin + latin-ext subsets).
 
 | Role                                   | Classes                                           |
 | -------------------------------------- | ------------------------------------------------- |
@@ -109,17 +111,17 @@ read from **how many segments are filled** and the word — *not* from hue.
 
 **4px grid.** Use Tailwind's native scale, restricted to these named steps — one role per step.
 
-| Step  | px | Tailwind | Role                            |
-| ----- | -- | -------- | ------------------------------- |
-| `3xs` | 2  | `-0.5`   | micro-gap (gauge/bar segments)  |
-| `2xs` | 4  | `-1`     | icon↔text, title↔description    |
-| `xs`  | 6  | `-1.5`   | inline gap (label, tags)        |
-| `sm`  | 8  | `-2`     | gap between chips               |
-| `md`  | 12 | `-3`     | intra-card rhythm, chip padding |
-| `lg`  | 16 | `-4`     | card padding, control padding   |
-| `xl`  | 24 | `-6`     | feed gutter + container padding |
-| `2xl` | 32 | `-8`     | section rhythm                  |
-| `3xl` | 48 | `-12`    | empty / error states            |
+| Step  | px  | Tailwind | Role                            |
+| ----- | --- | -------- | ------------------------------- |
+| `3xs` | 2   | `-0.5`   | micro-gap (gauge/bar segments)  |
+| `2xs` | 4   | `-1`     | icon↔text, title↔description    |
+| `xs`  | 6   | `-1.5`   | inline gap (label, tags)        |
+| `sm`  | 8   | `-2`     | gap between chips               |
+| `md`  | 12  | `-3`     | intra-card rhythm, chip padding |
+| `lg`  | 16  | `-4`     | card padding, control padding   |
+| `xl`  | 24  | `-6`     | feed gutter + container padding |
+| `2xl` | 32  | `-8`     | section rhythm                  |
+| `3xl` | 48  | `-12`    | empty / error states            |
 
 **Rules:** stay on the steps (no `px-5`, `p-[13px]`); same role → same step; the 44 px touch target
 (`min-h-11`) is an accessibility constraint, **not** a rhythm step (§8).
@@ -134,7 +136,7 @@ is the filter sheet, which uses a soft top shadow to read as an overlay.
 
 ### 5.1 `.card` — exercise summary (triage, not execution)
 
-The list is an **index**: it helps *choose*, the detail page helps *execute* (§5.6). A card shows
+The list is an **index**: it helps _choose_, the detail page helps _execute_ (§5.6). A card shows
 identity + key metadata only, and is **entirely tappable** → opens detail. **No per-card play
 button** (it competes with the tap target and implies the wrong model).
 
@@ -147,20 +149,26 @@ active:scale-[0.98] transition-all duration-300
 
 Anatomy: category (icon + label) · duration · title · 1-line teaser · up to 2 tags · level gauge.
 
+**All card metadata is _flat_** — icon + text, **no fill/border** (duration, tags). A card is pure
+information, so nothing on it may wear the elevated/filled _pill_ form the system reserves for
+**controls** (§1.5). Filled/bordered pills appear only on interactive surfaces (scope bar, filter
+sheet options, applied-filter chips, buttons). This keeps "data vs. action" readable at a glance.
+
 ### 5.2 Category scope bar — `CategoryFilter`
 
 Persistent, sticky, single-select navigation across the **3 categories** (defaults to Physique),
-kept **out of the filter sheet** as the primary *scope* rather than an attribute. Only 3 values →
+kept **out of the filter sheet** as the primary _scope_ rather than an attribute. Only 3 values →
 cheap to keep visible, and it is the coach's most frequent entry point. Each button is **icon +
 label** (§2.1). No `Tous` / all-categories option today — scope is always exactly one category.
+
 - **Active**: **solid ink fill** — `bg-slate-900 text-white` (inverted `dark:bg-slate-50
-  dark:text-slate-900`). Chosen over a category tint so the active state clears AAA and never relies
+dark:text-slate-900`). Chosen over a category tint so the active state clears AAA and never relies
   on hue (§2.4); the label already identifies the category.
 - **Inactive**: `bg-slate-100 text-slate-600 ring-transparent`, `hover:bg-slate-200`, with the icon
   category-tinted as reinforcement.
 - Always `ring-1` to avoid a layout jump between states.
 
-> **Judgement call, not a law.** Keep category persistent *if* coaches usually start by picking one,
+> **Judgement call, not a law.** Keep category persistent _if_ coaches usually start by picking one,
 > then browse. If instead they combine category with the other criteria as equal, movable filters,
 > move it **into the sheet** as a multi-select section for a unified model. Decide from real usage;
 > don't split the difference (avoid showing it in both places).
@@ -171,19 +179,23 @@ label** (§2.1). No `Tous` / all-categories option today — scope is always exa
 `slate-200 dark:slate-700`. Always paired with the text label. (Replaces the old ascending-bar
 meter.)
 
-### 5.4 Tags — **neutral, category-independent**
+### 5.4 Tags — **flat metadata, category-independent**
 
-`text-xs font-medium px-3 py-1 rounded-lg`, **neutral** surface
-(`bg-slate-100 text-slate-600 border border-slate-200`), prefixed `#`.
+On a **card**, a tag is plain text: `text-xs font-semibold text-slate-600 dark:text-slate-400`,
+prefixed `#`, **no fill, no border**. Tags are information, not controls — they must not wear the
+elevated pill form reserved for interactive elements (§1.5, §5.1). A bordered pill reads as tappable
+and invites a tap that does nothing; the sheet's tag _pills_ **are** tappable (same shape, opposite
+meaning), so the card must not mimic them.
 
-> **Changed:** tags are no longer tinted to the category colour. Category-coloured tags were
-> unscannable (they blended into the card's category hue). Neutral tags read as metadata and let the
-> eye separate *category* from *attributes*.
+> **Changed twice:** first de-tinted from the category colour (coloured tags were unscannable), then
+> **flattened** from a neutral pill to plain text so card metadata never looks like a control.
+> Neutral still lets the eye separate _category_ from _attributes_.
 
 ### 5.5 Filter sheet — secondary refinement
 
 A bottom sheet (thumb zone) opened from a **Filtres** button that carries an **active-count badge**.
-Holds the *attribute* filters, each a distinct labelled section, same tap interaction:
+Holds the _attribute_ filters, each a distinct labelled section, same tap interaction:
+
 - **Durée** — time buckets (`< 10 min` · `10–25 min` · `> 25 min`), multi-select.
 - **Niveau** — `Débutant` · `Intermédiaire` · `Avancé`, multi-select.
 - **Tags** — most-used first; add an in-sheet search when the list exceeds ~10.
@@ -210,9 +222,10 @@ during `fetch` (`aria-busy` + `aria-live="polite"`).
 ### 5.8 Sticky filter bar
 
 `sticky top-0 z-30`, reachable while scrolling. **Opaque** ground (`bg-slate-50 dark:bg-slate-900`
-+ a solid bottom border) — **not** translucent/blurred: a frosted-glass effect erodes contrast in
-direct sunlight, the primary use context (§1, §2.4). Switching category snaps the feed back to the
-top.
+
+- a solid bottom border) — **not** translucent/blurred: a frosted-glass effect erodes contrast in
+  direct sunlight, the primary use context (§1, §2.4). Switching category snaps the feed back to the
+  top.
 
 ### 5.9 Search — collapsible, global
 
@@ -255,7 +268,7 @@ One transition per intent; never stack.
 - **Touch targets** ≥ 44px everywhere (`min-h-11`); 48px comfortable for controls; the primary
   full-width CTA ~52px tall.
 - **Redundant encoding (hard rule):** category = icon + label + colour; level = filled-segment count
-  + label. Nothing relies on hue alone. Verify with a grayscale + CVD simulation pass.
+  - label. Nothing relies on hue alone. Verify with a grayscale + CVD simulation pass.
 - **Contrast:** primary text/actions target AAA (§2.4); never ship below AA.
 - **Announced states:** `aria-pressed` (active scope/filter), `aria-busy` + `aria-live` (skeleton),
   `aria-hidden` on decorative SVG/dividers.
@@ -293,14 +306,14 @@ in [`ExerciseCard.vue`](src/components/ExerciseCard.vue).
 
 ## 11. Where to add what
 
-| I want to…                        | File                                                                                       |
-| --------------------------------- | ------------------------------------------------------------------------------------------ |
-| Add / change a token colour       | `@theme` in [`main.css`](src/assets/main.css)                                              |
+| I want to…                        | File                                                                                                                                                             |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Add / change a token colour       | `@theme` in [`main.css`](src/assets/main.css)                                                                                                                    |
 | Add a category (+ icon)           | [`domain/exercise.ts`](src/domain/exercise.ts) `CATEGORIES` + token in `@theme` + a path in [`CategoryIcon.vue`](src/components/CategoryIcon.vue) (the icon map) |
-| Create a reusable class (`.card`) | `@layer components` in [`main.css`](src/assets/main.css)                                   |
-| Change a card / chip / gauge      | the relevant component in [`src/components/`](src/components/)                             |
-| Pick spacing                      | the §4 scale — nearest named step, never arbitrary                                         |
+| Create a reusable class (`.card`) | `@layer components` in [`main.css`](src/assets/main.css)                                                                                                         |
+| Change a card / chip / gauge      | the relevant component in [`src/components/`](src/components/)                                                                                                   |
+| Pick spacing                      | the §4 scale — nearest named step, never arbitrary                                                                                                               |
 
 > **Implementation tracking lives in [`CLAUDE.md`](CLAUDE.md) (§ Tasks), not here.** This document
-> is the design source of truth; what is built vs. pending is recorded there. The detail page (§5.6)
-> and self-hosted Inter (§3) are specified here but not yet implemented.
+> is the design source of truth; what is built vs. pending is recorded there. The exercise detail
+> page (§5.6) is the main piece specified here but not yet implemented.

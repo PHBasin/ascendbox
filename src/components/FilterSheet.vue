@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch, onBeforeUnmount } from 'vue';
-import {
-  useExercises,
-  DURATION_BUCKETS,
-  LEVELS,
-} from '@/application/useExercises';
+import { useExercises, DURATION_BUCKETS, LEVELS } from '@/application/useExercises';
 
 const props = defineProps<{ open: boolean }>();
 const emit = defineEmits<{ close: [] }>();
@@ -31,7 +27,8 @@ const shownTags = computed(() => {
 });
 
 // Shared toggle styling — same ink-fill active state as the scope bar (DESIGN §5.2/§8).
-const OPTION_ON = 'bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 ring-slate-900 dark:ring-slate-50';
+const OPTION_ON =
+  'bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 ring-slate-900 dark:ring-slate-50';
 const OPTION_OFF =
   'bg-slate-100 text-slate-600 ring-transparent hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700';
 
@@ -97,7 +94,9 @@ onBeforeUnmount(() => {
 
         <!-- min-h-11 reserves the reset button's height so toggling it in/out never resizes the panel -->
         <header class="flex items-center justify-between gap-3 mb-6 min-h-11">
-          <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">Filtres</h2>
+          <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+            Filtres
+          </h2>
           <button
             v-if="activeFilterCount"
             type="button"
@@ -123,7 +122,9 @@ onBeforeUnmount(() => {
 
         <!-- Durée -->
         <section class="mb-6">
-          <p class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300 mb-3">
+          <p
+            class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300 mb-3"
+          >
             Durée
           </p>
           <div class="flex flex-wrap gap-2">
@@ -143,7 +144,9 @@ onBeforeUnmount(() => {
 
         <!-- Niveau -->
         <section class="mb-6">
-          <p class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300 mb-3">
+          <p
+            class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300 mb-3"
+          >
             Niveau
           </p>
           <div class="flex flex-wrap gap-2">
@@ -163,7 +166,9 @@ onBeforeUnmount(() => {
 
         <!-- Tags -->
         <section v-if="availableTags.length" class="mb-8">
-          <p class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300 mb-3">
+          <p
+            class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300 mb-3"
+          >
             Tags
           </p>
           <input

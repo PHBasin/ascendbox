@@ -73,7 +73,9 @@ const byCategory = computed<Exercise[]>(() =>
 const scoped = computed<Exercise[]>(() => (isSearching.value ? all.value : byCategory.value));
 
 function inSelectedBucket(duration: number): boolean {
-  return selectedBuckets.value.some((id) => DURATION_BUCKETS.find((b) => b.id === id)!.match(duration));
+  return selectedBuckets.value.some((id) =>
+    DURATION_BUCKETS.find((b) => b.id === id)!.match(duration)
+  );
 }
 
 // Search text (if any) + attribute filters on top of the scope. Empty selection = no constraint.
@@ -87,7 +89,8 @@ const filtered = computed<Exercise[]>(() =>
     }
     const okDuration = !selectedBuckets.value.length || inSelectedBucket(ex.duration);
     const okLevel = !selectedLevels.value.length || selectedLevels.value.includes(ex.level);
-    const okTags = !selectedTags.value.length || ex.tags.some((t) => selectedTags.value.includes(t));
+    const okTags =
+      !selectedTags.value.length || ex.tags.some((t) => selectedTags.value.includes(t));
     return okDuration && okLevel && okTags;
   })
 );

@@ -10,13 +10,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="AscendBox" />
-    <!-- Inter (the --font-sans token) display=swap avoids blocking first paint -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Inter is now self-hosted (@fontsource-variable/inter, imported in main.ts) →
+         no Google Fonts request; the .woff2 ships from our origin and is precached. -->
     <!-- Preload the data in parallel with the JS bundle -->
     <link
       rel="preload"
@@ -29,7 +24,10 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.ascendbox.fr/" />
     <meta property="og:title" content="AscendBox - Le catalogue d'escalade" />
-    <meta property="og:description" content="Découvrez notre catalogue d'exercices pour vos séances."/>
+    <meta
+      property="og:description"
+      content="Découvrez notre catalogue d'exercices pour vos séances."
+    />
     <meta property="og:image" content="https://www.ascendbox.fr/social-preview.jpg" />
 
     <title>AscendBox</title>

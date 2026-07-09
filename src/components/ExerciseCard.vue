@@ -41,7 +41,7 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
       </span>
 
       <span
-        class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-700/60 text-slate-600 dark:text-slate-300"
+        class="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 dark:text-slate-300"
       >
         <svg
           class="w-3.5 h-3.5"
@@ -63,18 +63,20 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
       <h3 class="text-lg font-bold leading-tight text-slate-900 dark:text-white">
         {{ exercise.title }}
       </h3>
-      <p class="mt-1 text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed">
+      <p class="mt-1 text-[15px] text-slate-700 dark:text-slate-300 leading-relaxed">
         {{ exercise.description }}
       </p>
     </div>
 
     <!-- Footer: neutral tags · neutral level gauge -->
     <div class="mt-1 flex items-center justify-between gap-3">
-      <ul v-if="visibleTags.length" class="flex flex-wrap gap-1.5">
+      <!-- Tags are metadata, not controls → flat text (no fill/border), per DESIGN §5.4.
+           Elevated pills are reserved for interactive elements only (§1.5). -->
+      <ul v-if="visibleTags.length" class="flex flex-wrap gap-x-3 gap-y-1">
         <li
           v-for="tag in visibleTags"
           :key="tag"
-          class="text-xs font-medium px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700"
+          class="text-xs font-semibold text-slate-600 dark:text-slate-400"
         >
           #{{ tag }}
         </li>
@@ -86,7 +88,11 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
             v-for="n in 3"
             :key="n"
             class="h-1.5 w-4 rounded-full"
-            :class="n <= exercise.level ? 'bg-slate-900 dark:bg-slate-50' : 'bg-slate-200 dark:bg-slate-700'"
+            :class="
+              n <= exercise.level
+                ? 'bg-slate-900 dark:bg-slate-50'
+                : 'bg-slate-200 dark:bg-slate-700'
+            "
           ></span>
         </span>
         <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">
