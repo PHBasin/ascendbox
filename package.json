@@ -1,6 +1,6 @@
 {
   "name": "ascendbox",
-  "version": "1.1.2",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,8 +16,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^12.0.9",
     "@tailwindcss/postcss": "^4.3.0",
     "@types/node": "^26.1.0",
