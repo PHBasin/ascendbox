@@ -54,6 +54,7 @@ This is the **only** place tasks are tracked — `DESIGN.md` describes the desig
 ### Pending / out of scope
 
 - [ ] **Tighten the Lighthouse a11y floor** — `lighthouserc.json` asserts `accessibility ≥ 0.9` as a conservative floor; raise toward 0.95–1.0 once the first CI run's baseline is known.
+- [ ] **Split `tsconfig.json` when Vitest lands** — today a single hardened config is enough (one Node-side file, `vite.config.ts`). When Vitest arrives (a 2nd+ Node-side config/setup), split into the canonical `tsconfig.json` (references) + `tsconfig.app.json` (DOM, `vite/client`) + `tsconfig.node.json` (Node, `@types/node`), with a shared base for the strict flags and `vue-tsc -b` for `type-check`.
 - [ ] **Exercise detail page** (§5.6) — deferred: needs a **router** (vue-router not installed) **and new `Exercise` fields** (protocol/déroulé reps·sets·rest·hold, matériel, coach cues, sécurité) absent from the interface and `exercises.json`. Requires a data-model decision before build.
 - [ ] **`Tous` scope option** — **deliberately not built** (product decision): the scope bar stays 3-way single-select, defaulting to `physique`. The cross-category / all-catalogue need is served instead by the global search (§5.9), which overrides the scope. `DESIGN.md` §5.2 was updated to match; revisit only if term-free full-catalogue browsing is needed.
 
