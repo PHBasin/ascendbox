@@ -173,7 +173,8 @@ function resetAll(): void {
 }
 
 export function useExercises() {
-  load();
+  // Fire-and-forget on first use; `load()` handles its own errors into `error`.
+  void load();
   return {
     // scope + data
     activeCategory,

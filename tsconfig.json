@@ -3,19 +3,40 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "strict": true,
     "jsx": "preserve",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "skipLibCheck": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "types": ["vite/client"],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+
+    // --- Type-safety (catches runtime bugs) ---
+    "strict": true,
+    // Index/array access yields `T | undefined` → forces a guard before use.
+    "noUncheckedIndexedAccess": true,
+    // Every code path must return.
+    "noImplicitReturns": true,
+    // No implicit fallthrough between switch cases.
+    "noFallthroughCasesInSwitch": true,
+    // Dead code is an error, not a warning.
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+
+    // --- Hygiene (keeps the codebase clean) ---
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    // --- Team conventions (consistency across contributors) ---
+    // Type-only imports/exports must say `type` → deterministic, stripped output.
+    "verbatimModuleSyntax": true,
+    // Overriding a base member requires the `override` keyword.
+    "noImplicitOverride": true,
+    // Import paths must match the file's real casing (guards Linux/macOS drift).
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "vite.config.ts"]
 }
