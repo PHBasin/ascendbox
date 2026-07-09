@@ -190,16 +190,12 @@ Possible directions, grouped by theme. None is blocking — the project works as
 - **Detail view** for an exercise (dedicated route, share by URL) — spec'd in [DESIGN.md §5.6](DESIGN.md); needs a router and richer `Exercise` fields.
 - **Session builder** — pick exercises to assemble a training session.
 
-> Search and duration / level / tag filtering (**combined filters**) are already shipped (see Features).
-
 ### Technical
 
 - **API migration** — the architecture is already prepared: just rewrite
   [`exerciseRepository.ts`](src/data/exerciseRepository.ts); nothing else moves.
-- **Automated accessibility tests** (axe-core) on components — the CI already runs a Lighthouse **a11y gate** (`lighthouserc.json`); axe-core component tests would come with the Vitest setup above.
+- **Automated accessibility tests** (axe-core) — component-level a11y assertions, to come with the Vitest setup above.
 
 ### Design (see [DESIGN.md](DESIGN.md) — status tracked in [CLAUDE.md](CLAUDE.md))
 
 - **Exercise detail page** ([DESIGN.md §5.6](DESIGN.md)) — full protocol / execution view.
-
-> Inter is now **self-hosted** (`@fontsource-variable/inter`) — no third-party font request.
