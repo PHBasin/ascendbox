@@ -1,224 +1,274 @@
 # DESIGN.md — AscendBox Design System
 
-AscendBox's design system — a mobile-first app for climbing-club coaches to browse training
-exercises. This document is the **design source of truth**.
+AscendBox is a mobile-first PWA that lets climbing-club coaches browse training exercises.
+This document is the **design source of truth** for the UI. Product context (usage environment,
+audience) lives in `CLAUDE.md` — the rules here implement it.
 
-> **Technical context**: Tailwind CSS **v4** (`tailwindcss@next` engine), _CSS-first_ config in
-> [`src/assets/main.css`](src/assets/main.css) via the `@theme` block — there is **no**
-> `tailwind.config.js`. The tokens below are therefore CSS variables exposed as Tailwind
-> utilities (`bg-force`, `text-mental`, etc.).
+> **Technical context** — Vue 3 + Tailwind CSS **v4** (`tailwindcss@next`), _CSS-first_ config in
+> [`src/assets/main.css`](src/assets/main.css) via `@theme` (no `tailwind.config.js`). Tokens are
+> CSS variables exposed as utilities (`bg-physique`, `text-mental`, …). Read §10 (Tailwind v4 JIT)
+> before writing any dynamic class.
 
 ---
 
 ## 1. Principles
 
-1. **Mobile-first** — everything is designed thumb-first (touch targets ≥ 44px, single-column feed, sticky filters at the top).
-2. **Calm above all** — borders rather than heavy shadows, soft tints (`/10`, `/20`) rather than saturated fills, no glow.
-3. **Color carries meaning** — each category has ITS color, intensity has a semantic scale. Color is never decorative.
-4. **Motion guides, it does not distract** — short transitions (200–300 ms), subtle tactile feedback (`active:scale`), crossfade on context change.
-5. **Dark = comfort, not an option** — the theme follows the OS (`prefers-color-scheme`), no manual toggle. Every token has its dark variant.
+1. **Legibility first.** The design is readable at arm's length before it is anything else.
+   Contrast and size win over subtlety.
+2. **Thumb-first.** Single-column feed, targets ≥ 44px (48px comfortable; the primary full-width
+   CTA ~52px tall), reachable controls, no precision gestures (no sliders for critical input).
+3. **Never hue alone — always redundant encoding.** Every meaningful signal is carried by at least
+   two channels: shape/count/icon **and** text, with colour as reinforcement only. Passes a
+   grayscale test.
+4. **Recognition over recall.** Active filters, current scope and selected state are always visible.
+   The coach never has to remember what they set.
+5. **One intent, one component.** Distinct data types get distinct controls; a control looks like
+   what it does (action = filled/elevated; information = flat).
+6. **Motion guides, never distracts.** Short (200–300 ms), single-purpose transitions; subtle
+   tactile feedback (`active:scale`). Never stack animations.
 
 ---
 
-## 2. Colors
+## 2. Foundations — Colour
 
-### 2.1 Categories — brand identity
+### 2.1 Categories (navigation, not a filter)
 
-Source of truth: `@theme` in [`main.css`](src/assets/main.css). The ids (`force`/`technique`/`mental`)
-intentionally match the token names.
+Category is the app's **primary scope** (Physique / Technique / Mental) — mutually exclusive, always
+visible. Source of truth: `@theme` in [`main.css`](src/assets/main.css).
 
-| Category      | Token               | Hex       | Tailwind base |
-| ------------- | ------------------- | --------- | ------------- |
-| **Force**     | `--color-force`     | `#f43f5e` | Rose 500      |
-| **Technique** | `--color-technique` | `#06b6d4` | Cyan 500      |
-| **Mental**    | `--color-mental`    | `#a855f7` | Purple 500    |
+| Category      | Token               | Hex       | Base       | Mandatory icon |
+| ------------- | ------------------- | --------- | ---------- |  ------------- |
+| **Physique**  | `--color-physique`     | `#f43f5e` | Rose 500   | dumbbell       |
+| **Technique** | `--color-technique` | `#06b6d4` | Cyan 500   | target         |
+| **Mental**    | `--color-mental`    | `#a855f7` | Purple 500 | spark          |
 
-Usable as `bg-force`, `text-technique`, `ring-mental`, and with opacity `bg-force/10`.
+> **Redundancy is mandatory.** Physique (rose) and Mental (purple) are adjacent hues and can merge for
+> protan/deutan users and in glare. Category is therefore **always** rendered as *icon + label*, with
+> colour as reinforcement — never a bare coloured dot as the sole marker.
+
+Usable as `bg-physique`, `text-technique`, `ring-mental`, with opacity `bg-physique/10`.
 
 ### 2.2 Neutrals (Slate scale)
 
 | Usage                        | Light       | Dark        |
 | ---------------------------- | ----------- | ----------- |
 | Page background              | `slate-50`  | `slate-900` |
-| Primary text                 | `slate-800` | `slate-100` |
 | Surface (card)               | `white`     | `slate-800` |
 | Border                       | `slate-200` | `slate-700` |
-| Secondary text               | `slate-500` | `slate-400` |
-| Neutral background (inactive chip) | `slate-100` | `slate-800` |
+| Primary text                 | `slate-900` | `slate-50`  |
+| Secondary text               | `slate-600` | `slate-300` |
+| Inactive chip bg             | `slate-100` | `slate-800` |
 
-### 2.3 Semantic — exercise intensity
+> Primary/secondary text darkened one step vs. the previous spec (`slate-800`→`slate-900`,
+> `slate-500`→`slate-600`) to hold contrast in sunlight (§2.4).
 
-A 3-level scale (`Intensity = 1 | 2 | 3`), **tokenized** in `@theme` ([`main.css`](src/assets/main.css))
-like the categories. The level → token map lives in [`ExerciseCard.vue`](src/components/ExerciseCard.vue):
+### 2.3 Level scale (`Niveau`)
 
-| Level | Label   | Token                    | Hex       | Tailwind base | Utilities                                  |
-| ----- | ------- | ------------------------ | --------- | ------------- | ------------------------------------------ |
-| 1     | Faible  | `--color-intensity-low`  | `#059669` | Emerald 600   | `bg-intensity-low`, `text-intensity-low`   |
-| 2     | Modérée | `--color-intensity-mid`  | `#d97706` | Amber 600     | `bg-intensity-mid`, `text-intensity-mid`   |
-| 3     | Élevée  | `--color-intensity-high` | `#e11d48` | Rose 600      | `bg-intensity-high`, `text-intensity-high` |
+Each exercise is classified by required **level**: `Débutant` (1) · `Intermédiaire` (2) · `Avancé` (3).
+This is an **ordinal** scale — an échauffement lands in *Débutant*, a max-strength drill in *Avancé*.
 
-> Green → amber → rose: a universally legible "easy → hard" progression.
-> A single token per level serves both the bar and the text (same logic as the categories);
-> the 600 shade is chosen to preserve the label's contrast in light mode.
+**Encoding = a 3-segment gauge, filled left-to-right by level, plus the text label.** The level is
+read from **how many segments are filled** and the word — *not* from hue.
+
+- Filled segment → `slate-900 dark:slate-50` (neutral ink). Empty → `slate-200 dark:slate-700`.
+- The label (`Débutant`/`Intermédiaire`/`Avancé`) is **always present** next to the gauge.
+- Optional semantic accent (`--color-level-*`) may tint the label **only** where it clears AAA —
+  never the gauge, and never as the sole cue.
+
+> **Changed from the old model:** the previous emerald→amber→rose *hue* meter is dropped — hue
+> collapses in sun and for CVD users. Count + label is the robust, glove-readable encoding.
+
+### 2.4 Contrast targets
+
+| Content                                             | Target                              |
+| --------------------------------------------------- | ----------------------------------- |
+| Primary text, primary actions                       | **≥ 7:1 (AAA)** wherever achievable |
+| Secondary text, borders on surface                  | ≥ 4.5:1 (AA), never below           |
+| Do **not** use faint tints (`/10`) to carry meaning | tints are decoration only           |
 
 ---
 
 ## 3. Typography
 
-- **Family**: `--font-sans: "Inter", system-ui, -apple-system, sans-serif`.
-  Inter is loaded from Google Fonts in [`index.html`](index.html) (weights 400/500/600/700,
-  `display=swap` + `preconnect` so it doesn't block first paint). `system-ui` remains the
-  fallback if the font is unavailable.
-- **Scale in use** (observed in the components):
+- **Family**: `--font-sans: "Inter", system-ui, -apple-system, sans-serif`, loaded from Google Fonts
+  in [`index.html`](index.html) (400/500/600/700, `display=swap` + `preconnect`).
 
-| Role                          | Classes                                    |
-| ----------------------------- | ------------------------------------------ |
-| Card title                    | `text-lg font-bold leading-tight`          |
-| Description                   | `text-[15px] leading-relaxed`              |
-| Category label / duration / tags | `text-xs font-semibold` (or `font-medium`) |
-| Filter button                 | `font-bold capitalize`                     |
+| Role                                   | Classes                                           |
+| -------------------------------------- | ------------------------------------------------- |
+| Screen / hero title                    | `text-2xl font-bold tracking-tight`               |
+| Card title                             | `text-lg font-bold leading-tight`                 |
+| Body / description                     | `text-[15px] leading-relaxed`                     |
+| Meta (category, duration, tags, level) | `text-xs font-semibold`                           |
+| Section eyebrow                        | `text-[11px] font-bold tracking-widest uppercase` |
+
+> Weight and size carry hierarchy; avoid using colour boxes to rank information.
 
 ---
 
-## 4. Spacing
+## 4. Spacing & layout
 
-### 4.1 Scale
+**4px grid.** Use Tailwind's native scale, restricted to these named steps — one role per step.
 
-**4px grid.** All spacing (padding, margin, gap) are multiples of `4px`, applied via Tailwind's
-native utilities (`--spacing` = `0.25rem`). We do **not** tokenize spacing in `@theme` — unlike
-colors, Tailwind's numeric scale _is_ already the source of truth. We simply **restrict** the steps
-to those below and give each a role.
+| Step  | px | Tailwind | Role                            |
+| ----- | -- | -------- | ------------------------------- |
+| `3xs` | 2  | `-0.5`   | micro-gap (gauge/bar segments)  |
+| `2xs` | 4  | `-1`     | icon↔text, title↔description    |
+| `xs`  | 6  | `-1.5`   | inline gap (label, tags)        |
+| `sm`  | 8  | `-2`     | gap between chips               |
+| `md`  | 12 | `-3`     | intra-card rhythm, chip padding |
+| `lg`  | 16 | `-4`     | card padding, control padding   |
+| `xl`  | 24 | `-6`     | feed gutter + container padding |
+| `2xl` | 32 | `-8`     | section rhythm                  |
+| `3xl` | 48 | `-12`    | empty / error states            |
 
-| Step  | rem   | px  | Tailwind | Role                                                                         |
-| ----- | ----- | --- | -------- | ---------------------------------------------------------------------------- |
-| `3xs` | 0.125 | 2   | `-0.5`   | tight micro-gap (intensity bars)                                             |
-| `2xs` | 0.25  | 4   | `-1`     | icon↔text gap, title↔description spacing                                     |
-| `xs`  | 0.375 | 6   | `-1.5`   | inline gap (dot↔label, meter, tags)                                          |
-| `sm`  | 0.5   | 8   | `-2`     | gap between chips / within a row                                             |
-| `md`  | 0.75  | 12  | `-3`     | **intra-card** rhythm (blocks, header, footer), chip horizontal padding      |
-| `lg`  | 1     | 16  | `-4`     | **card padding** (`p-4`), filter horizontal padding                          |
-| `xl`  | 1.5   | 24  | `-6`     | **feed gutter** (`gap-6`) + container padding (`p-6`)                        |
-| `2xl` | 2     | 32  | `-8`     | **section** rhythm (`main py-8`, sentinel `h-8`)                             |
-| `3xl` | 3     | 48  | `-12`    | breathing room for empty / error states (`py-12`)                            |
+**Rules:** stay on the steps (no `px-5`, `p-[13px]`); same role → same step; the 44 px touch target
+(`min-h-11`) is an accessibility constraint, **not** a rhythm step (§8).
 
-### 4.2 Rhythm (finest to widest)
-
-1. **Inline** (`3xs`→`xs`) — what lives on the same line: an icon and its text, dots, bars.
-2. **Intra-card** (`md`) — the stacked blocks of a card breathe at `12px` (`flex flex-col gap-3`).
-3. **Card** (`lg`) — internal padding at `16px`.
-4. **Between cards / container** (`xl`) — the feed gutter _and_ the container margin share `24px`,
-   so the feed "breathes" at the same step inside as around.
-5. **Section** (`2xl`) — the vertical break between page zones.
-6. **Empty** (`3xl`) — an empty/error state takes twice the section step so it doesn't look broken.
-
-### 4.3 Rules
-
-- **Stay on the steps above.** No arbitrary value (`px-5`, `px-2.5`, `p-[13px]`…):
-  pick the nearest named step. _(Regularized: filters go `px-5`→`px-4`, chips `px-2.5`→`px-3`.)_
-- **One role = one step.** Two elements playing the same role use the same step (e.g. feed gutter
-  and container padding = `xl`) — that's what makes the rhythm legible.
-- **The touch target is not a rhythm step.** `min-h-11` (44px) is an accessibility constraint (§8),
-  independent of the scale.
-- **Dimensions (`w-*`/`h-*`) follow the same grid** where possible (dot `w-2 h-2`, sentinel `h-8`),
-  except icon sizing, left pragmatic (`w-3.5 h-3.5`).
-
-### 4.4 Radii & surfaces
-
-- **Radii**: `rounded-3xl` (cards), `rounded-full` (dots, chips, filter buttons).
-- **Elevation**: **no shadows** by default. Separation comes from `border` + surface contrast (`white` vs `slate-50`).
+**Radii & elevation:** `rounded-3xl` (cards, sheets), `rounded-2xl` (buttons/tiles),
+`rounded-full` (chips). **Separation by border + surface contrast, not shadow** — the one exception
+is the filter sheet, which uses a soft top shadow to read as an overlay.
 
 ---
 
 ## 5. Components
 
-### 5.1 `.card` — base surface
+### 5.1 `.card` — exercise summary (triage, not execution)
 
-Defined in `@layer components` in [`main.css`](src/assets/main.css):
+The list is an **index**: it helps *choose*, the detail page helps *execute* (§5.6). A card shows
+identity + key metadata only, and is **entirely tappable** → opens detail. **No per-card play
+button** (it competes with the tap target and implies the wrong model).
 
 ```
 bg-white dark:bg-slate-800
 border border-slate-200 dark:border-slate-700
 rounded-3xl p-4
-transition-all duration-300
+active:scale-[0.98] transition-all duration-300
 ```
 
-Interaction: clickable cards add `active:scale-[0.98]`.
+Anatomy: category (icon + label) · duration · title · 1-line teaser · up to 2 tags · level gauge.
 
-### 5.2 Filter chip / pill — `CategoryFilter`
+### 5.2 Category scope bar — `CategoryFilter`
 
-- **Active**: `bg-{category}/10 dark:bg-{category}/20 text-{category} ring-{category}/30` (soft tint + colored text + thin ring).
-- **Inactive**: `bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 ring-transparent` + `hover:bg-slate-200 dark:hover:bg-slate-700`.
+Persistent, sticky, single-select navigation (`Tous` + 3 categories), kept **out of the filter
+sheet** as the primary *scope* rather than an attribute. Only 3 values → cheap to keep visible, and
+it is the coach's most frequent entry point.
+- **Active**: filled ink (`bg-slate-900 text-white`) or category tint + `ring-{category}/30`.
+- **Inactive**: `bg-slate-100 text-slate-600 ring-transparent`, `hover:bg-slate-200`.
 - Always `ring-1` to avoid a layout jump between states.
 
-### 5.3 Category dot
+> **Judgement call, not a law.** Keep category persistent *if* coaches usually start by picking one,
+> then browse. If instead they combine category with the other criteria as equal, movable filters,
+> move it **into the sheet** as a multi-select section for a unified model. Decide from real usage;
+> don't split the difference (avoid showing it in both places).
 
-`w-2 h-2 rounded-full bg-{category}` — color marker at the top of a card.
+### 5.3 Level gauge
 
-### 5.4 Tags
+3 segments, `rounded-full`, filled left-to-right where `segment ≤ level`; filled = ink, empty =
+`slate-200 dark:slate-700`. Always paired with the text label. (Replaces the old ascending-bar
+meter.)
 
-`text-xs font-semibold px-2.5 py-1 rounded-full`, tinted to the category color: `bg-{category}/10 text-{category}`.
+### 5.4 Tags — **neutral, category-independent**
 
-### 5.5 Intensity meter
+`text-xs font-medium px-3 py-1 rounded-lg`, **neutral** surface
+(`bg-slate-100 text-slate-600 border border-slate-200`), prefixed `#`.
 
-3 bars of increasing height (`h-2`, `h-3`, `h-4`), `w-1 rounded-full`.
-Filled (`n <= intensity`) → level color; empty → `bg-slate-200 dark:bg-slate-600`.
-**The level IS the number of filled bars** (no need to read the label).
+> **Changed:** tags are no longer tinted to the category colour. Category-coloured tags were
+> unscannable (they blended into the card's category hue). Neutral tags read as metadata and let the
+> eye separate *category* from *attributes*.
 
-### 5.6 Loading skeleton
+### 5.5 Filter sheet — secondary refinement
 
-`animate-pulse` on `bg-slate-200 dark:bg-slate-700` blocks reproducing the shape of a card.
-The shell stays interactive during the `fetch`.
+A bottom sheet (thumb zone) opened from a **Filtres** button that carries an **active-count badge**.
+Holds the *attribute* filters, each a distinct labelled section, same tap interaction:
+- **Durée** — time buckets (`< 10 min` · `10–25 min` · `> 25 min`), multi-select.
+- **Niveau** — `Débutant` · `Intermédiaire` · `Avancé`, multi-select.
+- **Tags** — most-used first; add an in-sheet search when the list exceeds ~10.
 
-### 5.7 Filter bar (nav)
+Live feedback: the apply button reads **“Voir N exercices”**. Applied filters also appear as
+**removable chips** under the scope bar. `Réinitialiser` clears all.
 
-`sticky top-0 z-20` + `bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-md` — stays reachable while scrolling, translucent.
+> Category is kept out of the sheet by default (§5.2) — single-select scope vs. multi-select
+> attributes. If usage shows category is combined freely with the rest, add it here as a section.
+
+### 5.6 Exercise detail page
+
+Master-detail: full protocol, big text, execution focus.
+Anatomy: back nav · category (icon+label) · title + teaser · **stat strip** (Durée · Niveau gauge ·
+Matériel) · **Déroulé** as numeric tiles (reps / sets / rest / hold) · coach cues · **Sécurité**
+callout (distinct surface) · tags · **sticky footer** with the primary `Démarrer` action (~52px tall,
+full-width) + a secondary "save to session".
+
+### 5.7 Loading skeleton
+
+`animate-pulse` on `slate-200 dark:slate-700` blocks in the card's shape; shell stays interactive
+during `fetch` (`aria-busy` + `aria-live="polite"`).
+
+### 5.8 Sticky filter bar
+
+`sticky top-0 z-20` + `bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-md`, reachable while
+scrolling.
 
 ---
 
-## 6. Motion & transitions
+## 6. Motion
 
-| Context                     | Recipe                                                                                                                                   |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Color / theme change        | `transition-colors duration-300`                                                                                                         |
-| Button feedback             | `active:scale-95`                                                                                                                        |
-| Card feedback               | `active:scale-[0.98]`                                                                                                                    |
-| Category change             | `<Transition mode="out-in">` — crossfade + slight `translate-y` (enter 300 ms, leave 200 ms)                                             |
-| Card additions (pagination) | `<TransitionGroup>` — enter `opacity-0 translate-y-4` → visible (500 ms), `move` in 300 ms, **no `leave`** (avoids overlap)              |
+| Context                 | Recipe                                                                                  |
+| ----------------------- | --------------------------------------------------------------------------------------- |
+| Colour / theme change   | `transition-colors duration-300`                                                        |
+| Button feedback         | `active:scale-95`                                                                       |
+| Card feedback           | `active:scale-[0.98]`                                                                   |
+| Category (scope) change | `<Transition mode="out-in">` crossfade + slight `translate-y` (enter 300 / leave 200)   |
+| Filter sheet            | slide-up `translate-y` + scrim fade (≈ 300 ms)                                          |
+| Pagination              | `<TransitionGroup>` enter `opacity-0 translate-y-4` (500 ms), `move` 300 ms, no `leave` |
 
-Principle: one transition per intent. We don't stack animations.
+One transition per intent; never stack.
 
 ---
 
-## 7. Dark theme
+## 7. Theming
 
-- Driven by `@media (prefers-color-scheme: dark)` (OS setting), **never** by a manually toggled `dark` class.
-- Every neutral token has its `dark:*` counterpart. Category colors are shared, but their background opacity rises (`/10` → `dark:/20`) to stay visible on dark backgrounds.
+- Driven by OS setting, **never** by a manually toggled `dark` class
+- **Default light, high-brightness** — the recommended outdoor mode: a light surface exploits screen
+  brightness instead of fighting the sun.
+- **Dark** follows `prefers-color-scheme` (OS) for low-light / indoor use. Category hues are shared;
+  their tint opacity rises `/10 → dark:/20` to stay visible on dark backgrounds.
+- Every neutral token has a `dark:` counterpart.
 
 ---
 
 ## 8. Accessibility
 
-- **Touch targets** ≥ 44px (`min-h-11` on filters).
-- **Announced states**: `aria-pressed` (active filter), `aria-busy` + `aria-live="polite"` (skeleton), `aria-hidden` (decorative: dot, sentinel, SVG).
-- **Contrast**: primary text `slate-800`/`slate-100` on `slate-50`/`slate-900` backgrounds.
-- **Color redundancy**: intensity is also conveyed by the number of bars and a text label, not by hue alone.
+- **Touch targets** ≥ 44px everywhere (`min-h-11`); 48px comfortable for controls; the primary
+  full-width CTA ~52px tall.
+- **Redundant encoding (hard rule):** category = icon + label + colour; level = filled-segment count
+  + label. Nothing relies on hue alone. Verify with a grayscale + CVD simulation pass.
+- **Contrast:** primary text/actions target AAA (§2.4); never ship below AA.
+- **Announced states:** `aria-pressed` (active scope/filter), `aria-busy` + `aria-live` (skeleton),
+  `aria-hidden` on decorative SVG/dividers.
 
 ---
 
-## 9. ⚠️ Critical constraint — Tailwind v4 JIT
+## 9. Content
 
-The JIT scanner generates **only** the classes present as **complete static strings** in the source.
-**Never build a class name by concatenation**:
+Cards are triage, detail is execution (§5.1 / §5.6). Keep card copy to a title + one teaser line;
+full protocol, cues and safety live on the detail page. No filler — every metadata point earns its
+place.
+
+---
+
+## 10. ⚠️ Critical constraint — Tailwind v4 JIT
+
+The scanner only generates classes present as **complete static strings**. **Never concatenate**:
 
 ```ts
-// ❌ INVISIBLE to the scanner — the class will not be generated
+// ❌ invisible to the scanner
 :class="'bg-' + category"
 
-// ✅ Map each choice to a complete, static string
+// ✅ map each choice to a full static string
 const activeClasses: Record<CategoryId, string> = {
-  force: 'bg-force/10 dark:bg-force/20 text-force ring-force/30',
+  physique:  'bg-physique/10 dark:bg-physique/20 text-physique ring-physique/30',
   technique: 'bg-technique/10 dark:bg-technique/20 text-technique ring-technique/30',
-  mental: 'bg-mental/10 dark:bg-mental/20 text-mental ring-mental/30',
+  mental:    'bg-mental/10 dark:bg-mental/20 text-mental ring-mental/30',
 };
 ```
 
@@ -227,21 +277,24 @@ in [`ExerciseCard.vue`](src/components/ExerciseCard.vue).
 
 ---
 
-## 10. Known design debt / TODO
-
-- [x] ~~**Actually load the Inter font**~~ — loaded from Google Fonts in [`index.html`](index.html) (§3).
-- [x] ~~**Tokenize the semantic intensity colors**~~ — `--color-intensity-*` tokens in `@theme` (§2.3).
-- [x] ~~**Formalize a spacing scale**~~ — named scale on a 4px grid + rhythm + rules (§4); `px-5` and `px-2.5` regularized.
-- [ ] **Self-host Inter** — the current loading depends on Google Fonts (third-party request). Consider a local `@font-face` for perf/privacy.
-
----
-
 ## 11. Where to add what
 
-| I want to…                                  | File                                                                                          |
-| ------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| Add/change a token color                    | `@theme` in [`main.css`](src/assets/main.css)                                                 |
-| Add a category                              | [`domain/exercise.ts`](src/domain/exercise.ts) (`CATEGORIES`) **+** color token in `@theme`   |
-| Create a reusable class (e.g. `.card`)      | `@layer components` in [`main.css`](src/assets/main.css)                                       |
-| Change a card / chip style                  | the relevant component in [`src/components/`](src/components/)                                 |
-| Pick a spacing (padding/margin/gap)         | the §4 scale — nearest named step, never an arbitrary value                                    |
+| I want to…                        | File                                                                                       |
+| --------------------------------- | ------------------------------------------------------------------------------------------ |
+| Add / change a token colour       | `@theme` in [`main.css`](src/assets/main.css)                                              |
+| Add a category (+ icon)           | [`domain/exercise.ts`](src/domain/exercise.ts) `CATEGORIES` + token in `@theme` + icon map |
+| Create a reusable class (`.card`) | `@layer components` in [`main.css`](src/assets/main.css)                                   |
+| Change a card / chip / gauge      | the relevant component in [`src/components/`](src/components/)                             |
+| Pick spacing                      | the §4 scale — nearest named step, never arbitrary                                         |
+
+## 12. Migration & design debt
+
+Changes in this revision that require code follow-up:
+
+- [ ] **Rename intensity → level** everywhere: `Intensity 1|2|3` → `Niveau` `Débutant|Intermédiaire|Avancé`; `--color-intensity-*` → `--color-level-*` (kept for optional label accent only).
+- [ ] **Replace the hue meter with the neutral segment gauge** (§5.3) in `ExerciseCard.vue` + detail.
+- [ ] **Neutralise tags** (§5.4): drop `bg-{category}/10 text-{category}`.
+- [ ] **Enforce category icon + label** (§2.1) — replace bare category dots.
+- [ ] **Raise the primary CTA to a comfortable full-width ~52px** and darken text tokens (§2.2 / §8).
+- [ ] **Add the filter sheet** (§5.5) and **exercise detail page** (§5.6).
+- [ ] Self-host Inter (perf/privacy) instead of the Google Fonts request.

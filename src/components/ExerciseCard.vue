@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { CATEGORIES, type Exercise, type Intensity, type CategoryId } from '@/domain/exercise';
+import { CATEGORIES, type Exercise, type Level, type CategoryId } from '@/domain/exercise';
 
 const props = defineProps<{ exercise: Exercise }>();
 
-// Intensity (1|2|3) → visual meter: the level IS the number of filled bars.
+// Level (1|2|3) → visual meter: the level IS the number of filled bars.
 // Label + color. Static classes (Tailwind v4).
-const INTENSITY: Record<Intensity, { label: string; bar: string; text: string }> = {
-  1: { label: 'Faible', bar: 'bg-intensity-low', text: 'text-intensity-low' },
-  2: { label: 'Modérée', bar: 'bg-intensity-mid', text: 'text-intensity-mid' },
-  3: { label: 'Élevée', bar: 'bg-intensity-high', text: 'text-intensity-high' },
+const LEVEL: Record<Level, { label: string; bar: string; text: string }> = {
+  1: { label: 'Débutant', bar: 'bg-level-low', text: 'text-level-low' },
+  2: { label: 'Intermédiaire', bar: 'bg-level-mid', text: 'text-level-mid' },
+  3: { label: 'Avancé', bar: 'bg-level-high', text: 'text-level-high' },
 };
 
 // Style only, per the Tailwind v4 JIT gotcha (labels come from the domain CATEGORIES).
 const CATEGORY_STYLE: Record<CategoryId, { dot: string; tag: string }> = {
-  force: { dot: 'bg-force', tag: 'bg-force/10 text-force' },
+  physique: { dot: 'bg-physique', tag: 'bg-physique/10 text-physique' },
   technique: { dot: 'bg-technique', tag: 'bg-technique/10 text-technique' },
   mental: { dot: 'bg-mental', tag: 'bg-mental/10 text-mental' },
 };
@@ -24,7 +24,7 @@ const cat = computed(() => {
   const label = CATEGORIES.find((c) => c.id === id)!.label;
   return { label, ...CATEGORY_STYLE[id] };
 });
-const int = computed(() => INTENSITY[props.exercise.intensity]);
+const int = computed(() => LEVEL[props.exercise.level]);
 </script>
 
 <template>
@@ -66,7 +66,7 @@ const int = computed(() => INTENSITY[props.exercise.intensity]);
       </p>
     </div>
 
-    <!-- Footer: tinted tags + intensity meter -->
+    <!-- Footer: tinted tags + level meter -->
     <div class="mt-1 flex items-center justify-between gap-3">
       <ul v-if="exercise.tags.length" class="flex flex-wrap gap-1.5">
         <li
@@ -86,7 +86,7 @@ const int = computed(() => INTENSITY[props.exercise.intensity]);
             :key="n"
             class="w-1 rounded-full"
             :class="[
-              n <= exercise.intensity ? int.bar : 'bg-slate-200 dark:bg-slate-600',
+              n <= exercise.level ? int.bar : 'bg-slate-200 dark:bg-slate-600',
               n === 1 ? 'h-2' : n === 2 ? 'h-3' : 'h-4',
             ]"
           ></span>

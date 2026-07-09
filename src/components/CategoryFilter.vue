@@ -8,7 +8,7 @@ defineEmits<{ select: [categoryId: CategoryId] }>();
 // the JIT scanner. So we map to full, static strings.
 // Active state: soft tint + colored text + ring (no saturated fill or halo → calmer).
 const activeClasses: Record<CategoryId, string> = {
-  force: 'bg-force/10 dark:bg-force/20 text-force ring-force/30',
+  physique: 'bg-physique/10 dark:bg-physique/20 text-physique ring-physique/30',
   technique: 'bg-technique/10 dark:bg-technique/20 text-technique ring-technique/30',
   mental: 'bg-mental/10 dark:bg-mental/20 text-mental ring-mental/30',
 };

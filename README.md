@@ -21,15 +21,15 @@
 ---
 
 **AscendBox** is a _mobile-first_ web app that lets climbing-club coaches browse a catalog of
-training exercises, filtered by category (**Force**, **Technique**, **Mental** — strength, technique,
-mental) and qualified by intensity and duration.
+training exercises, filtered by category (**Physique**, **Technique**, **Mental** — strength, technique,
+mental) and qualified by level and duration.
 
 > Exercise content is in French; the code and comments are in English.
 
 ## ✨ Features
 
-- 🎯 **Category filtering** — Force, Technique, Mental, each with its own identity color.
-- 📊 **At-a-glance reading** — every card shows duration, tags and a visual intensity meter (1 to 3 bars).
+- 🎯 **Category filtering** — Physique, Technique, Mental, each with its own identity color.
+- 📊 **At-a-glance reading** — every card shows duration, tags and a visual level meter (1 to 3 bars).
 - ♾️ **Infinite scroll** — automatic pagination on scroll (with prefetch).
 - 🌗 **Light / dark theme** — automatic, follows the operating-system setting.
 - 📱 **Mobile-minded** — touch targets ≥ 44px, single-column feed, sticky filter bar.
@@ -98,15 +98,15 @@ Each entry conforms to the `Exercise` interface:
   "id": 1,
   "title": "Suspensions Max (Morts)",
   "description": "Tenir 7 secondes sur réglette 15mm. 3 minutes de repos. 5 séries.",
-  "categoryId": "force",
+  "categoryId": "physique",
   "tags": ["poutre"],
-  "intensity": 3,
+  "level": 3,
   "duration": 20
 }
 ```
 
-- `categoryId`: `"force"` | `"technique"` | `"mental"`.
-- `intensity`: `1` (low) | `2` (moderate) | `3` (high).
+- `categoryId`: `"physique"` | `"technique"` | `"mental"`.
+- `level`: `1` (low) | `2` (moderate) | `3` (high).
 - `duration`: in minutes.
 
 > ⚠️ Because the JSON is _fetched_ (not imported), a schema drift is **not caught** by `vue-tsc` —
@@ -137,7 +137,7 @@ but commented out.)
 `security-extended` + `security-and-quality` query suites.
 
 > 💡 Because commit messages drive releases, follow
-> [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `chore:`…).
+> [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `chore:`, `ci:`, `docs:`, `style:`, `refactor:`, `perf:`, `test:`…).
 
 ## 🗂️ Project structure
 
@@ -176,7 +176,7 @@ Possible directions, grouped by theme. None is blocking — the project works as
 ### Features
 
 - **Search** by keyword (title, tags) alongside the category filter.
-- **Combined filters** — intensity and/or duration, on top of the category.
+- **Combined filters** — level and/or duration, on top of the category.
 - **Favorites** for exercises (persisted in `localStorage`).
 - **Detail view** for an exercise (dedicated route, share by URL).
 - **Session builder** — pick exercises to assemble a training session.
@@ -191,8 +191,3 @@ Possible directions, grouped by theme. None is blocking — the project works as
 ### Design (see [DESIGN.md](DESIGN.md#10-known-design-debt--todo))
 
 - **Self-host the Inter font** — currently loaded from Google Fonts (a third-party request).
-
-## 📄 License
-
-Released under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE.md)
-(CC BY-NC-SA 4.0) license.
