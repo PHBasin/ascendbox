@@ -9,9 +9,9 @@
   --color-mental: #a855f7; /* Purple-500 */
 
   /* Exercise level (semantic scale) */
-  --color-level-low: #059669; /* Emerald-600 — Faible */
-  --color-level-mid: #d97706; /* Amber-600 — Modérée */
-  --color-level-high: #e11d48; /* Rose-600 — Élevée */
+  --color-level-low: #059669; /* Emerald-600 — Débutant */
+  --color-level-mid: #d97706; /* Amber-600 — Intermédiaire */
+  --color-level-high: #e11d48; /* Rose-600 — Avancé */
 
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
