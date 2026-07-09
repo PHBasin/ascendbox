@@ -28,8 +28,10 @@ mental) and qualified by level and duration.
 
 ## ✨ Features
 
-- 🎯 **Category filtering** — Physique, Technique, Mental, each with its own identity color.
-- 📊 **At-a-glance reading** — every card shows duration, tags and a visual level meter (1 to 3 bars).
+- 🎯 **Category scope** — Physique, Technique, Mental, each with its own icon + identity color.
+- 🔍 **Collapsible search** — a magnifier expands into a field; when used it searches the whole catalog (title, description, tags — case/accent-insensitive), overriding the category scope.
+- 🎛️ **Attribute filters** — a bottom sheet refines the feed by duration, level and tags (multi-select), with an active-count badge and removable chips.
+- 📊 **At-a-glance reading** — every card shows duration, up to 2 tags and a neutral 3-segment level gauge with its label (no meaning carried by colour alone).
 - ♾️ **Infinite scroll** — automatic pagination on scroll (with prefetch).
 - 🌗 **Light / dark theme** — automatic, follows the operating-system setting.
 - 📱 **Mobile-minded** — touch targets ≥ 44px, single-column feed, sticky filter bar.
@@ -176,10 +178,11 @@ Possible directions, grouped by theme. None is blocking — the project works as
 ### Features
 
 - **Search** by keyword (title, tags) alongside the category filter.
-- **Combined filters** — level and/or duration, on top of the category.
 - **Favorites** for exercises (persisted in `localStorage`).
-- **Detail view** for an exercise (dedicated route, share by URL).
+- **Detail view** for an exercise (dedicated route, share by URL) — spec'd in [DESIGN.md §5.6](DESIGN.md); needs a router and richer `Exercise` fields.
 - **Session builder** — pick exercises to assemble a training session.
+
+> Duration / level / tag filtering (**combined filters**) is now implemented via the filter sheet.
 
 ### Technical
 
@@ -188,6 +191,7 @@ Possible directions, grouped by theme. None is blocking — the project works as
 - **PWA / offline** — service worker + manifest for use at the crag, without a network.
 - **Automated accessibility tests** (axe-core) and a Lighthouse audit in CI.
 
-### Design (see [DESIGN.md](DESIGN.md#10-known-design-debt--todo))
+### Design (see [DESIGN.md](DESIGN.md) — status tracked in [CLAUDE.md](CLAUDE.md))
 
 - **Self-host the Inter font** — currently loaded from Google Fonts (a third-party request).
+- **Exercise detail page** ([DESIGN.md §5.6](DESIGN.md)) — full protocol / execution view.

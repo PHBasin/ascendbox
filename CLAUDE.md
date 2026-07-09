@@ -43,14 +43,32 @@ Uses the **v4** engine (`tailwindcss@next`), wired into Vite via the `@tailwindc
 - Reusable classes (e.g. `.card`) live in `@layer components` via `@apply`.
 - **Token values, the category palette and the dark-mode policy live in `DESIGN.md`** (§2, §7) — not duplicated here.
 
-**Critical Tailwind v4 gotcha** (also `DESIGN.md` §10): the JIT scanner only sees class names that appear as complete static strings in source. Never build class names by concatenation (`'bg-' + cat`) — they won't be generated. Map dynamic choices to full static strings (see the `activeClasses` record in `CategoryFilter.vue`).
+**Critical Tailwind v4 gotcha** (also `DESIGN.md` §10): the JIT scanner only sees class names that appear as complete static strings in source. Never build class names by concatenation (`'bg-' + cat`) — they won't be generated. Map dynamic choices to full static strings (see the `iconTint` record in `CategoryFilter.vue` and `CATEGORY_TINT` in `ExerciseCard.vue`).
 
 ## Tasks
 
-### Taxonomy — decided here, reflect in `DESIGN.md` §2.1
-- [ ] Rename `Force` → `Physique` (token, `domain/exercise.ts`, labels).
-- [ ] Rename `Intensity` → `Level`.
+This is the **only** place tasks are tracked — `DESIGN.md` describes the design, never its to-do list.
 
-### Design migration
-→ Follow the checklist in **`DESIGN.md` §12** (Niveau, neutral gauge, neutral tags, category
-icon+label, ~52px CTA, filter sheet, detail page, self-host Inter).
+### Taxonomy — done
+- [x] Rename `Force` → `Physique` (token, `domain/exercise.ts`, labels).
+- [x] Rename `Intensity` → `Level` (`Débutant`/`Intermédiaire`/`Avancé`).
+
+### Design migration (`DESIGN.md` conformance) — done
+- [x] **Neutral 3-segment level gauge** (§5.3) — `ExerciseCard.vue`: equal segments, filled = `slate-900 dark:slate-50`, empty = `slate-200 dark:slate-700`, always paired with the text label. Hue meter dropped.
+- [x] **Removed `--color-level-*` tokens** (§2.3) — the level scale is count + label only.
+- [x] **Neutral tags** (§5.4) — `bg-slate-100 … border` + `#` prefix; no category tint; capped at 2 per card.
+- [x] **Category = icon + label** (§2.1) — new `CategoryIcon.vue` (dumbbell/target/spark, the icon map of §11); bare coloured dot removed. Colour is icon-only reinforcement; the label stays neutral (`text-*` category hues fail AA on light, §2.4).
+- [x] **Darkened text tokens** (§2.2) — body ink `slate-900 dark:slate-50`; secondary `slate-600 dark:slate-300`.
+- [x] **`CategoryFilter` active = solid ink fill** (§5.2, option A) — `bg-slate-900 text-white` (inverted in dark), AAA, meaning never carried by hue.
+- [x] **Filter sheet** (§5.5) — `FilterSheet.vue` (bottom sheet: Durée / Niveau / Tags multi-select, in-sheet tag search when >10, `~52px` "Voir N exercices" CTA, `Réinitialiser`) + `FilterControls.vue` (Filtres button with active-count badge, removable applied-filter chips). Filter state lives in `useExercises` (`selectedBuckets`/`selectedLevels`/`selectedTags`, `availableTags`, `activeFilterCount`, toggles, `resetFilters`).
+- [x] **Opaque sticky header** (§5.8) — dropped the translucent `/80` + `backdrop-blur` for `bg-slate-50 dark:bg-slate-900` + solid border, for sunlight contrast.
+- [x] **Collapsible global search** (§5.9) — magnifier in `FilterControls.vue` expands into a field; `searchQuery`/`isSearching`/`clearSearch` in `useExercises`. When non-empty it overrides the category scope and matches title+description+tags (case/accent-insensitive via `fold()`); tags also stay tap-filterable. `resetAll()` clears filters + search.
+- [x] **Category change snaps to top** — `App.vue` `onSelectCategory` calls `window.scrollTo({ top: 0, behavior: 'smooth' })` after `setCategory`.
+
+### Pending / out of scope
+- [ ] **Exercise detail page** (§5.6) — deferred: needs a **router** (vue-router not installed) **and new `Exercise` fields** (protocol/déroulé reps·sets·rest·hold, matériel, coach cues, sécurité) absent from the interface and `exercises.json`. Requires a data-model decision before build.
+- [ ] **Self-host Inter** (§12-legacy) — still loaded from Google Fonts (`index.html`).
+- [ ] **`Tous` scope option** — **deliberately not built** (product decision): the scope bar stays 3-way single-select, defaulting to `physique`. The cross-category / all-catalogue need is served instead by the global search (§5.9), which overrides the scope. `DESIGN.md` §5.2 was updated to match; revisit only if term-free full-catalogue browsing is needed.
+
+### Known simplification
+- The filter sheet applies filters **live** (no draft/commit state). "Voir N exercices" therefore shows the *current* match count and just closes the sheet — acceptable for a read-only catalog; upgrade to a pending-selection model only if needed.
