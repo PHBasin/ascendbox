@@ -18,7 +18,7 @@ const iconTint: Record<CategoryId, string> = {
 </script>
 
 <template>
-  <nav class="flex justify-center gap-2 px-4 py-3">
+  <nav class="flex gap-2">
     <button
       v-for="cat in CATEGORIES"
       :key="cat.id"

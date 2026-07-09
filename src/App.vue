@@ -36,8 +36,11 @@ function onSelectCategory(id: CategoryId): void {
     <header
       class="sticky top-0 z-30 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800"
     >
-      <CategoryFilter :active-category="activeCategory" @select="onSelectCategory" />
-      <FilterControls />
+      <!-- A+B: one toolbar row (search · categories · Filtres), constrained to the feed
+           column; CategoryFilter is slotted as the centered scope. -->
+      <FilterControls>
+        <CategoryFilter :active-category="activeCategory" @select="onSelectCategory" />
+      </FilterControls>
     </header>
 
     <!-- No vertical padding here: the feed section (p-6) owns the 24px gutter,

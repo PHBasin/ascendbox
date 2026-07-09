@@ -227,6 +227,13 @@ during `fetch` (`aria-busy` + `aria-live="polite"`).
   direct sunlight, the primary use context (§1, §2.4). Switching category snaps the feed back to the
   top.
 
+**Layout — single toolbar, aligned to the content column.** The bar's background is full-bleed, but
+its controls live in the **same `max-w-2xl mx-auto` measure as the feed**, so they sit directly above
+the cards and the empty desktop space reads as page margin, not scattered gaps. One flex row:
+**search · category scope (centered) · Filtres**. It restacks to two rows below `sm` — or whenever the
+search field is open (search needs the width and overrides the scope anyway): `[search · Filtres]`
+then the scope on its own line.
+
 ### 5.9 Search — collapsible, global
 
 A secondary retrieval path for known-item lookup. A **magnifier** on the utility row expands into a

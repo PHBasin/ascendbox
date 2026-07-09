@@ -23,8 +23,7 @@ const {
 
 const sheetOpen = ref(false);
 
-// Collapsible search (DESIGN §5.2 rationale): a magnifier that expands on demand, so the
-// browse-first / gloved / in-a-hurry path is never taxed by a permanent typing field.
+// Collapsible search (DESIGN §5.2 rationale): a magnifier that expands on demand.
 const searchOpen = ref(false);
 const searchInput = ref<HTMLInputElement | null>(null);
 
@@ -38,6 +37,17 @@ function closeSearch(): void {
   clearSearch();
   searchOpen.value = false;
 }
+
+// Filtres share one row on desktop and restack to two rows on mobile
+const searchCellClass = computed(() => (searchOpen.value ? 'order-1 flex-1' : 'order-1'));
+const scopeCellClass = computed(() =>
+  searchOpen.value
+    ? 'order-3 basis-full flex justify-center'
+    : 'order-3 basis-full flex justify-center sm:order-2 sm:basis-auto sm:flex-1'
+);
+const filtresClass = computed(() =>
+  searchOpen.value ? 'order-2 ml-auto' : 'order-2 ml-auto sm:order-3 sm:ml-0'
+);
 
 // Applied attribute filters as removable chips (DESIGN §5.5): recognition over recall.
 type Chip = { key: string; label: string; remove: () => void };
@@ -61,10 +71,12 @@ const chips = computed<Chip[]>(() => [
 </script>
 
 <template>
-  <div class="px-4 pb-3 flex flex-col gap-2">
-    <div class="flex items-center gap-2">
-      <!-- Search: magnifier (collapsed) ⇄ full field (expanded). Fills the row so Filtres stays right. -->
-      <div class="flex-1 flex">
+  <!-- Constrained to the feed's measure (max-w-2xl) so the controls sit right above the
+       cards and the empty desktop space reads as page margin, not scattered gaps. -->
+  <div class="max-w-2xl mx-auto px-6 py-4 flex flex-col gap-3">
+    <div class="flex flex-wrap items-center gap-3">
+      <!-- Search: magnifier ⇄ full field -->
+      <div class="flex" :class="searchCellClass">
         <button
           v-if="!searchOpen"
           type="button"
@@ -131,11 +143,18 @@ const chips = computed<Chip[]>(() => [
         </div>
       </div>
 
+      <!-- Category scope — centered anchor of the toolbar -->
+      <div :class="scopeCellClass">
+        <slot />
+      </div>
+
+      <!-- Filtres -->
       <button
         type="button"
         aria-haspopup="dialog"
         :aria-expanded="sheetOpen"
         class="inline-flex items-center gap-2 px-4 min-h-11 rounded-full font-semibold text-sm ring-1 ring-slate-200 dark:ring-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
+        :class="filtresClass"
         @click="sheetOpen = true"
       >
         <svg
