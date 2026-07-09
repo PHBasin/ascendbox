@@ -3,12 +3,14 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Product context
+
 AscendBox is a mobile-first PWA for climbing-club coaches to browse ~100 training exercises (content
 is in French). It is used **outdoors, often in a hurry**. The
 non-negotiables that follow: high contrast (aim AAA), large touch targets, **no meaning carried by
 colour alone** (colour-vision safety), state always visible.
 
 ## Design source of truth
+
 **Read `DESIGN.md` before any UI work** — colours, type, spacing, components, motion, accessibility.
 UI must conform to it; do not restate its spec here. On any design change, update `DESIGN.md` in the
 same move.
@@ -49,26 +51,12 @@ Uses the **v4** engine (`tailwindcss@next`), wired into Vite via the `@tailwindc
 
 This is the **only** place tasks are tracked — `DESIGN.md` describes the design, never its to-do list.
 
-### Taxonomy — done
-- [x] Rename `Force` → `Physique` (token, `domain/exercise.ts`, labels).
-- [x] Rename `Intensity` → `Level` (`Débutant`/`Intermédiaire`/`Avancé`).
-
-### Design migration (`DESIGN.md` conformance) — done
-- [x] **Neutral 3-segment level gauge** (§5.3) — `ExerciseCard.vue`: equal segments, filled = `slate-900 dark:slate-50`, empty = `slate-200 dark:slate-700`, always paired with the text label. Hue meter dropped.
-- [x] **Removed `--color-level-*` tokens** (§2.3) — the level scale is count + label only.
-- [x] **Neutral tags** (§5.4) — `bg-slate-100 … border` + `#` prefix; no category tint; capped at 2 per card.
-- [x] **Category = icon + label** (§2.1) — new `CategoryIcon.vue` (dumbbell/target/spark, the icon map of §11); bare coloured dot removed. Colour is icon-only reinforcement; the label stays neutral (`text-*` category hues fail AA on light, §2.4).
-- [x] **Darkened text tokens** (§2.2) — body ink `slate-900 dark:slate-50`; secondary `slate-600 dark:slate-300`.
-- [x] **`CategoryFilter` active = solid ink fill** (§5.2, option A) — `bg-slate-900 text-white` (inverted in dark), AAA, meaning never carried by hue.
-- [x] **Filter sheet** (§5.5) — `FilterSheet.vue` (bottom sheet: Durée / Niveau / Tags multi-select, in-sheet tag search when >10, `~52px` "Voir N exercices" CTA, `Réinitialiser`) + `FilterControls.vue` (Filtres button with active-count badge, removable applied-filter chips). Filter state lives in `useExercises` (`selectedBuckets`/`selectedLevels`/`selectedTags`, `availableTags`, `activeFilterCount`, toggles, `resetFilters`).
-- [x] **Opaque sticky header** (§5.8) — dropped the translucent `/80` + `backdrop-blur` for `bg-slate-50 dark:bg-slate-900` + solid border, for sunlight contrast.
-- [x] **Collapsible global search** (§5.9) — magnifier in `FilterControls.vue` expands into a field; `searchQuery`/`isSearching`/`clearSearch` in `useExercises`. When non-empty it overrides the category scope and matches title+description+tags (case/accent-insensitive via `fold()`); tags also stay tap-filterable. `resetAll()` clears filters + search.
-- [x] **Category change snaps to top** — `App.vue` `onSelectCategory` calls `window.scrollTo({ top: 0, behavior: 'smooth' })` after `setCategory`.
-
 ### Pending / out of scope
+
+- [ ] **Tighten the Lighthouse a11y floor** — `lighthouserc.json` asserts `accessibility ≥ 0.9` as a conservative floor; raise toward 0.95–1.0 once the first CI run's baseline is known.
 - [ ] **Exercise detail page** (§5.6) — deferred: needs a **router** (vue-router not installed) **and new `Exercise` fields** (protocol/déroulé reps·sets·rest·hold, matériel, coach cues, sécurité) absent from the interface and `exercises.json`. Requires a data-model decision before build.
-- [ ] **Self-host Inter** (§12-legacy) — still loaded from Google Fonts (`index.html`).
 - [ ] **`Tous` scope option** — **deliberately not built** (product decision): the scope bar stays 3-way single-select, defaulting to `physique`. The cross-category / all-catalogue need is served instead by the global search (§5.9), which overrides the scope. `DESIGN.md` §5.2 was updated to match; revisit only if term-free full-catalogue browsing is needed.
 
 ### Known simplification
-- The filter sheet applies filters **live** (no draft/commit state). "Voir N exercices" therefore shows the *current* match count and just closes the sheet — acceptable for a read-only catalog; upgrade to a pending-selection model only if needed.
+
+- The filter sheet applies filters **live** (no draft/commit state). "Voir N exercices" therefore shows the _current_ match count and just closes the sheet — acceptable for a read-only catalog; upgrade to a pending-selection model only if needed.

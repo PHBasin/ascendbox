@@ -55,35 +55,20 @@ export default defineConfig({
         // AND the exercise data (public/data/exercises.json → dist/data). Each file
         // is revisioned, so a new deploy invalidates only what changed.
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2,json}'],
-        // Don't waste the cache on the 284KB social share image (never used in-app).
-        globIgnores: ['**/social-preview.jpg'],
+        // Don't precache the social share image, nor the Inter subsets French never
+        // needs (cyrillic/greek/vietnamese). Only latin + latin-ext (the œ ligature)
+        // are kept → a lean offline cache.
+        globIgnores: [
+          '**/social-preview.jpg',
+          '**/inter-cyrillic-*.woff2',
+          '**/inter-greek-*.woff2',
+          '**/inter-vietnamese-*.woff2',
+        ],
         // SPA offline fallback: any navigation resolves to the cached index.html.
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
-
-        runtimeCaching: [
-          // Google Fonts stylesheet (fonts.googleapis.com) — small, changes rarely.
-          {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-stylesheets',
-              expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
-              cacheableResponse: { statuses: [0, 200] },
-            },
-          },
-          // Google Fonts webfont files (fonts.gstatic.com) — the actual .woff2.
-          // CacheFirst so Inter renders offline at the crag after the first visit.
-          {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-webfonts',
-              expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 365 },
-              cacheableResponse: { statuses: [0, 200] },
-            },
-          },
-        ],
+        // No runtimeCaching: Inter is self-hosted and its .woff2 are precached via
+        // globPatterns (woff2). Nothing is fetched from a third-party origin anymore.
       },
 
       // Enable the SW in `vite dev` too, so the offline flow is testable locally.

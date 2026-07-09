@@ -11,7 +11,7 @@
   /* No --color-level-* : the level scale is encoded by a neutral 3-segment gauge
      + text label (DESIGN §2.3 / §5.3). Hue collapses in sun and for CVD users. */
 
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter Variable', 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 @layer base {

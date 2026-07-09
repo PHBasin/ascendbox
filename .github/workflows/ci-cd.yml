@@ -57,6 +57,24 @@ jobs:
         with:
           path: ./dist
 
+  accessibility-gate:
+    name: 🔦 Lighthouse
+    needs: [quality-gate]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+      - name: Setup & install
+        uses: ./.github/actions/setup
+      - name: Build App
+        run: npm run build
+      - name: Run Lighthouse CI (a11y + best-practices)
+        run: npx --yes @lhci/cli@0.14.x autorun
+
   release:
     name: 📦 Semantic Release
     needs: [build]
@@ -64,7 +82,7 @@ jobs:
     runs-on: ubuntu-24.04
     permissions:
       contents: write # push the release commit + tag
-      issues: write # @semantic-release/github comments on issues
+      issues: write # comments on issues
       pull-requests: write # and PRs
     outputs:
       released: ${{ steps.semantic.outputs.released }}
@@ -80,7 +98,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # CLI does not emit an Actions output
-        # semantic-release creates a tag locally only when it publishes
         run: |
           before="$(git tag | wc -l)"
           npx semantic-release
