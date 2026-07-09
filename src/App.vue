@@ -4,8 +4,8 @@ import { useExercises } from '@/application/useExercises';
 import type { CategoryId } from '@/domain/exercise';
 
 // Import UI components
-import CategoryFilter from '@/components/CategoryFilter.vue';
-import FilterControls from '@/components/FilterControls.vue';
+import CategoryScope from '@/components/CategoryScope.vue';
+import HeaderToolbar from '@/components/HeaderToolbar.vue';
 import ExerciseFeed from '@/components/ExerciseFeed.vue';
 
 // Destructure the state and methods from the composable
@@ -37,10 +37,10 @@ function onSelectCategory(id: CategoryId): void {
       class="sticky top-0 z-30 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800"
     >
       <!-- A+B: one toolbar row (search · categories · Filtres), constrained to the feed
-           column; CategoryFilter is slotted as the centered scope. -->
-      <FilterControls>
-        <CategoryFilter :active-category="activeCategory" @select="onSelectCategory" />
-      </FilterControls>
+           column; CategoryScope is slotted as the centered scope. -->
+      <HeaderToolbar>
+        <CategoryScope :active-category="activeCategory" @select="onSelectCategory" />
+      </HeaderToolbar>
     </header>
 
     <!-- No vertical padding here: the feed section (p-6) owns the 24px gutter,

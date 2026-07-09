@@ -154,7 +154,7 @@ information, so nothing on it may wear the elevated/filled _pill_ form the syste
 **controls** (§1.5). Filled/bordered pills appear only on interactive surfaces (scope bar, filter
 sheet options, applied-filter chips, buttons). This keeps "data vs. action" readable at a glance.
 
-### 5.2 Category scope bar — `CategoryFilter`
+### 5.2 Category scope bar — `CategoryScope`
 
 Persistent, sticky, single-select navigation across the **3 categories** (defaults to Physique),
 kept **out of the filter sheet** as the primary _scope_ rather than an attribute. Only 3 values →
@@ -306,7 +306,7 @@ const activeClasses: Record<CategoryId, string> = {
 };
 ```
 
-See `activeClasses` in [`CategoryFilter.vue`](src/components/CategoryFilter.vue) and `CATEGORY_STYLE`
+See `iconTint` in [`CategoryScope.vue`](src/components/CategoryScope.vue) and `CATEGORY_TINT`
 in [`ExerciseCard.vue`](src/components/ExerciseCard.vue).
 
 ---

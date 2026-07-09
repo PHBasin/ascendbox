@@ -90,7 +90,7 @@ domain  →  data  →  application  →  presentation
 | **Domain**       | [`src/domain/exercise.ts`](src/domain/exercise.ts)                   | Pure business entities & types. Single source of truth for categories (`CATEGORIES`). Zero framework dependency.                  |
 | **Data**         | [`src/data/exerciseRepository.ts`](src/data/exerciseRepository.ts)   | The only module that knows the source. `fetch`es the JSON, freezes it (`Object.freeze`) and caches it. Swap it to move to an API. |
 | **Application**  | [`src/application/useExercises.ts`](src/application/useExercises.ts) | State composable (shared singleton): filtering, pagination, loading/error. Behavior lives here.                                   |
-| **Presentation** | [`src/components/`](src/components/)                                 | Purely visual components: `App`, `CategoryFilter`, `ExerciseFeed`, `ExerciseCard`.                                                |
+| **Presentation** | [`src/components/`](src/components/)                                 | Purely visual components: `App`, `HeaderToolbar`, `CategoryScope`, `ExerciseFeed`, `ExerciseCard`.                                                |
 
 - **Path alias**: `@` → `./src` (declared in both `vite.config.ts` **and** `tsconfig.json`).
 - **Design system**: see [DESIGN.md](DESIGN.md).
