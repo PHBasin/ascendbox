@@ -9,7 +9,7 @@ const PAGE_SIZE = 12;
 // shallowRef: the list is replaced wholesale, never deep-mutated.
 // No recursive proxy over the 100 objects → less memory, no useless reactivity.
 const all = shallowRef<Exercise[]>([]);
-const activeCategory = ref<CategoryId>('force');
+const activeCategory = ref<CategoryId>('physique');
 const visibleCount = ref(PAGE_SIZE);
 const isLoading = ref(true);
 const error = ref<string | null>(null);
