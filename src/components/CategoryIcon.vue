@@ -35,7 +35,7 @@ defineProps<{ category: CategoryId }>();
 
     <!-- Mental → spark -->
     <template v-else>
-      <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10z" />
+      <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" />
     </template>
   </svg>
 </template>
