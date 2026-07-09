@@ -60,7 +60,7 @@ Usable as `bg-physique`, `text-technique`, `ring-mental`, with opacity `bg-physi
 | Inactive chip bg             | `slate-100` | `slate-800` |
 
 > Primary/secondary text darkened one step vs. the previous spec (`slate-800`→`slate-900`,
-> `slate-500`→`slate-600`) to hold contrast in sunlight (§2.4).
+> `slate-500`→`slate-600`) to hold contrast (§2.4).
 
 ### 2.3 Level scale (`Niveau`)
 
@@ -76,7 +76,7 @@ read from **how many segments are filled** and the word — *not* from hue.
   never the gauge, and never as the sole cue.
 
 > **Changed from the old model:** the previous emerald→amber→rose *hue* meter is dropped — hue
-> collapses in sun and for CVD users. Count + label is the robust, glove-readable encoding.
+> collapses for CVD users. Count + label is the robust, glove-readable encoding.
 
 ### 2.4 Contrast targets
 
@@ -149,11 +149,15 @@ Anatomy: category (icon + label) · duration · title · 1-line teaser · up to 
 
 ### 5.2 Category scope bar — `CategoryFilter`
 
-Persistent, sticky, single-select navigation (`Tous` + 3 categories), kept **out of the filter
-sheet** as the primary *scope* rather than an attribute. Only 3 values → cheap to keep visible, and
-it is the coach's most frequent entry point.
-- **Active**: filled ink (`bg-slate-900 text-white`) or category tint + `ring-{category}/30`.
-- **Inactive**: `bg-slate-100 text-slate-600 ring-transparent`, `hover:bg-slate-200`.
+Persistent, sticky, single-select navigation across the **3 categories** (defaults to Physique),
+kept **out of the filter sheet** as the primary *scope* rather than an attribute. Only 3 values →
+cheap to keep visible, and it is the coach's most frequent entry point. Each button is **icon +
+label** (§2.1). No `Tous` / all-categories option today — scope is always exactly one category.
+- **Active**: **solid ink fill** — `bg-slate-900 text-white` (inverted `dark:bg-slate-50
+  dark:text-slate-900`). Chosen over a category tint so the active state clears AAA and never relies
+  on hue (§2.4); the label already identifies the category.
+- **Inactive**: `bg-slate-100 text-slate-600 ring-transparent`, `hover:bg-slate-200`, with the icon
+  category-tinted as reinforcement.
 - Always `ring-1` to avoid a layout jump between states.
 
 > **Judgement call, not a law.** Keep category persistent *if* coaches usually start by picking one,
@@ -205,8 +209,18 @@ during `fetch` (`aria-busy` + `aria-live="polite"`).
 
 ### 5.8 Sticky filter bar
 
-`sticky top-0 z-20` + `bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-md`, reachable while
-scrolling.
+`sticky top-0 z-30`, reachable while scrolling. **Opaque** ground (`bg-slate-50 dark:bg-slate-900`
++ a solid bottom border) — **not** translucent/blurred: a frosted-glass effect erodes contrast in
+direct sunlight, the primary use context (§1, §2.4). Switching category snaps the feed back to the
+top.
+
+### 5.9 Search — collapsible, global
+
+A secondary retrieval path for known-item lookup. A **magnifier** on the utility row expands into a
+field on demand (never a permanent bar) so the browse-first, gloved, in-a-hurry path is never taxed
+with a typing invitation. When non-empty it **supersedes the category scope**, matching title +
+description + tags across the whole catalog (case- and accent-insensitive). Closing (✕ / `Esc`)
+clears it; picking a category also exits search.
 
 ---
 
@@ -229,7 +243,7 @@ One transition per intent; never stack.
 
 - Driven by OS setting, **never** by a manually toggled `dark` class
 - **Default light, high-brightness** — the recommended outdoor mode: a light surface exploits screen
-  brightness instead of fighting the sun.
+  brightness.
 - **Dark** follows `prefers-color-scheme` (OS) for low-light / indoor use. Category hues are shared;
   their tint opacity rises `/10 → dark:/20` to stay visible on dark backgrounds.
 - Every neutral token has a `dark:` counterpart.
@@ -282,19 +296,11 @@ in [`ExerciseCard.vue`](src/components/ExerciseCard.vue).
 | I want to…                        | File                                                                                       |
 | --------------------------------- | ------------------------------------------------------------------------------------------ |
 | Add / change a token colour       | `@theme` in [`main.css`](src/assets/main.css)                                              |
-| Add a category (+ icon)           | [`domain/exercise.ts`](src/domain/exercise.ts) `CATEGORIES` + token in `@theme` + icon map |
+| Add a category (+ icon)           | [`domain/exercise.ts`](src/domain/exercise.ts) `CATEGORIES` + token in `@theme` + a path in [`CategoryIcon.vue`](src/components/CategoryIcon.vue) (the icon map) |
 | Create a reusable class (`.card`) | `@layer components` in [`main.css`](src/assets/main.css)                                   |
 | Change a card / chip / gauge      | the relevant component in [`src/components/`](src/components/)                             |
 | Pick spacing                      | the §4 scale — nearest named step, never arbitrary                                         |
 
-## 12. Migration & design debt
-
-Changes in this revision that require code follow-up:
-
-- [ ] **Rename intensity → level** everywhere: `Intensity 1|2|3` → `Niveau` `Débutant|Intermédiaire|Avancé`; `--color-intensity-*` → `--color-level-*` (kept for optional label accent only).
-- [ ] **Replace the hue meter with the neutral segment gauge** (§5.3) in `ExerciseCard.vue` + detail.
-- [ ] **Neutralise tags** (§5.4): drop `bg-{category}/10 text-{category}`.
-- [ ] **Enforce category icon + label** (§2.1) — replace bare category dots.
-- [ ] **Raise the primary CTA to a comfortable full-width ~52px** and darken text tokens (§2.2 / §8).
-- [ ] **Add the filter sheet** (§5.5) and **exercise detail page** (§5.6).
-- [ ] Self-host Inter (perf/privacy) instead of the Google Fonts request.
+> **Implementation tracking lives in [`CLAUDE.md`](CLAUDE.md) (§ Tasks), not here.** This document
+> is the design source of truth; what is built vs. pending is recorded there. The detail page (§5.6)
+> and self-hosted Inter (§3) are specified here but not yet implemented.

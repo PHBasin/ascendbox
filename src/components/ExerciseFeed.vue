@@ -1,17 +1,29 @@
 <script setup lang="ts">
-import { ref, watch, onBeforeUnmount } from 'vue';
+import { ref, computed, watch, onBeforeUnmount } from 'vue';
 import type { Exercise, CategoryId } from '@/domain/exercise';
 import ExerciseCard from './ExerciseCard.vue';
 
-defineProps<{
+const props = defineProps<{
   exercises: Exercise[];
   category: CategoryId;
   hasMore: boolean;
   isLoading: boolean;
   error: string | null;
+  isSearching: boolean;
+  hasFilters: boolean;
 }>();
 
-const emit = defineEmits<{ loadMore: [] }>();
+const emit = defineEmits<{ loadMore: []; reset: [] }>();
+
+// The feed is empty for a reason — name it precisely (search vs filters vs both).
+const hasRefinement = computed(() => props.isSearching || props.hasFilters);
+const emptyMessage = computed(() => {
+  if (props.isSearching && props.hasFilters)
+    return 'Aucun exercice ne correspond à la recherche et aux filtres.';
+  if (props.isSearching) return 'Aucun exercice ne correspond à la recherche.';
+  if (props.hasFilters) return 'Aucun exercice ne correspond aux filtres.';
+  return 'Aucun exercice dans cette catégorie.';
+});
 
 // Infinite scroll: we observe a sentinel at the bottom of the list.
 const sentinel = ref<HTMLElement | null>(null);
@@ -35,8 +47,8 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
 
 <template>
   <section class="max-w-2xl mx-auto p-6">
-    <!-- Loading error -->
-    <p v-if="error" class="text-center text-rose-500 py-12">
+    <!-- Loading error (rose-600 clears AA on the light shell, rose-400 on the dark one) -->
+    <p v-if="error" class="text-center text-rose-600 dark:text-rose-400 py-12">
       {{ error }}
     </p>
 
@@ -54,9 +66,32 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
     </div>
 
     <!-- No results -->
-    <p v-else-if="!exercises.length" class="text-center text-slate-400 py-12">
-      Aucun exercice pour ce pilier.
-    </p>
+    <div v-else-if="!exercises.length" class="text-center py-12 flex flex-col items-center gap-3">
+      <p class="text-slate-600 dark:text-slate-300">
+        {{ emptyMessage }}
+      </p>
+      <button
+        v-if="hasRefinement"
+        type="button"
+        class="inline-flex items-center gap-2 px-4 min-h-11 rounded-full font-semibold text-sm bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 transition-transform duration-300 active:scale-95"
+        @click="emit('reset')"
+      >
+        <svg
+          class="w-4 h-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+          <path d="M3 3v5h5" />
+        </svg>
+        Tout réinitialiser
+      </button>
+    </div>
 
     <!-- Paginated list. Transition (keyed on the pilier) = clean crossfade on
          category change; TransitionGroup inside = animation of the cards
