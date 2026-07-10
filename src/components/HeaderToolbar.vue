@@ -75,12 +75,12 @@ const chips = computed<Chip[]>(() => [
          Two tiers give the open search field its own room, so nothing squeezes the scope.
        • Desktop (lg+): one line — title left · scope centered · search + Filtres right. Only at lg
          is there room for all four on one line even with the search field open. -->
-  <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-3">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex flex-col gap-3">
     <div class="flex flex-wrap items-center gap-3 lg:flex-nowrap">
       <!-- Screen title (DESIGN §3). Hidden while search is open below lg (the field takes the
            actions row); kept on lg+ where the field grows inline, capped in width. -->
       <h1
-        class="mr-auto lg:mr-0 lg:flex-1 text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
+        class="mr-auto lg:mr-0 lg:flex-1 text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
         :class="searchOpen ? 'hidden lg:block' : 'block'"
       >
         Exercices
@@ -96,7 +96,7 @@ const chips = computed<Chip[]>(() => [
       <!-- Right cluster: search + Filtres. flex-1 fills the row — centering the scope on lg+, and
            giving the field full width while search is open below lg. -->
       <div
-        class="flex items-center gap-3 lg:flex-1 lg:justify-end"
+        class="flex items-center gap-2 sm:gap-3 lg:flex-1 lg:justify-end"
         :class="searchOpen ? 'flex-1' : ''"
       >
         <!-- Search: magnifier ⇄ field. Fills the actions row below lg; on lg+ it is capped
@@ -174,7 +174,7 @@ const chips = computed<Chip[]>(() => [
           type="button"
           aria-haspopup="dialog"
           :aria-expanded="sheetOpen"
-          class="shrink-0 inline-flex items-center gap-2 px-4 min-h-11 rounded-full font-semibold text-sm ring-1 ring-slate-200 dark:ring-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
+          class="shrink-0 inline-flex items-center gap-2 px-4 min-h-11 rounded-full font-semibold text-sm sm:text-base lg:text-lg ring-1 ring-slate-200 dark:ring-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
           @click="sheetOpen = true"
         >
           <svg

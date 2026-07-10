@@ -52,7 +52,9 @@
 
 @layer components {
   .card {
+    /* Component tier = p-5 (20px): one notch under the 24px page rhythm so the card
+       reads as a contained surface, not a full-bleed panel (DESIGN §4). */
     @apply bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700
-           rounded-3xl p-4 transition-all duration-300;
+           rounded-3xl p-5 transition-all duration-300;
   }
 }

@@ -46,7 +46,7 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
 </script>
 
 <template>
-  <section class="max-w-7xl mx-auto p-6">
+  <section class="max-w-7xl mx-auto px-6 lg:px-8 py-6 lg:py-8">
     <!-- Loading error (rose-600 clears AA on the light shell, rose-400 on the dark one) -->
     <p v-if="error" class="text-center text-rose-600 dark:text-rose-400 py-12">
       {{ error }}
@@ -56,15 +56,17 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
          as the feed so the loading state matches the final layout. -->
     <div
       v-else-if="isLoading"
-      class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+      class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
       aria-busy="true"
       aria-live="polite"
     >
-      <div v-for="n in 6" :key="n" class="card animate-pulse">
+      <div v-for="n in 6" :key="n" class="card animate-pulse flex flex-col gap-3">
         <div class="h-6 w-2/3 rounded bg-slate-200 dark:bg-slate-700"></div>
-        <div class="mt-3 h-4 w-full rounded bg-slate-200 dark:bg-slate-700"></div>
-        <div class="mt-2 h-4 w-4/5 rounded bg-slate-200 dark:bg-slate-700"></div>
-        <div class="mt-4 flex gap-2">
+        <div class="flex flex-col gap-2">
+          <div class="h-4 w-full rounded bg-slate-200 dark:bg-slate-700"></div>
+          <div class="h-4 w-4/5 rounded bg-slate-200 dark:bg-slate-700"></div>
+        </div>
+        <div class="flex gap-2">
           <div class="h-4 w-14 rounded-full bg-slate-200 dark:bg-slate-700"></div>
           <div class="h-4 w-14 rounded-full bg-slate-200 dark:bg-slate-700"></div>
         </div>
@@ -113,7 +115,7 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
       <div :key="category">
         <TransitionGroup
           tag="div"
-          class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
           move-class="transition-transform duration-300"
           enter-active-class="transition duration-500 ease-out"
           enter-from-class="opacity-0 translate-y-4"
