@@ -27,7 +27,7 @@
     }
   }
 
-  /* Search fields render their own ✕ (FilterControls); hide the browser's native one
+  /* Search fields render their own ✕ (HeaderToolbar); hide the browser's native one
      so it never doubles up. `type="search"` is kept for the mobile "Search" keyboard. */
   input[type='search']::-webkit-search-cancel-button {
     -webkit-appearance: none;
@@ -35,7 +35,15 @@
   }
 }
 
-/* 4. Custom utilities (Optional) */
+/* Hide the scrollbar on horizontally-swipeable rows (the category scope overflows on
+   narrow screens): the row scrolls, but the bar stays visually clean. */
+@utility no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* WebKit */
+  }
+}
+
 @layer components {
   .card {
     @apply bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700

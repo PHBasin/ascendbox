@@ -40,10 +40,14 @@ function closeSearch(): void {
 
 // Filtres share one row on desktop and restack to two rows on mobile
 const searchCellClass = computed(() => (searchOpen.value ? 'order-1 flex-1' : 'order-1'));
+// When the scope sits on its own row it full-bleeds to the screen edge (`-mx-6 px-6`):
+// the overflow clips at the edge (a natural "swipe for more" cue, not a button cut off
+// by a margin), while the inner padding keeps the first button aligned with the cards.
+// On desktop it's inline again (sm:mx-0 sm:px-0), centered.
 const scopeCellClass = computed(() =>
   searchOpen.value
-    ? 'order-3 basis-full flex justify-center'
-    : 'order-3 basis-full flex justify-center sm:order-2 sm:basis-auto sm:flex-1'
+    ? 'order-3 basis-full -mx-6 px-6'
+    : 'order-3 basis-full -mx-6 px-6 sm:order-2 sm:basis-auto sm:flex-1 sm:mx-0 sm:px-0'
 );
 const filtresClass = computed(() =>
   searchOpen.value ? 'order-2 ml-auto' : 'order-2 ml-auto sm:order-3 sm:ml-0'
@@ -143,9 +147,18 @@ const chips = computed<Chip[]>(() => [
         </div>
       </div>
 
-      <!-- Category scope — centered anchor of the toolbar -->
-      <div :class="scopeCellClass">
-        <slot />
+      <!-- Category scope — centered when it fits, horizontally swipeable when it overflows
+           (narrow screens): the scroll is confined here so it never widens the page. -->
+      <!-- box-content: the -mx-6/px-6 full-bleed only works if `px-6` widens the box
+           beyond the `basis-full` line (border-box would absorb it → clip at 48px, not
+           the edge). Restored to border-box inline on desktop. -->
+      <div
+        class="min-w-0 box-content sm:box-border overflow-x-auto no-scrollbar"
+        :class="scopeCellClass"
+      >
+        <div class="w-max mx-auto">
+          <slot />
+        </div>
       </div>
 
       <!-- Filtres -->

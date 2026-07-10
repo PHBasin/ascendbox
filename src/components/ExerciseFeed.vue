@@ -46,15 +46,21 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
 </script>
 
 <template>
-  <section class="max-w-2xl mx-auto p-6">
+  <section class="max-w-7xl mx-auto p-6">
     <!-- Loading error (rose-600 clears AA on the light shell, rose-400 on the dark one) -->
     <p v-if="error" class="text-center text-rose-600 dark:text-rose-400 py-12">
       {{ error }}
     </p>
 
-    <!-- Skeleton during the fetch: the shell stays interactive -->
-    <div v-else-if="isLoading" class="grid gap-6" aria-busy="true" aria-live="polite">
-      <div v-for="n in 4" :key="n" class="card animate-pulse">
+    <!-- Skeleton during the fetch: the shell stays interactive. Same responsive grid
+         as the feed so the loading state matches the final layout. -->
+    <div
+      v-else-if="isLoading"
+      class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+      aria-busy="true"
+      aria-live="polite"
+    >
+      <div v-for="n in 6" :key="n" class="card animate-pulse">
         <div class="h-6 w-2/3 rounded bg-slate-200 dark:bg-slate-700"></div>
         <div class="mt-3 h-4 w-full rounded bg-slate-200 dark:bg-slate-700"></div>
         <div class="mt-2 h-4 w-4/5 rounded bg-slate-200 dark:bg-slate-700"></div>
@@ -107,7 +113,7 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
       <div :key="category">
         <TransitionGroup
           tag="div"
-          class="grid gap-6"
+          class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
           move-class="transition-transform duration-300"
           enter-active-class="transition duration-500 ease-out"
           enter-from-class="opacity-0 translate-y-4"
