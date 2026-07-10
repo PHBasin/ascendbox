@@ -51,17 +51,23 @@ Usable as `bg-physique`, `text-technique`, `ring-mental`, with opacity `bg-physi
 
 ### 2.2 Neutrals (Slate scale)
 
-| Usage            | Light       | Dark        |
-| ---------------- | ----------- | ----------- |
-| Page background  | `slate-50`  | `slate-900` |
-| Surface (card)   | `white`     | `slate-800` |
-| Border           | `slate-200` | `slate-700` |
-| Primary text     | `slate-900` | `slate-50`  |
-| Secondary text   | `slate-600` | `slate-300` |
-| Inactive chip bg | `slate-100` | `slate-800` |
+| Usage                              | Light       | Dark        |
+| ---------------------------------- | ----------- | ----------- |
+| Page background                    | `slate-50`  | `slate-900` |
+| Surface (card)                     | `white`     | `slate-800` |
+| Border                             | `slate-200` | `slate-700` |
+| **Primary text** (titles, headers) | `slate-900` | `slate-50`  |
+| **Body text** (card description)   | `slate-700` | `slate-300` |
+| **Secondary text** (meta, labels)  | `slate-600` | `slate-300` |
+| **Muted** (input icon/placeholder) | `slate-500` | `slate-400` |
+| On-ink foreground (active pill/CTA) | `white`    | `slate-900` |
+| Inactive chip bg                   | `slate-100` | `slate-800` |
 
-> Primary/secondary text darkened one step vs. the previous spec (`slate-800`→`slate-900`,
-> `slate-500`→`slate-600`) to hold contrast (§2.4).
+> **Four text tiers only** — primary / body / secondary / muted — plus the on-ink inverse for
+> filled controls. Nothing else: a one-off like `dark:text-white` on a title or `dark:text-slate-400`
+> on card tags is drift, not a new tier. Primary/secondary darkened one step vs. the previous spec
+> (`slate-800`→`slate-900`, `slate-500`→`slate-600`) to hold contrast (§2.4). Error text is the one
+> chromatic exception: `rose-600 dark:rose-400`.
 
 ### 2.3 Level scale (`Niveau`)
 

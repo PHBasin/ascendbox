@@ -60,7 +60,7 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
 
     <!-- Title + teaser (title shares the category pills' type — the page-linking size) -->
     <div class="flex flex-col gap-1">
-      <h3 class="text-base lg:text-lg font-bold leading-tight text-slate-900 dark:text-white">
+      <h3 class="text-base lg:text-lg font-bold leading-tight text-slate-900 dark:text-slate-50">
         {{ exercise.title }}
       </h3>
       <p class="text-[15px] lg:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
@@ -76,7 +76,7 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
         <li
           v-for="tag in visibleTags"
           :key="tag"
-          class="text-xs font-semibold text-slate-600 dark:text-slate-400"
+          class="text-xs font-semibold text-slate-600 dark:text-slate-300"
         >
           #{{ tag }}
         </li>
