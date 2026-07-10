@@ -81,7 +81,7 @@ const chips = computed<Chip[]>(() => [
            actions row); kept on lg+ where the field grows inline, capped in width. -->
       <h1
         class="mr-auto lg:mr-0 lg:flex-1 text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
-        :class="searchOpen ? 'hidden lg:block' : 'block'"
+        :class="searchOpen ? 'hidden sm:block' : 'block'"
       >
         Exercices
       </h1>
@@ -93,15 +93,15 @@ const chips = computed<Chip[]>(() => [
         <slot />
       </div>
 
-      <!-- Right cluster: search + Filtres. flex-1 fills the row — centering the scope on lg+, and
-           giving the field full width while search is open below lg. -->
+      <!-- Right cluster: search + Filtres. Full-width takeover only on phones (< sm); from sm the
+           field is capped and sits at the right, so tablets don't get a 600 px half-empty field. -->
       <div
         class="flex items-center gap-2 sm:gap-3 lg:flex-1 lg:justify-end"
-        :class="searchOpen ? 'flex-1' : ''"
+        :class="searchOpen ? 'flex-1 sm:flex-none' : ''"
       >
-        <!-- Search: magnifier ⇄ field. Fills the actions row below lg; on lg+ it is capped
-             (lg:w-80) and sits next to Filtres instead of stretching the bar. -->
-        <div class="flex" :class="searchOpen ? 'flex-1 lg:flex-none' : ''">
+        <!-- Search: magnifier ⇄ field. Fills the actions row only on phones; from sm it is capped
+             (sm:w-80) and sits next to Filtres, and the title stays visible (there is room). -->
+        <div class="flex" :class="searchOpen ? 'flex-1 sm:flex-none' : ''">
           <button
             v-if="!searchOpen"
             ref="searchButton"
@@ -125,7 +125,7 @@ const chips = computed<Chip[]>(() => [
             </svg>
           </button>
 
-          <div v-else class="relative w-full lg:w-80">
+          <div v-else class="relative w-full sm:w-80">
             <svg
               class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-400"
               viewBox="0 0 24 24"

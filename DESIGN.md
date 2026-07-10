@@ -305,7 +305,7 @@ narrower or wider strip. Within that measure the arrangement adapts to the feed'
 - **Desktop (`lg+`) — one line.** The wide measure fits everything on a single row: **title left ·
   scope centered · search + Filtres right**. The scope keeps its natural-width pills, centered
   between the two flanking groups rather than on their own line, and the open search field is capped
-  (`lg:w-80`) so it sits by Filtres instead of stretching. Single-line only starts at `lg` because
+  (`sm:w-80`, §5.9) so it sits by Filtres instead of stretching. Single-line only starts at `lg` because
   below it there is not enough width for all four groups once the search field is open — hence the
   two-tier fallback rather than a squeezed, wrapping scope.
 
@@ -316,9 +316,11 @@ the feed back to the top.
 
 A secondary retrieval path for known-item lookup. A **magnifier** on the title row expands into a
 field on demand (never a permanent bar) so the browse-first, gloved, in-a-hurry path is never taxed
-with a typing invitation. The magnifier ⇄ field swap is **instant** (§6). Below `lg` it **hides the
-`Exercices` title** and takes the actions row's full width; on `lg+` the title stays and the field
-grows inline, **capped** (`lg:w-80`) beside Filtres. Focus follows the swap (§8). When non-empty it
+with a typing invitation. The magnifier ⇄ field swap is **instant** (§6). The full-width takeover —
+**hide the `Exercices` title** and fill the actions row — is reserved for **phones (`< sm`)**, where
+space is genuinely tight. From `sm` up (tablet **and** desktop) the title **stays** and the field is
+**capped** (`sm:w-80`) inline beside Filtres, so a tablet never gets a ~600 px half-empty field.
+Focus follows the swap (§8). When non-empty it
 **supersedes the category scope**, matching title + description + tags across the whole catalog (case-
 and accent-insensitive). Closing (✕ / `Esc`) clears it; picking a category also exits search.
 
