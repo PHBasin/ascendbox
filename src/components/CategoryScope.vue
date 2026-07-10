@@ -18,16 +18,18 @@ const iconTint: Record<CategoryId, string> = {
 </script>
 
 <template>
-  <!-- Mobile: the 3 axes share the row as equal-width cells (flex-1) → all fully visible on a
-       390 px screen, no horizontal scroll, whatever the label length (DESIGN §5.2).
-       md+: natural width (flex-none) so the scope sizes to its content and centers in the bar. -->
-  <nav class="flex gap-2">
+  <!-- Natural-width pills, centered on the row (DESIGN §5.2). Full label always shown — never
+       truncated (redundant encoding is a hard rule, §2.1) — so the 3 axes stay fully visible and
+       fit one line on a 390 px screen. `flex-wrap` lets them drop to a 2nd line below ~385 px
+       rather than scroll/clip; `md:flex-nowrap` forbids that vertical stacking once there is room
+       (≥ md the scope always has a full row or a wide bar), so it never stacks on tablet/desktop. -->
+  <nav class="flex flex-wrap md:flex-nowrap justify-center gap-2">
     <button
       v-for="cat in CATEGORIES"
       :key="cat.id"
       type="button"
       :aria-pressed="activeCategory === cat.id"
-      class="flex-1 md:flex-none min-w-0 inline-flex items-center justify-center gap-1.5 px-2 md:px-4 min-h-11 rounded-full font-bold text-sm ring-1 transition-all duration-300 active:scale-95"
+      class="inline-flex items-center justify-center gap-1.5 px-3 min-h-11 rounded-full font-bold text-sm ring-1 transition-all duration-300 active:scale-95"
       :class="
         activeCategory === cat.id
           ? 'bg-slate-900 text-white ring-slate-900 dark:bg-slate-50 dark:text-slate-900 dark:ring-slate-50'
@@ -37,10 +39,10 @@ const iconTint: Record<CategoryId, string> = {
     >
       <CategoryIcon
         :category="cat.id"
-        class="w-4 h-4 shrink-0"
+        class="w-4 h-4"
         :class="activeCategory === cat.id ? '' : iconTint[cat.id]"
       />
-      <span class="truncate">{{ cat.label }}</span>
+      {{ cat.label }}
     </button>
   </nav>
 </template>

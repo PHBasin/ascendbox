@@ -35,6 +35,21 @@
   }
 }
 
+/* Accessibility (DESIGN §6/§8, WCAG 2.3.3): honour the OS "reduce motion" setting.
+   One global switch neutralises every animation/transition (component transitions,
+   active:scale feedback, the feed's crossfade, smooth scroll) so it also covers
+   anything added later — nothing relies on motion to convey meaning. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @layer components {
   .card {
     @apply bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700

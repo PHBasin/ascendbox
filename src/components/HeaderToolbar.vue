@@ -23,21 +23,28 @@ const {
 
 const sheetOpen = ref(false);
 
-// Collapsible search (DESIGN §5.9): a magnifier that expands on demand and, while
-// open, takes over the title row — the field hides the "Exercices" title so it gets
-// the full width for typing, on a 390 px screen without shrinking the touch targets.
+// Collapsible search (DESIGN §5.9): a magnifier that expands into a field on demand.
+// The magnifier⇄field swap is instant (no transition): fading a swap while the row's
+// width snaps reads as a stutter, and animating to a flex/auto width is fragile — a crisp
+// swap is the honest call. On mobile/tablet the field takes over the actions row (space is
+// scarce); on lg+ the title stays and the field grows inline, capped in width.
 const searchOpen = ref(false);
 const searchInput = ref<HTMLInputElement | null>(null);
+const searchButton = ref<HTMLButtonElement | null>(null);
 
+// Focus follows the swap so keyboard users never land on <body> (a11y): to the field on
+// open, back to the magnifier on close, once the DOM has swapped.
 async function openSearch(): Promise<void> {
   searchOpen.value = true;
   await nextTick();
   searchInput.value?.focus();
 }
 
-function closeSearch(): void {
+async function closeSearch(): Promise<void> {
   clearSearch();
   searchOpen.value = false;
+  await nextTick();
+  searchButton.value?.focus();
 }
 
 // Applied attribute filters as removable chips (DESIGN §5.5): recognition over recall.
@@ -62,35 +69,42 @@ const chips = computed<Chip[]>(() => [
 </script>
 
 <template>
-  <!-- Responsive header (DESIGN §5.8), aligned to the content column.
-       • Mobile: two tiers — [title · search · Filtres] over the full-width category scope,
-         bounded to the feed's measure (max-w-2xl) so the controls sit above the cards.
-       • md+ (tablet/PC): one line — the bar widens (max-w-4xl) and the scope centers between
-         the title (left) and search + Filtres (right). Wider than the feed by design. -->
-  <div class="max-w-2xl md:max-w-4xl mx-auto px-6 py-4 flex flex-col gap-3">
-    <div class="flex flex-wrap items-center gap-3 md:flex-nowrap md:gap-4">
-      <!-- Screen title (DESIGN §3). Hidden while search is open so the field owns the row. -->
+  <!-- Header aligned to the body (DESIGN §5.8): same max-w-7xl mx-auto px-6 measure as the feed
+       grid, so its edges line up with the outer card columns.
+       • Mobile & tablet (< lg): two tiers — [ title · search · Filtres ] over the full-width scope.
+         Two tiers give the open search field its own room, so nothing squeezes the scope.
+       • Desktop (lg+): one line — title left · scope centered · search + Filtres right. Only at lg
+         is there room for all four on one line even with the search field open. -->
+  <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-3">
+    <div class="flex flex-wrap items-center gap-3 lg:flex-nowrap">
+      <!-- Screen title (DESIGN §3). Hidden while search is open below lg (the field takes the
+           actions row); kept on lg+ where the field grows inline, capped in width. -->
       <h1
-        v-if="!searchOpen"
-        class="mr-auto md:mr-0 md:flex-1 md:order-1 min-h-11 flex items-center text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
+        class="mr-auto lg:mr-0 lg:flex-1 text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
+        :class="searchOpen ? 'hidden lg:block' : 'block'"
       >
         Exercices
       </h1>
 
-      <!-- Category scope — tier 2 on mobile (own full-width line), centered on desktop. -->
-      <div class="order-last w-full md:order-2 md:w-auto">
+      <!-- Category scope — own full-width line below lg; back in flow + centered on lg+.
+           The DOM order (title · scope · actions) already is the desktop order, so only the
+           sub-lg `order-last` needs resetting; the flanking flex-1 groups then center the scope. -->
+      <div class="order-last w-full lg:order-none lg:w-auto">
         <slot />
       </div>
 
-      <!-- Right cluster: search + Filtres. Grows to fill the row while search is open. -->
+      <!-- Right cluster: search + Filtres. flex-1 fills the row — centering the scope on lg+, and
+           giving the field full width while search is open below lg. -->
       <div
-        class="flex items-center gap-3 md:order-3 md:flex-1 md:justify-end"
+        class="flex items-center gap-3 lg:flex-1 lg:justify-end"
         :class="searchOpen ? 'flex-1' : ''"
       >
-        <!-- Search: magnifier ⇄ full field. When open it flex-grows over the title. -->
-        <div class="flex" :class="searchOpen ? 'flex-1' : ''">
+        <!-- Search: magnifier ⇄ field. Fills the actions row below lg; on lg+ it is capped
+             (lg:w-80) and sits next to Filtres instead of stretching the bar. -->
+        <div class="flex" :class="searchOpen ? 'flex-1 lg:flex-none' : ''">
           <button
             v-if="!searchOpen"
+            ref="searchButton"
             type="button"
             aria-label="Rechercher un exercice"
             class="inline-flex items-center justify-center w-11 h-11 rounded-full ring-1 ring-slate-200 dark:ring-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
@@ -111,7 +125,7 @@ const chips = computed<Chip[]>(() => [
             </svg>
           </button>
 
-          <div v-else class="relative w-full">
+          <div v-else class="relative w-full lg:w-80">
             <svg
               class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-400"
               viewBox="0 0 24 24"

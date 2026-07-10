@@ -15,8 +15,9 @@ audience) lives in `CLAUDE.md` — the rules here implement it.
 
 1. **Legibility first.** The design is readable at arm's length before it is anything else.
    Contrast and size win over subtlety.
-2. **Thumb-first.** Single-column feed, targets ≥ 44px (48px comfortable; the primary full-width
-   CTA ~52px tall), reachable controls, no precision gestures (no sliders for critical input).
+2. **Thumb-first.** Single-column feed on mobile (a responsive 2-/3-column grid on wider screens,
+   §5.1), targets ≥ 44px (48px comfortable; the primary full-width CTA ~52px tall), reachable
+   controls, no precision gestures (no sliders for critical input).
 3. **Never hue alone — always redundant encoding.** Every meaningful signal is carried by at least
    two channels: shape/count/icon **and** text, with colour as reinforcement only. Passes a
    grayscale test.
@@ -154,6 +155,11 @@ information, so nothing on it may wear the elevated/filled _pill_ form the syste
 **controls** (§1.5). Filled/bordered pills appear only on interactive surfaces (scope bar, filter
 sheet options, applied-filter chips, buttons). This keeps "data vs. action" readable at a glance.
 
+**Feed layout.** The cards sit in a **responsive grid** — `max-w-7xl mx-auto p-6`, `grid gap-6`,
+`grid-cols-1 md:grid-cols-2 lg:grid-cols-3`: **one column on the phone** (thumb-first, §1.2), two on
+tablets, three on desktop. The header (§5.8) shares the same `max-w-7xl` measure, so its edges line up
+with the grid's outer columns.
+
 ### 5.2 Category scope bar — `CategoryScope`
 
 Persistent, sticky, single-select navigation across the **3 categories** (defaults to Physique),
@@ -161,9 +167,11 @@ kept **out of the filter sheet** as the primary _scope_ rather than an attribute
 cheap to keep visible, and it is the coach's most frequent entry point. Each button is **icon +
 label** (§2.1). No `Tous` / all-categories option today — scope is always exactly one category.
 
-The three buttons share their row as **equal-width cells (`flex-1`)**, so all three stay fully
-visible — icon + label — on a 390 px screen with **no horizontal scroll**, whatever the label
-length. The label may `truncate` as a last-resort safety; the icon never shrinks (`shrink-0`).
+The three buttons are **natural-width pills, centered** on the row. The **full label is always
+shown — never truncated** (redundant encoding is a hard rule, §2.1: a clipped `Techniq…` fails it),
+so all three stay fully visible — icon + label — and fit **one line on a 390 px screen** with **no
+horizontal scroll**. On narrower phones (≲ 385 px) they **wrap** to a second line rather than scroll
+or clip.
 
 - **Active**: **solid ink fill** — `bg-slate-900 text-white` (inverted `dark:bg-slate-50
 dark:text-slate-900`). Chosen over a category tint so the active state clears AAA and never relies
@@ -231,34 +239,35 @@ during `fetch` (`aria-busy` + `aria-live="polite"`).
   direct sunlight, the primary use context (§1, §2.4). Switching category snaps the feed back to the
   top.
 
-**Layout — responsive: two tiers on mobile, one line on tablet/PC.** The bar's background is
-full-bleed; its controls are the same three groups at every size — **title** (`Exercices`, §3),
-**category scope** (§5.2), and the **search + Filtres** cluster — only their arrangement changes.
+**Layout — same width as the body, responsive within it.** The bar's background is full-bleed, but
+its controls share the **same `max-w-7xl mx-auto px-6` measure as the feed grid**, so the header's
+edges line up with the outer card columns — the header is the **same width as the body**, not a
+narrower or wider strip. Within that measure the arrangement adapts to the feed's own breakpoints:
 
-- **Mobile (`< md`) — two tiers, aligned to the feed.** Controls are bounded to the **same
-  `max-w-2xl` measure as the feed**, so they sit directly above the cards. Tier 1 is
-  `[ title · search · Filtres ]`; tier 2 is the scope on its own full-width line, its three axes
-  always visible with **no horizontal scroll** (equal-width `flex-1` cells). Opening search expands
-  the field across tier 1 and **hides the title** (§5.9) — full width, no touch target shrinks.
-- **Tablet/PC (`md+`) — one line, widened.** The bar grows to **`max-w-4xl`** (wider than the feed)
-  and everything sits on a single row: **title left · scope centered · search + Filtres right**. The
-  scope buttons drop to natural width (`flex-none`) so the group sizes to its content and centers.
+- **Mobile & tablet (`< lg`) — two tiers.** Tier 1 is `[ title · search · Filtres ]`; tier 2 is the
+  category scope on its own line, its three natural-width axes **centered** and always fully visible
+  with **no horizontal scroll** (§5.2). Opening search expands the field across tier 1 and **hides
+  the title** (§5.9) — full width, no touch target shrinks. Two tiers give the open field its own
+  room, so the scope is never squeezed into wrapping.
+- **Desktop (`lg+`) — one line.** The wide measure fits everything on a single row: **title left ·
+  scope centered · search + Filtres right**. The scope keeps its natural-width pills, centered
+  between the two flanking groups rather than on their own line, and the open search field is capped
+  (`lg:w-80`) so it sits by Filtres instead of stretching. Single-line only starts at `lg` because
+  below it there is not enough width for all four groups once the search field is open — hence the
+  two-tier fallback rather than a squeezed, wrapping scope.
 
-> **Deliberate exception to the alignment rule.** On `md+` the header is intentionally *wider than
-> the feed*, so the title/Filtres extend past the card column while the centered scope still reads
-> over it. The mobile-first alignment (controls above cards) is preserved where it matters most — on
-> the phone, the primary context.
-
-Switching category snaps the feed back to the top.
+The screen **title** (`Exercices`, §3) sits at the top-left at both sizes. Switching category snaps
+the feed back to the top.
 
 ### 5.9 Search — collapsible, global
 
 A secondary retrieval path for known-item lookup. A **magnifier** on the title row expands into a
 field on demand (never a permanent bar) so the browse-first, gloved, in-a-hurry path is never taxed
-with a typing invitation. When it expands it **hides the `Exercices` title** and takes the row's full
-width (Filtres stays put on the right). When non-empty it **supersedes the category scope**, matching
-title + description + tags across the whole catalog (case- and accent-insensitive). Closing (✕ /
-`Esc`) clears it; picking a category also exits search.
+with a typing invitation. The magnifier ⇄ field swap is **instant** (§6). Below `lg` it **hides the
+`Exercices` title** and takes the actions row's full width; on `lg+` the title stays and the field
+grows inline, **capped** (`lg:w-80`) beside Filtres. Focus follows the swap (§8). When non-empty it
+**supersedes the category scope**, matching title + description + tags across the whole catalog (case-
+and accent-insensitive). Closing (✕ / `Esc`) clears it; picking a category also exits search.
 
 ---
 
@@ -272,8 +281,18 @@ title + description + tags across the whole catalog (case- and accent-insensitiv
 | Category (scope) change | `<Transition mode="out-in">` crossfade + slight `translate-y` (enter 300 / leave 200)   |
 | Filter sheet            | slide-up `translate-y` + scrim fade (≈ 300 ms)                                          |
 | Pagination              | `<TransitionGroup>` enter `opacity-0 translate-y-4` (500 ms), `move` 300 ms, no `leave` |
+| Search open/close       | **instant swap, no animation** — see below                                              |
 
 One transition per intent; never stack.
+
+**No animation on the search swap.** The magnifier ⇄ field toggle (§5.9) changes the row's width,
+and cross-fading a swap while the layout snaps reads as a stutter (animating to a flex/`auto` width is
+fragile). A crisp instant swap is deliberately preferred over a janky one.
+
+**Reduced motion (hard rule).** Honour the OS `prefers-reduced-motion` setting: a single global switch
+in [`main.css`](src/assets/main.css) neutralises every animation/transition above, and JS smooth
+scrolls check `matchMedia` too. Motion is reinforcement only — never the sole carrier of a state
+change (§8).
 
 ---
 
@@ -297,6 +316,10 @@ One transition per intent; never stack.
 - **Contrast:** primary text/actions target AAA (§2.4); never ship below AA.
 - **Announced states:** `aria-pressed` (active scope/filter), `aria-busy` + `aria-live` (skeleton),
   `aria-hidden` on decorative SVG/dividers.
+- **Focus management:** the collapsible search moves focus with the swap — to the field on open, back
+  to the magnifier on close — so keyboard users never land on `<body>` (§5.9).
+- **Reduced motion:** `prefers-reduced-motion` is honoured globally (§6) — animation/transition and
+  smooth scroll are switched off; nothing relies on motion to convey meaning.
 
 ---
 

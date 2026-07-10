@@ -23,9 +23,11 @@ const {
 } = useExercises();
 
 // Switching the training axis is a fresh start → snap the feed back to the top.
+// Honour reduced motion (DESIGN §8): a JS smooth scroll ignores CSS `scroll-behavior`.
 function onSelectCategory(id: CategoryId): void {
   setCategory(id);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
 }
 </script>
 
