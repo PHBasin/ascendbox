@@ -161,6 +161,10 @@ kept **out of the filter sheet** as the primary _scope_ rather than an attribute
 cheap to keep visible, and it is the coach's most frequent entry point. Each button is **icon +
 label** (§2.1). No `Tous` / all-categories option today — scope is always exactly one category.
 
+The three buttons share their row as **equal-width cells (`flex-1`)**, so all three stay fully
+visible — icon + label — on a 390 px screen with **no horizontal scroll**, whatever the label
+length. The label may `truncate` as a last-resort safety; the icon never shrinks (`shrink-0`).
+
 - **Active**: **solid ink fill** — `bg-slate-900 text-white` (inverted `dark:bg-slate-50
 dark:text-slate-900`). Chosen over a category tint so the active state clears AAA and never relies
   on hue (§2.4); the label already identifies the category.
@@ -227,20 +231,34 @@ during `fetch` (`aria-busy` + `aria-live="polite"`).
   direct sunlight, the primary use context (§1, §2.4). Switching category snaps the feed back to the
   top.
 
-**Layout — single toolbar, aligned to the content column.** The bar's background is full-bleed, but
-its controls live in the **same `max-w-2xl mx-auto` measure as the feed**, so they sit directly above
-the cards and the empty desktop space reads as page margin, not scattered gaps. One flex row:
-**search · category scope (centered) · Filtres**. It restacks to two rows below `sm` — or whenever the
-search field is open (search needs the width and overrides the scope anyway): `[search · Filtres]`
-then the scope on its own line.
+**Layout — responsive: two tiers on mobile, one line on tablet/PC.** The bar's background is
+full-bleed; its controls are the same three groups at every size — **title** (`Exercices`, §3),
+**category scope** (§5.2), and the **search + Filtres** cluster — only their arrangement changes.
+
+- **Mobile (`< md`) — two tiers, aligned to the feed.** Controls are bounded to the **same
+  `max-w-2xl` measure as the feed**, so they sit directly above the cards. Tier 1 is
+  `[ title · search · Filtres ]`; tier 2 is the scope on its own full-width line, its three axes
+  always visible with **no horizontal scroll** (equal-width `flex-1` cells). Opening search expands
+  the field across tier 1 and **hides the title** (§5.9) — full width, no touch target shrinks.
+- **Tablet/PC (`md+`) — one line, widened.** The bar grows to **`max-w-4xl`** (wider than the feed)
+  and everything sits on a single row: **title left · scope centered · search + Filtres right**. The
+  scope buttons drop to natural width (`flex-none`) so the group sizes to its content and centers.
+
+> **Deliberate exception to the alignment rule.** On `md+` the header is intentionally *wider than
+> the feed*, so the title/Filtres extend past the card column while the centered scope still reads
+> over it. The mobile-first alignment (controls above cards) is preserved where it matters most — on
+> the phone, the primary context.
+
+Switching category snaps the feed back to the top.
 
 ### 5.9 Search — collapsible, global
 
-A secondary retrieval path for known-item lookup. A **magnifier** on the utility row expands into a
+A secondary retrieval path for known-item lookup. A **magnifier** on the title row expands into a
 field on demand (never a permanent bar) so the browse-first, gloved, in-a-hurry path is never taxed
-with a typing invitation. When non-empty it **supersedes the category scope**, matching title +
-description + tags across the whole catalog (case- and accent-insensitive). Closing (✕ / `Esc`)
-clears it; picking a category also exits search.
+with a typing invitation. When it expands it **hides the `Exercices` title** and takes the row's full
+width (Filtres stays put on the right). When non-empty it **supersedes the category scope**, matching
+title + description + tags across the whole catalog (case- and accent-insensitive). Closing (✕ /
+`Esc`) clears it; picking a category also exits search.
 
 ---
 

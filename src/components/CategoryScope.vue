@@ -18,13 +18,16 @@ const iconTint: Record<CategoryId, string> = {
 </script>
 
 <template>
+  <!-- Mobile: the 3 axes share the row as equal-width cells (flex-1) → all fully visible on a
+       390 px screen, no horizontal scroll, whatever the label length (DESIGN §5.2).
+       md+: natural width (flex-none) so the scope sizes to its content and centers in the bar. -->
   <nav class="flex gap-2">
     <button
       v-for="cat in CATEGORIES"
       :key="cat.id"
       type="button"
       :aria-pressed="activeCategory === cat.id"
-      class="inline-flex items-center gap-1.5 px-4 min-h-11 rounded-full font-bold ring-1 transition-all duration-300 active:scale-95"
+      class="flex-1 md:flex-none min-w-0 inline-flex items-center justify-center gap-1.5 px-2 md:px-4 min-h-11 rounded-full font-bold text-sm ring-1 transition-all duration-300 active:scale-95"
       :class="
         activeCategory === cat.id
           ? 'bg-slate-900 text-white ring-slate-900 dark:bg-slate-50 dark:text-slate-900 dark:ring-slate-50'
@@ -34,10 +37,10 @@ const iconTint: Record<CategoryId, string> = {
     >
       <CategoryIcon
         :category="cat.id"
-        class="w-4 h-4"
+        class="w-4 h-4 shrink-0"
         :class="activeCategory === cat.id ? '' : iconTint[cat.id]"
       />
-      {{ cat.label }}
+      <span class="truncate">{{ cat.label }}</span>
     </button>
   </nav>
 </template>

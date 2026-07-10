@@ -35,15 +35,6 @@
   }
 }
 
-/* Hide the scrollbar on horizontally-swipeable rows (the category scope overflows on
-   narrow screens): the row scrolls, but the bar stays visually clean. */
-@utility no-scrollbar {
-  scrollbar-width: none; /* Firefox */
-  &::-webkit-scrollbar {
-    display: none; /* WebKit */
-  }
-}
-
 @layer components {
   .card {
     @apply bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700
