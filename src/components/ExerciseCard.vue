@@ -91,8 +91,10 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
       </span>
     </div>
 
-    <!-- Footer: neutral tags · neutral level gauge -->
-    <div class="flex items-center justify-between gap-3">
+    <!-- Footer: neutral tags · neutral level gauge. `mt-auto` pins it to the bottom of the card so
+         tags + level align across a grid row regardless of description length (the card stretches to
+         the row height as a grid item). -->
+    <div class="mt-auto flex items-center justify-between gap-3">
       <!-- Tags = metadata, not controls → flat text; elevated pills are for controls only (DESIGN §5.4/§1.5). -->
       <ul v-if="visibleTags.length" class="flex flex-wrap gap-x-3 gap-y-1">
         <li

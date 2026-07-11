@@ -200,7 +200,9 @@ active:scale-[0.98] transition-all duration-300
 ```
 
 Anatomy — **title-led**: title · 1-line teaser · duration (pinned top-right) · up to 2 tags · level
-gauge. The category badge is **contextual** (below), not a fixed part of the header.
+gauge. The category badge is **contextual** (below), not a fixed part of the header. The tags + gauge
+**footer is pinned to the card bottom** (`mt-auto`; the card stretches to its grid-row height), so it
+lines up across a row no matter how long each description runs.
 
 **Contextual category — no redundancy.** The scope is always exactly one category (§5.2), so a
 category badge on every card would merely repeat the active scope. The card therefore **omits it
