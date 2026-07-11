@@ -32,17 +32,36 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
 
 <template>
   <article class="card active:scale-[0.98] flex flex-col gap-3">
-    <!-- Category — shown only when results span categories (search). Under a single-category scope
-         it just repeats the scope, so it's hidden while browsing and the title leads (DESIGN §5.1). -->
-    <span
-      v-if="showCategory"
-      class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
-    >
-      <CategoryIcon :category="exercise.categoryId" class="w-4 h-4 shrink-0" :class="categoryTint" />
-      {{ categoryLabel }}
-    </span>
+    <!-- Search: category badge + duration on the top row, so the duration keeps the card's
+         top-right corner even when the category is shown. The badge itself is search-only —
+         under a single-category scope it would just repeat the scope (DESIGN §5.1). -->
+    <div v-if="showCategory" class="flex items-center justify-between gap-3">
+      <span
+        class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
+      >
+        <CategoryIcon :category="exercise.categoryId" class="w-4 h-4 shrink-0" :class="categoryTint" />
+        {{ categoryLabel }}
+      </span>
+      <span
+        class="shrink-0 inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
+      >
+        <svg
+          class="w-3.5 h-3.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path stroke-linecap="round" d="M12 7v5l3 2" />
+        </svg>
+        {{ exercise.duration }} min
+      </span>
+    </div>
 
-    <!-- Title + teaser, with duration pinned top-right -->
+    <!-- Title + teaser. While browsing (no category row) the duration is pinned top-right beside
+         the title; in search it already sits in the row above, so it is omitted here. -->
     <div class="flex items-start justify-between gap-3">
       <div class="flex flex-col gap-1 min-w-0">
         <h3 class="text-base lg:text-lg font-bold leading-tight text-slate-900 dark:text-slate-50">
@@ -54,6 +73,7 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
       </div>
 
       <span
+        v-if="!showCategory"
         class="shrink-0 inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
       >
         <svg

@@ -205,9 +205,10 @@ gauge. The category badge is **contextual** (below), not a fixed part of the hea
 **Contextual category — no redundancy.** The scope is always exactly one category (§5.2), so a
 category badge on every card would merely repeat the active scope. The card therefore **omits it
 while browsing** — the title leads. It reappears **only under global search** (§5.9), where results
-span categories and the badge disambiguates them (a `showCategory` prop driven by `isSearching`). In
-search it sits as a small meta line above the title; while browsing, the title is the first thing in
-the card and the duration is pinned top-right.
+span categories and the badge disambiguates them (a `showCategory` prop driven by `isSearching`).
+The **duration keeps the card's top-right corner in both modes**: while browsing it sits beside the
+title (which leads); in search it moves up onto the category's top row (`[ category · duration ]`),
+with the title below — so the duration never shifts position between the two states.
 
 **All card metadata is _flat_** — icon + text, **no fill/border** (duration, tags). A card is pure
 information, so nothing on it may wear the elevated/filled _pill_ form the system reserves for
