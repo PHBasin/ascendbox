@@ -64,3 +64,4 @@ This is the **only** place tasks are tracked — `DESIGN.md` describes the desig
 ### Known simplification
 
 - The filter sheet applies filters **live** (no draft/commit state). "Voir N exercices" therefore shows the _current_ match count and just closes the sheet — acceptable for a read-only catalog; upgrade to a pending-selection model only if needed.
+
