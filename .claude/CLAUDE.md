@@ -18,11 +18,13 @@ same move.
 ## Commands
 
 - `npm run dev` — start Vite dev server on **port 3000** (configured in `vite.config.ts`)
-- `npm run type-check` — run `vue-tsc --noEmit` (type-checking is NOT part of `dev`)
-- `npm run build` — type-check then production build to `dist/`
+- `npm run type-check` — run `vue-tsc --noEmit` (type-checking is NOT part of `dev` **or** `build`)
+- `npm run lint` — ESLint with `--fix`; `npm run lint:ci` — ESLint without fixing (CI mode)
+- `npm run format` — Prettier write across the repo
+- `npm run build` — production build to `dist/` (**`vite build` only — does NOT type-check**)
 - `npm run preview` — serve the production build locally
 
-There is no test runner or linter. Type safety is enforced via `vue-tsc` (see `tsconfig.json`, `strict: true`), which `build` runs before `vite build` — so type errors fail the build but not the dev server.
+There is no test runner. Quality is enforced by **`vue-tsc`** (type safety; `tsconfig.json`, `strict: true`) and **ESLint** (flat config in `eslint.config.js` — type-aware via `typescript-eslint`, plus `eslint-plugin-vue`, Prettier-reconciled). Neither runs during `dev` or `build`, so a green build is not type/lint-clean — run `type-check` and `lint:ci` before pushing.
 
 ## Architecture
 
@@ -31,7 +33,7 @@ AscendBox is a mobile-first Vue 3 + Vite single-page app for climbing-club coach
 - **`src/domain/exercise.ts`** — pure entities/types, no framework or data deps. Defines the `Exercise` interface and the **single source of truth for categories**: `CATEGORIES` (`{ id, label }[]` as const, ids `physique`/`technique`/`mental`) with the derived `CategoryId` type, plus `Level` (`1 | 2 | 3`). Add new categories here only.
 - **`src/data/exerciseRepository.ts`** — the ONLY module that knows the data source. It **`fetch`es `public/data/exercises.json` at runtime** (kept out of the JS bundle for TTI; preloaded via `<link rel="preload">` in `index.html`), `Object.freeze`s the result, and caches it (one request per app lifetime). `getAllExercises()` is `async`. Swap this file to move to an API; nothing upstream changes.
 - **`src/application/useExercises.ts`** — the state composable. Its refs live at **module scope**, so it is a shared singleton: every component that calls `useExercises()` sees the same state. The dataset is held in a **`shallowRef`** (replaced wholesale, never deep-mutated — avoids proxying every exercise). Handles **pagination** (`PAGE_SIZE` slice via `visibleCount`, reset on category change) — exposes `exercises` (visible slice), `totalCount`, `hasMore`, `loadMore`, `setCategory`, `isLoading`/`error`. `load()` is idempotent and fires on first use. Put behavior here, not in components.
-- **`src/components/`** — presentational only (no header/logo). `App.vue` composes `HeaderToolbar` (the sticky bar: search + Filtres + applied-filter chips + the filter sheet) — which slots `CategoryScope` (the category scope buttons, emitting `select` with a `CategoryId`) as its centered scope — and `ExerciseFeed`. `ExerciseFeed` renders `ExerciseCard`s and takes a `category` prop that keys a `<Transition mode="out-in">` (clean crossfade on category switch) wrapping a `<TransitionGroup>` (per-item animation for paginated appends); it drives infinite scroll via an `IntersectionObserver` on a bottom sentinel, emitting `load-more`.
+- **`src/components/`** — presentational only. `App.vue` composes `HeaderToolbar` (the sticky bar: search + Filtres + applied-filter chips + the filter sheet) — which slots `CategoryScope` (the category scope buttons, emitting `select` with a `CategoryId`) as its centered scope — and `ExerciseFeed`. `ExerciseFeed` renders `ExerciseCard`s and takes a `category` prop that keys a `<Transition mode="out-in">` (clean crossfade on category switch) wrapping a `<TransitionGroup>` (per-item animation for paginated appends); it drives infinite scroll via an `IntersectionObserver` on a bottom sentinel, emitting `load-more`.
 - **Path alias**: `@` → `./src` (declared in both `vite.config.ts` and `tsconfig.json` — keep them in sync).
 
 The data file (`public/data/exercises.json`) is a **bare array**; each entry is `{ id, title, description, categoryId, tags, level, duration }` (`level` is `1 | 2 | 3`, `duration` in minutes). The `Exercise` interface (`src/domain/exercise.ts`) mirrors it exactly. Categories are lowercase ids (`physique`/`technique`/`mental`) that intentionally match the `--color-*` tokens; display labels come from the `CATEGORIES` array. Since the JSON is fetched (not imported), a schema drift won't be caught by `vue-tsc` — it fails at runtime, so keep the file aligned with the interface manually.
