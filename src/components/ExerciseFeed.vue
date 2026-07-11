@@ -118,7 +118,12 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
           enter-active-class="transition duration-500 ease-out"
           enter-from-class="opacity-0 translate-y-4"
         >
-          <ExerciseCard v-for="ex in exercises" :key="ex.id" :exercise="ex" />
+          <ExerciseCard
+            v-for="ex in exercises"
+            :key="ex.id"
+            :exercise="ex"
+            :show-category="isSearching"
+          />
         </TransitionGroup>
 
         <!-- Sentinel: triggers loading of the next page -->

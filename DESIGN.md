@@ -199,16 +199,24 @@ rounded-3xl p-5            /* component tier — §4 */
 active:scale-[0.98] transition-all duration-300
 ```
 
-Anatomy: category (icon + label) · duration · title · 1-line teaser · up to 2 tags · level gauge.
+Anatomy — **title-led**: title · 1-line teaser · duration (pinned top-right) · up to 2 tags · level
+gauge. The category badge is **contextual** (below), not a fixed part of the header.
+
+**Contextual category — no redundancy.** The scope is always exactly one category (§5.2), so a
+category badge on every card would merely repeat the active scope. The card therefore **omits it
+while browsing** — the title leads. It reappears **only under global search** (§5.9), where results
+span categories and the badge disambiguates them (a `showCategory` prop driven by `isSearching`). In
+search it sits as a small meta line above the title; while browsing, the title is the first thing in
+the card and the duration is pinned top-right.
 
 **All card metadata is _flat_** — icon + text, **no fill/border** (duration, tags). A card is pure
 information, so nothing on it may wear the elevated/filled _pill_ form the system reserves for
 **controls** (§1.5). Filled/bordered pills appear only on interactive surfaces (scope bar, filter
 sheet options, applied-filter chips, buttons). This keeps "data vs. action" readable at a glance.
 
-**Feed layout.** The cards sit in a **responsive grid** — `max-w-7xl mx-auto p-6`, `grid gap-6`,
-`grid-cols-1 md:grid-cols-2 lg:grid-cols-3`: **one column on the phone** (thumb-first, §1.2), two on
-tablets, three on desktop. The header (§5.8) shares the same `max-w-7xl` measure, so its edges line up
+**Feed layout.** The cards sit in a **responsive grid** — `max-w-7xl mx-auto px-6 lg:px-8 py-6
+lg:py-8`, `grid gap-6`, `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`: **one column on the phone**
+(thumb-first, §1.2), two from `sm` (kills the tablet dead zone), three on desktop. The header (§5.8) shares the same `max-w-7xl` measure, so its edges line up
 with the grid's outer columns.
 
 ### 5.2 Category scope bar — `CategoryScope`

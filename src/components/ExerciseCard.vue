@@ -3,7 +3,9 @@ import { computed } from 'vue';
 import { CATEGORIES, type Exercise, type Level, type CategoryId } from '@/domain/exercise';
 import CategoryIcon from './CategoryIcon.vue';
 
-const props = defineProps<{ exercise: Exercise }>();
+// `showCategory` is true only when the feed spans categories (global search); under a
+// single-category scope the badge would just repeat the active scope, so the feed leaves it off.
+const props = defineProps<{ exercise: Exercise; showCategory?: boolean }>();
 
 // Level label; the gauge encodes value by filled-segment count, never hue (DESIGN §2.3).
 const LEVEL_LABEL: Record<Level, string> = {
@@ -30,17 +32,29 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
 
 <template>
   <article class="card active:scale-[0.98] flex flex-col gap-3">
-    <!-- Header: category (icon + label) · duration -->
-    <div class="flex items-center justify-between gap-3">
-      <span
-        class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
-      >
-        <CategoryIcon :category="exercise.categoryId" class="w-4 h-4" :class="categoryTint" />
-        {{ categoryLabel }}
-      </span>
+    <!-- Category — shown only when results span categories (search). Under a single-category scope
+         it just repeats the scope, so it's hidden while browsing and the title leads (DESIGN §5.1). -->
+    <span
+      v-if="showCategory"
+      class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
+    >
+      <CategoryIcon :category="exercise.categoryId" class="w-4 h-4 shrink-0" :class="categoryTint" />
+      {{ categoryLabel }}
+    </span>
+
+    <!-- Title + teaser, with duration pinned top-right -->
+    <div class="flex items-start justify-between gap-3">
+      <div class="flex flex-col gap-1 min-w-0">
+        <h3 class="text-base lg:text-lg font-bold leading-tight text-slate-900 dark:text-slate-50">
+          {{ exercise.title }}
+        </h3>
+        <p class="text-[15px] lg:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+          {{ exercise.description }}
+        </p>
+      </div>
 
       <span
-        class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
+        class="shrink-0 inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
       >
         <svg
           class="w-3.5 h-3.5"
@@ -55,16 +69,6 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
         </svg>
         {{ exercise.duration }} min
       </span>
-    </div>
-
-    <!-- Title + teaser -->
-    <div class="flex flex-col gap-1">
-      <h3 class="text-base lg:text-lg font-bold leading-tight text-slate-900 dark:text-slate-50">
-        {{ exercise.title }}
-      </h3>
-      <p class="text-[15px] lg:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
-        {{ exercise.description }}
-      </p>
     </div>
 
     <!-- Footer: neutral tags · neutral level gauge -->
