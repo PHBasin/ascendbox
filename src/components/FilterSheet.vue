@@ -26,9 +26,7 @@ const shownTags = computed(() => {
   return q ? availableTags.value.filter((t) => t.toLowerCase().includes(q)) : availableTags.value;
 });
 
-// Shared toggle styling — identical to the scope pills (DESIGN §5.2): ink-fill active, and an
-// inactive `slate-100` + visible `slate-200` border so every "unselected toggle" reads the same
-// across header and sheet.
+// Toggle styling shared with the scope pills (DESIGN §5.2): ink-fill active, slate-100 + border inactive.
 const OPTION_ON =
   'bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 ring-slate-900 dark:ring-slate-50';
 const OPTION_OFF =
@@ -88,10 +86,9 @@ onBeforeUnmount(() => {
         aria-modal="true"
         aria-label="Filtres"
       >
-        <!-- No grab handle: a bottom sheet handle implies swipe-to-dismiss, which we don't wire up
-             (dismiss is the scrim / ✕ / Esc, §5.5). A false affordance is worse than none. -->
+        <!-- No grab handle: it implies swipe-to-dismiss, which we don't wire up (dismiss = scrim / ✕ / Esc). -->
 
-        <!-- min-h-11 reserves the reset button's height so toggling it in/out never resizes the panel -->
+        <!-- min-h-11 reserves the reset button's height so toggling it never resizes the panel -->
         <header class="flex items-center justify-between gap-3 mb-6 min-h-11">
           <h2 class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
             Filtres

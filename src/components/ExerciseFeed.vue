@@ -15,7 +15,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{ loadMore: []; reset: [] }>();
 
-// The feed is empty for a reason — name it precisely (search vs filters vs both).
+// Name why the feed is empty (search vs filters vs both).
 const hasRefinement = computed(() => props.isSearching || props.hasFilters);
 const emptyMessage = computed(() => {
   if (props.isSearching && props.hasFilters)
@@ -47,13 +47,12 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
 
 <template>
   <section class="max-w-7xl mx-auto px-6 lg:px-8 py-6 lg:py-8">
-    <!-- Loading error (rose-600 clears AA on the light shell, rose-400 on the dark one) -->
+    <!-- Loading error (rose-600/400 clears AA on both themes) -->
     <p v-if="error" class="text-center text-rose-600 dark:text-rose-400 py-12">
       {{ error }}
     </p>
 
-    <!-- Skeleton during the fetch: the shell stays interactive. Same responsive grid
-         as the feed so the loading state matches the final layout. -->
+    <!-- Skeleton: same grid as the feed, shell stays interactive during fetch. -->
     <div
       v-else-if="isLoading"
       class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
@@ -101,9 +100,8 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
       </button>
     </div>
 
-    <!-- Paginated list. Transition (keyed on the pilier) = clean crossfade on
-         category change; TransitionGroup inside = animation of the cards
-         added by pagination (no `leave` → no overlap). -->
+    <!-- Transition (keyed on category) = crossfade on switch; inner TransitionGroup
+         animates paginated appends (no `leave` → no overlap). -->
     <Transition
       v-else
       mode="out-in"

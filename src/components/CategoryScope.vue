@@ -5,11 +5,8 @@ import CategoryIcon from './CategoryIcon.vue';
 defineProps<{ activeCategory: CategoryId }>();
 defineEmits<{ select: [categoryId: CategoryId] }>();
 
-// Category = icon + label (DESIGN §2.1). The active state is a solid ink fill
-// (DESIGN §5.2, option A) → AAA contrast, meaning never carried by hue alone.
-// On inactive chips the icon is category-tinted as pure reinforcement; on the
-// active chip it inherits the ink fill's foreground.
-// Tailwind v4 JIT: full static strings only (DESIGN §10).
+// Category = icon + label (DESIGN §2.1). Active = solid ink fill (§5.2, AAA); inactive
+// icon is category-tinted. Full static strings for the JIT (§10).
 const iconTint: Record<CategoryId, string> = {
   physique: 'text-physique',
   technique: 'text-technique',
@@ -18,12 +15,8 @@ const iconTint: Record<CategoryId, string> = {
 </script>
 
 <template>
-  <!-- Responsive scope (DESIGN §5.2):
-       • Phone (< sm): a segmented control — equal-width `flex-1` pills in `text-sm` share the row, so
-         all 3 axes stay on ONE line down to ~340 px, no scroll, nothing hidden.
-       • sm+ : natural-width pills at `text-base` (→ `lg:text-lg`) — the size that visually links the
-         scope to the card titles (§3) — centered on their row.
-       Icon never shrinks; the label may `truncate` as a last-resort safety on very narrow phones. -->
+  <!-- Responsive scope (DESIGN §5.2): phone (< sm) = segmented control, equal flex-1 pills on one
+       line to ~340px; sm+ = natural-width pills centered, sized to link with the card titles (§3). -->
   <nav class="flex justify-center gap-2 sm:gap-3">
     <button
       v-for="cat in CATEGORIES"
@@ -38,9 +31,7 @@ const iconTint: Record<CategoryId, string> = {
       "
       @click="$emit('select', cat.id)"
     >
-      <!-- Icon kept at every size (§2.1 reinforcement). On the phone segmented control it shrinks
-           to 14 px with a tight gap so icon + a 9-letter label still fit one third of the row on one
-           line down to ~360 px; full 16 px from sm where the pills are natural width. -->
+      <!-- Icon shrinks to 14px on the phone segmented control (icon + label fit one line), 16px from sm. -->
       <CategoryIcon
         :category="cat.id"
         class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"

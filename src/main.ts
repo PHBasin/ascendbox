@@ -8,6 +8,6 @@ import '@fontsource-variable/inter/wght.css';
 // Tailwind v4 style entry
 import './assets/main.css';
 
-// ESLint's TS program lacks Volar, Safe here — disable the resulting false positive.
+// .vue default import is `any` to ESLint (no Volar) — false positive.
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 createApp(App).mount('#app');

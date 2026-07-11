@@ -8,14 +8,11 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
-      // 'autoUpdate' = a new deploy activates and reloads the page automatically,
-      // no prompt. Safe here: the app is a read-only catalog (nothing to lose but
-      // scroll position), and updates only fetch when online — never at the crag.
+      // 'autoUpdate': new deploy activates + reloads silently. Safe — read-only catalog,
+      // updates only fetch when online.
       registerType: 'autoUpdate',
 
-      // Served at the domain root (custom domain www.ascendbox.fr) → base '/'.
-      // On a project-pages URL (github.io/ascendbox/) you would set scope/base to
-      // '/ascendbox/' instead. See README "GitHub Pages" note.
+      // Domain root (www.ascendbox.fr) → '/'. For project-pages (github.io/ascendbox/) use '/ascendbox/'.
       scope: '/',
       base: '/',
 
@@ -51,13 +48,9 @@ export default defineConfig({
       },
 
       workbox: {
-        // PRECACHE: everything the app shell needs offline — JS, CSS, HTML, icons,
-        // AND the exercise data (public/data/exercises.json → dist/data). Each file
-        // is revisioned, so a new deploy invalidates only what changed.
+        // Precache the app shell + exercise data (revisioned; a deploy invalidates only what changed).
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2,json}'],
-        // Don't precache the social share image, nor the Inter subsets French never
-        // needs (cyrillic/greek/vietnamese). Only latin + latin-ext (the œ ligature)
-        // are kept → a lean offline cache.
+        // Skip the social image + non-French Inter subsets; keep only latin/latin-ext (the œ ligature).
         globIgnores: [
           '**/social-preview.jpg',
           '**/inter-cyrillic-*.woff2',
@@ -67,8 +60,7 @@ export default defineConfig({
         // SPA offline fallback: any navigation resolves to the cached index.html.
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
-        // No runtimeCaching: Inter is self-hosted and its .woff2 are precached via
-        // globPatterns (woff2). Nothing is fetched from a third-party origin anymore.
+        // No runtimeCaching: Inter is self-hosted (precached via globPatterns); no third-party fetch.
       },
 
       // Enable the SW in `vite dev` too, so the offline flow is testable locally.

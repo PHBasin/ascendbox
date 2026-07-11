@@ -1,6 +1,5 @@
 // src/data/exerciseRepository.ts
-// Data-access layer: the only module that knows the source. Today a static
-// file served from /public (out of the JS bundle → better TTI), tomorrow an API.
+// Data layer: the only module that knows the source (static /public JSON today, API tomorrow).
 import type { Exercise } from '@/domain/exercise';
 
 let cache: Exercise[] | null = null; // loaded only once

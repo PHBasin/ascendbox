@@ -8,8 +8,7 @@
   --color-technique: #06b6d4; /* Cyan-500 */
   --color-mental: #a855f7; /* Purple-500 */
 
-  /* No --color-level-* : the level scale is encoded by a neutral 3-segment gauge
-     + text label (DESIGN §2.3 / §5.3). Hue collapses in sun and for CVD users. */
+  /* No --color-level-*: the level scale is a neutral gauge + label (DESIGN §2.3), never hue. */
 
   --font-sans: 'Inter Variable', 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -27,18 +26,14 @@
     }
   }
 
-  /* Search fields render their own ✕ (HeaderToolbar); hide the browser's native one
-     so it never doubles up. `type="search"` is kept for the mobile "Search" keyboard. */
+  /* Hide the native search ✕ (HeaderToolbar renders its own); keep type=search for the mobile keyboard. */
   input[type='search']::-webkit-search-cancel-button {
     -webkit-appearance: none;
     appearance: none;
   }
 }
 
-/* Accessibility (DESIGN §6/§8, WCAG 2.3.3): honour the OS "reduce motion" setting.
-   One global switch neutralises every animation/transition (component transitions,
-   active:scale feedback, the feed's crossfade, smooth scroll) so it also covers
-   anything added later — nothing relies on motion to convey meaning. */
+/* Honour OS reduce-motion (WCAG 2.3.3): kill all animation/transition globally (DESIGN §6/§8). */
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
@@ -52,8 +47,7 @@
 
 @layer components {
   .card {
-    /* Component tier = p-5 (20px): one notch under the 24px page rhythm so the card
-       reads as a contained surface, not a full-bleed panel (DESIGN §4). */
+    /* p-5 (20px): one notch under the 24px page rhythm (DESIGN §4). */
     @apply bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700
            rounded-3xl p-5 transition-all duration-300;
   }

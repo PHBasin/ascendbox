@@ -5,8 +5,7 @@ import CategoryIcon from './CategoryIcon.vue';
 
 const props = defineProps<{ exercise: Exercise }>();
 
-// Level → text label. The gauge below encodes the value by *filled-segment count*
-// (neutral ink), never by hue (DESIGN §2.3 / §5.3). Label is always present.
+// Level label; the gauge encodes value by filled-segment count, never hue (DESIGN §2.3).
 const LEVEL_LABEL: Record<Level, string> = {
   1: 'Débutant',
   2: 'Intermédiaire',
@@ -58,7 +57,7 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
       </span>
     </div>
 
-    <!-- Title + teaser (title shares the category pills' type — the page-linking size) -->
+    <!-- Title + teaser -->
     <div class="flex flex-col gap-1">
       <h3 class="text-base lg:text-lg font-bold leading-tight text-slate-900 dark:text-slate-50">
         {{ exercise.title }}
@@ -70,8 +69,7 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
 
     <!-- Footer: neutral tags · neutral level gauge -->
     <div class="flex items-center justify-between gap-3">
-      <!-- Tags are metadata, not controls → flat text (no fill/border), per DESIGN §5.4.
-           Elevated pills are reserved for interactive elements only (§1.5). -->
+      <!-- Tags = metadata, not controls → flat text; elevated pills are for controls only (DESIGN §5.4/§1.5). -->
       <ul v-if="visibleTags.length" class="flex flex-wrap gap-x-3 gap-y-1">
         <li
           v-for="tag in visibleTags"
