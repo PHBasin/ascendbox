@@ -5,8 +5,7 @@ import CategoryIcon from './CategoryIcon.vue';
 
 const props = defineProps<{ exercise: Exercise }>();
 
-// Level → text label. The gauge below encodes the value by *filled-segment count*
-// (neutral ink), never by hue (DESIGN §2.3 / §5.3). Label is always present.
+// Level label; the gauge encodes value by filled-segment count, never hue (DESIGN §2.3).
 const LEVEL_LABEL: Record<Level, string> = {
   1: 'Débutant',
   2: 'Intermédiaire',
@@ -41,7 +40,7 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
       </span>
 
       <span
-        class="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 dark:text-slate-300"
+        class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
       >
         <svg
           class="w-3.5 h-3.5"
@@ -59,24 +58,23 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
     </div>
 
     <!-- Title + teaser -->
-    <div>
-      <h3 class="text-lg font-bold leading-tight text-slate-900 dark:text-white">
+    <div class="flex flex-col gap-1">
+      <h3 class="text-base lg:text-lg font-bold leading-tight text-slate-900 dark:text-slate-50">
         {{ exercise.title }}
       </h3>
-      <p class="mt-1 text-[15px] text-slate-700 dark:text-slate-300 leading-relaxed">
+      <p class="text-[15px] lg:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
         {{ exercise.description }}
       </p>
     </div>
 
     <!-- Footer: neutral tags · neutral level gauge -->
-    <div class="mt-1 flex items-center justify-between gap-3">
-      <!-- Tags are metadata, not controls → flat text (no fill/border), per DESIGN §5.4.
-           Elevated pills are reserved for interactive elements only (§1.5). -->
+    <div class="flex items-center justify-between gap-3">
+      <!-- Tags = metadata, not controls → flat text; elevated pills are for controls only (DESIGN §5.4/§1.5). -->
       <ul v-if="visibleTags.length" class="flex flex-wrap gap-x-3 gap-y-1">
         <li
           v-for="tag in visibleTags"
           :key="tag"
-          class="text-xs font-semibold text-slate-600 dark:text-slate-400"
+          class="text-xs font-semibold text-slate-600 dark:text-slate-300"
         >
           #{{ tag }}
         </li>

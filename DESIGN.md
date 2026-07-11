@@ -15,8 +15,9 @@ audience) lives in `CLAUDE.md` — the rules here implement it.
 
 1. **Legibility first.** The design is readable at arm's length before it is anything else.
    Contrast and size win over subtlety.
-2. **Thumb-first.** Single-column feed, targets ≥ 44px (48px comfortable; the primary full-width
-   CTA ~52px tall), reachable controls, no precision gestures (no sliders for critical input).
+2. **Thumb-first.** Single-column feed on mobile (a responsive 2-/3-column grid on wider screens,
+   §5.1), targets ≥ 44px (48px comfortable; the primary full-width CTA ~52px tall), reachable
+   controls, no precision gestures (no sliders for critical input).
 3. **Never hue alone — always redundant encoding.** Every meaningful signal is carried by at least
    two channels: shape/count/icon **and** text, with colour as reinforcement only. Passes a
    grayscale test.
@@ -50,17 +51,23 @@ Usable as `bg-physique`, `text-technique`, `ring-mental`, with opacity `bg-physi
 
 ### 2.2 Neutrals (Slate scale)
 
-| Usage            | Light       | Dark        |
-| ---------------- | ----------- | ----------- |
-| Page background  | `slate-50`  | `slate-900` |
-| Surface (card)   | `white`     | `slate-800` |
-| Border           | `slate-200` | `slate-700` |
-| Primary text     | `slate-900` | `slate-50`  |
-| Secondary text   | `slate-600` | `slate-300` |
-| Inactive chip bg | `slate-100` | `slate-800` |
+| Usage                              | Light       | Dark        |
+| ---------------------------------- | ----------- | ----------- |
+| Page background                    | `slate-50`  | `slate-900` |
+| Surface (card)                     | `white`     | `slate-800` |
+| Border                             | `slate-200` | `slate-700` |
+| **Primary text** (titles, headers) | `slate-900` | `slate-50`  |
+| **Body text** (card description)   | `slate-700` | `slate-300` |
+| **Secondary text** (meta, labels)  | `slate-600` | `slate-300` |
+| **Muted** (input icon/placeholder) | `slate-500` | `slate-400` |
+| On-ink foreground (active pill/CTA) | `white`    | `slate-900` |
+| Inactive chip bg                   | `slate-100` | `slate-800` |
 
-> Primary/secondary text darkened one step vs. the previous spec (`slate-800`→`slate-900`,
-> `slate-500`→`slate-600`) to hold contrast (§2.4).
+> **Four text tiers only** — primary / body / secondary / muted — plus the on-ink inverse for
+> filled controls. Nothing else: a one-off like `dark:text-white` on a title or `dark:text-slate-400`
+> on card tags is drift, not a new tier. Primary/secondary darkened one step vs. the previous spec
+> (`slate-800`→`slate-900`, `slate-500`→`slate-600`) to hold contrast (§2.4). Error text is the one
+> chromatic exception: `rose-600 dark:rose-400`.
 
 ### 2.3 Level scale (`Niveau`)
 
@@ -95,15 +102,24 @@ read from **how many segments are filled** and the word — _not_ from hue.
   [`main.ts`](src/main.ts) — no third-party request; the `.woff2` ship from our origin and are
   precached for offline (latin + latin-ext subsets).
 
-| Role                                   | Classes                                           |
-| -------------------------------------- | ------------------------------------------------- |
-| Screen / hero title                    | `text-2xl font-bold tracking-tight`               |
-| Card title                             | `text-lg font-bold leading-tight`                 |
-| Body / description                     | `text-[15px] leading-relaxed`                     |
-| Meta (category, duration, tags, level) | `text-xs font-semibold`                           |
-| Section eyebrow                        | `text-[11px] font-bold tracking-widest uppercase` |
+| Role                                          | Classes (base → `lg`)                             |
+| --------------------------------------------- | ------------------------------------------------- |
+| Screen / hero title                           | `text-2xl lg:text-3xl font-bold tracking-tight`   |
+| **Title band** — card titles + scope/Filtres  | `text-base lg:text-lg font-bold` (`sm+`)          |
+| Body / description                            | `text-[15px] lg:text-base leading-relaxed`        |
+| Meta (category, duration, tags, level)        | `text-xs font-semibold`                           |
+| Section eyebrow                               | `text-[11px] font-bold tracking-widest uppercase` |
+| Sheet option / chip                           | `text-sm font-medium`                             |
 
 > Weight and size carry hierarchy; avoid using colour boxes to rank information.
+
+**One title size links the page.** Card titles **and** the header's scope pills + `Filtres` share the
+same **title** size (`text-base → lg:text-lg`), so the scope reads as the same typographic family as
+the cards it filters — the page feels tied together. On the **phone**, the scope becomes a segmented
+control (§5.2) and drops to `text-sm` (Filtres follows) to keep all three axes on one line; the link
+re-expresses from `sm` up, where there is room for the full title size. Content roles (hero, title,
+body) scale one step at `lg`; meta/eyebrow stay fixed — deliberately small. The base *is* the mobile
+size; never scale below it.
 
 ---
 
@@ -126,6 +142,42 @@ read from **how many segments are filled** and the word — _not_ from hue.
 **Rules:** stay on the steps (no `px-5`, `p-[13px]`); same role → same step; the 44 px touch target
 (`min-h-11`) is an accessibility constraint, **not** a rhythm step (§8).
 
+**Unified rhythm — 4 nested tiers.** One structural unit carries the page; everything nests under it,
+read top-down (24 > 20 > 12 > 8) so the interface has rhythm instead of scattered ad-hoc gaps:
+
+| Tier          | Value            | Sole role                                                          |
+| ------------- | ---------------- | ----------------------------------------------------------------- |
+| **Page**      | **24** (`-6`, → `lg:-8`=32) | gutter (header **=** feed), gap header↔cards, **grid gap** |
+| **Component** | **20** (`p-5`)   | card / panel padding — one notch under the page, so it reads as a *contained* surface |
+| **Group**     | **12** (`-3`)    | title↔copy block, meta rows, pill rows, section labels            |
+| **Atom**      | **8** (`-2`)     | icon↔text, tight pairs inside a control                           |
+
+Below the atom, only typographic micro-gaps remain: title↔teaser `gap-1` (4), gauge segments
+`gap-0.5` (2).
+
+**icon↔text — two values, by role.** Inside a **control** (scope pills, `Filtres`, sheet reset,
+empty-state action) the icon sits at the atom `gap-2` (8). Inside **meta** (card category, duration,
+level gauge label, applied chips — all `text-xs`) it tightens to `gap-1.5` (6) so the glyph hugs the
+small text. Never mix the two within a role.
+
+**Compact "chip" tier.** Applied-filter chips are a deliberately small element: `min-h-9` (36 px),
+`text-xs`, `px` on the `pl-3 pr-2` scale — read-mostly, tapped occasionally (§8 documents the a11y
+carve-out). Every *primary* control stays on the `min-h-11` / `text-sm`+ system.
+
+**Responsive bumps (mobile-first).** A few roles step up with the viewport — generous on desktop
+without crowding the phone. Header and feed share the **exact same horizontal gutter** at every
+breakpoint so their edges stay aligned (§5.8).
+
+| Role                              | Mobile  | up            |
+| --------------------------------- | ------- | ------------- |
+| Page gutter (header = feed, `px`) | `px-6`  | `lg:px-8`     |
+| Feed vertical padding (`py`)      | `py-6`  | `lg:py-8`     |
+| Scope pill padding (`px`)         | `px-3`  | `sm:px-4`     |
+| Between-control gap               | `gap-2` | `sm:gap-3`    |
+
+The grid gap stays a flat `gap-6` (= the page unit) at every size; the filter sheet keeps `p-6`
+(a page-level surface).
+
 **Radii & elevation:** `rounded-3xl` (cards, sheets), `rounded-2xl` (buttons/tiles),
 `rounded-full` (chips). **Separation by border + surface contrast, not shadow** — the one exception
 is the filter sheet, which uses a soft top shadow to read as an overlay.
@@ -143,7 +195,7 @@ button** (it competes with the tap target and implies the wrong model).
 ```
 bg-white dark:bg-slate-800
 border border-slate-200 dark:border-slate-700
-rounded-3xl p-4
+rounded-3xl p-5            /* component tier — §4 */
 active:scale-[0.98] transition-all duration-300
 ```
 
@@ -154,18 +206,37 @@ information, so nothing on it may wear the elevated/filled _pill_ form the syste
 **controls** (§1.5). Filled/bordered pills appear only on interactive surfaces (scope bar, filter
 sheet options, applied-filter chips, buttons). This keeps "data vs. action" readable at a glance.
 
+**Feed layout.** The cards sit in a **responsive grid** — `max-w-7xl mx-auto p-6`, `grid gap-6`,
+`grid-cols-1 md:grid-cols-2 lg:grid-cols-3`: **one column on the phone** (thumb-first, §1.2), two on
+tablets, three on desktop. The header (§5.8) shares the same `max-w-7xl` measure, so its edges line up
+with the grid's outer columns.
+
 ### 5.2 Category scope bar — `CategoryScope`
 
 Persistent, sticky, single-select navigation across the **3 categories** (defaults to Physique),
 kept **out of the filter sheet** as the primary _scope_ rather than an attribute. Only 3 values →
-cheap to keep visible, and it is the coach's most frequent entry point. Each button is **icon +
-label** (§2.1). No `Tous` / all-categories option today — scope is always exactly one category.
+cheap to keep visible, and it is the coach's most frequent entry point. No `Tous` / all-categories
+option today — scope is always exactly one category.
+
+**Two responsive forms (never a scroll, never a clipped label):**
+
+- **Phone (`< sm`) — segmented control.** Equal-width `flex-1` pills share the row so all three axes
+  stay **icon + label on one line down to ~360 px**, full labels, no horizontal scroll. To make
+  `Technique` + icon fit one third of a phone, the phone form runs tight: `text-sm`, a **14 px icon**
+  (`w-3.5`), `gap-1`, and a `px-1` floor — but because the `flex-1` cell is wider than its content,
+  the pill still reads roomy (content is centred with slack, the padding is only a minimum). Below
+  ~360 px a label may `truncate` as a last resort.
+- **`sm+` — natural-width pills, centered** at the full `text-base → lg:text-lg` title size (§3, the
+  size that links the scope to the card titles), 16 px icon, `px-4`. There is room; nothing tightens.
 
 - **Active**: **solid ink fill** — `bg-slate-900 text-white` (inverted `dark:bg-slate-50
 dark:text-slate-900`). Chosen over a category tint so the active state clears AAA and never relies
   on hue (§2.4); the label already identifies the category.
-- **Inactive**: `bg-slate-100 text-slate-600 ring-transparent`, `hover:bg-slate-200`, with the icon
-  category-tinted as reinforcement.
+- **Inactive**: `bg-slate-100 text-slate-600` with a **visible border** `ring-slate-200
+  dark:ring-slate-700`, `hover:bg-slate-200`, the icon (from `sm+`) category-tinted as reinforcement.
+  The border is shared with the search/`Filtres` buttons so the whole header reads as one family of
+  pills; the recessed `slate-100` fill (vs the actions' white surface) still marks it as an
+  *unselected toggle* rather than a standalone action.
 - Always `ring-1` to avoid a layout jump between states.
 
 > **Judgement call, not a law.** Keep category persistent _if_ coaches usually start by picking one,
@@ -227,20 +298,37 @@ during `fetch` (`aria-busy` + `aria-live="polite"`).
   direct sunlight, the primary use context (§1, §2.4). Switching category snaps the feed back to the
   top.
 
-**Layout — single toolbar, aligned to the content column.** The bar's background is full-bleed, but
-its controls live in the **same `max-w-2xl mx-auto` measure as the feed**, so they sit directly above
-the cards and the empty desktop space reads as page margin, not scattered gaps. One flex row:
-**search · category scope (centered) · Filtres**. It restacks to two rows below `sm` — or whenever the
-search field is open (search needs the width and overrides the scope anyway): `[search · Filtres]`
-then the scope on its own line.
+**Layout — same width as the body, responsive within it.** The bar's background is full-bleed, but
+its controls share the **same `max-w-7xl mx-auto px-6` measure as the feed grid**, so the header's
+edges line up with the outer card columns — the header is the **same width as the body**, not a
+narrower or wider strip. Within that measure the arrangement adapts to the feed's own breakpoints:
+
+- **Mobile & tablet (`< lg`) — two tiers.** Tier 1 is `[ title · search · Filtres ]`; tier 2 is the
+  category scope on its own full-width line — a **segmented control** on phones, natural-width pills
+  centered on `sm+` (§5.2) — always fully visible with **no horizontal scroll**. Opening search
+  expands the field across tier 1 and **hides the title** (§5.9) — full width, no touch target
+  shrinks.
+- **Desktop (`lg+`) — one line.** The wide measure fits everything on a single row: **title left ·
+  scope centered · search + Filtres right**. The scope keeps its natural-width pills, centered
+  between the two flanking groups rather than on their own line, and the open search field is capped
+  (`sm:w-80`, §5.9) so it sits by Filtres instead of stretching. Single-line only starts at `lg` because
+  below it there is not enough width for all four groups once the search field is open — hence the
+  two-tier fallback rather than a squeezed, wrapping scope.
+
+The screen **title** (`Exercices`, §3) sits at the top-left at both sizes. Switching category snaps
+the feed back to the top.
 
 ### 5.9 Search — collapsible, global
 
-A secondary retrieval path for known-item lookup. A **magnifier** on the utility row expands into a
+A secondary retrieval path for known-item lookup. A **magnifier** on the title row expands into a
 field on demand (never a permanent bar) so the browse-first, gloved, in-a-hurry path is never taxed
-with a typing invitation. When non-empty it **supersedes the category scope**, matching title +
-description + tags across the whole catalog (case- and accent-insensitive). Closing (✕ / `Esc`)
-clears it; picking a category also exits search.
+with a typing invitation. The magnifier ⇄ field swap is **instant** (§6). The full-width takeover —
+**hide the `Exercices` title** and fill the actions row — is reserved for **phones (`< sm`)**, where
+space is genuinely tight. From `sm` up (tablet **and** desktop) the title **stays** and the field is
+**capped** (`sm:w-80`) inline beside Filtres, so a tablet never gets a ~600 px half-empty field.
+Focus follows the swap (§8). When non-empty it
+**supersedes the category scope**, matching title + description + tags across the whole catalog (case-
+and accent-insensitive). Closing (✕ / `Esc`) clears it; picking a category also exits search.
 
 ---
 
@@ -254,8 +342,18 @@ clears it; picking a category also exits search.
 | Category (scope) change | `<Transition mode="out-in">` crossfade + slight `translate-y` (enter 300 / leave 200)   |
 | Filter sheet            | slide-up `translate-y` + scrim fade (≈ 300 ms)                                          |
 | Pagination              | `<TransitionGroup>` enter `opacity-0 translate-y-4` (500 ms), `move` 300 ms, no `leave` |
+| Search open/close       | **instant swap, no animation** — see below                                              |
 
 One transition per intent; never stack.
+
+**No animation on the search swap.** The magnifier ⇄ field toggle (§5.9) changes the row's width,
+and cross-fading a swap while the layout snaps reads as a stutter (animating to a flex/`auto` width is
+fragile). A crisp instant swap is deliberately preferred over a janky one.
+
+**Reduced motion (hard rule).** Honour the OS `prefers-reduced-motion` setting: a single global switch
+in [`main.css`](src/assets/main.css) neutralises every animation/transition above, and JS smooth
+scrolls check `matchMedia` too. Motion is reinforcement only — never the sole carrier of a state
+change (§8).
 
 ---
 
@@ -273,12 +371,19 @@ One transition per intent; never stack.
 ## 8. Accessibility
 
 - **Touch targets** ≥ 44px everywhere (`min-h-11`); 48px comfortable for controls; the primary
-  full-width CTA ~52px tall.
+  full-width CTA ~52px tall. **One documented exception:** applied-filter chips are a compact
+  **`min-h-9` (36px) "chip" tier** — they are *read* far more than tapped (recognising what's active),
+  removal is occasional, and the **whole chip** is the tap target (not a tiny ✕). Accepted below the
+  44px floor for this secondary, glanceable element only; every *primary* control stays ≥ 44px.
 - **Redundant encoding (hard rule):** category = icon + label + colour; level = filled-segment count
   - label. Nothing relies on hue alone. Verify with a grayscale + CVD simulation pass.
 - **Contrast:** primary text/actions target AAA (§2.4); never ship below AA.
 - **Announced states:** `aria-pressed` (active scope/filter), `aria-busy` + `aria-live` (skeleton),
   `aria-hidden` on decorative SVG/dividers.
+- **Focus management:** the collapsible search moves focus with the swap — to the field on open, back
+  to the magnifier on close — so keyboard users never land on `<body>` (§5.9).
+- **Reduced motion:** `prefers-reduced-motion` is honoured globally (§6) — animation/transition and
+  smooth scroll are switched off; nothing relies on motion to convey meaning.
 
 ---
 

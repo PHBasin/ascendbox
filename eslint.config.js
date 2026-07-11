@@ -5,7 +5,7 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 import globals from 'globals';
 
 export default tseslint.config(
-  { ignores: ['dist/**', 'dev-dist/**', 'node_modules/**', '.github/**'] },
+  { ignores: ['dist/**', 'dev-dist/**', 'node_modules/**', '.github/**', '.claude/**'] },
 
   eslint.configs.recommended,
   // Type-aware ruleset (needs the TS program, wired below).

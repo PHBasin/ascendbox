@@ -1,14 +1,10 @@
 <script setup lang="ts">
-// Import the core composable for logic
 import { useExercises } from '@/application/useExercises';
 import type { CategoryId } from '@/domain/exercise';
-
-// Import UI components
 import CategoryScope from '@/components/CategoryScope.vue';
 import HeaderToolbar from '@/components/HeaderToolbar.vue';
 import ExerciseFeed from '@/components/ExerciseFeed.vue';
 
-// Destructure the state and methods from the composable
 const {
   exercises,
   activeCategory,
@@ -22,29 +18,27 @@ const {
   resetAll,
 } = useExercises();
 
-// Switching the training axis is a fresh start → snap the feed back to the top.
+// Category switch → scroll to top; honour reduced-motion (JS scroll ignores CSS scroll-behavior).
 function onSelectCategory(id: CategoryId): void {
   setCategory(id);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
 }
 </script>
 
 <template>
   <div class="min-h-screen font-sans">
-    <!-- Sticky filter bar (DESIGN §5.8). Opaque (not translucent) so contrast holds in
-         direct sunlight — the primary use context. -->
+    <!-- Sticky bar (DESIGN §5.8), opaque for sunlight contrast. -->
     <header
       class="sticky top-0 z-30 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800"
     >
-      <!-- A+B: one toolbar row (search · categories · Filtres), constrained to the feed
-           column; CategoryScope is slotted as the centered scope. -->
+      <!-- CategoryScope slotted into HeaderToolbar as the centered scope. -->
       <HeaderToolbar>
         <CategoryScope :active-category="activeCategory" @select="onSelectCategory" />
       </HeaderToolbar>
     </header>
 
-    <!-- No vertical padding here: the feed section (p-6) owns the 24px gutter,
-         so the vertical rhythm stays a single 24px step (DESIGN §4). -->
+    <!-- No padding here: the feed section owns the gutter (DESIGN §4). -->
     <main>
       <ExerciseFeed
         :exercises="exercises"

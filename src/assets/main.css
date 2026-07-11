@@ -8,8 +8,7 @@
   --color-technique: #06b6d4; /* Cyan-500 */
   --color-mental: #a855f7; /* Purple-500 */
 
-  /* No --color-level-* : the level scale is encoded by a neutral 3-segment gauge
-     + text label (DESIGN §2.3 / §5.3). Hue collapses in sun and for CVD users. */
+  /* No --color-level-*: the level scale is a neutral gauge + label (DESIGN §2.3), never hue. */
 
   --font-sans: 'Inter Variable', 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -27,18 +26,29 @@
     }
   }
 
-  /* Search fields render their own ✕ (FilterControls); hide the browser's native one
-     so it never doubles up. `type="search"` is kept for the mobile "Search" keyboard. */
+  /* Hide the native search ✕ (HeaderToolbar renders its own); keep type=search for the mobile keyboard. */
   input[type='search']::-webkit-search-cancel-button {
     -webkit-appearance: none;
     appearance: none;
   }
 }
 
-/* 4. Custom utilities (Optional) */
+/* Honour OS reduce-motion (WCAG 2.3.3): kill all animation/transition globally (DESIGN §6/§8). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @layer components {
   .card {
+    /* p-5 (20px): one notch under the 24px page rhythm (DESIGN §4). */
     @apply bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700
-           rounded-3xl p-4 transition-all duration-300;
+           rounded-3xl p-5 transition-all duration-300;
   }
 }

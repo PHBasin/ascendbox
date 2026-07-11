@@ -6,8 +6,7 @@ import { getAllExercises } from '@/data/exerciseRepository';
 
 const PAGE_SIZE = 12;
 
-// Attribute filters live in the sheet (DESIGN §5.5), distinct from the category scope.
-// Duration buckets — a value belongs to exactly one bucket.
+// Attribute filters (sheet, DESIGN §5.5) — duration buckets, a value is in exactly one.
 export type DurationBucketId = 'short' | 'mid' | 'long';
 export const DURATION_BUCKETS: ReadonlyArray<{
   id: DurationBucketId;
@@ -34,8 +33,7 @@ function fold(s: string): string {
     .replace(/[\u0300-\u036f]/g, '');
 }
 
-// shallowRef: the list is replaced wholesale, never deep-mutated.
-// No recursive proxy over the 100 objects → less memory, no useless reactivity.
+// shallowRef: list replaced wholesale, never deep-mutated (no proxy over the 100 objects).
 const all = shallowRef<Exercise[]>([]);
 const activeCategory = ref<CategoryId>('physique');
 const visibleCount = ref(PAGE_SIZE);
@@ -48,8 +46,8 @@ const selectedBuckets = ref<DurationBucketId[]>([]);
 const selectedLevels = ref<Level[]>([]);
 const selectedTags = ref<string[]>([]);
 
-// Global search — a secondary retrieval path (DESIGN §5.2 rationale). When non-empty
-// it *supersedes* the category scope and matches title + description across the catalog.
+// Global search (DESIGN §5.2): when non-empty it supersedes the scope, matching
+// title + description + tags across the whole catalog.
 const searchQuery = ref('');
 const searchTerm = computed(() => fold(searchQuery.value.trim()));
 const isSearching = computed(() => searchTerm.value.length > 0);

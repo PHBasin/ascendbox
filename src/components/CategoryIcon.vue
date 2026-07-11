@@ -1,7 +1,6 @@
 <script setup lang="ts">
-// Category icon map (DESIGN §2.1 / §11): dumbbell · target · spark.
-// Decorative reinforcement only — the visible label carries the meaning, so
-// the SVG is aria-hidden and inherits `currentColor`. Size/colour via the caller.
+// Category icon map (DESIGN §2.1 / §11): dumbbell · target · spark. Decorative
+// reinforcement only (aria-hidden, inherits currentColor); the label carries meaning.
 import type { CategoryId } from '@/domain/exercise';
 
 defineProps<{ category: CategoryId }>();

@@ -26,11 +26,11 @@ const shownTags = computed(() => {
   return q ? availableTags.value.filter((t) => t.toLowerCase().includes(q)) : availableTags.value;
 });
 
-// Shared toggle styling — same ink-fill active state as the scope bar (DESIGN §5.2/§8).
+// Toggle styling shared with the scope pills (DESIGN §5.2): ink-fill active, slate-100 + border inactive.
 const OPTION_ON =
   'bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 ring-slate-900 dark:ring-slate-50';
 const OPTION_OFF =
-  'bg-slate-100 text-slate-600 ring-transparent hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700';
+  'bg-slate-100 text-slate-600 ring-slate-200 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-700';
 
 function close(): void {
   emit('close');
@@ -86,21 +86,17 @@ onBeforeUnmount(() => {
         aria-modal="true"
         aria-label="Filtres"
       >
-        <!-- Grab handle -->
-        <div
-          class="mx-auto mb-4 h-1.5 w-10 rounded-full bg-slate-300 dark:bg-slate-700"
-          aria-hidden="true"
-        ></div>
+        <!-- No grab handle: it implies swipe-to-dismiss, which we don't wire up (dismiss = scrim / ✕ / Esc). -->
 
-        <!-- min-h-11 reserves the reset button's height so toggling it in/out never resizes the panel -->
+        <!-- min-h-11 reserves the reset button's height so toggling it never resizes the panel -->
         <header class="flex items-center justify-between gap-3 mb-6 min-h-11">
-          <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+          <h2 class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
             Filtres
           </h2>
           <button
             v-if="activeFilterCount"
             type="button"
-            class="inline-flex items-center gap-1.5 px-3 min-h-11 rounded-full text-xs font-semibold ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-300 active:scale-95"
+            class="inline-flex items-center gap-2 px-3 min-h-11 rounded-full text-sm font-semibold ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-300 active:scale-95"
             @click="resetFilters"
           >
             <svg
@@ -165,7 +161,7 @@ onBeforeUnmount(() => {
         </section>
 
         <!-- Tags -->
-        <section v-if="availableTags.length" class="mb-8">
+        <section v-if="availableTags.length" class="mb-6">
           <p
             class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300 mb-3"
           >
@@ -184,7 +180,7 @@ onBeforeUnmount(() => {
               :key="tag"
               type="button"
               :aria-pressed="selectedTags.includes(tag)"
-              class="px-3 min-h-11 rounded-full font-medium text-sm ring-1 transition-colors duration-300 active:scale-95"
+              class="px-4 min-h-11 rounded-full font-medium text-sm ring-1 transition-colors duration-300 active:scale-95"
               :class="selectedTags.includes(tag) ? OPTION_ON : OPTION_OFF"
               @click="toggleTag(tag)"
             >

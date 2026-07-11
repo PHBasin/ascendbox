@@ -15,7 +15,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{ loadMore: []; reset: [] }>();
 
-// The feed is empty for a reason — name it precisely (search vs filters vs both).
+// Name why the feed is empty (search vs filters vs both).
 const hasRefinement = computed(() => props.isSearching || props.hasFilters);
 const emptyMessage = computed(() => {
   if (props.isSearching && props.hasFilters)
@@ -46,19 +46,26 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
 </script>
 
 <template>
-  <section class="max-w-2xl mx-auto p-6">
-    <!-- Loading error (rose-600 clears AA on the light shell, rose-400 on the dark one) -->
+  <section class="max-w-7xl mx-auto px-6 lg:px-8 py-6 lg:py-8">
+    <!-- Loading error (rose-600/400 clears AA on both themes) -->
     <p v-if="error" class="text-center text-rose-600 dark:text-rose-400 py-12">
       {{ error }}
     </p>
 
-    <!-- Skeleton during the fetch: the shell stays interactive -->
-    <div v-else-if="isLoading" class="grid gap-6" aria-busy="true" aria-live="polite">
-      <div v-for="n in 4" :key="n" class="card animate-pulse">
+    <!-- Skeleton: same grid as the feed, shell stays interactive during fetch. -->
+    <div
+      v-else-if="isLoading"
+      class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+      aria-busy="true"
+      aria-live="polite"
+    >
+      <div v-for="n in 6" :key="n" class="card animate-pulse flex flex-col gap-3">
         <div class="h-6 w-2/3 rounded bg-slate-200 dark:bg-slate-700"></div>
-        <div class="mt-3 h-4 w-full rounded bg-slate-200 dark:bg-slate-700"></div>
-        <div class="mt-2 h-4 w-4/5 rounded bg-slate-200 dark:bg-slate-700"></div>
-        <div class="mt-4 flex gap-2">
+        <div class="flex flex-col gap-2">
+          <div class="h-4 w-full rounded bg-slate-200 dark:bg-slate-700"></div>
+          <div class="h-4 w-4/5 rounded bg-slate-200 dark:bg-slate-700"></div>
+        </div>
+        <div class="flex gap-2">
           <div class="h-4 w-14 rounded-full bg-slate-200 dark:bg-slate-700"></div>
           <div class="h-4 w-14 rounded-full bg-slate-200 dark:bg-slate-700"></div>
         </div>
@@ -93,9 +100,8 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
       </button>
     </div>
 
-    <!-- Paginated list. Transition (keyed on the pilier) = clean crossfade on
-         category change; TransitionGroup inside = animation of the cards
-         added by pagination (no `leave` → no overlap). -->
+    <!-- Transition (keyed on category) = crossfade on switch; inner TransitionGroup
+         animates paginated appends (no `leave` → no overlap). -->
     <Transition
       v-else
       mode="out-in"
@@ -107,7 +113,7 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
       <div :key="category">
         <TransitionGroup
           tag="div"
-          class="grid gap-6"
+          class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
           move-class="transition-transform duration-300"
           enter-active-class="transition duration-500 ease-out"
           enter-from-class="opacity-0 translate-y-4"
