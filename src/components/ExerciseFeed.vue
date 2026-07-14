@@ -9,6 +9,9 @@ const props = defineProps<{
   hasMore: boolean;
   isLoading: boolean;
   error: string | null;
+  // Search mode = field open (feed spans the whole catalogue). Drives the per-card category badge.
+  searchMode: boolean;
+  // A term is actually typed. Names the empty state ("no result for the search").
   isSearching: boolean;
   hasFilters: boolean;
 }>();
@@ -110,7 +113,7 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
       leave-active-class="transition duration-200 ease-in"
       leave-to-class="opacity-0 -translate-y-2"
     >
-      <div :key="category">
+      <div :key="`${category}-${searchMode}`">
         <TransitionGroup
           tag="div"
           class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
@@ -122,7 +125,7 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
             v-for="ex in exercises"
             :key="ex.id"
             :exercise="ex"
-            :show-category="isSearching"
+            :show-category="searchMode"
           />
         </TransitionGroup>
 

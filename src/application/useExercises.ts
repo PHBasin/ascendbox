@@ -46,8 +46,11 @@ const selectedBuckets = ref<DurationBucketId[]>([]);
 const selectedLevels = ref<Level[]>([]);
 const selectedTags = ref<string[]>([]);
 
-// Global search (DESIGN §5.2): when non-empty it supersedes the scope, matching
-// title + description + tags across the whole catalog.
+// Search mode (DESIGN §5.2 / §5.9): opening the field enters a whole-catalogue mode that
+// supersedes the category scope — an empty query then shows *every* exercise, and typing narrows
+// it (title + description + tags). It is state, not header chrome, because it widens the feed
+// scope, so it lives here. `isSearching` = a term is actually typed (drives only the text filter).
+const searchOpen = ref(false);
 const searchQuery = ref('');
 const searchTerm = computed(() => fold(searchQuery.value.trim()));
 const isSearching = computed(() => searchTerm.value.length > 0);
@@ -64,11 +67,12 @@ async function load(): Promise<void> {
   }
 }
 
-// Category scope first — but a live search overrides it (searches the whole catalog).
+// Category scope first — but search mode overrides it, spanning the whole catalog (even before a
+// term is typed: an open, empty field already means "browse everything").
 const byCategory = computed<Exercise[]>(() =>
   all.value.filter((ex) => ex.categoryId === activeCategory.value)
 );
-const scoped = computed<Exercise[]>(() => (isSearching.value ? all.value : byCategory.value));
+const scoped = computed<Exercise[]>(() => (searchOpen.value ? all.value : byCategory.value));
 
 function inSelectedBucket(duration: number): boolean {
   return selectedBuckets.value.some((id) =>
@@ -115,8 +119,8 @@ function resetPage(): void {
   visibleCount.value = PAGE_SIZE; // any scope/filter/search change restarts pagination at the top
 }
 
-// A new query starts the results from the top.
-watch(searchQuery, resetPage);
+// Entering/leaving search mode or changing the query restarts pagination at the top.
+watch([searchQuery, searchOpen], resetPage);
 
 function loadMore(): void {
   if (hasMore.value) visibleCount.value += PAGE_SIZE;
@@ -126,9 +130,19 @@ function clearSearch(): void {
   searchQuery.value = '';
 }
 
+function openSearch(): void {
+  searchOpen.value = true;
+}
+
+// Leaving search mode: close the field and drop any query, back to the category scope.
+function closeSearch(): void {
+  searchOpen.value = false;
+  searchQuery.value = '';
+}
+
 function setCategory(category: CategoryId): void {
-  // Picking an axis is a deliberate exit from a global search.
-  clearSearch();
+  // Picking an axis is a deliberate exit from search mode (closes the field, clears the query).
+  closeSearch();
   if (category === activeCategory.value) {
     resetPage();
     return;
@@ -164,9 +178,9 @@ function resetFilters(): void {
   resetPage();
 }
 
-// Clears every refinement at once (attribute filters + search) — used by the empty state.
+// Clears every refinement at once (attribute filters + search mode) — used by the empty state.
 function resetAll(): void {
-  clearSearch();
+  closeSearch();
   resetFilters();
 }
 
@@ -184,8 +198,11 @@ export function useExercises() {
     isLoading,
     error,
     // search
+    searchOpen,
     searchQuery,
     isSearching,
+    openSearch,
+    closeSearch,
     clearSearch,
     // attribute filters (sheet)
     selectedBuckets,

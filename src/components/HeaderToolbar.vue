@@ -10,8 +10,10 @@ import type { Level } from '@/domain/exercise';
 import FilterSheet from './FilterSheet.vue';
 
 const {
+  searchOpen,
   searchQuery,
-  clearSearch,
+  openSearch: openSearchMode,
+  closeSearch: closeSearchMode,
   selectedBuckets,
   selectedLevels,
   selectedTags,
@@ -23,22 +25,21 @@ const {
 
 const sheetOpen = ref(false);
 
-// Collapsible search (DESIGN §5.9): magnifier ⇄ field, instant swap (no transition).
-// Below lg the field takes the actions row; on lg+ it grows inline, capped in width.
-const searchOpen = ref(false);
+// Collapsible search (DESIGN §5.9): magnifier ⇄ field, instant swap (no transition). Below lg the
+// field takes the actions row; on lg+ it grows inline, capped in width. `searchOpen` is store state
+// (it widens the feed to the whole catalogue), so here we only wrap open/close to move focus with
+// the swap (a11y): to the field on open, back to the magnifier on close.
 const searchInput = ref<HTMLInputElement | null>(null);
 const searchButton = ref<HTMLButtonElement | null>(null);
 
-// Move focus with the swap (a11y): to the field on open, back to the magnifier on close.
 async function openSearch(): Promise<void> {
-  searchOpen.value = true;
+  openSearchMode();
   await nextTick();
   searchInput.value?.focus();
 }
 
 async function closeSearch(): Promise<void> {
-  clearSearch();
-  searchOpen.value = false;
+  closeSearchMode();
   await nextTick();
   searchButton.value?.focus();
 }

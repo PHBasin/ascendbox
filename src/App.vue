@@ -13,6 +13,7 @@ const {
   setCategory,
   isLoading,
   error,
+  searchOpen,
   isSearching,
   activeFilterCount,
   resetAll,
@@ -36,7 +37,7 @@ function onSelectCategory(id: CategoryId): void {
       <HeaderToolbar>
         <CategoryScope
           :active-category="activeCategory"
-          :searching="isSearching"
+          :searching="searchOpen"
           @select="onSelectCategory"
         />
       </HeaderToolbar>
@@ -50,6 +51,7 @@ function onSelectCategory(id: CategoryId): void {
         :has-more="hasMore"
         :is-loading="isLoading"
         :error="error"
+        :search-mode="searchOpen"
         :is-searching="isSearching"
         :has-filters="activeFilterCount > 0"
         @load-more="loadMore"

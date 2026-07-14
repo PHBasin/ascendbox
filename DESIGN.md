@@ -249,14 +249,20 @@ dark:text-slate-900`). Chosen over a category tint so the active state clears AA
   pills; the recessed `slate-100` fill (vs the actions' white surface) still marks it as an
   *unselected toggle* rather than a standalone action.
 - Always `ring-1` to avoid a layout jump between states.
-- **During a search** (query non-empty): the search **supersedes the scope** (§5.9), so no category
-  is the active axis — **every pill reads inactive** (`aria-pressed=false`), which matches what the
-  feed shows (results from all categories) and is more honest than keeping a highlight that no longer
-  filters. The pills **stay tappable**: one tap re-selects that category and exits the search
-  (`setCategory` clears the query), so the scope is a **one-tap return to per-category browsing**.
-  `activeCategory` is never cleared, so nothing is lost. Driven by the `searching` prop (bound to
-  `isSearching`), not the field's open/closed state — an *open but empty* field still shows the
-  category, so the pill only drops once a term is typed.
+- **Asymmetric transition (§6).** *Selecting* fills over **300 ms** — the pill is the tapped target,
+  so the fill confirms the action where the eye already is. *Deselecting* recedes over **150 ms** — it
+  is a by-product of another action (opening search, or picking another axis), so it must **not pull
+  the eye** from where the user is now looking (the field, the new pill). Implemented with the
+  **arrival state's** `duration-*` (CSS uses the destination style's timing): `duration-300` on the
+  active class, `duration-150` on the inactive one.
+- **In search mode** (the field is open — see §5.9): search **supersedes the scope**, so no category
+  is the active axis — **every pill reads inactive** (`aria-pressed=false`). This matches the feed,
+  which spans the **whole catalogue** in search mode (empty query = all exercises, typing narrows), so
+  a highlighted pill would misrepresent it. The pills **stay tappable**: one tap re-selects that
+  category and exits search mode (`setCategory` → `closeSearch`), so the scope is a **one-tap return
+  to per-category browsing**. `activeCategory` is never cleared, so nothing is lost. Driven by the
+  `searching` prop bound to `searchOpen` (the mode), **not** by whether a term is typed — opening the
+  field is itself the switch to whole-catalogue browsing.
 
 > **Judgement call, not a law.** Keep category persistent _if_ coaches usually start by picking one,
 > then browse. If instead they combine category with the other criteria as equal, movable filters,
@@ -345,9 +351,11 @@ with a typing invitation. The magnifier ⇄ field swap is **instant** (§6). The
 **hide the `Exercices` title** and fill the actions row — is reserved for **phones (`< sm`)**, where
 space is genuinely tight. From `sm` up (tablet **and** desktop) the title **stays** and the field is
 **capped** (`sm:w-80`) inline beside Filtres, so a tablet never gets a ~600 px half-empty field.
-Focus follows the swap (§8). When non-empty it
-**supersedes the category scope**, matching title + description + tags across the whole catalog (case-
-and accent-insensitive). Closing (✕ / `Esc`) clears it; picking a category also exits search.
+Focus follows the swap (§8). **Opening the field is itself a mode switch** — it **supersedes the
+category scope** and shows the **whole catalogue** (empty query = every exercise, so the field opens
+onto all ~100, not a filtered subset); a typed term then narrows it, matching title + description +
+tags (case- and accent-insensitive). The scope pills deselect accordingly (§5.2). Closing (✕ / `Esc`)
+drops the mode; picking a category also exits search (`setCategory` → `closeSearch`).
 
 ---
 
@@ -357,6 +365,7 @@ and accent-insensitive). Closing (✕ / `Esc`) clears it; picking a category als
 | ----------------------- | --------------------------------------------------------------------------------------- |
 | Colour / theme change   | `transition-colors duration-300`                                                        |
 | Button feedback         | `active:scale-95`                                                                       |
+| Scope pill select ⇄ deselect | **select 300 ms** (direct target) · **deselect 150 ms** (recedes — §5.2), via arrival-state `duration-*` |
 | Card feedback           | `active:scale-[0.98]`                                                                   |
 | Category (scope) change | `<Transition mode="out-in">` crossfade + slight `translate-y` (enter 300 / leave 200)   |
 | Filter sheet            | slide-up `translate-y` + scrim fade (≈ 300 ms)                                          |
