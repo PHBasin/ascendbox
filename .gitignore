@@ -38,3 +38,6 @@ Thumbs.db
 
 # Claude
 .claude/settings.local.json
+
+# Lighthouse CI output
+.lighthouseci
