@@ -7,19 +7,34 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+
+# Build output
 dist
 dist-ssr
+# vite-plugin-pwa
+dev-dist
+
+# Local env
 *.local
+
+# Caches and type-check artifacts
+*.tsbuildinfo
+.eslintcache
+coverage
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
+# Claude
+.claude/settings.local.json
