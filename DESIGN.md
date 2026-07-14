@@ -249,6 +249,14 @@ dark:text-slate-900`). Chosen over a category tint so the active state clears AA
   pills; the recessed `slate-100` fill (vs the actions' white surface) still marks it as an
   *unselected toggle* rather than a standalone action.
 - Always `ring-1` to avoid a layout jump between states.
+- **During a search** (query non-empty): the search **supersedes the scope** (§5.9), so no category
+  is the active axis — **every pill reads inactive** (`aria-pressed=false`), which matches what the
+  feed shows (results from all categories) and is more honest than keeping a highlight that no longer
+  filters. The pills **stay tappable**: one tap re-selects that category and exits the search
+  (`setCategory` clears the query), so the scope is a **one-tap return to per-category browsing**.
+  `activeCategory` is never cleared, so nothing is lost. Driven by the `searching` prop (bound to
+  `isSearching`), not the field's open/closed state — an *open but empty* field still shows the
+  category, so the pill only drops once a term is typed.
 
 > **Judgement call, not a law.** Keep category persistent _if_ coaches usually start by picking one,
 > then browse. If instead they combine category with the other criteria as equal, movable filters,

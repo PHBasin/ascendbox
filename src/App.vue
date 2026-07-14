@@ -34,7 +34,11 @@ function onSelectCategory(id: CategoryId): void {
     >
       <!-- CategoryScope slotted into HeaderToolbar as the centered scope. -->
       <HeaderToolbar>
-        <CategoryScope :active-category="activeCategory" @select="onSelectCategory" />
+        <CategoryScope
+          :active-category="activeCategory"
+          :searching="isSearching"
+          @select="onSelectCategory"
+        />
       </HeaderToolbar>
     </header>
 
