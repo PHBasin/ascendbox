@@ -108,9 +108,9 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
     <Transition
       v-else
       mode="out-in"
-      enter-active-class="transition duration-300 ease-out"
+      enter-active-class="transition duration-150 ease-out"
       enter-from-class="opacity-0 translate-y-2"
-      leave-active-class="transition duration-200 ease-in"
+      leave-active-class="transition duration-150 ease-out"
       leave-to-class="opacity-0 -translate-y-2"
     >
       <div :key="`${category}-${searchMode}`">

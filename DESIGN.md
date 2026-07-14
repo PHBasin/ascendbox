@@ -25,7 +25,7 @@ audience) lives in `CLAUDE.md` — the rules here implement it.
    The coach never has to remember what they set.
 5. **One intent, one component.** Distinct data types get distinct controls; a control looks like
    what it does (action = filled/elevated; information = flat).
-6. **Motion guides, never distracts.** Short (200–300 ms), single-purpose transitions; subtle
+6. **Motion guides, never distracts.** Short (150–300 ms), single-purpose transitions; subtle
    tactile feedback (`active:scale`). Never stack animations.
 
 ---
@@ -367,7 +367,7 @@ drops the mode; picking a category also exits search (`setCategory` → `closeSe
 | Button feedback         | `active:scale-95`                                                                       |
 | Scope pill select ⇄ deselect | **select 300 ms** (direct target) · **deselect 150 ms** (recedes — §5.2), via arrival-state `duration-*` |
 | Card feedback           | `active:scale-[0.98]`                                                                   |
-| Category (scope) change | `<Transition mode="out-in">` crossfade + slight `translate-y` (enter 300 / leave 200)   |
+| Category (scope) change | `<Transition mode="out-in">` crossfade + slight `translate-y` (150 ms `ease-out` each way) |
 | Filter sheet            | slide-up `translate-y` + scrim fade (≈ 300 ms)                                          |
 | Pagination              | `<TransitionGroup>` enter `opacity-0 translate-y-4` (500 ms), `move` 300 ms, no `leave` |
 | Search open/close       | **instant swap, no animation** — see below                                              |

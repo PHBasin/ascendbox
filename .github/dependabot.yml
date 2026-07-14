@@ -9,9 +9,7 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
-    # Keep the codeql-action sub-actions (init + analyze) in ONE PR so they always
-    # bump to the same version together (mismatched versions fail CodeQL). Other
-    # actions still get their own individual PRs.
+    # Keep the codeql-action sub-actions in one PR
     groups:
       codeql:
         patterns:
