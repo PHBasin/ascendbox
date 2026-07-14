@@ -229,16 +229,16 @@ kept **out of the filter sheet** as the primary _scope_ rather than an attribute
 cheap to keep visible, and it is the coach's most frequent entry point. No `Tous` / all-categories
 option today — scope is always exactly one category.
 
-**Two responsive forms (never a scroll, never a clipped label):**
+**Natural-width pills, centered — never a scroll, never a clipped label.** Each pill is sized to its
+own label (`flex-none`), so the longest word (`Technique`) is **always shown in full** — no `truncate`
+anywhere. A **label is meaning, not decoration**: a clipped `Techniq…` fails the redundant-encoding
+rule (§2.1), so equal-width columns (which force the widest label to truncate) are rejected here.
 
-- **Phone (`< sm`) — segmented control.** Equal-width `flex-1` pills share the row so all three axes
-  stay **icon + label on one line down to ~360 px**, full labels, no horizontal scroll. To make
-  `Technique` + icon fit one third of a phone, the phone form runs tight: `text-sm`, a **14 px icon**
-  (`w-3.5`), `gap-1`, and a `px-1` floor — but because the `flex-1` cell is wider than its content,
-  the pill still reads roomy (content is centred with slack, the padding is only a minimum). Below
-  ~360 px a label may `truncate` as a last resort.
-- **`sm+` — natural-width pills, centered** at the full `text-base → lg:text-lg` title size (§3, the
-  size that links the scope to the card titles), 16 px icon, `px-4`. There is room; nothing tightens.
+- **Phone (`< sm`):** `text-sm`, 16 px icon, `px-3`. The three fit **one line at ~390 px** (the
+  target) and **wrap to a second line (`flex-wrap`) on narrower phones** — full labels on two lines
+  beat a cut label on one.
+- **`sm+`:** the label grows to the `text-base → lg:text-lg` title size (§3, the size that links the
+  scope to the card titles), `px-4`. There is room for one line.
 
 - **Active**: **solid ink fill** — `bg-slate-900 text-white` (inverted `dark:bg-slate-50
 dark:text-slate-900`). Chosen over a category tint so the active state clears AAA and never relies
@@ -315,8 +315,8 @@ edges line up with the outer card columns — the header is the **same width as 
 narrower or wider strip. Within that measure the arrangement adapts to the feed's own breakpoints:
 
 - **Mobile & tablet (`< lg`) — two tiers.** Tier 1 is `[ title · search · Filtres ]`; tier 2 is the
-  category scope on its own full-width line — a **segmented control** on phones, natural-width pills
-  centered on `sm+` (§5.2) — always fully visible with **no horizontal scroll**. Opening search
+  category scope on its own full-width line — natural-width pills, centered, that wrap rather than
+  clip on the narrowest phones (§5.2) — always fully visible with **no horizontal scroll**. Opening search
   expands the field across tier 1 and **hides the title** (§5.9) — full width, no touch target
   shrinks.
 - **Desktop (`lg+`) — one line.** The wide measure fits everything on a single row: **title left ·
