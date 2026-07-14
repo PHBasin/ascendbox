@@ -64,9 +64,12 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 2));
          the title; in search it already sits in the row above, so it is omitted here. -->
     <div class="flex items-start justify-between gap-3">
       <div class="flex flex-col gap-1 min-w-0">
-        <h3 class="text-base lg:text-lg font-bold leading-tight text-slate-900 dark:text-slate-50">
+        <!-- h2: each card is a top-level section under the page h1 (no intermediate h2 on the feed),
+             so h2 keeps the heading order sequential (Lighthouse heading-order). Size is set by the
+             classes, not the tag. -->
+        <h2 class="text-base lg:text-lg font-bold leading-tight text-slate-900 dark:text-slate-50">
           {{ exercise.title }}
-        </h3>
+        </h2>
         <p class="text-[15px] lg:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
           {{ exercise.description }}
         </p>
