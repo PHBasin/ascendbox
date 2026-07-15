@@ -32,9 +32,10 @@ defineProps<{ category: CategoryId }>();
       <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
     </template>
 
-    <!-- Mental → spark -->
+    <!-- Mental → spark. Tips at ±8 from centre (was ±7) so its ink spans 3→21 like the other two:
+         a glyph inset further than its siblings shifts its pill's content right by a hair more. -->
     <template v-else>
-      <path d="M12 5l1.8 5.2L19 12l-5.2 1.8L12 19l-1.8-5.2L5 12l5.2-1.8z" />
+      <path d="M12 4l2.1 5.9L20 12l-5.9 2.1L12 20l-2.1-5.9L4 12l5.9-2.1z" />
     </template>
   </svg>
 </template>
