@@ -199,18 +199,65 @@ rounded-3xl p-5            /* component tier — §4 */
 active:scale-[0.98] transition-all duration-300
 ```
 
-Anatomy — **title-led**: title · 1-line teaser · duration (pinned top-right) · up to 2 tags · level
-gauge. The category badge is **contextual** (below), not a fixed part of the header. The tags + gauge
-**footer is pinned to the card bottom** (`mt-auto`; the card stretches to its grid-row height), so it
-lines up across a row no matter how long each description runs.
+Anatomy — **title-led**, in two zones split by a rule:
+
+```
+[ category ]              ← search only
+Title                     ← leads, owns the row; the stretched link (§3)
+teaser                    ← the hook; ≤ 71 chars (below)
+                          ┐
+#tag #tag                 │ metadata block — flat text, 1 line max (§5.4)
+────────────────────────  │ border-t
+🕐 20 min · ▬▬▬ Avancé  › ┘ status strip: qualify, then go
+```
+
+**The status strip groups the two facts you triage on** — how long · how hard. They were split before
+(duration top-right, level bottom-right); grouping them puts one question in one place and lets the
+title own the full top row. The strip is **identical in both modes**, so nothing shifts between
+browsing and search.
+
+**The middot separates; space does not.** A meta row's gap is the Group tier (12, §4) and stays there
+— but 12 against the 6 that binds each icon to its text is only 2×, too weak once the gauge's solid
+bars grab the adjacent word. The separator does the work a bigger gap would have done off-scale. This
+strip holds 2 items and **never wraps**, which is precisely what makes a middot legal here — see the
+rule under §5.6.
+
+**The metadata block is pinned as one unit** — tags + rule + strip together (`mt-auto`; the card
+stretches to its grid-row height), so the block lands at the same height across a row however long
+each teaser runs. Pinning **only** the strip was tried and is wrong: it put the card's slack *inside*
+the block, splitting the tags from the rule they belong with. The slack belongs on the
+**content↔metadata boundary**, not within either zone.
+
+**The teaser is clamped to 3 lines** (`line-clamp-3`) — a guarantee, not a cut. Measured across the
+catalogue, **no entry exceeds 3 lines** at either breakpoint, so today it truncates **nothing**: the
+reader pays zero and the card is still bounded. Without it, one long entry — the JSON is hand-authored
+and validated nowhere — would silently grow its card and ragged the grid, in production, months later.
+**A clamp that never fires is free.** `-2` was tried and cut **68 %** of the catalogue on a phone (29 of
+them Mental, whose prose *is* the exercise and has nothing to extract) — the mistake was treating a
+layout guarantee as an editorial rule.
+
+**Two numbers for the teaser, two jobs** (measured at the binding width — a 300 px card at 15 px):
+
+| | Chars | Job |
+| --- | --- | --- |
+| **Target** | **≤ 71** | fits **2 lines** → the title keeps the lead and card height stays stable |
+| **Ceiling** | **108** | past it `line-clamp-3` truncates. Writing *to* the ceiling defeats the split: a 3-line teaser outweighs the title **3.4×** and the card is description-led again |
+
+Word wrapping follows **words, not characters** (a 72-char teaser can take 2 lines where an 88-char one
+does too), so the target is deliberately conservative and the clamp stays as the guarantee. Do **not**
+turn 71 into a validated hard limit: it is an aim, and the clamp already covers the failure.
 
 **Contextual category — no redundancy.** The scope is always exactly one category (§5.2), so a
 category badge on every card would merely repeat the active scope. The card therefore **omits it
 while browsing** — the title leads. It reappears **only under global search** (§5.9), where results
 span categories and the badge disambiguates them (a `showCategory` prop driven by `isSearching`).
-The **duration keeps the card's top-right corner in both modes**: while browsing it sits beside the
-title (which leads); in search it moves up onto the category's top row (`[ category · duration ]`),
-with the title below — so the duration never shifts position between the two states.
+
+**The chevron is the tap affordance — and it is not optional.** The card carries no hover on touch,
+the primary device: without a resting mark it looks exactly as static as it did before it became a
+link, and the detail page goes undiscovered. A chevron says "this leads somewhere" **without posing as
+a control**: the hit area stays the whole card (§1.2, gloves) and no button is nested inside the link.
+A per-card **button** is rejected for that reason — making it real would collapse the target from the
+whole card to ~44 px, and a `<button>` inside the stretched link is invalid anyway.
 
 **All card metadata is _flat_** — icon + text, **no fill/border** (duration, tags). A card is pure
 information, so nothing on it may wear the elevated/filled _pill_ form the system reserves for
@@ -283,6 +330,22 @@ elevated pill form reserved for interactive elements (§1.5, §5.1). A bordered 
 and invites a tap that does nothing; the sheet's tag _pills_ **are** tappable (same shape, opposite
 meaning), so the card must not mimic them.
 
+**On a card, tags never exceed one line** — and the guarantee is **CSS, not a count**: `flex-wrap` +
+`max-h-[1lh]` + `overflow-hidden`. A tag that does not fit moves to a second row that is clipped
+*whole*; `flex-nowrap` would clip mid-word instead ("#lect"). A cap on the *number* of tags cannot
+promise a line — three short tags fit where two long ones would not — so the `slice(0, 3)` in
+`ExerciseCard` is only a sane default (3 = the widest entry in the catalogue, so it truncates nothing
+today), never the promise.
+
+> **`lh` gotcha:** the unit resolves against the element's **own** line-height, so the list must carry
+> `text-xs` itself. Inheriting the parent's 24 px let half a second row through and clipped tags in
+> two — invisible in the current catalogue (no entry wraps), which is exactly why it was caught by a
+> stress test with long tags rather than by looking.
+
+> **A previous `slice(0, 2)` cited "DESIGN §5.1" for a rule §5.1 never contained** — it hid a tag on
+> one exercise (`Visualisation au Sol`) for no stated reason. If a limit is worth having, it is worth
+> writing down here; a comment citing a phantom rule is how a system rots.
+
 > **Changed twice:** first de-tinted from the category colour (coloured tags were unscannable), then
 > **flattened** from a neutral pill to plain text so card metadata never looks like a control.
 > Neutral still lets the eye separate _category_ from _attributes_.
@@ -304,11 +367,66 @@ Live feedback: the apply button reads **“Voir N exercices”**. Applied filter
 
 ### 5.6 Exercise detail page
 
-Master-detail: full protocol, big text, execution focus.
-Anatomy: back nav · category (icon+label) · title + teaser · **stat strip** (Durée · Niveau gauge ·
-Matériel) · **Déroulé** as numeric tiles (reps / sets / rest / hold) · coach cues · **Sécurité**
-callout (distinct surface) · tags · **sticky footer** with the primary `Démarrer` action (~52px tall,
-full-width) + a secondary "save to session".
+Master-detail: full protocol, big text, execution focus. Route `/exercice/:id` (**hash** history —
+GitHub Pages is a static host, so `#` keeps deep links working on a cold hit with no server rewrite).
+
+Anatomy: back nav · category (icon+label) · title · **instructions** · **stat strip** (Durée · Niveau
+gauge · Matériel) · **Déroulé** as numeric tiles (reps / sets / rest / hold) · **Sécurité** callout
+(distinct surface) · tags.
+
+**The detail shows `instructions`, never the card's `teaser`.** The coach read the teaser on the card
+and tapped *because of it* — echoing it here would spend the page's most valuable line saying
+something already known (the same rule as the contextual category, §5.1). The split is what lets each
+be right: the teaser stays a short hook (≤ 71 chars, §5.1) while `instructions` has room for the real
+how-to. It also rescues **Mental** exercises, whose instruction *is* irreducible prose (median 95
+chars, nothing extractable into `protocol`) — they were the ones a short-teaser rule would have
+mutilated.
+
+**Every section below the title is optional and self-hiding.** The detail fields (`protocol`,
+`equipment`, `instructions`, `safety` — see `Exercise`) are all optional: the catalogue is filled in
+incrementally
+and a gap is legitimate (not every exercise has a rep scheme or a safety warning). A section renders
+only when its data exists; a missing field must be a **non-event**, never an empty shell and never a
+crash. An exercise with no detail data at all still renders a valid page (nav · category · title ·
+teaser · stat strip · tags).
+
+> **No `coach cues` section.** Dropped from the spec: the coaching intent already lives in the
+> exercise `description`, and a per-exercise cue list would be 100 pieces of prose to author for
+> marginal gain over it. Reinstate only if the description proves insufficient in the field.
+
+> **v1 is read-only — no sticky footer.** The `Démarrer` primary action and the "save to session"
+> secondary are **out of scope**: neither has any defined behaviour anywhere in the product, and a
+> button that does nothing is worse than no button (§1.5 — a control must look like what it does).
+> Re-introduce a footer only once the action it triggers actually exists.
+
+**Measure: `max-w-3xl`, not the feed's `max-w-7xl`.** This page is *read*, not scanned as a grid; a
+1280 px line length is unreadable. The sticky back nav shares the same measure so the edges line up
+(§5.8). The nav **is sticky** — the page runs long and the coach must be able to bail out from any
+scroll position without hunting; same opaque treatment as the feed bar, never frosted (§5.8).
+
+**The `Déroulé` is the hero, not the prose.** The coach opens this standing at the wall, in a hurry:
+what they came for is *what to execute*. Figures are `text-3xl lg:text-4xl` — readable at arm's
+length — over an eyebrow label (§3). Tiles **grow to fill the row but are capped** (`sm:flex-1
+sm:max-w-64`): 3–4 divide it evenly, 1–2 keep a sane size and pack left rather than stretching a lone
+figure across half the page. A fixed 4-column grid was rejected — it leaves a hole whenever a figure
+is absent, and absent is the norm. Phones keep 2 columns (4 across 390 px kills the glance).
+
+**A separator only belongs in a row that cannot wrap.** — *general rule, learned the hard way.* In a
+wrapping row a middot always orphans: it trails the last line or leads the next, and no CSS reaches
+it. So the **stat strip stacks below `sm`** (one fact per line — a spec sheet reads well that way, and
+a stacked list needs no separator) and becomes **a single row with middots from `sm`**, where all
+three items fit (verified at 640 px, the narrowest `sm`, with the worst case of 3 items). Never
+negotiate with the wrap — remove it. The card's strip (§5.1) earns its middots the same way: 2 items,
+never wraps.
+
+**Durations are rendered in the unit a coach says out loud**, not the unit they are stored in:
+`restSec: 180` → **"3 min"**, `90` → **"1 min 30"**, `< 60` → **"7 s"**. Storage stays unambiguous
+(`restSec`/`holdSec` — see `Protocol`); the display is translated.
+
+**The `Sécurité` callout must be unmissable — but never by hue alone (§1.3).** The warning icon **and**
+the explicit `Sécurité` heading carry the meaning; the rose surface only reinforces, so it survives a
+grayscale test. The body text stays slate rather than rose: rose is reserved for error text (§2.2) and
+a long warning must stay comfortably readable.
 
 ### 5.7 Loading skeleton
 
