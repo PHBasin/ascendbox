@@ -276,10 +276,24 @@ kept **out of the filter sheet** as the primary _scope_ rather than an attribute
 cheap to keep visible, and it is the coach's most frequent entry point. No `Tous` / all-categories
 option today — scope is always exactly one category.
 
-**Natural-width pills, centered — never a scroll, never a clipped label.** Each pill is sized to its
-own label (`flex-none`), so the longest word (`Technique`) is **always shown in full** — no `truncate`
-anywhere. A **label is meaning, not decoration**: a clipped `Techniq…` fails the redundant-encoding
-rule (§2.1), so equal-width columns (which force the widest label to truncate) are rejected here.
+**Natural-width pills — never a scroll, never a clipped label.** Each pill is sized to its own label
+(`flex-none`), so the longest word (`Technique`) is **always shown in full** — no `truncate` anywhere.
+A **label is meaning, not decoration**: a clipped `Techniq…` fails the redundant-encoding rule (§2.1),
+so equal-width columns (which force the widest label to truncate) are rejected here.
+
+**Left when the scope owns a row; centered when it _is_ the middle of one.**
+
+- **Below `lg`** the scope has its **own full-width row**, so it aligns `justify-start` — on the exact
+  same left rail as the cards below it (measured: both at x=24). Centering it there made it *float*:
+  the only element in the app off the rail that the title, the cards and their titles all share, with
+  no counterweight to justify the position. A wrapped pill (≤ 360 px) then also lands **under the
+  first one** instead of orphaned mid-row.
+- **At `lg`+** it is the middle term of `title · scope · actions`, centered by HeaderToolbar's two
+  `flex-1` flanks — a real triptych, not a floating element. (`justify-*` on the nav is a no-op there:
+  it is content-width.)
+
+> Alignment is the cheapest layout principle there is: a fixed left anchor is found without searching,
+> which is what a gloved, in-a-hurry glance needs. Centering is for elements that have two flanks.
 
 - **Phone (`< sm`):** `text-sm`, 16 px icon, `px-3`. The three fit **one line at ~390 px** (the
   target) and **wrap to a second line (`flex-wrap`) on narrower phones** — full labels on two lines
@@ -447,7 +461,8 @@ edges line up with the outer card columns — the header is the **same width as 
 narrower or wider strip. Within that measure the arrangement adapts to the feed's own breakpoints:
 
 - **Mobile & tablet (`< lg`) — two tiers.** Tier 1 is `[ title · search · Filtres ]`; tier 2 is the
-  category scope on its own full-width line — natural-width pills, centered, that wrap rather than
+  category scope on its own full-width line — natural-width pills, **left-aligned on the card rail**
+  (§5.2), that wrap rather than
   clip on the narrowest phones (§5.2) — always fully visible with **no horizontal scroll**. Opening search
   expands the field across tier 1 and **hides the title** (§5.9) — full width, no touch target
   shrinks.
