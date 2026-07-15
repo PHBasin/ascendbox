@@ -21,10 +21,15 @@ const iconTint: Record<CategoryId, string> = {
 </script>
 
 <template>
-  <!-- Responsive scope (DESIGN §5.2): natural-width pills, centered — each sized to its own label so
-       it never truncates. They sit on one line while they fit (~360 px+) and wrap to a 2nd line on
-       the narrowest phones rather than clip. From sm the label grows to link with card titles (§3). -->
-  <nav class="flex flex-wrap justify-center gap-2 sm:gap-3">
+  <!-- Responsive scope (DESIGN §5.2): natural-width pills — each sized to its own label so it never
+       truncates. One line while they fit (~360 px+), wrapping to a 2nd line on the narrowest phones
+       rather than clipping. From sm the label grows to link with card titles (§3).
+       `justify-start`: below lg the scope owns its own full-width row, so it aligns on the same left
+       rail as the cards instead of floating above them — and a wrapped pill lands under the first one
+       rather than orphaned mid-row. At lg+ this is a no-op (the nav is content-width): the centering
+       there comes from HeaderToolbar's two `flex-1` flanks, where the scope really is the middle term
+       of title · scope · actions. Left when it owns a row, centered when it *is* the middle of one. -->
+  <nav class="flex flex-wrap justify-start gap-2 sm:gap-3">
     <button
       v-for="cat in CATEGORIES"
       :key="cat.id"

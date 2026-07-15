@@ -48,7 +48,8 @@ const selectedTags = ref<string[]>([]);
 
 // Search mode (DESIGN §5.2 / §5.9): opening the field enters a whole-catalogue mode that
 // supersedes the category scope — an empty query then shows *every* exercise, and typing narrows
-// it (title + description + tags). It is state, not header chrome, because it widens the feed
+// it (title + teaser + tags — `instructions` is deliberately out: matching prose the card cannot
+// show would return results whose match is invisible). It is state, not header chrome, as it widens
 // scope, so it lives here. `isSearching` = a term is actually typed (drives only the text filter).
 const searchOpen = ref(false);
 const searchQuery = ref('');
@@ -85,7 +86,7 @@ const filtered = computed<Exercise[]>(() =>
   scoped.value.filter((ex) => {
     if (
       isSearching.value &&
-      !fold(`${ex.title} ${ex.description} ${ex.tags.join(' ')}`).includes(searchTerm.value)
+      !fold(`${ex.title} ${ex.teaser} ${ex.tags.join(' ')}`).includes(searchTerm.value)
     ) {
       return false;
     }
@@ -182,6 +183,22 @@ function resetFilters(): void {
 function resetAll(): void {
   closeSearch();
   resetFilters();
+}
+
+// One exercise, resolved by id against the same cached catalogue (no second request — the repository
+// caches for the app's lifetime). `id` is a getter so the view re-resolves if the route param
+// changes without remounting.
+//
+// The three states are deliberately distinct, because a cold deep-link (`/#/exercice/12` opened
+// straight from a shared link) mounts the view *before* the catalogue has arrived: "not loaded yet"
+// must never be rendered as "no such exercise".
+export function useExercise(id: () => number) {
+  void load(); // idempotent — a deep-link may be the app's first screen
+  const exercise = computed<Exercise | undefined>(() =>
+    all.value.find((ex) => ex.id === id())
+  );
+  const notFound = computed(() => !isLoading.value && !error.value && !exercise.value);
+  return { exercise, notFound, isLoading, error };
 }
 
 export function useExercises() {
