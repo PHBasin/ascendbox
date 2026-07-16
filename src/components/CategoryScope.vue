@@ -5,18 +5,20 @@ import CategoryIcon from './CategoryIcon.vue';
 const props = defineProps<{ activeCategory: CategoryId; searching?: boolean }>();
 defineEmits<{ select: [categoryId: CategoryId] }>();
 
-// Search supersedes the scope (DESIGN §5.2): no category reads active, but the pills stay tappable —
-// one tap re-selects and exits the search. `activeCategory` is never cleared, so it restores itself.
+// Search supersedes the scope: no category reads active while searching, but the pills stay tappable
+// and `activeCategory` is kept, so one tap restores it (DESIGN §5.2).
 const isActive = (id: CategoryId): boolean => !props.searching && props.activeCategory === id;
 
-// Every class string below is complete on purpose: the JIT never sees one that was built (§10).
+// Full static class strings for the JIT (§10).
 
-// `flex-none` sizes each pill to its own label, so no label is ever truncated (§5.2).
+// Phone: `flex-auto` sizes each pill to its own label, then grows them to fill the row —
+// proportional, not equal thirds, so the widest label is never crushed. Full labels + icons hold
+// one line from the 360px target up; `truncate` only fires below ~340px (§5.2). `sm+`: natural width.
 const PILL =
-  'flex-none inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 min-h-11 rounded-full font-bold text-sm sm:text-base lg:text-lg ring-1 transition-all active:scale-95';
+  'flex-auto sm:flex-none min-w-0 inline-flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 min-h-11 rounded-full font-bold text-sm sm:text-base lg:text-lg ring-1 transition-all active:scale-95';
 
-// Active = solid ink, never hue (§2.4). Deselect is quicker than select: it is a by-product of
-// another action, so it must not pull the eye (§6).
+// Active = solid ink, never hue (§2.4). Deselect (150ms) is quicker than select (300ms) — it recedes
+// as a by-product of another action, so it must not pull the eye (§6).
 const ON =
   'duration-300 bg-slate-900 text-white ring-slate-900 dark:bg-slate-50 dark:text-slate-900 dark:ring-slate-50';
 const OFF =
@@ -31,10 +33,10 @@ const TINT: Record<CategoryId, string> = {
 </script>
 
 <template>
-  <!-- Own full-width row below lg → aligned on the card rail, and a wrapped pill lands under the
-       first one. At lg+ it is the middle term of title · scope · actions, centered there by
-       HeaderToolbar's two flex-1 flanks (DESIGN §5.2 / §5.8). -->
-  <nav class="flex flex-wrap justify-start gap-2 sm:gap-3">
+  <!-- Below lg the scope owns its row: phone pills fill it, `sm+` pills sit left on the card rail
+       (`justify-start`) — a lone row has no flanks to center against. At lg+ the flanked triptych is
+       centered by HeaderToolbar (`justify-start` is a no-op there — the nav is content-width). §5.2 -->
+  <nav class="flex justify-start gap-2 sm:gap-3">
     <button
       v-for="cat in CATEGORIES"
       :key="cat.id"
@@ -43,12 +45,13 @@ const TINT: Record<CategoryId, string> = {
       :class="[PILL, isActive(cat.id) ? ON : OFF]"
       @click="$emit('select', cat.id)"
     >
+      <!-- Icon = reinforcement only (§2.1); 14 px on the phone, 16 px from sm. -->
       <CategoryIcon
         :category="cat.id"
-        class="w-4 h-4 shrink-0"
+        class="inline-flex w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"
         :class="isActive(cat.id) ? '' : TINT[cat.id]"
       />
-      {{ cat.label }}
+      <span class="truncate">{{ cat.label }}</span>
     </button>
   </nav>
 </template>

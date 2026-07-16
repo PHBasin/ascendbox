@@ -172,7 +172,7 @@ breakpoint so their edges stay aligned (§5.8).
 | --------------------------------- | ------- | ------------- |
 | Page gutter (header = feed, `px`) | `px-6`  | `lg:px-8`     |
 | Feed vertical padding (`py`)      | `py-6`  | `lg:py-8`     |
-| Scope pill padding (`px`)         | `px-3`  | `sm:px-4`     |
+| Scope pill padding (`px`)         | `px-2`  | `sm:px-4`     |
 | Between-control gap               | `gap-2` | `sm:gap-3`    |
 
 The grid gap stays a flat `gap-6` (= the page unit) at every size; the filter sheet keeps `p-6`
@@ -276,30 +276,41 @@ kept **out of the filter sheet** as the primary _scope_ rather than an attribute
 cheap to keep visible, and it is the coach's most frequent entry point. No `Tous` / all-categories
 option today — scope is always exactly one category.
 
-**Natural-width pills — never a scroll, never a clipped label.** Each pill is sized to its own label
-(`flex-none`), so the longest word (`Technique`) is **always shown in full** — no `truncate` anywhere.
-A **label is meaning, not decoration**: a clipped `Techniq…` fails the redundant-encoding rule (§2.1),
-so equal-width columns (which force the widest label to truncate) are rejected here.
+**Phone = pills proportional to their label that fill the row; `sm+` = natural-width pills.** On the
+phone (`< sm`) each pill is `flex-auto`: its base width is its **own label** (`flex-basis: content`),
+then the three share the leftover space to **fill the row edge to edge**. Proportional, **not** equal
+thirds — `Technique` stays wider than the short `Mental`, so the widest label is never crushed into
+an equal column. Because the basis is the content width, nothing truncates until the natural widths
+genuinely overflow: measured, full labels **and** their icons hold on one line down to the **360 px
+target** (`px-2`, 14 px icon); a `truncate` guard clips with an ellipsis only **below ~340 px** — a
+graceful edge, not the target. From `sm` the pills settle to `flex-none` (natural width) and the icon
+grows to 16 px.
+
+> Proportional-fill earns the single line without the equal-column tax: equal thirds force the
+> widest label (`Technique`) into the same box as the shortest (`Mental`) and clip it at the target,
+> where sizing each pill from its own text spends the row's slack where it is needed. A clipped
+> `Techniq…` would fail the redundant-encoding rule (§2.1); the layout is tuned to not reach it above
+> the phone target.
 
 **Left when the scope owns a row; centered when it _is_ the middle of one.**
 
-- **Below `lg`** the scope has its **own full-width row**, so it aligns `justify-start` — on the exact
-  same left rail as the cards below it (measured: both at x=24). Centering it there made it *float*:
-  the only element in the app off the rail that the title, the cards and their titles all share, with
-  no counterweight to justify the position. A wrapped pill (≤ 360 px) then also lands **under the
-  first one** instead of orphaned mid-row.
+- **Below `lg`** the scope has its **own full-width row**. On the phone it fills that row
+  (proportional-fill, above), so alignment is moot. From `sm` the natural-width pills sit
+  **left-aligned** (`justify-start`) on the exact same left rail as the cards below it (measured: both
+  at x=24) — the same anchor the title and the card titles share. A lone row has **no flanks**, so
+  centering it would float it off that rail; the gap to its right is not "unfinished" but the same
+  breathing room the cards leave, and the top-right actions already counterweight it.
 - **At `lg`+** it is the middle term of `title · scope · actions`, centered by HeaderToolbar's two
-  `flex-1` flanks — a real triptych, not a floating element. (`justify-*` on the nav is a no-op there:
-  it is content-width.)
+  `flex-1` flanks — a real triptych, an element that now *has* flanks. (`justify-start` on the nav is
+  a no-op there: it is content-width.)
 
 > Alignment is the cheapest layout principle there is: a fixed left anchor is found without searching,
 > which is what a gloved, in-a-hurry glance needs. Centering is for elements that have two flanks.
 
-- **Phone (`< sm`):** `text-sm`, 16 px icon, `px-3`. The three fit **one line at ~390 px** (the
-  target) and **wrap to a second line (`flex-wrap`) on narrower phones** — full labels on two lines
-  beat a cut label on one.
-- **`sm+`:** the label grows to the `text-base → lg:text-lg` title size (§3, the size that links the
-  scope to the card titles), `px-4`. There is room for one line.
+- **Phone (`< sm`):** `text-sm`, 14 px icon, `px-2`, `flex-auto` (proportional-fill). One line at the
+  360 px target; ellipsis only below ~340 px.
+- **`sm+`:** `flex-none`, 16 px icon, and the label grows to the `text-base → lg:text-lg` title size
+  (§3, the size that links the scope to the card titles), `px-4`.
 
 - **Active**: **solid ink fill** — `bg-slate-900 text-white` (inverted `dark:bg-slate-50
 dark:text-slate-900`). Chosen over a category tint so the active state clears AAA and never relies
@@ -461,9 +472,9 @@ edges line up with the outer card columns — the header is the **same width as 
 narrower or wider strip. Within that measure the arrangement adapts to the feed's own breakpoints:
 
 - **Mobile & tablet (`< lg`) — two tiers.** Tier 1 is `[ title · search · Filtres ]`; tier 2 is the
-  category scope on its own full-width line — natural-width pills, **left-aligned on the card rail**
-  (§5.2), that wrap rather than
-  clip on the narrowest phones (§5.2) — always fully visible with **no horizontal scroll**. Opening search
+  category scope on its own full-width line — on the phone pills **proportional to their label that
+  fill the row**, from `sm` natural-width pills **left-aligned on the card rail** (§5.2) — always one
+  line with **no horizontal scroll**. Opening search
   expands the field across tier 1 and **hides the title** (§5.9) — full width, no touch target
   shrinks.
 - **Desktop (`lg+`) — one line.** The wide measure fits everything on a single row: **title left ·
