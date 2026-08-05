@@ -6,6 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "type-check": "vue-tsc --noEmit",
+    "validate:data": "node scripts/validate-data.ts",
     "preview": "vite preview",
     "lint": "eslint . --fix",
     "lint:ci": "eslint .",
