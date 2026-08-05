@@ -265,7 +265,7 @@
   {
     "id": 23,
     "title": "Descentes Excentriques",
-    "teaser": "Sauter pour attraper la barre en position haute de traction, et descendre le plus lentement possible.",
+    "teaser": "Sauter pour attraper la barre en position haute de traction, puis descendre très lentement.",
     "categoryId": "physique",
     "tags": [
       "poutre"
@@ -625,7 +625,7 @@
   {
     "id": 54,
     "title": "Saisie Dynamique Parfaite",
-    "teaser": "Lancer un mouvement dynamique, mais interdiction absolue de replacer ses doigts sur la prise d'arrivée.",
+    "teaser": "Lancer un mouvement dynamique, sans jamais replacer ses doigts sur la prise d'arrivée.",
     "categoryId": "technique",
     "tags": [
       "dynamique",
@@ -885,7 +885,7 @@
   {
     "id": 76,
     "title": "Règle des 3 Essais",
-    "teaser": "Se limiter à 3 essais très qualitatifs. En cas d'échec, abandonner sans frustration et passer à autre chose.",
+    "teaser": "Se limiter à 3 essais qualitatifs. En cas d'échec, passer à autre chose sans frustration.",
     "categoryId": "mental",
     "tags": [
       "bloc"
@@ -943,7 +943,7 @@
   {
     "id": 81,
     "title": "Sourire Forcé",
-    "teaser": "Se forcer physiquement à sourire dans les passages où la peur ou la difficulté monte (trompe le cerveau).",
+    "teaser": "Se forcer à sourire quand la peur monte : le cerveau suit.",
     "categoryId": "mental",
     "tags": [
       "voie",
@@ -991,7 +991,7 @@
   {
     "id": 85,
     "title": "Grimpe à la Sensation",
-    "teaser": "Monter un bloc facile les yeux mi-clos pour ressentir la texture et le frottement plutôt que la performance.",
+    "teaser": "Monter un bloc facile les yeux mi-clos, pour ressentir la texture plutôt que la performance.",
     "categoryId": "mental",
     "tags": [
       "bloc",
@@ -1038,7 +1038,7 @@
   {
     "id": 89,
     "title": "Volonté de Lâcher",
-    "teaser": "Arrivé à la dernière dégaine, refuser de la clipper et redescendre d'un point pour lutter contre la panique.",
+    "teaser": "À la dernière dégaine, ne pas clipper et redescendre d'un point pour affronter la panique.",
     "categoryId": "mental",
     "tags": [
       "voie"
@@ -1061,7 +1061,7 @@
   {
     "id": 91,
     "title": "Escalade en Duo",
-    "teaser": "Grimper un bloc en même temps qu'un partenaire sur un bloc parallèle pour gérer la distraction externe.",
+    "teaser": "Grimper en même temps qu'un partenaire sur un bloc parallèle, pour gérer la distraction.",
     "categoryId": "mental",
     "tags": [
       "bloc"
@@ -1095,7 +1095,7 @@
   {
     "id": 94,
     "title": "Focalisation Tactile",
-    "teaser": "Se concentrer uniquement sur la température de la prise ou la rugosité pour ignorer l'exposition au vide.",
+    "teaser": "Se concentrer sur la température et la rugosité des prises pour oublier le vide.",
     "categoryId": "mental",
     "tags": [
       "dalle",
@@ -1131,7 +1131,7 @@
   {
     "id": 97,
     "title": "Refus de la Prise de Repli",
-    "teaser": "S'interdire d'utiliser la grosse prise rassurante à côté du crux pour s'obliger à engager le mouvement dur.",
+    "teaser": "S'interdire la grosse prise rassurante à côté du crux, pour devoir engager le mouvement dur.",
     "categoryId": "mental",
     "tags": [
       "bloc",

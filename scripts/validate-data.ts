@@ -29,8 +29,13 @@ import type { Exercise, Protocol } from '../src/domain/exercise.ts';
 // of the current 100 teasers sit there while the teaser/instructions split is still pending. It
 // would be a gate nobody can pass today, so it warns. DESIGN §5.1 is explicit that the target must
 // never become a hard limit.
-const TEASER_CEILING = 108;
-const TEASER_TARGET = 71;
+// Both numbers are the 390px budget (DESIGN §5.1): the box is `viewport - 105px`, and French prose
+// at 15px Inter runs ~7.1px/char, so a line holds ~38 chars. They are meaningless without that
+// width — 360px would need ~90, which is deferred to the teaser/instructions split. And a char count
+// only approximates the 3-line clamp, since wrapping breaks on words: it catches the runaway entry,
+// it does not prove the clamp holds.
+const TEASER_CEILING = 100;
+const TEASER_TARGET = 70;
 
 const DATA_PATH = fileURLToPath(new URL('../public/data/exercises.json', import.meta.url));
 

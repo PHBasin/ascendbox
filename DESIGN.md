@@ -199,7 +199,7 @@ Anatomy — **title-led**, two zones split by a rule:
 ```
 [ category ]              ← search only
 Title                     ← leads, owns the row; the stretched link (§3)
-teaser                    ← the hook; ≤ 71 chars (below)
+teaser                    ← the hook; ≤ 70 chars (below)
                           ┐
 #tag #tag                 │ metadata block — flat text, 1 line max (§5.4)
 ────────────────────────  │ border-t
@@ -215,21 +215,40 @@ at the same height across a grid row however long each teaser runs. Pinning only
 it splits the tags from their rule. The card's slack belongs on the content↔metadata boundary, not
 inside either zone.
 
-**The teaser is clamped to 3 lines** (`line-clamp-3`) — a guarantee, not a cut. Measured across the
-catalogue nothing exceeds 3 lines, so today it truncates **nothing** while still bounding what a
-hand-authored entry can become in production. A clamp that never fires is free. (`-2` was tried and
-cut **68%** of the catalogue — many of them Mental, whose prose _is_ the exercise; the mistake was
-treating a layout guarantee as an editorial rule.)
+**The teaser is clamped to 3 lines** (`line-clamp-3`) — a guarantee, not a cut. At the supported
+widths nothing in the catalogue reaches a 4th line, so today it truncates **nothing** while still
+bounding what a hand-authored entry can become in production. A clamp that never fires is free. (`-2`
+was tried and cut **68%** of the catalogue — many of them Mental, whose prose _is_ the exercise; the
+mistake was treating a layout guarantee as an editorial rule.)
 
-**Teaser length — two numbers, two jobs** (measured on a 300px card at 15px):
+**Teaser length — think in lines, not characters.** The teaser box is `viewport − 105px`, and real
+French prose at 15px Inter measures ~7.1px per character (7.4 worst case in this catalogue). That
+gives one usable rule:
+
+> **One line ≈ 35 characters** on a phone. Aim for **two lines**. Never exceed **three**.
 
 | | Chars | Job |
 | --- | --- | --- |
-| **Target** | **≤ 71** | fits **2 lines** → the title keeps the lead, card height stays stable |
-| **Ceiling** | **108** | past it `line-clamp-3` truncates; a 3-line teaser outweighs the title ~3.4× and the card reads description-led |
+| **Target** | **≤ 70** | fits **2 lines** → the title keeps the lead, card height stays stable |
+| **Ceiling** | **100** | past it `line-clamp-3` truncates; a 3-line teaser outweighs the title ~3.4× and the card reads description-led |
+
+**The ceiling is the 390px budget** (box 285px ≈ 38 chars/line). **A character count only means
+something next to the width it was measured at**: the previous ceiling of 108 was also a 390px number
+but stated unconditionally, and it silently truncated 13 teasers on a 360px phone. 100 keeps real
+headroom at 390 instead of sitting 6 chars from the edge.
+
+**Known gap — 360px is not yet guaranteed.** At 360 (the common Android width) the budget is ~34
+chars/line and **5 teasers still reach a 4th line** (ids 52, 92, 95, 98, 100). A true 360 guarantee
+needs a ceiling near **90**, which 29 of the current teasers exceed. That is deferred to the
+teaser/`instructions` split (CLAUDE.md), which rewrites these same strings toward the 70 target
+anyway — doing it twice would be wasted editing. Re-measure and drop the ceiling to 90 then.
+
+Note that no character ceiling can *prove* the clamp holds: wrapping breaks on words, so a 92-char
+teaser with long words spills to 4 lines where a 100-char one with short words does not. All four of
+the 4-line cases at 360 are under 100. The number is a cheap heuristic; the clamp is the guarantee.
 
 Wrapping follows words, not characters, so the target is deliberately conservative and the clamp is
-the real backstop. Do **not** turn 71 into a validated hard limit — it is an aim, and the clamp
+the real backstop. Do **not** turn 70 into a validated hard limit — it is an aim, and the clamp
 already covers the failure.
 
 **Contextual category — no redundancy.** The scope is always exactly one category (§5.2), so a badge
@@ -364,7 +383,7 @@ gauge · Matériel) · **Déroulé** as numeric tiles (reps / sets / rest / hold
 **The detail shows `instructions`, never the card's `teaser`.** The coach already read the teaser and
 tapped because of it, so echoing it here spends the page's most valuable line on something known (same
 rule as the contextual category, §5.1). The split lets each be right: the teaser stays a short hook
-(≤ 71 chars, §5.1) while `instructions` has room for the real how-to. It also rescues **Mental**
+(≤ 70 chars, §5.1) while `instructions` has room for the real how-to. It also rescues **Mental**
 exercises, whose instruction _is_ irreducible prose (median 95 chars, nothing extractable into
 `protocol`).
 
