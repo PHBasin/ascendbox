@@ -2,6 +2,7 @@
 import { ref, computed, watch, onBeforeUnmount } from 'vue';
 import type { Exercise, CategoryId } from '@/domain/exercise';
 import ExerciseCard from './ExerciseCard.vue';
+import ResetIcon from './icons/ResetIcon.vue';
 
 const props = defineProps<{
   exercises: Exercise[];
@@ -80,25 +81,8 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
       <p class="text-slate-600 dark:text-slate-300">
         {{ emptyMessage }}
       </p>
-      <button
-        v-if="hasRefinement"
-        type="button"
-        class="inline-flex items-center gap-2 px-4 min-h-11 rounded-full font-semibold text-sm bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 transition-transform duration-300 active:scale-95"
-        @click="emit('reset')"
-      >
-        <svg
-          class="w-4 h-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
-          <path d="M3 3v5h5" />
-        </svg>
+      <button v-if="hasRefinement" type="button" class="btn-ink gap-2" @click="emit('reset')">
+        <ResetIcon class="w-4 h-4" />
         Tout réinitialiser
       </button>
     </div>

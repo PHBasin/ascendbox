@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { computed, ref, nextTick } from 'vue';
-import {
-  useExercises,
-  DURATION_BUCKETS,
-  LEVELS,
-  type DurationBucketId,
-} from '@/application/useExercises';
-import type { Level } from '@/domain/exercise';
+import { useExercises, DURATION_BUCKETS } from '@/application/useExercises';
+import { LEVELS } from '@/domain/exercise';
 import FilterSheet from './FilterSheet.vue';
+import SearchIcon from './icons/SearchIcon.vue';
+import CloseIcon from './icons/CloseIcon.vue';
 
 const {
   searchOpen,
@@ -45,17 +42,24 @@ async function closeSearch(): Promise<void> {
 }
 
 // Applied attribute filters as removable chips (DESIGN §5.5): recognition over recall.
+//
+// Buckets and levels are filtered *from their source list* rather than mapped from the selection:
+// the label travels with the option, so no id → label lookup is needed. It also fixes their order —
+// a chip keeps its place in the scale instead of moving to wherever it was tapped.
+//
+// Tags are mapped from the selection instead, and deliberately: `availableTags` narrows with the
+// scope, so walking it could drop a chip for a filter that is still applied. Their label is the tag.
 type Chip = { key: string; label: string; remove: () => void };
 const chips = computed<Chip[]>(() => [
-  ...selectedBuckets.value.map((id: DurationBucketId) => ({
-    key: `d:${id}`,
-    label: DURATION_BUCKETS.find((b) => b.id === id)!.label,
-    remove: () => toggleBucket(id),
+  ...DURATION_BUCKETS.filter((b) => selectedBuckets.value.includes(b.id)).map((b) => ({
+    key: `d:${b.id}`,
+    label: b.label,
+    remove: () => toggleBucket(b.id),
   })),
-  ...selectedLevels.value.map((v: Level) => ({
-    key: `l:${v}`,
-    label: LEVELS.find((x) => x.value === v)!.label,
-    remove: () => toggleLevel(v),
+  ...LEVELS.filter((l) => selectedLevels.value.includes(l.value)).map((l) => ({
+    key: `l:${l.value}`,
+    label: l.label,
+    remove: () => toggleLevel(l.value),
   })),
   ...selectedTags.value.map((t: string) => ({
     key: `t:${t}`,
@@ -96,38 +100,16 @@ const chips = computed<Chip[]>(() => [
             ref="searchButton"
             type="button"
             aria-label="Rechercher un exercice"
-            class="inline-flex items-center justify-center w-11 h-11 rounded-full ring-1 ring-slate-200 dark:ring-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
+            class="pill-action inline-flex items-center justify-center w-11 h-11"
             @click="openSearch"
           >
-            <svg
-              class="w-5 h-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.5-3.5" />
-            </svg>
+            <SearchIcon class="w-5 h-5" />
           </button>
 
           <div v-else class="relative w-full sm:w-56">
-            <svg
+            <SearchIcon
               class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-400"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.5-3.5" />
-            </svg>
+            />
             <input
               ref="searchInput"
               v-model="searchQuery"
@@ -143,17 +125,7 @@ const chips = computed<Chip[]>(() => [
               class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-8 h-8 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300"
               @click="closeSearch"
             >
-              <svg
-                class="w-4 h-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                aria-hidden="true"
-              >
-                <path d="M6 6l12 12M18 6L6 18" />
-              </svg>
+              <CloseIcon class="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -163,7 +135,7 @@ const chips = computed<Chip[]>(() => [
           type="button"
           aria-haspopup="dialog"
           :aria-expanded="sheetOpen"
-          class="shrink-0 inline-flex items-center gap-2 px-4 min-h-11 rounded-full font-semibold text-sm sm:text-base lg:text-lg ring-1 ring-slate-200 dark:ring-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
+          class="pill-action shrink-0 inline-flex items-center gap-2 px-4 min-h-11 font-semibold text-sm sm:text-base lg:text-lg"
           @click="sheetOpen = true"
         >
           <svg
@@ -200,17 +172,7 @@ const chips = computed<Chip[]>(() => [
           @click="chip.remove"
         >
           {{ chip.label }}
-          <svg
-            class="w-3.5 h-3.5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            aria-hidden="true"
-          >
-            <path d="M6 6l12 12M18 6L6 18" />
-          </svg>
+          <CloseIcon class="w-3.5 h-3.5" />
         </button>
       </li>
     </ul>

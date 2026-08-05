@@ -45,10 +45,52 @@
   }
 }
 
+/* Shared surfaces (DESIGN §11). Each class carries a **skin, never a box**: colour, ring, hover and
+   motion live here; size, padding and transition duration stay at the call site, because that is
+   exactly what differs between the places that share a look. Extracting the box too would fuse
+   controls that only happen to be the same colour. */
 @layer components {
   .card {
     /* p-5 (20px): one notch under the 24px page rhythm (DESIGN §4). */
     @apply bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700
            rounded-3xl p-5 transition-all duration-300;
+  }
+
+  /* Standalone action on a white surface (DESIGN §5.2): the search magnifier, `Filtres`, the detail
+     page's back link. Distinct from `.toggle-off` on purpose — §5.2 reserves white for an action and
+     recessed slate-100 for an unselected toggle, so a control looks like what it does (§1.5). */
+  .pill-action {
+    @apply rounded-full ring-1 ring-slate-200 dark:ring-slate-700
+           bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50
+           hover:bg-slate-100 dark:hover:bg-slate-700
+           transition-colors duration-300 active:scale-95;
+  }
+
+  /* Toggle skin, shared by the scope pills (§5.2) and the filter sheet's options (§5.5) — §5.5 asks
+     for the same interaction, this is it made literal. Active = solid ink, never hue (§2.4).
+     The durations are NOT here: deselect (150ms) is quicker than select (300ms) on the scope bar
+     (§6), and that difference belongs to the call site. */
+  .toggle-on {
+    @apply bg-slate-900 text-white ring-slate-900
+           dark:bg-slate-50 dark:text-slate-900 dark:ring-slate-50;
+  }
+  .toggle-off {
+    @apply bg-slate-100 text-slate-600 ring-slate-200 hover:bg-slate-200
+           dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-700;
+  }
+
+  /* Section label: the small uppercase eyebrow above a block (detail page §5.6, filter sheet §5.5).
+     11px is below the §3 body scale on purpose — it is a signpost, not text to read. */
+  .eyebrow {
+    @apply text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300;
+  }
+
+  /* Solid-ink pill CTA: the feed's `Tout réinitialiser` and the detail page's `Voir le catalogue`.
+     Not the filter sheet's apply button — that one is a full-width 52px rounded-2xl bar (§5.5/§8),
+     a different control that merely shares the ink. */
+  .btn-ink {
+    @apply inline-flex items-center px-4 min-h-11 rounded-full font-semibold text-sm
+           bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900
+           transition-transform duration-300 active:scale-95;
   }
 }

@@ -18,13 +18,6 @@ export const DURATION_BUCKETS: ReadonlyArray<{
   { id: 'long', label: '> 25 min', match: (m) => m > 25 },
 ];
 
-// Ordinal level scale, in order (DESIGN §2.3).
-export const LEVELS: ReadonlyArray<{ value: Level; label: string }> = [
-  { value: 1, label: 'Débutant' },
-  { value: 2, label: 'Intermédiaire' },
-  { value: 3, label: 'Avancé' },
-];
-
 // Case- and accent-insensitive folding for search matching.
 function fold(s: string): string {
   return s
@@ -75,10 +68,10 @@ const byCategory = computed<Exercise[]>(() =>
 );
 const scoped = computed<Exercise[]>(() => (searchOpen.value ? all.value : byCategory.value));
 
+// Walk the buckets rather than the selection: the predicate travels with its id, so there is no
+// id → bucket lookup to make (and no non-null assertion to promise it always resolves).
 function inSelectedBucket(duration: number): boolean {
-  return selectedBuckets.value.some((id) =>
-    DURATION_BUCKETS.find((b) => b.id === id)!.match(duration)
-  );
+  return DURATION_BUCKETS.some((b) => selectedBuckets.value.includes(b.id) && b.match(duration));
 }
 
 // Search text (if any) + attribute filters on top of the scope. Empty selection = no constraint.
@@ -194,9 +187,7 @@ function resetAll(): void {
 // must never be rendered as "no such exercise".
 export function useExercise(id: () => number) {
   void load(); // idempotent — a deep-link may be the app's first screen
-  const exercise = computed<Exercise | undefined>(() =>
-    all.value.find((ex) => ex.id === id())
-  );
+  const exercise = computed<Exercise | undefined>(() => all.value.find((ex) => ex.id === id()));
   const notFound = computed(() => !isLoading.value && !error.value && !exercise.value);
   return { exercise, notFound, isLoading, error };
 }

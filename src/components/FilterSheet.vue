@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, watch, onBeforeUnmount } from 'vue';
-import { useExercises, DURATION_BUCKETS, LEVELS } from '@/application/useExercises';
+import { useExercises, DURATION_BUCKETS } from '@/application/useExercises';
+import { LEVELS } from '@/domain/exercise';
+import ResetIcon from './icons/ResetIcon.vue';
 
 const props = defineProps<{ open: boolean }>();
 const emit = defineEmits<{ close: [] }>();
@@ -25,12 +27,6 @@ const shownTags = computed(() => {
   const q = tagQuery.value.trim().toLowerCase();
   return q ? availableTags.value.filter((t) => t.toLowerCase().includes(q)) : availableTags.value;
 });
-
-// Toggle styling shared with the scope pills (DESIGN §5.2): ink-fill active, slate-100 + border inactive.
-const OPTION_ON =
-  'bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 ring-slate-900 dark:ring-slate-50';
-const OPTION_OFF =
-  'bg-slate-100 text-slate-600 ring-slate-200 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-700';
 
 function close(): void {
   emit('close');
@@ -90,7 +86,9 @@ onBeforeUnmount(() => {
 
         <!-- min-h-11 reserves the reset button's height so toggling it never resizes the panel -->
         <header class="flex items-center justify-between gap-3 mb-6 min-h-11">
-          <h2 class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+          <h2
+            class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
+          >
             Filtres
           </h2>
           <button
@@ -99,30 +97,14 @@ onBeforeUnmount(() => {
             class="inline-flex items-center gap-2 px-3 min-h-11 rounded-full text-sm font-semibold ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-300 active:scale-95"
             @click="resetFilters"
           >
-            <svg
-              class="w-3.5 h-3.5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
-              <path d="M3 3v5h5" />
-            </svg>
+            <ResetIcon class="w-3.5 h-3.5" />
             Réinitialiser
           </button>
         </header>
 
         <!-- Durée -->
         <section class="mb-6">
-          <p
-            class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300 mb-3"
-          >
-            Durée
-          </p>
+          <p class="eyebrow mb-3">Durée</p>
           <div class="flex flex-wrap gap-2">
             <button
               v-for="bucket in DURATION_BUCKETS"
@@ -130,7 +112,7 @@ onBeforeUnmount(() => {
               type="button"
               :aria-pressed="selectedBuckets.includes(bucket.id)"
               class="px-4 min-h-11 rounded-full font-semibold text-sm ring-1 transition-colors duration-300 active:scale-95"
-              :class="selectedBuckets.includes(bucket.id) ? OPTION_ON : OPTION_OFF"
+              :class="selectedBuckets.includes(bucket.id) ? 'toggle-on' : 'toggle-off'"
               @click="toggleBucket(bucket.id)"
             >
               {{ bucket.label }}
@@ -140,11 +122,7 @@ onBeforeUnmount(() => {
 
         <!-- Niveau -->
         <section class="mb-6">
-          <p
-            class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300 mb-3"
-          >
-            Niveau
-          </p>
+          <p class="eyebrow mb-3">Niveau</p>
           <div class="flex flex-wrap gap-2">
             <button
               v-for="lvl in LEVELS"
@@ -152,7 +130,7 @@ onBeforeUnmount(() => {
               type="button"
               :aria-pressed="selectedLevels.includes(lvl.value)"
               class="px-4 min-h-11 rounded-full font-semibold text-sm ring-1 transition-colors duration-300 active:scale-95"
-              :class="selectedLevels.includes(lvl.value) ? OPTION_ON : OPTION_OFF"
+              :class="selectedLevels.includes(lvl.value) ? 'toggle-on' : 'toggle-off'"
               @click="toggleLevel(lvl.value)"
             >
               {{ lvl.label }}
@@ -162,11 +140,7 @@ onBeforeUnmount(() => {
 
         <!-- Tags -->
         <section v-if="availableTags.length" class="mb-6">
-          <p
-            class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300 mb-3"
-          >
-            Tags
-          </p>
+          <p class="eyebrow mb-3">Tags</p>
           <input
             v-if="showTagSearch"
             v-model="tagQuery"
@@ -181,7 +155,7 @@ onBeforeUnmount(() => {
               type="button"
               :aria-pressed="selectedTags.includes(tag)"
               class="px-4 min-h-11 rounded-full font-medium text-sm ring-1 transition-colors duration-300 active:scale-95"
-              :class="selectedTags.includes(tag) ? OPTION_ON : OPTION_OFF"
+              :class="selectedTags.includes(tag) ? 'toggle-on' : 'toggle-off'"
               @click="toggleTag(tag)"
             >
               #{{ tag }}

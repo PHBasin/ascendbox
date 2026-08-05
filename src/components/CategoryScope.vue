@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { CATEGORIES, type CategoryId } from '@/domain/exercise';
+import { CATEGORY_TINT } from './categoryStyles';
 import CategoryIcon from './CategoryIcon.vue';
 
 const props = defineProps<{ activeCategory: CategoryId; searching?: boolean }>();
@@ -17,19 +18,11 @@ const isActive = (id: CategoryId): boolean => !props.searching && props.activeCa
 const PILL =
   'flex-auto sm:flex-none min-w-0 inline-flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 min-h-11 rounded-full font-bold text-sm sm:text-base lg:text-lg ring-1 transition-all active:scale-95';
 
-// Active = solid ink, never hue (§2.4). Deselect (150ms) is quicker than select (300ms) — it recedes
-// as a by-product of another action, so it must not pull the eye (§6).
-const ON =
-  'duration-300 bg-slate-900 text-white ring-slate-900 dark:bg-slate-50 dark:text-slate-900 dark:ring-slate-50';
-const OFF =
-  'duration-150 bg-slate-100 text-slate-600 ring-slate-200 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-700';
-
-// Icon tint = reinforcement only; the label carries the meaning (§2.1).
-const TINT: Record<CategoryId, string> = {
-  physique: 'text-physique',
-  technique: 'text-technique',
-  mental: 'text-mental',
-};
+// Skin from `.toggle-on`/`.toggle-off` (main.css), shared with the filter sheet. Only the duration
+// is local: deselect (150ms) is quicker than select (300ms) — it recedes as a by-product of another
+// action, so it must not pull the eye (§6).
+const ON = 'duration-300 toggle-on';
+const OFF = 'duration-150 toggle-off';
 </script>
 
 <template>
@@ -49,7 +42,7 @@ const TINT: Record<CategoryId, string> = {
       <CategoryIcon
         :category="cat.id"
         class="inline-flex w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"
-        :class="isActive(cat.id) ? '' : TINT[cat.id]"
+        :class="isActive(cat.id) ? '' : CATEGORY_TINT[cat.id]"
       />
       <span class="truncate">{{ cat.label }}</span>
     </button>

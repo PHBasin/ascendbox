@@ -11,13 +11,26 @@ export const CATEGORIES = [
 export type CategoryId = (typeof CATEGORIES)[number]['id'];
 export type Level = 1 | 2 | 3; // 1 = low, 2 = moderate, 3 = high
 
-// Displayed label per level, same job as `CATEGORIES` above: one place where a domain value meets the
-// word a coach reads. Both the card's gauge and the detail page's spec block spend it.
-export const LEVEL_LABELS: Record<Level, string> = {
-  1: 'Débutant',
-  2: 'Intermédiaire',
-  3: 'Avancé',
-};
+// Ordinal level scale, in order (DESIGN §2.3) — `CATEGORIES`' sibling: the other closed vocabulary a
+// coach reads. Ordered because the filter sheet renders it as a scale, not a set.
+export const LEVELS = [
+  { value: 1, label: 'Débutant' },
+  { value: 2, label: 'Intermédiaire' },
+  { value: 3, label: 'Avancé' },
+] as const satisfies ReadonlyArray<{ value: Level; label: string }>;
+
+// Label lookups, *derived* from the two lists above rather than restated. The list is what the UI
+// iterates (order is information); the record is what it indexes by id — same words either way, so
+// renaming `Débutant` is one edit, not a hunt. Both are one place where a domain value meets the
+// word a coach reads: the card's gauge and the detail spec block spend `LEVEL_LABELS`, the card and
+// the detail eyebrow spend `CATEGORY_LABELS`.
+export const LEVEL_LABELS: Record<Level, string> = Object.fromEntries(
+  LEVELS.map((l) => [l.value, l.label])
+) as Record<Level, string>;
+
+export const CATEGORY_LABELS: Record<CategoryId, string> = Object.fromEntries(
+  CATEGORIES.map((c) => [c.id, c.label])
+) as Record<CategoryId, string>;
 
 /**
  * How to make the exercise harder or easier — the "Adapter" section of the detail page (§5.6).

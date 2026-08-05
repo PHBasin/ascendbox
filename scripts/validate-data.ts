@@ -11,7 +11,7 @@ import { readFileSync } from 'node:fs';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
-import { CATEGORIES } from '../src/domain/exercise.ts';
+import { CATEGORIES, LEVELS } from '../src/domain/exercise.ts';
 import type { Exercise, Variants } from '../src/domain/exercise.ts';
 
 const DATA_PATH = fileURLToPath(new URL('../public/data/exercises.json', import.meta.url));
@@ -108,9 +108,10 @@ function variants(value: unknown): string | null {
 
 const CATEGORY_IDS: readonly string[] = CATEGORIES.map((category) => category.id);
 
-// The one rule that restates its type: `Level` is a union of literals, which has no runtime form to
-// read back. Keep in step with `Level` in src/domain/exercise.ts.
-const LEVELS: readonly unknown[] = [1, 2, 3];
+// Both read off the domain, so neither can drift from what it checks. `LEVELS` used to be restated
+// here as [1, 2, 3] — `Level` is a union of literals with no runtime form — but the ordered list the
+// filter sheet renders gives that union a runtime shape, and this reads it back.
+const LEVEL_VALUES: readonly unknown[] = LEVELS.map((level) => level.value);
 
 type FieldSpec<K extends keyof Exercise> = {
   // Read off `Exercise` itself, so a flag contradicting the interface is a compile error.
@@ -132,7 +133,8 @@ const FIELDS: { [K in keyof Required<Exercise>]: FieldSpec<K> } = {
   tags: { required: true, check: filledStringArray },
   level: {
     required: true,
-    check: (v) => (LEVELS.includes(v) ? null : `must be 1 | 2 | 3 (got ${format(v)})`),
+    check: (v) =>
+      LEVEL_VALUES.includes(v) ? null : `must be ${LEVEL_VALUES.join(' | ')} (got ${format(v)})`,
   },
   duration: { required: true, check: positiveInt(', in minutes') },
   objective: { required: false, check: filledString },
