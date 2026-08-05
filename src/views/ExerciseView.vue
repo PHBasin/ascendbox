@@ -6,7 +6,7 @@ import CategoryIcon from '@/components/CategoryIcon.vue';
 import LevelGauge from '@/components/LevelGauge.vue';
 
 // Exercise detail (DESIGN §5.6), read-only. The coach reads this standing at the wall, in a hurry:
-// the **Déroulé** is the payload they came for, so it is the visual hero — not the prose.
+// the **Déroulement** is the payload they came for, so it is a scannable list — never a paragraph.
 const props = defineProps<{ id: string }>();
 
 const { exercise, notFound, isLoading, error } = useExercise(() => Number(props.id));
@@ -24,27 +24,17 @@ const categoryTint = computed(() =>
   exercise.value ? CATEGORY_TINT[exercise.value.categoryId] : ''
 );
 
-// Seconds → the unit a coach actually says out loud. 180 → "3 min" beats "180 s" at arm's length;
-// 90 → "1 min 30" keeps the remainder rather than rounding it away.
-function fmtSec(s: number): string {
-  if (s < 60) return `${s} s`;
-  const min = Math.floor(s / 60);
-  const rest = s % 60;
-  return rest ? `${min} min ${rest}` : `${min} min`;
-}
-
-// Only the tiles that have a value — a missing figure is a non-event (§5.6), never an empty tile.
-type Tile = { key: string; value: string; label: string };
-const tiles = computed<Tile[]>(() => {
-  const p = exercise.value?.protocol;
-  if (!p) return [];
-  const out: Tile[] = [];
-  if (p.sets !== undefined) out.push({ key: 'sets', value: String(p.sets), label: 'Séries' });
-  if (p.reps !== undefined) out.push({ key: 'reps', value: String(p.reps), label: 'Répétitions' });
-  if (p.holdSec !== undefined)
-    out.push({ key: 'hold', value: fmtSec(p.holdSec), label: 'Tenue' });
-  if (p.restSec !== undefined)
-    out.push({ key: 'rest', value: fmtSec(p.restSec), label: 'Repos' });
+// Only the directions that carry items — one-sided adaptation is the norm (plenty of exercises can
+// be made easier but not usefully harder), and a missing one is a non-event (§5.6), never an empty
+// block. `up` picks the arrow: direction must be legible without hue (§1.3).
+type VariantBlock = { key: string; label: string; up: boolean; items: string[] };
+const variantBlocks = computed<VariantBlock[]>(() => {
+  const v = exercise.value?.variants;
+  if (!v) return [];
+  const out: VariantBlock[] = [];
+  if (v.harder?.length) out.push({ key: 'harder', label: 'Plus dur', up: true, items: v.harder });
+  if (v.easier?.length)
+    out.push({ key: 'easier', label: 'Plus facile', up: false, items: v.easier });
   return out;
 });
 </script>
@@ -116,21 +106,28 @@ const tiles = computed<Tile[]>(() => {
         <span
           class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
         >
-          <CategoryIcon :category="exercise.categoryId" class="w-4 h-4 shrink-0" :class="categoryTint" />
+          <CategoryIcon
+            :category="exercise.categoryId"
+            class="w-4 h-4 shrink-0"
+            :class="categoryTint"
+          />
           {{ categoryLabel }}
         </span>
         <h1 class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
           {{ exercise.title }}
         </h1>
-        <!-- `instructions`, never the teaser: the coach read the teaser on the card and tapped
-             *because of it* — echoing it here would spend the most valuable line of the page saying
-             something already known (same rule as the contextual category, §5.1). Optional and
-             self-hiding like every other detail section (§5.6). -->
+        <!-- `objective`, never the teaser: the coach read the teaser on the card and tapped *because
+             of it* — echoing it here would spend the most valuable line of the page saying something
+             already known (same rule as the contextual category, §5.1). The objective answers the
+             other question ("what does this buy me?"), which is what belongs under a title.
+             No eyebrow label: the block already opens with the category eyebrow, and a second one
+             above a single line reads as noise. A subtitle *is* self-evidently the objective.
+             Optional and self-hiding like every other detail section (§5.6). -->
         <p
-          v-if="exercise.instructions"
-          class="text-[15px] lg:text-base text-slate-700 dark:text-slate-300 leading-relaxed"
+          v-if="exercise.objective"
+          class="text-base lg:text-lg text-slate-700 dark:text-slate-300 leading-relaxed"
         >
-          {{ exercise.instructions }}
+          {{ exercise.objective }}
         </p>
       </div>
 
@@ -164,7 +161,9 @@ const tiles = computed<Tile[]>(() => {
 
         <!-- Middots exist only where the row is guaranteed single-line (`sm+`); stacked, they would
              each become a row of their own. -->
-        <span class="hidden sm:inline text-slate-300 dark:text-slate-600" aria-hidden="true">·</span>
+        <span class="hidden sm:inline text-slate-300 dark:text-slate-600" aria-hidden="true"
+          >·</span
+        >
 
         <LevelGauge :level="exercise.level" size="lg" />
 
@@ -195,29 +194,30 @@ const tiles = computed<Tile[]>(() => {
         </span>
       </div>
 
-      <!-- Déroulé — the hero. Big figures, readable at arm's length; the label is the eyebrow (§3). -->
-      <section v-if="tiles.length" class="flex flex-col gap-3">
-        <h2 class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300">
-          Déroulé
+      <!-- Déroulement — the payload. A list, never a paragraph: this is read mid-session, standing,
+           and a sequence is scanned where prose has to be re-read. It also carries the figures the
+           removed `protocol` tiles used to hold ("5 séries de 7 s, 3 min de récup"), which is what
+           lets one line say "5 s par bras" — the thing the tile model could not express. -->
+      <section v-if="exercise.instructions?.length" class="flex flex-col gap-3">
+        <h2
+          class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300"
+        >
+          Déroulement
         </h2>
-        <!-- Tiles grow to fill the row but are capped: 3–4 of them divide it evenly, while 1–2 keep a
-             sane size and pack left instead of stretching a lone figure across half the page. A fixed
-             4-col grid was the other option, but it leaves a hole whenever a figure is absent — and
-             absent is the norm here. Phones keep 2 columns: 4 across 390 px kills the glance. -->
-        <ul class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
+        <ul class="flex flex-col gap-3">
           <li
-            v-for="tile in tiles"
-            :key="tile.key"
-            class="card p-4 flex flex-col gap-1 items-center text-center sm:flex-1 sm:min-w-32 sm:max-w-64"
+            v-for="(step, i) in exercise.instructions"
+            :key="i"
+            class="flex gap-3 text-[15px] lg:text-base text-slate-700 dark:text-slate-300 leading-relaxed"
           >
-            <span class="text-3xl lg:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
-              {{ tile.value }}
-            </span>
+            <!-- Drawn, not a `list-disc` marker: a real bullet inherits the text's line-height and
+                 drifts off the first line as the item wraps. `mt-2.5` pins it to the first line's
+                 optical centre and it stays there however long the step runs. -->
             <span
-              class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300"
-            >
-              {{ tile.label }}
-            </span>
+              class="w-1.5 h-1.5 mt-2.5 shrink-0 rounded-full bg-slate-400 dark:bg-slate-500"
+              aria-hidden="true"
+            />
+            {{ step }}
           </li>
         </ul>
       </section>
@@ -242,7 +242,9 @@ const tiles = computed<Tile[]>(() => {
             stroke-linejoin="round"
             aria-hidden="true"
           >
-            <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+            <path
+              d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"
+            />
             <path d="M12 9v4M12 17h.01" />
           </svg>
           Sécurité
@@ -250,6 +252,55 @@ const tiles = computed<Tile[]>(() => {
         <p class="text-[15px] lg:text-base text-slate-800 dark:text-slate-200 leading-relaxed">
           {{ exercise.safety }}
         </p>
+      </section>
+
+      <!-- Adapter — deliberately **after** Sécurité: the "plus dur" column is where a coach adds load
+           and removes holds, so it must be read once the warning has been. Direction is carried by
+           the heading *and* the arrow, never by hue (§1.3) — the blocks are plain slate surfaces, so
+           the section survives grayscale and colour-vision differences untouched. -->
+      <section v-if="variantBlocks.length" class="flex flex-col gap-3">
+        <h2
+          class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300"
+        >
+          Adapter
+        </h2>
+        <!-- Two columns from `sm`, stacked below: each list runs several lines, and two of them side
+             by side on a 390px phone would leave ~4 words per line. -->
+        <div class="grid gap-3 sm:grid-cols-2">
+          <div v-for="block in variantBlocks" :key="block.key" class="card p-4 flex flex-col gap-2">
+            <h3
+              class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-50"
+            >
+              <svg
+                class="w-4 h-4 shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path v-if="block.up" d="M12 19V5M5 12l7-7 7 7" />
+                <path v-else d="M12 5v14M5 12l7 7 7-7" />
+              </svg>
+              {{ block.label }}
+            </h3>
+            <ul class="flex flex-col gap-2">
+              <li
+                v-for="(item, i) in block.items"
+                :key="i"
+                class="flex gap-3 text-[15px] text-slate-700 dark:text-slate-300 leading-relaxed"
+              >
+                <span
+                  class="w-1.5 h-1.5 mt-2.5 shrink-0 rounded-full bg-slate-400 dark:bg-slate-500"
+                  aria-hidden="true"
+                />
+                {{ item }}
+              </li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <!-- Tags = flat metadata, never pills (pills are for controls — DESIGN §5.4/§1.5). -->

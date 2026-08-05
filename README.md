@@ -56,8 +56,8 @@ npm run dev      # start the dev server at http://localhost:3000
 | `npm run build`      | Production build into `dist/`.                                 |
 | `npm run preview`    | Serve the production build locally.                            |
 | `npm run lint`       | ESLint over the project, auto-fixing where possible (`--fix`). |
-| `npm run lint:ci`    | ESLint with no auto-fix — the exact gate CI runs.             |
-| `npm run format`     | Prettier write across the project.                            |
+| `npm run lint:ci`    | ESLint with no auto-fix — the exact gate CI runs.              |
+| `npm run format`     | Prettier write across the project.                             |
 
 > ℹ️ There is **no test runner yet**, but correctness is enforced **statically**:
 >
@@ -90,7 +90,7 @@ domain  →  data  →  application  →  presentation
 | **Domain**       | [`src/domain/exercise.ts`](src/domain/exercise.ts)                   | Pure business entities & types. Single source of truth for categories (`CATEGORIES`). Zero framework dependency.                  |
 | **Data**         | [`src/data/exerciseRepository.ts`](src/data/exerciseRepository.ts)   | The only module that knows the source. `fetch`es the JSON, freezes it (`Object.freeze`) and caches it. Swap it to move to an API. |
 | **Application**  | [`src/application/useExercises.ts`](src/application/useExercises.ts) | State composable (shared singleton): filtering, pagination, loading/error. Behavior lives here.                                   |
-| **Presentation** | [`src/components/`](src/components/)                                 | Purely visual components: `App`, `HeaderToolbar`, `CategoryScope`, `ExerciseFeed`, `ExerciseCard`.                                                |
+| **Presentation** | [`src/components/`](src/components/)                                 | Purely visual components: `App`, `HeaderToolbar`, `CategoryScope`, `ExerciseFeed`, `ExerciseCard`.                                |
 
 - **Path alias**: `@` → `./src` (declared in both `vite.config.ts` **and** `tsconfig.json`).
 - **Design system**: see [DESIGN.md](DESIGN.md).
@@ -198,4 +198,4 @@ Possible directions, grouped by theme. None is blocking — the project works as
 
 ### Design (see [DESIGN.md](DESIGN.md) — status tracked in [CLAUDE.md](CLAUDE.md))
 
-- **Exercise detail page** ([DESIGN.md §5.6](DESIGN.md)) — full protocol / execution view.
+- **Exercise detail page** ([DESIGN.md §5.6](DESIGN.md)) — objective, step-by-step, variants, safety.
