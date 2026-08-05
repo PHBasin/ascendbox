@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useExercise } from '@/application/useExercises';
-import { CATEGORIES, LEVEL_LABELS, type CategoryId } from '@/domain/exercise';
+import { CATEGORY_LABELS, LEVEL_LABELS, type CategoryId } from '@/domain/exercise';
 import CategoryIcon from '@/components/CategoryIcon.vue';
 
 // Exercise detail (DESIGN §5.6), read-only. The coach reads this standing at the wall, in a hurry:
@@ -22,8 +22,10 @@ const CATEGORY_RULE: Record<CategoryId, string> = {
   technique: 'bg-technique',
   mental: 'bg-mental',
 };
-const categoryLabel = computed(
-  () => CATEGORIES.find((c) => c.id === exercise.value?.categoryId)?.label ?? ''
+// All three are read only inside `v-else-if="exercise"`, but a computed evaluates regardless — hence
+// the same guard on each, falling back to '' until the catalogue lands.
+const categoryLabel = computed(() =>
+  exercise.value ? CATEGORY_LABELS[exercise.value.categoryId] : ''
 );
 const categoryTint = computed(() =>
   exercise.value ? CATEGORY_TINT[exercise.value.categoryId] : ''

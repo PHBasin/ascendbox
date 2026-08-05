@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { CATEGORIES, type Exercise, type CategoryId } from '@/domain/exercise';
+import { CATEGORY_LABELS, type Exercise, type CategoryId } from '@/domain/exercise';
 import CategoryIcon from './CategoryIcon.vue';
 import LevelGauge from './LevelGauge.vue';
 
@@ -15,9 +15,7 @@ const CATEGORY_TINT: Record<CategoryId, string> = {
   mental: 'text-mental',
 };
 
-const categoryLabel = computed(
-  () => CATEGORIES.find((c) => c.id === props.exercise.categoryId)!.label
-);
+const categoryLabel = computed(() => CATEGORY_LABELS[props.exercise.categoryId]);
 const categoryTint = computed(() => CATEGORY_TINT[props.exercise.categoryId]);
 // Sane ceiling, not the guarantee — the 1-line rule is enforced in CSS (DESIGN §5.4), because a
 // *count* cannot promise a line: three short tags fit where two long ones would not. 3 = the widest

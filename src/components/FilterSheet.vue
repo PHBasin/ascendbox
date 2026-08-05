@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch, onBeforeUnmount } from 'vue';
-import { useExercises, DURATION_BUCKETS, LEVELS } from '@/application/useExercises';
+import { useExercises, DURATION_BUCKETS } from '@/application/useExercises';
+import { LEVELS } from '@/domain/exercise';
 
 const props = defineProps<{ open: boolean }>();
 const emit = defineEmits<{ close: [] }>();

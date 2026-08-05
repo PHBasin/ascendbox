@@ -18,13 +18,6 @@ export const DURATION_BUCKETS: ReadonlyArray<{
   { id: 'long', label: '> 25 min', match: (m) => m > 25 },
 ];
 
-// Ordinal level scale, in order (DESIGN §2.3).
-export const LEVELS: ReadonlyArray<{ value: Level; label: string }> = [
-  { value: 1, label: 'Débutant' },
-  { value: 2, label: 'Intermédiaire' },
-  { value: 3, label: 'Avancé' },
-];
-
 // Case- and accent-insensitive folding for search matching.
 function fold(s: string): string {
   return s

@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, nextTick } from 'vue';
-import {
-  useExercises,
-  DURATION_BUCKETS,
-  LEVELS,
-  type DurationBucketId,
-} from '@/application/useExercises';
-import type { Level } from '@/domain/exercise';
+import { useExercises, DURATION_BUCKETS, type DurationBucketId } from '@/application/useExercises';
+import { LEVELS, type Level } from '@/domain/exercise';
 import FilterSheet from './FilterSheet.vue';
 
 const {
