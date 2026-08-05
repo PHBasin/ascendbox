@@ -1,21 +1,26 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useExercise } from '@/application/useExercises';
-import { CATEGORIES, type CategoryId } from '@/domain/exercise';
+import { CATEGORIES, LEVEL_LABELS, type CategoryId } from '@/domain/exercise';
 import CategoryIcon from '@/components/CategoryIcon.vue';
-import LevelGauge from '@/components/LevelGauge.vue';
 
 // Exercise detail (DESIGN §5.6), read-only. The coach reads this standing at the wall, in a hurry:
-// the **Déroulé** is the payload they came for, so it is the visual hero — not the prose.
+// the **Déroulement** is the payload they came for, so it is a scannable list — never a paragraph.
 const props = defineProps<{ id: string }>();
 
 const { exercise, notFound, isLoading, error } = useExercise(() => Number(props.id));
 
-// Category icon tint = reinforcement only (DESIGN §2.1). Full static strings for the JIT (§10).
+// Category tints = reinforcement only (DESIGN §2.1) — the icon and the label carry the meaning, so
+// the page survives grayscale with nothing lost. Full static strings for the JIT (§10).
 const CATEGORY_TINT: Record<CategoryId, string> = {
   physique: 'text-physique',
   technique: 'text-technique',
   mental: 'text-mental',
+};
+const CATEGORY_RULE: Record<CategoryId, string> = {
+  physique: 'bg-physique',
+  technique: 'bg-technique',
+  mental: 'bg-mental',
 };
 const categoryLabel = computed(
   () => CATEGORIES.find((c) => c.id === exercise.value?.categoryId)?.label ?? ''
@@ -23,28 +28,39 @@ const categoryLabel = computed(
 const categoryTint = computed(() =>
   exercise.value ? CATEGORY_TINT[exercise.value.categoryId] : ''
 );
+const categoryRule = computed(() =>
+  exercise.value ? CATEGORY_RULE[exercise.value.categoryId] : ''
+);
 
-// Seconds → the unit a coach actually says out loud. 180 → "3 min" beats "180 s" at arm's length;
-// 90 → "1 min 30" keeps the remainder rather than rounding it away.
-function fmtSec(s: number): string {
-  if (s < 60) return `${s} s`;
-  const min = Math.floor(s / 60);
-  const rest = s % 60;
-  return rest ? `${min} min ${rest}` : `${min} min`;
-}
+// The spec block's three planning facts, in reading order. Built here rather than spelled out three
+// times in the template so the cells cannot drift apart typographically — the whole point of the
+// block is that its values read as siblings. `Matériel` is the only variable-length one, so it takes
+// the full row on phones; the other two are short and fixed.
+type Spec = { key: string; label: string; value: string; wide: boolean };
+const specs = computed<Spec[]>(() => {
+  const e = exercise.value;
+  if (!e) return [];
+  const out: Spec[] = [
+    { key: 'duration', label: 'Durée', value: `${e.duration} min`, wide: false },
+    { key: 'level', label: 'Niveau', value: LEVEL_LABELS[e.level], wide: false },
+  ];
+  if (e.equipment?.length) {
+    out.push({ key: 'kit', label: 'Matériel', value: e.equipment.join(' · '), wide: true });
+  }
+  return out;
+});
 
-// Only the tiles that have a value — a missing figure is a non-event (§5.6), never an empty tile.
-type Tile = { key: string; value: string; label: string };
-const tiles = computed<Tile[]>(() => {
-  const p = exercise.value?.protocol;
-  if (!p) return [];
-  const out: Tile[] = [];
-  if (p.sets !== undefined) out.push({ key: 'sets', value: String(p.sets), label: 'Séries' });
-  if (p.reps !== undefined) out.push({ key: 'reps', value: String(p.reps), label: 'Répétitions' });
-  if (p.holdSec !== undefined)
-    out.push({ key: 'hold', value: fmtSec(p.holdSec), label: 'Tenue' });
-  if (p.restSec !== undefined)
-    out.push({ key: 'rest', value: fmtSec(p.restSec), label: 'Repos' });
+// Only the directions that carry items — one-sided adaptation is the norm (plenty of exercises can
+// be made easier but not usefully harder), and a missing one is a non-event (§5.6), never an empty
+// block. `up` picks the arrow: direction must be legible without hue (§1.3).
+type VariantBlock = { key: string; label: string; up: boolean; items: string[] };
+const variantBlocks = computed<VariantBlock[]>(() => {
+  const v = exercise.value?.variants;
+  if (!v) return [];
+  const out: VariantBlock[] = [];
+  if (v.harder?.length) out.push({ key: 'harder', label: 'Plus dur', up: true, items: v.harder });
+  if (v.easier?.length)
+    out.push({ key: 'easier', label: 'Plus facile', up: false, items: v.easier });
   return out;
 });
 </script>
@@ -110,116 +126,113 @@ const tiles = computed<Tile[]>(() => {
       </RouterLink>
     </div>
 
-    <article v-else-if="exercise" class="flex flex-col gap-6">
-      <!-- Category = icon + label, always both (DESIGN §2.1) -->
-      <div class="flex flex-col gap-2">
-        <span
-          class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
-        >
-          <CategoryIcon :category="exercise.categoryId" class="w-4 h-4 shrink-0" :class="categoryTint" />
-          {{ categoryLabel }}
-        </span>
-        <h1 class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
-          {{ exercise.title }}
-        </h1>
-        <!-- `instructions`, never the teaser: the coach read the teaser on the card and tapped
-             *because of it* — echoing it here would spend the most valuable line of the page saying
-             something already known (same rule as the contextual category, §5.1). Optional and
-             self-hiding like every other detail section (§5.6). -->
-        <p
-          v-if="exercise.instructions"
-          class="text-[15px] lg:text-base text-slate-700 dark:text-slate-300 leading-relaxed"
-        >
-          {{ exercise.instructions }}
-        </p>
-      </div>
+    <!-- `gap-8` = the §4 Section tier. The page is a sequence of distinct sections, not a column of
+         paragraphs, and 24px (the container tier) read as one undifferentiated stack. -->
+    <article v-else-if="exercise" class="flex flex-col gap-8">
+      <!-- Identity block. The category rule spans eyebrow + title + objective, so the pillar reads as
+           the identity of the whole block rather than a mark next to a word — legible at arm's length
+           in sunlight, where a 16px icon is not. It is a **third** channel on top of the icon and the
+           label (§2.1): pure reinforcement, so grayscale loses nothing. -->
+      <header class="flex gap-4">
+        <span :class="categoryRule" class="w-1 shrink-0 rounded-full" aria-hidden="true" />
+        <div class="flex flex-col gap-2 min-w-0">
+          <span
+            class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
+          >
+            <CategoryIcon
+              :category="exercise.categoryId"
+              class="w-4 h-4 shrink-0"
+              :class="categoryTint"
+            />
+            {{ categoryLabel }}
+          </span>
+          <h1
+            class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
+          >
+            {{ exercise.title }}
+          </h1>
+          <!-- `objective`, never the teaser: the coach read the teaser on the card and tapped *because
+             of it* — echoing it here would spend the most valuable line of the page saying something
+             already known (same rule as the contextual category, §5.1). The objective answers the
+             other question ("what does this buy me?"), which is what belongs under a title.
+             No eyebrow label: the block already opens with the category eyebrow, and a second one
+             above a single line reads as noise. A subtitle *is* self-evidently the objective.
+             Optional and self-hiding like every other detail section (§5.6). -->
+          <p
+            v-if="exercise.objective"
+            class="text-base lg:text-lg text-slate-700 dark:text-slate-300 leading-relaxed"
+          >
+            {{ exercise.objective }}
+          </p>
+        </div>
+      </header>
 
-      <!-- Stat strip: planning context (how long · how hard · what kit).
-           **Stacked on phones, one row from `sm`.** A separator in a *wrapping* row always orphans —
-           it trails one line or leads the next — so rather than negotiate with the wrap, we remove it:
-           below `sm` each fact owns a line (a spec sheet reads well that way, and no separator is
-           needed); from `sm` there is room for a single row, which is what makes the middots legal —
-           exactly as on the card's strip, which never wraps either (§5.1).
-           Gaps stay on the §4 scale: `gap-x-3` = Group tier (meta row). The previous `gap-x-5` was
-           off-scale — 20 is the Component tier, whose sole role is card/panel padding. -->
-      <div
-        class="flex flex-col items-start gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-3 sm:gap-y-2 py-3 border-y border-slate-200 dark:border-slate-700"
+      <!-- Spec block — the planning facts, read before committing to the exercise.
+           A labelled `<dl>` grid, not a row of icon+value pairs: the label is *visible* rather than
+           `sr-only`, so sighted and screen-reader users get the same page and no icon has to be
+           decoded (a dumbbell meaning "level" is a rebus, not a label). Every value is the same type,
+           which is what makes the block read as a spec sheet instead of three unrelated facts.
+           The grid also retires the middot problem outright — cells never need separators, so it
+           wraps freely at any width, which is what §5.6's wrapping rule asks for. -->
+      <dl
+        class="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-4 py-4 border-y border-slate-200 dark:border-slate-700"
       >
-        <span
-          class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 dark:text-slate-300"
+        <div
+          v-for="spec in specs"
+          :key="spec.key"
+          class="flex flex-col gap-1"
+          :class="spec.wide ? 'col-span-2 sm:col-span-1' : ''"
         >
-          <svg
-            class="w-4 h-4 shrink-0"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            aria-hidden="true"
+          <dt
+            class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300"
           >
-            <circle cx="12" cy="12" r="9" />
-            <path stroke-linecap="round" d="M12 7v5l3 2" />
-          </svg>
-          <span class="sr-only">Durée : </span>{{ exercise.duration }} min
-        </span>
+            {{ spec.label }}
+          </dt>
+          <dd class="text-base font-bold text-slate-900 dark:text-slate-50">{{ spec.value }}</dd>
+        </div>
+      </dl>
 
-        <!-- Middots exist only where the row is guaranteed single-line (`sm+`); stacked, they would
-             each become a row of their own. -->
-        <span class="hidden sm:inline text-slate-300 dark:text-slate-600" aria-hidden="true">·</span>
-
-        <LevelGauge :level="exercise.level" size="lg" />
-
-        <span
-          v-if="exercise.equipment?.length"
-          class="hidden sm:inline text-slate-300 dark:text-slate-600"
-          aria-hidden="true"
-          >·</span
+      <!-- Déroulement — the page's signature, and its payload. It carries the figures the removed
+           `protocol` tiles used to hold ("3 min de récup", "5 s par bras").
+           **Numbered, on a spine.** A déroulement *is* a sequence, so order is information the coach
+           needs rather than decoration: the numbers give a spoken anchor mid-session ("j'en suis à la
+           3") that a bullet cannot, and the connecting rule binds the steps into one object, which is
+           what someone glancing back down at a phone re-finds their place in.
+           Nodes are **pure ink** — maximum contrast for sunlight, and no hue to lose in grayscale or
+           to a colour-vision difference (§1.3). -->
+      <section v-if="exercise.instructions?.length" class="flex flex-col gap-4">
+        <h2
+          class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300"
         >
-
-        <span
-          v-if="exercise.equipment?.length"
-          class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 dark:text-slate-300"
-        >
-          <svg
-            class="w-4 h-4 shrink-0"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M3 8h4l2-2h6l2 2h4v10H3z" />
-          </svg>
-          <span class="sr-only">Matériel : </span>{{ exercise.equipment.join(' · ') }}
-        </span>
-      </div>
-
-      <!-- Déroulé — the hero. Big figures, readable at arm's length; the label is the eyebrow (§3). -->
-      <section v-if="tiles.length" class="flex flex-col gap-3">
-        <h2 class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300">
-          Déroulé
+          Déroulement
         </h2>
-        <!-- Tiles grow to fill the row but are capped: 3–4 of them divide it evenly, while 1–2 keep a
-             sane size and pack left instead of stretching a lone figure across half the page. A fixed
-             4-col grid was the other option, but it leaves a hole whenever a figure is absent — and
-             absent is the norm here. Phones keep 2 columns: 4 across 390 px kills the glance. -->
-        <ul class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
+        <ol>
           <li
-            v-for="tile in tiles"
-            :key="tile.key"
-            class="card p-4 flex flex-col gap-1 items-center text-center sm:flex-1 sm:min-w-32 sm:max-w-64"
+            v-for="(step, i) in exercise.instructions"
+            :key="i"
+            class="group relative flex gap-4 pb-5 last:pb-0"
           >
-            <span class="text-3xl lg:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
-              {{ tile.value }}
-            </span>
+            <!-- Drawn per-step and hidden on the last: a rule trailing past the final step reads as
+                 an unfinished list. -->
             <span
-              class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300"
+              class="absolute left-4 top-8 bottom-0 w-0.5 -translate-x-1/2 bg-slate-200 dark:bg-slate-700 group-last:hidden"
+              aria-hidden="true"
+            />
+            <span
+              class="relative grid place-items-center w-8 h-8 shrink-0 rounded-full bg-slate-900 dark:bg-slate-50 text-white dark:text-slate-900 text-sm font-bold tabular-nums"
+              aria-hidden="true"
             >
-              {{ tile.label }}
+              {{ i + 1 }}
             </span>
+            <!-- `pt-1` centres the first text line against the 32px node; without it the step rides
+                 high and the number stops looking like it belongs to its sentence. -->
+            <p
+              class="pt-1 text-[15px] lg:text-base text-slate-700 dark:text-slate-300 leading-relaxed"
+            >
+              {{ step }}
+            </p>
           </li>
-        </ul>
+        </ol>
       </section>
 
       <!-- Sécurité — must be unmissable, but never by hue alone (§1.3): the warning icon and the
@@ -242,7 +255,9 @@ const tiles = computed<Tile[]>(() => {
             stroke-linejoin="round"
             aria-hidden="true"
           >
-            <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+            <path
+              d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"
+            />
             <path d="M12 9v4M12 17h.01" />
           </svg>
           Sécurité
@@ -252,7 +267,61 @@ const tiles = computed<Tile[]>(() => {
         </p>
       </section>
 
-      <!-- Tags = flat metadata, never pills (pills are for controls — DESIGN §5.4/§1.5). -->
+      <!-- Adapter — deliberately **after** Sécurité: the "plus dur" column is where a coach adds load
+           and removes holds, so it must be read once the warning has been. Direction is carried by
+           the heading *and* the arrow, never by hue (§1.3) — the blocks are plain slate surfaces, so
+           the section survives grayscale and colour-vision differences untouched. -->
+      <section v-if="variantBlocks.length" class="flex flex-col gap-3">
+        <h2
+          class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300"
+        >
+          Adapter
+        </h2>
+        <!-- Two columns from `sm`, stacked below: each list runs several lines, and two of them side
+             by side on a 390px phone would leave ~4 words per line. -->
+        <div class="grid gap-3 sm:grid-cols-2">
+          <div v-for="block in variantBlocks" :key="block.key" class="card p-4 flex flex-col gap-2">
+            <h3
+              class="inline-flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-slate-50"
+            >
+              <svg
+                class="w-4 h-4 shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path v-if="block.up" d="M12 19V5M5 12l7-7 7 7" />
+                <path v-else d="M12 5v14M5 12l7 7 7-7" />
+              </svg>
+              {{ block.label }}
+            </h3>
+            <ul class="flex flex-col gap-2">
+              <li
+                v-for="(item, i) in block.items"
+                :key="i"
+                class="flex gap-3 text-[15px] text-slate-700 dark:text-slate-300 leading-relaxed"
+              >
+                <span
+                  class="w-1.5 h-1.5 mt-2.5 shrink-0 rounded-full bg-slate-400 dark:bg-slate-500"
+                  aria-hidden="true"
+                />
+                {{ item }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tags = flat metadata, never pills (pills are for controls — DESIGN §5.4/§1.5).
+           **No rule above them.** One here looked right on a full page and broke an empty one: with
+           no detail data the tags follow the spec block directly, and its closing border plus this
+           one framed 32px of nothing — a visible empty band, which is precisely the shell §5.6 says
+           a missing section must never produce. The spec block's own border already closes the
+           record; a second rule was an accessory. -->
       <ul v-if="exercise.tags.length" class="flex flex-wrap gap-x-3 gap-y-1">
         <li
           v-for="tag in exercise.tags"

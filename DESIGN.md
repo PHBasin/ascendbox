@@ -54,17 +54,17 @@ Usable as `bg-physique`, `text-technique`, `ring-mental`, with opacity `bg-physi
 
 ### 2.2 Neutrals (Slate scale)
 
-| Usage                              | Light       | Dark        |
-| ---------------------------------- | ----------- | ----------- |
-| Page background                    | `slate-50`  | `slate-900` |
-| Surface (card)                     | `white`     | `slate-800` |
-| Border                             | `slate-200` | `slate-700` |
-| **Primary text** (titles, headers) | `slate-900` | `slate-50`  |
-| **Body text** (card description)   | `slate-700` | `slate-300` |
-| **Secondary text** (meta, labels)  | `slate-600` | `slate-300` |
-| **Muted** (input icon/placeholder) | `slate-500` | `slate-400` |
-| On-ink foreground (active pill/CTA) | `white`    | `slate-900` |
-| Inactive chip bg                   | `slate-100` | `slate-800` |
+| Usage                               | Light       | Dark        |
+| ----------------------------------- | ----------- | ----------- |
+| Page background                     | `slate-50`  | `slate-900` |
+| Surface (card)                      | `white`     | `slate-800` |
+| Border                              | `slate-200` | `slate-700` |
+| **Primary text** (titles, headers)  | `slate-900` | `slate-50`  |
+| **Body text** (card description)    | `slate-700` | `slate-300` |
+| **Secondary text** (meta, labels)   | `slate-600` | `slate-300` |
+| **Muted** (input icon/placeholder)  | `slate-500` | `slate-400` |
+| On-ink foreground (active pill/CTA) | `white`     | `slate-900` |
+| Inactive chip bg                    | `slate-100` | `slate-800` |
 
 **Four text tiers only** — primary / body / secondary / muted — plus the on-ink inverse for filled
 controls. A one-off like `dark:text-white` on a title or `dark:text-slate-400` on card tags is drift,
@@ -80,17 +80,24 @@ segments are filled_ and the word, **not** from hue (the old emerald→amber→r
 hue collapses for CVD users).
 
 - Filled segment → `slate-900 dark:slate-50` (ink). Empty → `slate-200 dark:slate-700`.
-- The label (`Débutant`/`Intermédiaire`/`Avancé`) is always present next to the gauge.
+- **The word is the carrier; the gauge is the accelerator.** `Débutant`/`Intermédiaire`/`Avancé` is
+  never omitted. The bars are `aria-hidden` and add nothing a screen reader or a grayscale print
+  needs — what they buy is speed when levels are **compared**, since a filled count reads across a
+  grid faster than three different words do.
+- **So the gauge appears only where levels are scanned side by side** — the card's strip (§5.1). In
+  the detail page's spec block (§5.6) there is exactly one level on screen, nothing to compare it
+  against, and an icon on one value out of three breaks the block's typographic alignment: there the
+  word stands alone. Dropping it costs nothing against §1.3, which polices hue, not glyphs.
 - An optional semantic accent (`--color-level-*`) may tint the **label** where it clears AAA — never
   the gauge, never as the sole cue.
 
 ### 2.4 Contrast targets
 
-| Content                                             | Target                              |
-| --------------------------------------------------- | ----------------------------------- |
-| Primary text, primary actions                       | **≥ 7:1 (AAA)** wherever achievable |
-| Secondary text, borders on surface                  | ≥ 4.5:1 (AA) — never below          |
-| Faint tints (`/10`)                                 | decoration only, never meaning      |
+| Content                            | Target                              |
+| ---------------------------------- | ----------------------------------- |
+| Primary text, primary actions      | **≥ 7:1 (AAA)** wherever achievable |
+| Secondary text, borders on surface | ≥ 4.5:1 (AA) — never below          |
+| Faint tints (`/10`)                | decoration only, never meaning      |
 
 ---
 
@@ -101,14 +108,14 @@ hue collapses for CVD users).
 [`main.ts`](src/main.ts). No third-party request; `.woff2` ship from our origin, precached for
 offline (latin + latin-ext).
 
-| Role                                          | Classes (base → `lg`)                             |
-| --------------------------------------------- | ------------------------------------------------- |
-| Screen / hero title                           | `text-2xl lg:text-3xl font-bold tracking-tight`   |
-| **Title band** — card titles + scope/Filtres  | `text-base lg:text-lg font-bold` (`sm+`)          |
-| Body / description                            | `text-[15px] lg:text-base leading-relaxed`        |
-| Meta (category, duration, tags, level)        | `text-xs font-semibold`                           |
-| Section eyebrow                               | `text-[11px] font-bold tracking-widest uppercase` |
-| Sheet option / chip                           | `text-sm font-medium`                             |
+| Role                                         | Classes (base → `lg`)                             |
+| -------------------------------------------- | ------------------------------------------------- |
+| Screen / hero title                          | `text-2xl lg:text-3xl font-bold tracking-tight`   |
+| **Title band** — card titles + scope/Filtres | `text-base lg:text-lg font-bold` (`sm+`)          |
+| Body / description                           | `text-[15px] lg:text-base leading-relaxed`        |
+| Meta (category, duration, tags, level)       | `text-xs font-semibold`                           |
+| Section eyebrow                              | `text-[11px] font-bold tracking-widest uppercase` |
+| Sheet option / chip                          | `text-sm font-medium`                             |
 
 Weight and size carry hierarchy; do not use colour boxes to rank information.
 
@@ -116,7 +123,7 @@ Weight and size carry hierarchy; do not use colour boxes to rank information.
 title size (`text-base → lg:text-lg`), so the scope reads as the same family as the cards it filters.
 On the **phone** the scope drops to `text-sm` (Filtres follows) to keep all three axes on one line
 (§5.2), re-expressing to the full size from `sm` up. Content roles (hero, title, body) scale one step
-at `lg`; meta/eyebrow stay fixed — deliberately small. The base *is* the mobile size; never scale
+at `lg`; meta/eyebrow stay fixed — deliberately small. The base _is_ the mobile size; never scale
 below it.
 
 ---
@@ -143,12 +150,12 @@ is an accessibility constraint, **not** a rhythm step (§8).
 **Unified rhythm — 4 nested tiers**, read top-down (24 > 20 > 12 > 8) so the interface has rhythm
 instead of scattered ad-hoc gaps:
 
-| Tier          | Value            | Sole role                                                        |
-| ------------- | ---------------- | ---------------------------------------------------------------- |
-| **Page**      | **24** (`-6`, → `lg:-8`=32) | gutter (header **=** feed), gap header↔cards, grid gap |
-| **Component** | **20** (`p-5`)   | card / panel padding — one notch under the page, so it reads as a *contained* surface |
-| **Group**     | **12** (`-3`)    | title↔copy, meta rows, pill rows, section labels                 |
-| **Atom**      | **8** (`-2`)     | icon↔text, tight pairs inside a control                          |
+| Tier          | Value                       | Sole role                                                                             |
+| ------------- | --------------------------- | ------------------------------------------------------------------------------------- |
+| **Page**      | **24** (`-6`, → `lg:-8`=32) | gutter (header **=** feed), gap header↔cards, grid gap                                |
+| **Component** | **20** (`p-5`)              | card / panel padding — one notch under the page, so it reads as a _contained_ surface |
+| **Group**     | **12** (`-3`)               | title↔copy, meta rows, pill rows, section labels                                      |
+| **Atom**      | **8** (`-2`)                | icon↔text, tight pairs inside a control                                               |
 
 Below the atom, only typographic micro-gaps: title↔teaser `gap-1` (4), gauge segments `gap-0.5` (2).
 
@@ -158,18 +165,18 @@ category, duration, gauge label, chips) it tightens to `gap-1.5` (6) so the glyp
 text. Never mix the two within a role.
 
 **Compact "chip" tier.** Applied-filter chips are deliberately small: `min-h-9` (36px), `text-xs`,
-`pl-3 pr-2` — read-mostly, tapped occasionally (§8 covers the a11y carve-out). Every *primary* control
+`pl-3 pr-2` — read-mostly, tapped occasionally (§8 covers the a11y carve-out). Every _primary_ control
 stays on the `min-h-11` / `text-sm`+ system.
 
 **Responsive bumps (mobile-first)** — generous on desktop without crowding the phone. Header and feed
 share the same horizontal gutter at every breakpoint so their edges stay aligned (§5.8).
 
-| Role                              | Mobile  | up            |
-| --------------------------------- | ------- | ------------- |
-| Page gutter (header = feed, `px`) | `px-6`  | `lg:px-8`     |
-| Feed vertical padding (`py`)      | `py-6`  | `lg:py-8`     |
-| Scope pill padding (`px`)         | `px-2`  | `sm:px-4`     |
-| Between-control gap               | `gap-2` | `sm:gap-3`    |
+| Role                              | Mobile  | up         |
+| --------------------------------- | ------- | ---------- |
+| Page gutter (header = feed, `px`) | `px-6`  | `lg:px-8`  |
+| Feed vertical padding (`py`)      | `py-6`  | `lg:py-8`  |
+| Scope pill padding (`px`)         | `px-2`  | `sm:px-4`  |
+| Between-control gap               | `gap-2` | `sm:gap-3` |
 
 The grid gap stays a flat `gap-6` (the page unit) at every size; the filter sheet keeps `p-6`.
 
@@ -227,10 +234,10 @@ gives one usable rule:
 
 > **One line ≈ 35 characters** on a phone. Aim for **two lines**. Never exceed **three**.
 
-| | Chars | Job |
-| --- | --- | --- |
-| **Target** | **≤ 70** | fits **2 lines** → the title keeps the lead, card height stays stable |
-| **Ceiling** | **100** | past it `line-clamp-3` truncates; a 3-line teaser outweighs the title ~3.4× and the card reads description-led |
+|             | Chars    | Job                                                                                                            |
+| ----------- | -------- | -------------------------------------------------------------------------------------------------------------- |
+| **Target**  | **≤ 70** | fits **2 lines** → the title keeps the lead, card height stays stable                                          |
+| **Ceiling** | **100**  | past it `line-clamp-3` truncates; a 3-line teaser outweighs the title ~3.4× and the card reads description-led |
 
 **The ceiling is the 390px budget** (box 285px ≈ 38 chars/line). **A character count only means
 something next to the width it was measured at**: the previous ceiling of 108 was also a 390px number
@@ -243,7 +250,7 @@ needs a ceiling near **90**, which 29 of the current teasers exceed. That is def
 teaser/`instructions` split (CLAUDE.md), which rewrites these same strings toward the 70 target
 anyway — doing it twice would be wasted editing. Re-measure and drop the ceiling to 90 then.
 
-Note that no character ceiling can *prove* the clamp holds: wrapping breaks on words, so a 92-char
+Note that no character ceiling can _prove_ the clamp holds: wrapping breaks on words, so a 92-char
 teaser with long words spills to 4 lines where a 100-char one with short words does not. All four of
 the 4-line cases at 360 are under 100. The number is a cheap heuristic; the clamp is the guarantee.
 
@@ -312,15 +319,15 @@ titles).
 **States.**
 
 - **Active** — **solid ink fill**, `bg-slate-900 text-white` (inverted `dark:bg-slate-50
-  dark:text-slate-900`). Ink over a category tint so the active state clears AAA and never leans on hue
+dark:text-slate-900`). Ink over a category tint so the active state clears AAA and never leans on hue
   (§2.4); the label already names the category.
 - **Inactive** — `bg-slate-100 text-slate-600` with a **visible border** `ring-slate-200
-  dark:ring-slate-700`, `hover:bg-slate-200`, and the icon (from `sm+`) category-tinted. The border is
+dark:ring-slate-700`, `hover:bg-slate-200`, and the icon (from `sm+`) category-tinted. The border is
   shared with search/`Filtres` so the header reads as one family; the recessed fill still marks it as
   an unselected toggle rather than a standalone action.
 - Always `ring-1`, so there is no layout jump between states.
-- **Asymmetric transition (§6).** *Selecting* fills over **300ms** — the tapped target, confirmed
-  where the eye is. *Deselecting* recedes over **150ms** — a by-product of another action, so it must
+- **Asymmetric transition (§6).** _Selecting_ fills over **300ms** — the tapped target, confirmed
+  where the eye is. _Deselecting_ recedes over **150ms** — a by-product of another action, so it must
   **not** pull the eye. Implemented via the arrival state's `duration-*`: `duration-300` on active,
   `duration-150` on inactive.
 - **Search mode** (field open, §5.9) — search **supersedes the scope**, so every pill reads inactive
@@ -348,7 +355,7 @@ meaning), so the card must not mimic them.
 
 **On a card, tags never exceed one line** — and the guarantee is **CSS, not a count**: `flex-wrap` +
 `max-h-[1lh]` + `overflow-hidden` clips an overflowing tag on a whole second row (`flex-nowrap` would
-clip mid-word, "#lect"). A cap on the *number* of tags cannot promise a line — three short tags fit
+clip mid-word, "#lect"). A cap on the _number_ of tags cannot promise a line — three short tags fit
 where two long ones do not — so `slice(0, 3)` in `ExerciseCard` is only a sane default (3 = the widest
 entry today), never the promise.
 
@@ -373,56 +380,121 @@ chips** under the scope bar; `Réinitialiser` clears all.
 
 ### 5.6 Exercise detail page
 
-Master-detail: full protocol, big text, execution focus. Route `/exercice/:id` (**hash** history —
+Master-detail: full how-to, big text, execution focus. Route `/exercice/:id` (**hash** history —
 GitHub Pages is static, so `#` keeps deep links working on a cold hit with no server rewrite).
 
-Anatomy: back nav · category (icon+label) · title · **instructions** · **stat strip** (Durée · Niveau
-gauge · Matériel) · **Déroulé** as numeric tiles (reps / sets / rest / hold) · **Sécurité** callout
-(distinct surface) · tags.
+**The page is a topo, not an article.** A coach at the wall does what a climber does with a guidebook
+entry: identify the route, read the spec block, follow the sequence of moves. The page is ordered that
+way and each zone is given the form that job needs — an identity block, a spec sheet, a sequence.
 
-**The detail shows `instructions`, never the card's `teaser`.** The coach already read the teaser and
+Anatomy: back nav · **identity block** (category rule + icon/label · title · objectif) · **spec block**
+(Durée · Niveau · Matériel) · **Déroulement** as a numbered spine · **Sécurité** callout (distinct
+surface) · **Adapter** (Plus dur / Plus facile) · tags.
+
+Sections are separated on the §4 **Section tier** (`gap-8`); 24px is the container tier and let the
+whole page read as one undifferentiated column.
+
+**The category is a rule down the identity block**, not a mark beside a word — it spans eyebrow,
+title and objective, so the pillar identifies the block rather than decorating it, and stays legible
+at arm's length in sunlight where a 16px icon does not. It is a **third** channel on top of the icon
+and the label (§2.1), pure reinforcement: grayscale loses nothing.
+
+> **Exactly one rule closes the record, and it is the spec block's.** Tags carry no rule of their own.
+> One there looks right on a full page and breaks an empty one: with no detail data the tags follow
+> the spec block directly, and the two borders frame `gap-8` of nothing — a visible empty band, which
+> is the shell a missing section must never produce. Caught only by rendering an exercise that has no
+> detail data; the seeded ones all looked fine.
+
+**The spec block is a labelled `<dl>` grid**, not a row of icon+value pairs. Labels are the §3 eyebrow
+and **visible**, so nothing rides on `sr-only` and no glyph has to be decoded (a dumbbell meaning
+"level" is a rebus, not a label). Every value takes the same type — `text-base font-bold`, ink — which
+is what makes it read as a spec sheet rather than three unrelated facts; that rule is why the level
+drops its gauge here (§2.3). The grid also **retires the middot problem outright**: cells never need
+separators, so the block wraps freely at any width. `Matériel` spans the full row below `sm` — it is
+the only variable-length fact, and a third of a 360px row leaves it ~4 characters.
+
+**The detail opens on `objective`, never the card's `teaser`.** The coach already read the teaser and
 tapped because of it, so echoing it here spends the page's most valuable line on something known (same
-rule as the contextual category, §5.1). The split lets each be right: the teaser stays a short hook
-(≤ 70 chars, §5.1) while `instructions` has room for the real how-to. It also rescues **Mental**
-exercises, whose instruction _is_ irreducible prose (median 95 chars, nothing extractable into
-`protocol`).
+rule as the contextual category, §5.1). The two answer different questions — the teaser says _what you
+do_ ("Tenir 7 s sur réglette 15 mm"), the objective says _what it buys you_ ("Force maximale des
+doigts") — which is what makes the objective the right subtitle. It carries **no character budget**:
+`teaser` has one only because `line-clamp-3` truncates it, and nothing clamps this.
 
-**Every section below the title is optional and self-hiding.** The detail fields (`protocol`,
-`equipment`, `instructions`, `safety` — see `Exercise`) are all optional; the catalogue fills in
-incrementally and a gap is legitimate. A section renders only when its data exists — a missing field
-must be a **non-event**, never an empty shell and never a crash. An exercise with no detail data still
-renders a valid page (nav · category · title · teaser · stat strip · tags).
+It renders as a plain lead paragraph, **without an eyebrow label**: the block already opens with the
+category eyebrow, and a second label above one short line reads as noise. A subtitle under a title is
+self-evidently the objective.
+
+**Every section below the title is optional and self-hiding.** The detail fields (`objective`,
+`equipment`, `instructions`, `variants`, `safety` — see `Exercise`) are all optional; the catalogue
+fills in incrementally and a gap is legitimate. A section renders only when its data exists — a missing
+field must be a **non-event**, never an empty shell and never a crash. An exercise with no detail data
+still renders a valid page (nav · identity block · spec block · tags).
 
 > **v1 is read-only — no sticky footer.** `Démarrer` and "save to session" are out of scope until the
 > behaviour behind them exists; a button that does nothing is worse than no button (§1.5). Re-introduce
 > a footer only once the action it triggers actually exists.
 
-**Measure: `max-w-3xl`, not the feed's `max-w-7xl`** — this page is *read*, not scanned as a grid, and
+**Measure: `max-w-3xl`, not the feed's `max-w-7xl`** — this page is _read_, not scanned as a grid, and
 a 1280px line length is unreadable. The sticky back nav shares the measure so edges line up (§5.8) and
 lets the coach bail out from any scroll position; same opaque treatment as the feed bar, never frosted
 (§5.8).
 
-**The `Déroulé` is the hero, not the prose.** The coach opens this at the wall, in a hurry, for *what
-to execute*. Figures are `text-3xl lg:text-4xl` over an eyebrow label (§3). Tiles grow to fill the row
-but are capped (`sm:flex-1 sm:max-w-64`): 3–4 divide it evenly, 1–2 keep a sane size and pack left
-rather than stretching one figure across half the page. A fixed 4-column grid is rejected — it leaves
-a hole whenever a figure is absent, and absent is the norm. Phones keep 2 columns (4 across 390px kills
-the glance).
+**The `Déroulement` is a list, never a paragraph.** The coach opens this at the wall, in a hurry, for
+_what to execute_: a sequence is scanned, prose has to be re-read. One item = one step
+(`instructions: string[]`), and the figures live **inside the steps** — "Récupérer 3 minutes complètes
+entre les séries", "Alterner : 5 secondes par bras".
+
+**It is the page's signature: a numbered spine.** Ink nodes (`w-8`, `slate-900 dark:slate-50`) joined
+by a `w-0.5` rule. The numbering is earned, not decorative — a déroulement _is_ a sequence, so order
+is information, and the numbers give a coach a spoken anchor mid-session ("j'en suis à la 3") that a
+bullet cannot. The rule binds the steps into one object, which is what someone glancing back down at a
+phone re-finds their place in. Nodes are **pure ink**: maximum contrast in sun, no hue to lose to
+grayscale or a colour-vision difference (§1.3). The rule is drawn per-step and **hidden on the last** —
+one trailing past the final step reads as an unfinished list.
+
+> **Numbered here, bulleted in `Adapter`** — and the difference is the point. Variants are a menu you
+> pick from, not a sequence you execute, so numbering them would assert an order that is not there.
+> The marker encodes what the content _is_.
+
+> **Why the numeric `Déroulé` tiles were removed.** They were fed by a `protocol` object
+> (`reps`/`sets`/`restSec`/`holdSec`) that broke twice on real content: `restSec` meant "rest between
+> sets" but #8 needs rest **between reps**, and nothing could express #2's "5 s **par bras**" — the
+> tile rendered "5 s TENUE", wrong by half. A fixed vocabulary of four figures cannot describe ~100
+> hand-authored exercises; a sentence can. Prose absorbs the exception at zero schema cost, which is
+> the whole reason the tiles are gone rather than patched.
+
+**Markers are drawn, not `list-disc`/`list-decimal`.** A native marker inherits the line-height and
+drifts off the first line as the item wraps. `Adapter`'s bullets are a `w-1.5` span pinned at `mt-2.5`
+to the first line's optical centre; the spine's nodes are pinned the same way, with `pt-1` on the step
+text so it centres against the 32px node instead of riding high above it.
 
 > **A separator only belongs in a row that cannot wrap** — general rule, learned the hard way. In a
-> wrapping row a middot always orphans (it trails or leads a line and no CSS reaches it). So the stat
-> strip **stacks below `sm`** (one fact per line, no separator needed) and becomes **a single row with
-> middots from `sm`**, where all three fit (verified at 640px). Never negotiate with the wrap — remove
-> it. The card's strip (§5.1) earns its middots the same way: 2 items, never wraps.
+> wrapping row a middot always orphans (it trails or leads a line and no CSS reaches it). The detail's
+> spec block sidesteps this permanently by being a **grid**: cells are bounded by the layout, so no
+> separator is needed at any width and there is no wrap left to negotiate with. The card's strip
+> (§5.1) earns its middots the other way: 2 short items, guaranteed single-line.
 
-**Durations render in the unit a coach says out loud**, not the unit stored: `restSec: 180` → "3 min",
-`90` → "1 min 30", `< 60` → "7 s". Storage stays unambiguous (`restSec`/`holdSec`); the display is
-translated.
+**Durations are written in the unit a coach says out loud** — "3 min", "1 min 30", "7 s", never "180
+s". With the figures now living in `instructions` prose, this is an **editorial** rule rather than a
+formatting layer: there is no stored unit left to translate at render time.
 
 **The `Sécurité` callout must be unmissable — but never by hue alone (§1.3).** The warning icon **and**
 the `Sécurité` heading carry the meaning; the rose surface only reinforces, so it survives grayscale.
 Body text stays slate: rose is reserved for error text (§2.2), and a long warning must read
 comfortably.
+
+**`Adapter` comes _after_ `Sécurité`, deliberately.** The "Plus dur" column is where a coach adds load
+and removes footholds; it must be read once the warning has been, never before it. Two neutral `.card`
+blocks, side by side from `sm` and stacked below (two lists across 390px leaves ~4 words per line).
+
+**Direction is carried by the heading _and_ the arrow — never by hue (§1.3).** "Plus dur" (↑) and
+"Plus facile" (↓) are plain slate surfaces, so the section survives grayscale and colour-vision
+differences with nothing lost. Tinting them green/red would be the obvious move and the wrong one: it
+would make the only difference between the two blocks a hue, which §1.3 forbids outright.
+
+**One-sided adaptation is the norm, and renders as one block** — plenty of exercises can be made
+easier but not usefully harder. `variants.harder` and `variants.easier` are independently optional and
+each block self-hides (§5.6); a lone block keeps its half-width column rather than stretching.
 
 ### 5.7 Loading skeleton
 
@@ -470,16 +542,16 @@ title + description + tags (case- and accent-insensitive). The scope pills desel
 
 ## 6. Motion
 
-| Context                 | Recipe                                                                                  |
-| ----------------------- | --------------------------------------------------------------------------------------- |
-| Colour / theme change   | `transition-colors duration-300`                                                        |
-| Button feedback         | `active:scale-95`                                                                       |
+| Context                      | Recipe                                                                                                 |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Colour / theme change        | `transition-colors duration-300`                                                                       |
+| Button feedback              | `active:scale-95`                                                                                      |
 | Scope pill select ⇄ deselect | **select 300ms** (direct target) · **deselect 150ms** (recedes — §5.2), via arrival-state `duration-*` |
-| Card feedback           | `active:scale-[0.98]`                                                                   |
-| Category (scope) change | `<Transition mode="out-in">` crossfade + slight `translate-y` (150ms `ease-out` each way) |
-| Filter sheet            | slide-up `translate-y` + scrim fade (≈ 300ms)                                           |
-| Pagination              | `<TransitionGroup>` enter `opacity-0 translate-y-4` (500ms), `move` 300ms, no `leave`   |
-| Search open/close       | **instant swap, no animation** (below)                                                   |
+| Card feedback                | `active:scale-[0.98]`                                                                                  |
+| Category (scope) change      | `<Transition mode="out-in">` crossfade + slight `translate-y` (150ms `ease-out` each way)              |
+| Filter sheet                 | slide-up `translate-y` + scrim fade (≈ 300ms)                                                          |
+| Pagination                   | `<TransitionGroup>` enter `opacity-0 translate-y-4` (500ms), `move` 300ms, no `leave`                  |
+| Search open/close            | **instant swap, no animation** (below)                                                                 |
 
 One transition per intent; never stack.
 
@@ -509,7 +581,7 @@ check `matchMedia`. Motion is reinforcement only — never the sole carrier of a
 - **Touch targets** ≥ 44px everywhere (`min-h-11`); 48px comfortable; the primary full-width CTA
   ~52px. **One documented exception:** applied-filter chips are a compact `min-h-9` (36px) "chip"
   tier — read far more than tapped, removal is occasional, and the **whole chip** is the tap target
-  (not a tiny ✕). Every *primary* control stays ≥ 44px.
+  (not a tiny ✕). Every _primary_ control stays ≥ 44px.
 - **Redundant encoding (hard rule):** category = icon + label + colour; level = filled-segment count +
   label. Nothing relies on hue alone. Verify with a grayscale + CVD pass.
 - **Contrast:** primary text/actions target AAA (§2.4); never ship below AA.
@@ -524,8 +596,9 @@ check `matchMedia`. Motion is reinforcement only — never the sole carrier of a
 
 ## 9. Content
 
-Cards are triage, detail is execution (§5.1 / §5.6). Keep card copy to a title + one teaser line; full
-protocol, cues and safety live on the detail page. No filler — every metadata point earns its place.
+Cards are triage, detail is execution (§5.1 / §5.6). Keep card copy to a title + one teaser line; the
+objective, the step-by-step, the variants and the safety warning live on the detail page. No filler —
+every metadata point earns its place.
 
 ---
 
