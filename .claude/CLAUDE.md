@@ -27,6 +27,8 @@ same move.
 
 There is no test runner. Quality is enforced by **`vue-tsc`** (type safety; `tsconfig.json`, `strict: true`), **ESLint** (flat config in `eslint.config.js` — type-aware via `typescript-eslint`, plus `eslint-plugin-vue`, Prettier-reconciled) and **`validate:data`** (the data contract, below). None of them run during `dev` or `build`, so a green build is not type/lint/data-clean — run `type-check`, `lint:ci` and `validate:data` before pushing. All three are the CI quality gate.
 
+**Browser check** (not in CI): the `visual-check` skill (`.claude/skills/visual-check/`) screenshots the app at fixed viewports and exits non-zero on horizontal overflow. The three gates above prove the app compiles; only this proves it *lays out* — it exists because a metrics-only check once passed green while `Technique` rendered as `Techniq…`.
+
 ## Architecture
 
 AscendBox is a mobile-first Vue 3 + Vite single-page app for climbing-club coaches to browse training exercises (content is in French). It follows a layered (Clean-Architecture-inspired) structure so the data source can be swapped without touching UI. Data flows one way: **domain → data → application → presentation**.
