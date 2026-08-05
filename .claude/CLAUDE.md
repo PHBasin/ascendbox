@@ -57,7 +57,6 @@ This is the **only** place tasks are tracked — `DESIGN.md` describes the desig
 
 ### Pending / out of scope
 
-- [ ] **Tighten the Lighthouse a11y floor** — `lighthouserc.json` asserts `accessibility ≥ 0.9` as a conservative floor; raise toward 0.95–1.0 once the first CI run's baseline is known.
 - [ ] **Upgrade to TypeScript 7** — held back: stable is 7.0.2 (the native compiler rewrite) but `typescript-eslint` still peers `typescript <6.1.0` (even canary), so TS 7 would break the type-aware linting. Currently pinned `^6.0.0`. Unblock when `typescript-eslint` ships TS 7 support; `vue-tsc` already allows `>=5.0.0`.
 - [ ] **Split `tsconfig.json` when Vitest lands** — today a single hardened config is enough (one Node-side file, `vite.config.ts`). When Vitest arrives (a 2nd+ Node-side config/setup), split into the canonical `tsconfig.json` (references) + `tsconfig.app.json` (DOM, `vite/client`) + `tsconfig.node.json` (Node, `@types/node`), with a shared base for the strict flags and `vue-tsc -b` for `type-check`.
 - [ ] **Fill in the detail data** — `protocol` / `equipment` / `safety` are only seeded on ids 1–2 as samples, and **`instructions` is empty everywhere**, so every detail page currently shows no prose. Content authoring, not code. The `safety` text on id 1 is a **placeholder to validate**. Two things to settle **before** doing all ~100, because 4 exercises already broke the model twice:
