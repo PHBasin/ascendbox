@@ -7,6 +7,13 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "isolatedModules": true,
+    // Nothing here ever emits: Vite builds the app, and `scripts/` runs on Node's native TypeScript
+    // stripping. Stating it in the config (not just on the `vue-tsc` CLI) is what lets ESLint's
+    // project service agree with `type-check` on the flag below.
+    "noEmit": true,
+    // `scripts/` is executed by Node, which resolves ESM specifiers literally and therefore needs
+    // the `.ts` extension spelled out in the import.
+    "allowImportingTsExtensions": true,
     "skipLibCheck": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "types": ["vite/client"],
@@ -38,5 +45,5 @@
     // Import paths must match the file's real casing (guards Linux/macOS drift).
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts", "src/**/*.vue", "vite.config.ts"]
+  "include": ["src/**/*.ts", "src/**/*.vue", "vite.config.ts", "scripts/**/*.ts"]
 }
