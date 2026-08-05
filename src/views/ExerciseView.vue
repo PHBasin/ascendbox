@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useExercise } from '@/application/useExercises';
-import { CATEGORY_LABELS, LEVEL_LABELS, type CategoryId } from '@/domain/exercise';
+import { CATEGORY_LABELS, LEVEL_LABELS } from '@/domain/exercise';
+import { CATEGORY_TINT, CATEGORY_RULE } from '@/components/categoryStyles';
 import CategoryIcon from '@/components/CategoryIcon.vue';
 
 // Exercise detail (DESIGN §5.6), read-only. The coach reads this standing at the wall, in a hurry:
@@ -10,18 +11,6 @@ const props = defineProps<{ id: string }>();
 
 const { exercise, notFound, isLoading, error } = useExercise(() => Number(props.id));
 
-// Category tints = reinforcement only (DESIGN §2.1) — the icon and the label carry the meaning, so
-// the page survives grayscale with nothing lost. Full static strings for the JIT (§10).
-const CATEGORY_TINT: Record<CategoryId, string> = {
-  physique: 'text-physique',
-  technique: 'text-technique',
-  mental: 'text-mental',
-};
-const CATEGORY_RULE: Record<CategoryId, string> = {
-  physique: 'bg-physique',
-  technique: 'bg-technique',
-  mental: 'bg-mental',
-};
 // All three are read only inside `v-else-if="exercise"`, but a computed evaluates regardless — hence
 // the same guard on each, falling back to '' until the catalogue lands.
 const categoryLabel = computed(() =>

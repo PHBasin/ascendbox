@@ -1,19 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { CATEGORY_LABELS, type Exercise, type CategoryId } from '@/domain/exercise';
+import { CATEGORY_LABELS, type Exercise } from '@/domain/exercise';
+import { CATEGORY_TINT } from './categoryStyles';
 import CategoryIcon from './CategoryIcon.vue';
 import LevelGauge from './LevelGauge.vue';
 
 // `showCategory` is true only when the feed spans categories (global search); under a
 // single-category scope the badge would just repeat the active scope, so the feed leaves it off.
 const props = defineProps<{ exercise: Exercise; showCategory?: boolean }>();
-
-// Category icon tint = pure reinforcement (DESIGN §2.1). Full static strings (§10).
-const CATEGORY_TINT: Record<CategoryId, string> = {
-  physique: 'text-physique',
-  technique: 'text-technique',
-  mental: 'text-mental',
-};
 
 const categoryLabel = computed(() => CATEGORY_LABELS[props.exercise.categoryId]);
 const categoryTint = computed(() => CATEGORY_TINT[props.exercise.categoryId]);
