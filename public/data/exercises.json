@@ -932,7 +932,7 @@
   {
     "id": 80,
     "title": "Focus Prise Suivante",
-    "teaser": "Interdiction de penser au relais. Toute la concentration doit être focalisée uniquement sur la prochaine main.",
+    "teaser": "Interdiction de penser au relais. Toute la concentration doit être focalisée sur la prochaine main.",
     "categoryId": "mental",
     "tags": [
       "voie"
@@ -1049,7 +1049,7 @@
   {
     "id": 90,
     "title": "Scan Corporel",
-    "teaser": "Sur un point de repos, scanner mentalement son corps des pieds à la tête pour repérer les crispations inutiles.",
+    "teaser": "Sur un point de repos, scanner son corps des pieds à la tête pour repérer les crispations inutiles.",
     "categoryId": "mental",
     "tags": [
       "respiration",
@@ -1166,7 +1166,7 @@
   {
     "id": 100,
     "title": "Le Lâcher Prise Final",
-    "teaser": "Une fois le relais atteint, fermer les yeux 2 secondes pour ressentir l'accomplissement avant de redescendre.",
+    "teaser": "Au relais, fermer les yeux 2 secondes pour ressentir l'accomplissement avant de redescendre.",
     "categoryId": "mental",
     "tags": [
       "respiration"
