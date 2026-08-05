@@ -372,8 +372,13 @@ _attribute_ filters, each a labelled section with the same tap interaction:
 - **Niveau** — `Débutant` · `Intermédiaire` · `Avancé`, multi-select.
 - **Tags** — most-used first; add an in-sheet search once the list exceeds ~10.
 
+Options wear the same skin as the scope pills (§5.2) — literally: both spend `.toggle-on` /
+`.toggle-off` (§11). Only the scope bar's asymmetric timing is its own (§6).
+
 Live feedback: the apply button reads **"Voir N exercices"**. Applied filters also show as **removable
-chips** under the scope bar; `Réinitialiser` clears all.
+chips** under the scope bar; `Réinitialiser` clears all. Chips read in **scale order** (short → long,
+`Débutant` → `Avancé`), not in the order they were tapped: a row that reshuffles under the thumb is
+harder to re-find than one that holds still.
 
 > Category is kept out of the sheet by default (§5.2) — single-select scope vs. multi-select
 > attributes. If usage shows it is combined freely with the rest, add it here as a section.
@@ -619,8 +624,10 @@ const activeClasses: Record<CategoryId, string> = {
 };
 ```
 
-See `TINT` in [`CategoryScope.vue`](src/components/CategoryScope.vue) and `CATEGORY_TINT` in
-[`ExerciseCard.vue`](src/components/ExerciseCard.vue).
+See `CATEGORY_TINT` and `CATEGORY_RULE` in
+[`categoryStyles.ts`](src/components/categoryStyles.ts) — the one place the category palette is
+spelled out. A shared `.ts` is scanned like any other source, so moving the maps out of the three
+components that used to each hold a copy costs the scanner nothing.
 
 ---
 
@@ -630,9 +637,24 @@ See `TINT` in [`CategoryScope.vue`](src/components/CategoryScope.vue) and `CATEG
 | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Add / change a token colour       | `@theme` in [`main.css`](src/assets/main.css)                                                                                                                    |
 | Add a category (+ icon)           | [`domain/exercise.ts`](src/domain/exercise.ts) `CATEGORIES` + token in `@theme` + a path in [`CategoryIcon.vue`](src/components/CategoryIcon.vue) (the icon map) |
+| Change a category tint / rule     | [`categoryStyles.ts`](src/components/categoryStyles.ts) — never a copy in a component (§10)                                                                      |
+| Rename a level / category label   | [`domain/exercise.ts`](src/domain/exercise.ts) — `LEVELS` / `CATEGORIES`; the label records derive from them                                                     |
 | Create a reusable class (`.card`) | `@layer components` in [`main.css`](src/assets/main.css)                                                                                                         |
 | Change a card / chip / gauge      | the relevant component in [`src/components/`](src/components/)                                                                                                   |
+| Add an icon used in **2+** places | a component in [`src/components/icons/`](src/components/icons/); a single-use glyph stays inline                                                                 |
 | Pick spacing                      | the §4 scale — nearest named step, never arbitrary                                                                                                               |
+
+**Shared classes** (`@layer components` in [`main.css`](src/assets/main.css)) carry a **skin, never a
+box** — colour, ring, hover and motion; size, padding and any deliberate timing stay at the call site.
+That is the line that keeps two controls sharing a look without fusing two different controls:
+
+| Class                        | What it is                                                                   |
+| ---------------------------- | ---------------------------------------------------------------------------- |
+| `.card`                      | the exercise summary surface (§5.1)                                          |
+| `.pill-action`               | a standalone action on a white surface (§5.2) — search, `Filtres`, back      |
+| `.toggle-on` / `.toggle-off` | a selected / unselected toggle — scope pills (§5.2) and sheet options (§5.5) |
+| `.eyebrow`                   | the small uppercase section label (§5.5, §5.6)                               |
+| `.btn-ink`                   | the solid-ink pill CTA — the feed's and detail's reset / back-to-catalogue   |
 
 > **Implementation tracking lives in [`CLAUDE.md`](CLAUDE.md) (§ Tasks), not here.** This document is
 > the design source of truth; what is built vs. pending is recorded there. The exercise detail page
