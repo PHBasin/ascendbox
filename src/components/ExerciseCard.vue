@@ -29,7 +29,11 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 3));
       v-if="showCategory"
       class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
     >
-      <CategoryIcon :category="exercise.categoryId" class="w-4 h-4 shrink-0" :class="categoryTint" />
+      <CategoryIcon
+        :category="exercise.categoryId"
+        class="w-4 h-4 shrink-0"
+        :class="categoryTint"
+      />
       {{ categoryLabel }}
     </span>
 

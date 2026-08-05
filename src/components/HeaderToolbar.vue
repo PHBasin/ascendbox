@@ -98,7 +98,7 @@ const chips = computed<Chip[]>(() => [
             ref="searchButton"
             type="button"
             aria-label="Rechercher un exercice"
-            class="inline-flex items-center justify-center w-11 h-11 rounded-full ring-1 ring-slate-200 dark:ring-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
+            class="pill-action inline-flex items-center justify-center w-11 h-11"
             @click="openSearch"
           >
             <svg
@@ -165,7 +165,7 @@ const chips = computed<Chip[]>(() => [
           type="button"
           aria-haspopup="dialog"
           :aria-expanded="sheetOpen"
-          class="shrink-0 inline-flex items-center gap-2 px-4 min-h-11 rounded-full font-semibold text-sm sm:text-base lg:text-lg ring-1 ring-slate-200 dark:ring-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
+          class="pill-action shrink-0 inline-flex items-center gap-2 px-4 min-h-11 font-semibold text-sm sm:text-base lg:text-lg"
           @click="sheetOpen = true"
         >
           <svg

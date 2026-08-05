@@ -187,9 +187,7 @@ function resetAll(): void {
 // must never be rendered as "no such exercise".
 export function useExercise(id: () => number) {
   void load(); // idempotent — a deep-link may be the app's first screen
-  const exercise = computed<Exercise | undefined>(() =>
-    all.value.find((ex) => ex.id === id())
-  );
+  const exercise = computed<Exercise | undefined>(() => all.value.find((ex) => ex.id === id()));
   const notFound = computed(() => !isLoading.value && !error.value && !exercise.value);
   return { exercise, notFound, isLoading, error };
 }

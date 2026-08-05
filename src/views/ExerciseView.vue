@@ -73,7 +73,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
            breadcrumb, not a button. -->
       <RouterLink
         to="/"
-        class="inline-flex items-center gap-2 px-4 min-h-11 rounded-full font-semibold text-sm sm:text-base lg:text-lg ring-1 ring-slate-200 dark:ring-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
+        class="pill-action inline-flex items-center gap-2 px-4 min-h-11 font-semibold text-sm sm:text-base lg:text-lg"
       >
         <svg
           class="w-5 h-5 shrink-0"
@@ -109,12 +109,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
     <!-- A shared link can point at an id that no longer exists — offer the way back, not a dead end. -->
     <div v-else-if="notFound" class="py-12 text-center flex flex-col items-center gap-3">
       <p class="text-slate-600 dark:text-slate-300">Cet exercice n’existe pas.</p>
-      <RouterLink
-        to="/"
-        class="inline-flex items-center px-4 min-h-11 rounded-full font-semibold text-sm bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 transition-transform duration-300 active:scale-95"
-      >
-        Voir le catalogue
-      </RouterLink>
+      <RouterLink to="/" class="btn-ink"> Voir le catalogue </RouterLink>
     </div>
 
     <!-- `gap-8` = the §4 Section tier. The page is a sequence of distinct sections, not a column of
@@ -174,9 +169,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
           class="flex flex-col gap-1"
           :class="spec.wide ? 'col-span-2 sm:col-span-1' : ''"
         >
-          <dt
-            class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300"
-          >
+          <dt class="eyebrow">
             {{ spec.label }}
           </dt>
           <dd class="text-base font-bold text-slate-900 dark:text-slate-50">{{ spec.value }}</dd>
@@ -192,11 +185,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
            Nodes are **pure ink** — maximum contrast for sunlight, and no hue to lose in grayscale or
            to a colour-vision difference (§1.3). -->
       <section v-if="exercise.instructions?.length" class="flex flex-col gap-4">
-        <h2
-          class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300"
-        >
-          Déroulement
-        </h2>
+        <h2 class="eyebrow">Déroulement</h2>
         <ol>
           <li
             v-for="(step, i) in exercise.instructions"
@@ -263,11 +252,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
            the heading *and* the arrow, never by hue (§1.3) — the blocks are plain slate surfaces, so
            the section survives grayscale and colour-vision differences untouched. -->
       <section v-if="variantBlocks.length" class="flex flex-col gap-3">
-        <h2
-          class="text-[11px] font-bold tracking-widest uppercase text-slate-600 dark:text-slate-300"
-        >
-          Adapter
-        </h2>
+        <h2 class="eyebrow">Adapter</h2>
         <!-- Two columns from `sm`, stacked below: each list runs several lines, and two of them side
              by side on a 390px phone would leave ~4 words per line. -->
         <div class="grid gap-3 sm:grid-cols-2">
