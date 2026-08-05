@@ -68,10 +68,10 @@ const byCategory = computed<Exercise[]>(() =>
 );
 const scoped = computed<Exercise[]>(() => (searchOpen.value ? all.value : byCategory.value));
 
+// Walk the buckets rather than the selection: the predicate travels with its id, so there is no
+// id → bucket lookup to make (and no non-null assertion to promise it always resolves).
 function inSelectedBucket(duration: number): boolean {
-  return selectedBuckets.value.some((id) =>
-    DURATION_BUCKETS.find((b) => b.id === id)!.match(duration)
-  );
+  return DURATION_BUCKETS.some((b) => selectedBuckets.value.includes(b.id) && b.match(duration));
 }
 
 // Search text (if any) + attribute filters on top of the scope. Empty selection = no constraint.

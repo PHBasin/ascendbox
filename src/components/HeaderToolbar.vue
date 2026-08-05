@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, nextTick } from 'vue';
-import { useExercises, DURATION_BUCKETS, type DurationBucketId } from '@/application/useExercises';
-import { LEVELS, type Level } from '@/domain/exercise';
+import { useExercises, DURATION_BUCKETS } from '@/application/useExercises';
+import { LEVELS } from '@/domain/exercise';
 import FilterSheet from './FilterSheet.vue';
 
 const {
@@ -40,17 +40,24 @@ async function closeSearch(): Promise<void> {
 }
 
 // Applied attribute filters as removable chips (DESIGN §5.5): recognition over recall.
+//
+// Buckets and levels are filtered *from their source list* rather than mapped from the selection:
+// the label travels with the option, so no id → label lookup is needed. It also fixes their order —
+// a chip keeps its place in the scale instead of moving to wherever it was tapped.
+//
+// Tags are mapped from the selection instead, and deliberately: `availableTags` narrows with the
+// scope, so walking it could drop a chip for a filter that is still applied. Their label is the tag.
 type Chip = { key: string; label: string; remove: () => void };
 const chips = computed<Chip[]>(() => [
-  ...selectedBuckets.value.map((id: DurationBucketId) => ({
-    key: `d:${id}`,
-    label: DURATION_BUCKETS.find((b) => b.id === id)!.label,
-    remove: () => toggleBucket(id),
+  ...DURATION_BUCKETS.filter((b) => selectedBuckets.value.includes(b.id)).map((b) => ({
+    key: `d:${b.id}`,
+    label: b.label,
+    remove: () => toggleBucket(b.id),
   })),
-  ...selectedLevels.value.map((v: Level) => ({
-    key: `l:${v}`,
-    label: LEVELS.find((x) => x.value === v)!.label,
-    remove: () => toggleLevel(v),
+  ...LEVELS.filter((l) => selectedLevels.value.includes(l.value)).map((l) => ({
+    key: `l:${l.value}`,
+    label: l.label,
+    remove: () => toggleLevel(l.value),
   })),
   ...selectedTags.value.map((t: string) => ({
     key: `t:${t}`,
