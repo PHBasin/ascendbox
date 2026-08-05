@@ -3,6 +3,8 @@ import { computed, ref, nextTick } from 'vue';
 import { useExercises, DURATION_BUCKETS } from '@/application/useExercises';
 import { LEVELS } from '@/domain/exercise';
 import FilterSheet from './FilterSheet.vue';
+import SearchIcon from './icons/SearchIcon.vue';
+import CloseIcon from './icons/CloseIcon.vue';
 
 const {
   searchOpen,
@@ -101,35 +103,13 @@ const chips = computed<Chip[]>(() => [
             class="pill-action inline-flex items-center justify-center w-11 h-11"
             @click="openSearch"
           >
-            <svg
-              class="w-5 h-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.5-3.5" />
-            </svg>
+            <SearchIcon class="w-5 h-5" />
           </button>
 
           <div v-else class="relative w-full sm:w-56">
-            <svg
+            <SearchIcon
               class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 dark:text-slate-400"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.5-3.5" />
-            </svg>
+            />
             <input
               ref="searchInput"
               v-model="searchQuery"
@@ -145,17 +125,7 @@ const chips = computed<Chip[]>(() => [
               class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-8 h-8 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300"
               @click="closeSearch"
             >
-              <svg
-                class="w-4 h-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                aria-hidden="true"
-              >
-                <path d="M6 6l12 12M18 6L6 18" />
-              </svg>
+              <CloseIcon class="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -202,17 +172,7 @@ const chips = computed<Chip[]>(() => [
           @click="chip.remove"
         >
           {{ chip.label }}
-          <svg
-            class="w-3.5 h-3.5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            aria-hidden="true"
-          >
-            <path d="M6 6l12 12M18 6L6 18" />
-          </svg>
+          <CloseIcon class="w-3.5 h-3.5" />
         </button>
       </li>
     </ul>

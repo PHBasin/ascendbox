@@ -2,6 +2,7 @@
 import { computed, ref, watch, onBeforeUnmount } from 'vue';
 import { useExercises, DURATION_BUCKETS } from '@/application/useExercises';
 import { LEVELS } from '@/domain/exercise';
+import ResetIcon from './icons/ResetIcon.vue';
 
 const props = defineProps<{ open: boolean }>();
 const emit = defineEmits<{ close: [] }>();
@@ -96,19 +97,7 @@ onBeforeUnmount(() => {
             class="inline-flex items-center gap-2 px-3 min-h-11 rounded-full text-sm font-semibold ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-300 active:scale-95"
             @click="resetFilters"
           >
-            <svg
-              class="w-3.5 h-3.5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
-              <path d="M3 3v5h5" />
-            </svg>
+            <ResetIcon class="w-3.5 h-3.5" />
             Réinitialiser
           </button>
         </header>
