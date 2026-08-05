@@ -80,7 +80,14 @@ segments are filled_ and the word, **not** from hue (the old emerald→amber→r
 hue collapses for CVD users).
 
 - Filled segment → `slate-900 dark:slate-50` (ink). Empty → `slate-200 dark:slate-700`.
-- The label (`Débutant`/`Intermédiaire`/`Avancé`) is always present next to the gauge.
+- **The word is the carrier; the gauge is the accelerator.** `Débutant`/`Intermédiaire`/`Avancé` is
+  never omitted. The bars are `aria-hidden` and add nothing a screen reader or a grayscale print
+  needs — what they buy is speed when levels are **compared**, since a filled count reads across a
+  grid faster than three different words do.
+- **So the gauge appears only where levels are scanned side by side** — the card's strip (§5.1). In
+  the detail page's spec block (§5.6) there is exactly one level on screen, nothing to compare it
+  against, and an icon on one value out of three breaks the block's typographic alignment: there the
+  word stands alone. Dropping it costs nothing against §1.3, which polices hue, not glyphs.
 - An optional semantic accent (`--color-level-*`) may tint the **label** where it clears AAA — never
   the gauge, never as the sole cue.
 
@@ -376,9 +383,35 @@ chips** under the scope bar; `Réinitialiser` clears all.
 Master-detail: full how-to, big text, execution focus. Route `/exercice/:id` (**hash** history —
 GitHub Pages is static, so `#` keeps deep links working on a cold hit with no server rewrite).
 
-Anatomy: back nav · category (icon+label) · title · **objectif** · **stat strip** (Durée · Niveau
-gauge · Matériel) · **Déroulement** as a bulleted list · **Sécurité** callout (distinct surface) ·
-**Adapter** (Plus dur / Plus facile) · tags.
+**The page is a topo, not an article.** A coach at the wall does what a climber does with a guidebook
+entry: identify the route, read the spec block, follow the sequence of moves. The page is ordered that
+way and each zone is given the form that job needs — an identity block, a spec sheet, a sequence.
+
+Anatomy: back nav · **identity block** (category rule + icon/label · title · objectif) · **spec block**
+(Durée · Niveau · Matériel) · **Déroulement** as a numbered spine · **Sécurité** callout (distinct
+surface) · **Adapter** (Plus dur / Plus facile) · tags.
+
+Sections are separated on the §4 **Section tier** (`gap-8`); 24px is the container tier and let the
+whole page read as one undifferentiated column.
+
+**The category is a rule down the identity block**, not a mark beside a word — it spans eyebrow,
+title and objective, so the pillar identifies the block rather than decorating it, and stays legible
+at arm's length in sunlight where a 16px icon does not. It is a **third** channel on top of the icon
+and the label (§2.1), pure reinforcement: grayscale loses nothing.
+
+> **Exactly one rule closes the record, and it is the spec block's.** Tags carry no rule of their own.
+> One there looks right on a full page and breaks an empty one: with no detail data the tags follow
+> the spec block directly, and the two borders frame `gap-8` of nothing — a visible empty band, which
+> is the shell a missing section must never produce. Caught only by rendering an exercise that has no
+> detail data; the seeded ones all looked fine.
+
+**The spec block is a labelled `<dl>` grid**, not a row of icon+value pairs. Labels are the §3 eyebrow
+and **visible**, so nothing rides on `sr-only` and no glyph has to be decoded (a dumbbell meaning
+"level" is a rebus, not a label). Every value takes the same type — `text-base font-bold`, ink — which
+is what makes it read as a spec sheet rather than three unrelated facts; that rule is why the level
+drops its gauge here (§2.3). The grid also **retires the middot problem outright**: cells never need
+separators, so the block wraps freely at any width. `Matériel` spans the full row below `sm` — it is
+the only variable-length fact, and a third of a 360px row leaves it ~4 characters.
 
 **The detail opens on `objective`, never the card's `teaser`.** The coach already read the teaser and
 tapped because of it, so echoing it here spends the page's most valuable line on something known (same
@@ -395,7 +428,7 @@ self-evidently the objective.
 `equipment`, `instructions`, `variants`, `safety` — see `Exercise`) are all optional; the catalogue
 fills in incrementally and a gap is legitimate. A section renders only when its data exists — a missing
 field must be a **non-event**, never an empty shell and never a crash. An exercise with no detail data
-still renders a valid page (nav · category · title · stat strip · tags).
+still renders a valid page (nav · identity block · spec block · tags).
 
 > **v1 is read-only — no sticky footer.** `Démarrer` and "save to session" are out of scope until the
 > behaviour behind them exists; a button that does nothing is worse than no button (§1.5). Re-introduce
@@ -407,9 +440,21 @@ lets the coach bail out from any scroll position; same opaque treatment as the f
 (§5.8).
 
 **The `Déroulement` is a list, never a paragraph.** The coach opens this at the wall, in a hurry, for
-_what to execute_: a sequence is scanned, prose has to be re-read. One bullet = one step
+_what to execute_: a sequence is scanned, prose has to be re-read. One item = one step
 (`instructions: string[]`), and the figures live **inside the steps** — "Récupérer 3 minutes complètes
 entre les séries", "Alterner : 5 secondes par bras".
+
+**It is the page's signature: a numbered spine.** Ink nodes (`w-8`, `slate-900 dark:slate-50`) joined
+by a `w-0.5` rule. The numbering is earned, not decorative — a déroulement _is_ a sequence, so order
+is information, and the numbers give a coach a spoken anchor mid-session ("j'en suis à la 3") that a
+bullet cannot. The rule binds the steps into one object, which is what someone glancing back down at a
+phone re-finds their place in. Nodes are **pure ink**: maximum contrast in sun, no hue to lose to
+grayscale or a colour-vision difference (§1.3). The rule is drawn per-step and **hidden on the last** —
+one trailing past the final step reads as an unfinished list.
+
+> **Numbered here, bulleted in `Adapter`** — and the difference is the point. Variants are a menu you
+> pick from, not a sequence you execute, so numbering them would assert an order that is not there.
+> The marker encodes what the content _is_.
 
 > **Why the numeric `Déroulé` tiles were removed.** They were fed by a `protocol` object
 > (`reps`/`sets`/`restSec`/`holdSec`) that broke twice on real content: `restSec` meant "rest between
@@ -418,15 +463,16 @@ entre les séries", "Alterner : 5 secondes par bras".
 > hand-authored exercises; a sentence can. Prose absorbs the exception at zero schema cost, which is
 > the whole reason the tiles are gone rather than patched.
 
-**Bullets are drawn, not `list-disc`.** A real marker inherits the line-height and drifts off the first
-line as the item wraps; a `w-1.5 h-1.5` span at `mt-2.5` pins to the first line's optical centre and
-stays there however long the step runs. Same marker in `Déroulement` and in `Adapter`.
+**Markers are drawn, not `list-disc`/`list-decimal`.** A native marker inherits the line-height and
+drifts off the first line as the item wraps. `Adapter`'s bullets are a `w-1.5` span pinned at `mt-2.5`
+to the first line's optical centre; the spine's nodes are pinned the same way, with `pt-1` on the step
+text so it centres against the 32px node instead of riding high above it.
 
 > **A separator only belongs in a row that cannot wrap** — general rule, learned the hard way. In a
-> wrapping row a middot always orphans (it trails or leads a line and no CSS reaches it). So the stat
-> strip **stacks below `sm`** (one fact per line, no separator needed) and becomes **a single row with
-> middots from `sm`**, where all three fit (verified at 640px). Never negotiate with the wrap — remove
-> it. The card's strip (§5.1) earns its middots the same way: 2 items, never wraps.
+> wrapping row a middot always orphans (it trails or leads a line and no CSS reaches it). The detail's
+> spec block sidesteps this permanently by being a **grid**: cells are bounded by the layout, so no
+> separator is needed at any width and there is no wrap left to negotiate with. The card's strip
+> (§5.1) earns its middots the other way: 2 short items, guaranteed single-line.
 
 **Durations are written in the unit a coach says out loud** — "3 min", "1 min 30", "7 s", never "180
 s". With the figures now living in `instructions` prose, this is an **editorial** rule rather than a

@@ -1,35 +1,26 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import type { Level } from '@/domain/exercise';
+import { LEVEL_LABELS, type Level } from '@/domain/exercise';
 
-// Level = filled-bar count + text label, never hue (DESIGN §2.3). Drawn as an icon-sized glyph of 3
-// ascending bars so it reads as a sibling of the duration's clock rather than a foreign widget — the
-// count survives, which is what the rule protects; only the form changed. The bars are decorative
-// (aria-hidden); the label carries the meaning, so it passes a grayscale and a screen-reader test.
-const props = defineProps<{ level: Level; size?: 'sm' | 'lg' }>();
+// Level = filled-bar count + the word, never hue (DESIGN §2.3). Drawn as an icon-sized glyph of 3
+// ascending bars so it reads as a sibling of the duration's clock rather than a foreign widget. The
+// bars are decorative (`aria-hidden`); the word carries the meaning, so this passes a grayscale and a
+// screen-reader test alike.
+//
+// **Card-only.** The bars pay for themselves where levels are *scanned* — a filled count compares
+// across a grid faster than a word reads. The detail page's spec block is read one exercise at a
+// time and prints the word plain, so its three values stay typographic siblings (§5.6).
+defineProps<{ level: Level }>();
 
-const LEVEL_LABEL: Record<Level, string> = {
-  1: 'Débutant',
-  2: 'Intermédiaire',
-  3: 'Avancé',
-};
-
-const label = computed(() => LEVEL_LABEL[props.level]);
-// Match the sibling meta icon at each size (card 3.5, detail 4). Full static strings for the JIT (§10).
-const icon = computed(() => (props.size === 'lg' ? 'w-4 h-4' : 'w-3.5 h-3.5'));
-const text = computed(() => (props.size === 'lg' ? 'text-sm' : 'text-xs'));
 // Bars above the level: dimmed, never absent — an empty slot is what makes the count readable.
 const MUTED = 'stroke-slate-300 dark:stroke-slate-600';
 </script>
 
 <template>
   <span
-    class="shrink-0 inline-flex items-center gap-1.5 font-semibold text-slate-600 dark:text-slate-300"
-    :class="text"
+    class="shrink-0 inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
   >
     <svg
-      class="shrink-0"
-      :class="icon"
+      class="w-3.5 h-3.5 shrink-0"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -41,6 +32,6 @@ const MUTED = 'stroke-slate-300 dark:stroke-slate-600';
       <path d="M12 20v-8" :class="level >= 2 ? '' : MUTED" />
       <path d="M19 20v-12" :class="level >= 3 ? '' : MUTED" />
     </svg>
-    <span><span class="sr-only">Niveau : </span>{{ label }}</span>
+    <span><span class="sr-only">Niveau : </span>{{ LEVEL_LABELS[level] }}</span>
   </span>
 </template>

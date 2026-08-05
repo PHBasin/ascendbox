@@ -11,6 +11,14 @@ export const CATEGORIES = [
 export type CategoryId = (typeof CATEGORIES)[number]['id'];
 export type Level = 1 | 2 | 3; // 1 = low, 2 = moderate, 3 = high
 
+// Displayed label per level, same job as `CATEGORIES` above: one place where a domain value meets the
+// word a coach reads. Both the card's gauge and the detail page's spec block spend it.
+export const LEVEL_LABELS: Record<Level, string> = {
+  1: 'Débutant',
+  2: 'Intermédiaire',
+  3: 'Avancé',
+};
+
 /**
  * How to make the exercise harder or easier — the "Adapter" section of the detail page (§5.6).
  *
