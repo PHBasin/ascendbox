@@ -75,11 +75,15 @@ not a new tier. Error text is the one chromatic exception: `rose-600 dark:rose-4
 Each exercise carries a required **level**: `Débutant` (1) · `Intermédiaire` (2) · `Avancé` (3) — an
 **ordinal** scale (an échauffement lands in _Débutant_, a max-strength drill in _Avancé_).
 
-Encoding is a **3-segment gauge filled left-to-right, plus the text label** — read from _how many
-segments are filled_ and the word, **not** from hue (the old emerald→amber→rose hue meter is dropped;
-hue collapses for CVD users).
+Encoding is a **3-bar gauge rising left-to-right, plus the text label** — read from _how many bars are
+lit_ and the word, **not** from hue (the old emerald→amber→rose hue meter is dropped; hue collapses
+for CVD users). Bar **height** ascends with the level, so magnitude is carried by shape as well as by
+count — a second non-chromatic channel, free.
 
-- Filled segment → `slate-900 dark:slate-50` (ink). Empty → `slate-200 dark:slate-700`.
+- Lit bar → `currentColor`, i.e. it inherits the meta text tier it sits in (`slate-600
+dark:slate-300`, §2.2) rather than full ink: the gauge is icon-sized and rides in a meta row, so it
+  should read as a sibling of the duration's clock, not as a heavier foreign widget. Dimmed →
+  `slate-300 dark:slate-600`.
 - **The word is the carrier; the gauge is the accelerator.** `Débutant`/`Intermédiaire`/`Avancé` is
   never omitted. The bars are `aria-hidden` and add nothing a screen reader or a grayscale print
   needs — what they buy is speed when levels are **compared**, since a filled count reads across a
@@ -180,9 +184,31 @@ share the same horizontal gutter at every breakpoint so their edges stay aligned
 
 The grid gap stays a flat `gap-6` (the page unit) at every size; the filter sheet keeps `p-6`.
 
-**Radii & elevation:** `rounded-3xl` (cards, sheets), `rounded-2xl` (buttons/tiles), `rounded-full`
-(chips). **Separation by border + surface contrast, not shadow** — the filter sheet is the one
-exception (a soft top shadow to read as an overlay).
+**Radii — two, and only two.**
+
+| Radius         | Role                                                       |
+| -------------- | ---------------------------------------------------------- |
+| `rounded-3xl`  | **surfaces** — cards, the filter sheet                     |
+| `rounded-full` | **every control** — buttons, pills, chips, fields          |
+
+A third step (`rounded-2xl`, once billed here as "buttons/tiles") described nothing the app actually
+built: all sixteen controls are `rounded-full`, and its only visible use was the sheet's apply bar —
+an orphan radius, _less_ rounded than the sheet containing it and the pills beside it, which is
+exactly why it read as square. Two radii is not a simplification of the system; it is the system,
+written down correctly. Shape therefore never distinguishes one control from another — size, width
+and fill do (§5.5).
+
+**Separation by border + surface contrast, not shadow — everywhere, the filter sheet included.** An
+overlay earns its edge the same way a card does: its own surface token plus a border. The sheet
+carries a soft top shadow on top of that, but as reinforcement only; nothing may rest on it.
+
+> **The exception this replaces failed exactly where it was needed.** The sheet used to be granted a
+> shadow _instead_ of surface contrast — and it was painted in the **page's** background token
+> (`bg-slate-50 dark:bg-slate-900`), so in dark mode it measured **1.00:1** against the page behind
+> it: the same colour. Its shadow was `rgba(15,23,42,0.18)` — slate-900 at 18% over slate-900, a
+> shadow the colour of its own background. Only the rounded corners said an overlay was there. On the
+> `.card` surface (`bg-white dark:bg-slate-800`) the gap is **1.22:1**, the delta cards already hold.
+> The one component that most needed separation was the one place the rule was waived.
 
 ---
 
@@ -321,10 +347,16 @@ titles).
 - **Active** — **solid ink fill**, `bg-slate-900 text-white` (inverted `dark:bg-slate-50
 dark:text-slate-900`). Ink over a category tint so the active state clears AAA and never leans on hue
   (§2.4); the label already names the category.
-- **Inactive** — `bg-slate-100 text-slate-600` with a **visible border** `ring-slate-200
-dark:ring-slate-700`, `hover:bg-slate-200`, and the icon (from `sm+`) category-tinted. The border is
-  shared with search/`Filtres` so the header reads as one family; the recessed fill still marks it as
-  an unselected toggle rather than a standalone action.
+- **Inactive** — `bg-slate-100 dark:bg-slate-700 text-slate-600` with a **visible border**
+  `ring-slate-200 dark:ring-slate-600`, `hover:bg-slate-200`, and the icon (from `sm+`)
+  category-tinted. The border is shared with search/`Filtres` so the header reads as one family; the
+  contrasting fill still marks it as an unselected toggle rather than a standalone action.
+
+> **Why the dark fill is `slate-700` and not `slate-800`.** `.toggle-off` is spent on two different
+> grounds — the header (`slate-900`) and the filter sheet (`slate-800`, §5.5). `slate-800` sat at
+> **1.00:1** on the sheet: the fill disappeared entirely, the same failure §4 documents for the sheet
+> itself. `slate-700` holds on both (1.41 on the sheet, 1.72 on the header) with a single token. A
+> shared skin has to clear the _worst_ surface it lands on, not the one it was designed against.
 - Always `ring-1`, so there is no layout jump between states.
 - **Asymmetric transition (§6).** _Selecting_ fills over **300ms** — the tapped target, confirmed
   where the eye is. _Deselecting_ recedes over **150ms** — a by-product of another action, so it must
@@ -342,8 +374,10 @@ dark:ring-slate-700`, `hover:bg-slate-200`, and the icon (from `sm+`) category-t
 
 ### 5.3 Level gauge
 
-3 segments, `rounded-full`, filled left-to-right where `segment ≤ level`; filled = ink, empty =
-`slate-200 dark:slate-700`. Always paired with the text label. (Replaces the old ascending-bar meter.)
+An **icon-sized SVG glyph** (`w-3.5 h-3.5`) of 3 ascending bars with round caps, lit where
+`bar ≤ level`; lit = `currentColor` (the meta tier it inherits), dimmed = `slate-300 dark:slate-600`.
+Drawn as a glyph rather than as laid-out segments so it sits in the card's meta row as a sibling of
+the duration's clock. Always paired with the text label, and `aria-hidden` (§2.3).
 
 ### 5.4 Tags — flat metadata, category-independent
 
@@ -375,10 +409,34 @@ _attribute_ filters, each a labelled section with the same tap interaction:
 Options wear the same skin as the scope pills (§5.2) — literally: both spend `.toggle-on` /
 `.toggle-off` (§11). Only the scope bar's asymmetric timing is its own (§6).
 
-Live feedback: the apply button reads **"Voir N exercices"**. Applied filters also show as **removable
-chips** under the scope bar; `Réinitialiser` clears all. Chips read in **scale order** (short → long,
-`Débutant` → `Avancé`), not in the order they were tapped: a row that reshuffles under the thumb is
-harder to re-find than one that holds still.
+**Surface.** The sheet takes the `.card` surface (`bg-white dark:bg-slate-800`) plus a top border —
+the §4 rule, not an exception to it. It must never wear the page's background token: that is what
+left it invisible against the page in dark mode. The white ground also earns back the recessed fill
+`.toggle-off` promises (§5.2) — `bg-slate-100` reads at 1.10:1 there against 1.05:1 on `slate-50`,
+which is the difference between a subtle recess and none at all.
+
+**The ✕ owns the top-right; the reset does not.** On a sheet, the top-right is the slot convention
+reserves for dismissal — and on a phone it is the worst thumb reach on the panel. Putting a
+state-destroying `Réinitialiser` there meant a thumb reaching to leave could wipe every filter
+instead. So the ✕ lives there permanently (ghost circle, `w-11 h-11`; **not** `.pill-action`, whose
+white fill would vanish on a white sheet), and the reset moved down.
+
+**Bottom cluster — `Effacer les filtres` sits _above_ the apply bar.** The panel is anchored to the
+bottom edge, so anything placed above the CTA leaves it at a constant distance from that edge, while
+anything below would shift the primary target every time the reset appears or disappears. It is
+secondary by weight (ring, no fill, `min-h-11`) so it never competes with the CTA.
+
+> **Named for what it clears.** `Effacer les filtres` (sheet) drops the attribute filters;
+> `Tout réinitialiser` (the feed's empty state) also drops search mode. The two scopes differ, so the
+> two labels must — leaning on the single word "Tout" to carry that distinction gave a coach nothing
+> to decode.
+
+Live feedback: the apply button reads **"Voir N exercices"** and is **full-width**, which is
+load-bearing rather than decorative — a selected option (`.toggle-on`) wears this exact ink, so once
+the radius is shared (§4) width is the only thing left keeping the primary action from reading as one
+more filter chip. Applied filters also show as **removable chips** under the scope bar. Chips read in
+**scale order** (short → long, `Débutant` → `Avancé`), not in the order they were tapped: a row that
+reshuffles under the thumb is harder to re-find than one that holds still.
 
 > Category is kept out of the sheet by default (§5.2) — single-select scope vs. multi-select
 > attributes. If usage shows it is combined freely with the rest, add it here as a section.

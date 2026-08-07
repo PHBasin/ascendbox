@@ -3,6 +3,7 @@ import { computed, ref, watch, onBeforeUnmount } from 'vue';
 import { useExercises, DURATION_BUCKETS } from '@/application/useExercises';
 import { LEVELS } from '@/domain/exercise';
 import ResetIcon from './icons/ResetIcon.vue';
+import CloseIcon from './icons/CloseIcon.vue';
 
 const props = defineProps<{ open: boolean }>();
 const emit = defineEmits<{ close: [] }>();
@@ -77,28 +78,30 @@ onBeforeUnmount(() => {
     >
       <div
         v-if="open"
-        class="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-3xl bg-slate-50 dark:bg-slate-900 shadow-[0_-8px_30px_rgba(15,23,42,0.18)] p-6 pb-8"
+        class="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-[0_-8px_30px_rgba(15,23,42,0.18)] p-6 pb-8"
         role="dialog"
         aria-modal="true"
         aria-label="Filtres"
       >
-        <!-- No grab handle: it implies swipe-to-dismiss, which we don't wire up (dismiss = scrim / ✕ / Esc). -->
+        <!-- No grab handle: it implies swipe-to-dismiss, which we don't wire up (dismiss = ✕ / scrim / Esc). -->
 
-        <!-- min-h-11 reserves the reset button's height so toggling it never resizes the panel -->
-        <header class="flex items-center justify-between gap-3 mb-6 min-h-11">
+        <!-- The ✕ owns the top-right (DESIGN §5.5): on a sheet that is the slot convention reserves
+             for dismissal, and it is the worst thumb reach on a phone — the wrong place for a
+             state-destroying action, which is why `Effacer les filtres` moved down by the CTA.
+             Ghost circle, not `.pill-action`: that skin is white and would vanish on a white sheet. -->
+        <header class="flex items-center justify-between gap-3 mb-6">
           <h2
             class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
           >
             Filtres
           </h2>
           <button
-            v-if="activeFilterCount"
             type="button"
-            class="inline-flex items-center gap-2 px-3 min-h-11 rounded-full text-sm font-semibold ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-300 active:scale-95"
-            @click="resetFilters"
+            aria-label="Fermer les filtres"
+            class="shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
+            @click="close"
           >
-            <ResetIcon class="w-3.5 h-3.5" />
-            Réinitialiser
+            <CloseIcon class="w-5 h-5" />
           </button>
         </header>
 
@@ -146,7 +149,7 @@ onBeforeUnmount(() => {
             v-model="tagQuery"
             type="search"
             placeholder="Rechercher un tag…"
-            class="w-full mb-3 px-4 min-h-11 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-50 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-50"
+            class="w-full mb-3 px-4 min-h-11 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-50 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-50"
           />
           <div class="flex flex-wrap gap-2">
             <button
@@ -163,14 +166,33 @@ onBeforeUnmount(() => {
           </div>
         </section>
 
-        <!-- Live feedback CTA (~52px, full-width) — DESIGN §5.5 / §8 -->
-        <button
-          type="button"
-          class="w-full min-h-[52px] rounded-2xl bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 font-bold text-base transition-transform duration-300 active:scale-95"
-          @click="close"
-        >
-          Voir {{ totalCount }} exercice{{ totalCount > 1 ? 's' : '' }}
-        </button>
+        <!-- Bottom cluster. `Effacer les filtres` sits *above* the CTA on purpose: the panel is
+             anchored to the bottom edge, so anything placed above leaves the CTA at a constant
+             distance from it — below, its conditional appearance would shift the primary target
+             under the thumb. Named for what it clears, to keep it distinct from the feed's
+             `Tout réinitialiser`, which also drops search mode (DESIGN §5.5). -->
+        <div class="flex flex-col gap-3">
+          <button
+            v-if="activeFilterCount"
+            type="button"
+            class="w-full inline-flex items-center justify-center gap-2 min-h-11 rounded-full text-sm font-semibold ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
+            @click="resetFilters"
+          >
+            <ResetIcon class="w-3.5 h-3.5" />
+            Effacer les filtres
+          </button>
+
+          <!-- Live feedback CTA (~52px, full-width) — DESIGN §5.5 / §8. Full-width is load-bearing:
+               `.toggle-on` shares this exact ink, so width is what keeps the primary action from
+               reading as one more selected option. -->
+          <button
+            type="button"
+            class="w-full min-h-[52px] rounded-full bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 font-bold text-base transition-transform duration-300 active:scale-95"
+            @click="close"
+          >
+            Voir {{ totalCount }} exercice{{ totalCount > 1 ? 's' : '' }}
+          </button>
+        </div>
       </div>
     </Transition>
   </Teleport>
