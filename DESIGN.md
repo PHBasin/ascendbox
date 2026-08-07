@@ -120,8 +120,18 @@ offline (latin + latin-ext).
 | Meta (category, duration, tags, level)       | `text-xs font-semibold`                           |
 | Section eyebrow                              | `text-[11px] font-bold tracking-widest uppercase` |
 | Sheet option / chip                          | `text-sm font-medium`                             |
+| **Primary action** — the sheet's apply bar   | `text-base lg:text-lg font-bold`                  |
+| **Inline action** — `.btn-ink`               | `text-sm font-semibold`                           |
 
 Weight and size carry hierarchy; do not use colour boxes to rank information.
+
+**An action scales like the title band.** The two action rows above are not decoration: without them
+the table described page roles only, an apply bar had no row to sit in, and the sheet's CTA was set
+by hand at a fixed `text-base` while everything around it scaled. At `lg` that inverted the
+hierarchy — the `Filtres` button that *opens* the panel reached **18px** (title band) while the
+`Voir N exercices` that confirms it stayed at **16px**. A primary action must never end up smaller
+than the control that opened it, so it scales on the same step. `.btn-ink` stays fixed at `text-sm`
+on purpose: it is an inline pill (empty state, back to catalogue), not the primary act of a surface.
 
 **One title size links the page.** Card titles and the header's scope pills + `Filtres` share the
 title size (`text-base → lg:text-lg`), so the scope reads as the same family as the cards it filters.
@@ -407,17 +417,40 @@ _attribute_ filters, each a labelled section with the same tap interaction:
 - **Tags** — most-used first; add an in-sheet search once the list exceeds ~10.
 
 Options wear the same skin as the scope pills (§5.2) — literally: both spend `.toggle-on` /
-`.toggle-off` (§11). Only the scope bar's asymmetric timing is its own (§6).
+`.toggle-off` (§11). Only the scope bar's asymmetric timing is its own (§6). All three sections carry
+**one weight**, the `text-sm font-medium` of §3: they are the same control three times, and Durée and
+Niveau once drifted to `font-semibold` while Tags stayed correct — three rows of one control in two
+weights, for no stated reason. The skin classes hold colour only; weight lives at the call site, so
+that is where it has to be kept honest.
 
-**Two forms, one component.** Below `lg` it is a bottom sheet, anchored in the thumb zone. From `lg`
-it is a **centred modal capped at `max-w-2xl`** — a bottom sheet is a phone affordance, and stretched
-across a desktop it was only growing empty: measured, the content never exceeds **666px at any
-viewport**, so at 1920 the panel carried 1254px of void and a 1872px-wide apply bar. 672px fits the
-content as authored, at every width. Centring uses `inset-0 + m-auto + h-fit`, not
-`-translate-1/2`, so `transform` stays free for the enter/leave classes; those carry `lg:` variants of
-their own, since a full-height slide reads as a sheet and at `lg` this no longer is one. Being
-centred rather than full-bleed also leaves the feed visible around it, which is worth something when
-filters apply live.
+**Width and vertical anchoring are two rules, on two breakpoints.** Each moves one variable, like the
+rest of the responsive — folding both into `lg` once made a single pixel change five things at once.
+
+| | Below `sm` | `sm` → `lg` | From `lg` |
+| --- | --- | --- | --- |
+| Width | full-bleed | **capped at `max-w-2xl`, centred** | capped, centred |
+| Vertical | bottom-anchored | bottom-anchored | **centred** |
+
+So: a full-bleed bottom sheet on a phone, the same 672px card resting on the bottom edge on a tablet
+— thumb zone kept — and that card centred on a desktop. The `lg` step is then a vertical move and
+nothing else.
+
+**Why 672px, and why from `sm`.** Measured, the content never exceeds **666px at any viewport**, so
+past that the panel does not fill space, it manufactures void: 333px of it at 1023px — five times the
+63–78px it holds everywhere else — and 1254px at 1920px, under a 1872px-wide apply bar. The cap is
+inert below ~672px of viewport, so it costs the low end nothing; it simply starts working the moment
+there is more room than the content wants. The panel gains `border-x` once it has side edges, and
+keeps square bottom corners until `lg`, since meeting the bottom edge is what reads as a sheet.
+
+Centring uses `inset-0 + m-auto + h-fit`, not `-translate-1/2`, so `transform` stays free for the
+enter/leave classes; those carry `lg:` variants of their own, since a full-height slide reads as a
+sheet and at `lg` this no longer is one. Being centred rather than full-bleed also leaves the feed
+visible around it, which is worth something when filters apply live.
+
+**The ✕ is the one control here with neither fill nor ring, deliberately.** A close is conventionally
+edgeless, and having no edge is what separates it from every control that acts on the filters — it
+acts only on the panel. (It also rules out `.pill-action`, whose white fill would vanish on a white
+sheet.)
 
 **Surface.** The sheet takes the `.card` surface (`bg-white dark:bg-slate-800`) plus a top border —
 the §4 rule, not an exception to it. It must never wear the page's background token: that is what

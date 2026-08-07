@@ -79,15 +79,23 @@ onBeforeUnmount(() => {
       leave-active-class="transition duration-200 ease-in"
       leave-to-class="translate-y-full lg:translate-y-4 lg:opacity-0"
     >
-      <!-- From lg: `inset-0 + m-auto + h-fit` centres the panel with margins alone, deliberately
-           leaving `transform` free for the Transition above — centring by `-translate-1/2` would be
-           overwritten by the enter/leave classes. Width caps at `max-w-2xl` (672px): measured, the
-           content never exceeds 666px at any viewport, so past that the panel was only growing empty
-           (1254px of it at 1920). Bottom sheet → floating card: all four borders, an omnidirectional
-           shadow, and `pb-8` (thumb clearance) relaxes to `pb-6`. -->
+      <!-- Width and vertical anchoring are two independent rules, on two different breakpoints —
+           each moves one variable, as the rest of the responsive does.
+           **Width** caps at `max-w-2xl` (672px) from `sm`, centred by `mx-auto` against the existing
+           `inset-x-0`: measured, the content never exceeds 666px at any viewport, so past that the
+           panel only grows empty — 333px of void at 1023px, five times the 63–78px it holds
+           everywhere else. The cap is inert below ~672px of viewport, so it costs the low end
+           nothing. `sm:border-x` because the panel now has side edges it never had while full-bleed;
+           `rounded-t-3xl` stays until `lg` since it still meets the bottom edge, and square bottom
+           corners are what read as a sheet.
+           **Vertical**: bottom-anchored (thumb zone) until `lg`, then centred by
+           `inset-0 + m-auto + h-fit` — margins, not `-translate-1/2`, so `transform` stays free for
+           the Transition above, whose enter/leave classes would otherwise overwrite the centring.
+           At `lg` it also closes into a floating card: bottom border, omnidirectional shadow, and
+           `pb-8` (thumb clearance) relaxed to `pb-6`. -->
       <div
         v-if="open"
-        class="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-[0_-8px_30px_rgba(15,23,42,0.18)] p-6 pb-8 lg:inset-0 lg:m-auto lg:h-fit lg:w-full lg:max-w-2xl lg:rounded-3xl lg:border lg:pb-6 lg:shadow-[0_24px_64px_rgba(15,23,42,0.24)]"
+        class="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-[0_-8px_30px_rgba(15,23,42,0.18)] p-6 pb-8 sm:max-w-2xl sm:mx-auto sm:border-x lg:inset-0 lg:m-auto lg:h-fit lg:rounded-3xl lg:border-b lg:pb-6 lg:shadow-[0_24px_64px_rgba(15,23,42,0.24)]"
         role="dialog"
         aria-modal="true"
         aria-label="Filtres"
@@ -97,7 +105,10 @@ onBeforeUnmount(() => {
         <!-- The ✕ owns the top-right (DESIGN §5.5): on a sheet that is the slot convention reserves
              for dismissal, and it is the worst thumb reach on a phone — the wrong place for a
              state-destroying action, which is why `Effacer les filtres` moved down by the CTA.
-             Ghost circle, not `.pill-action`: that skin is white and would vanish on a white sheet. -->
+             Deliberately the one control here with neither fill nor ring: a close is conventionally
+             edgeless, and having no edge is what separates it from every control that acts on the
+             filters — this one only acts on the panel. (It also rules out `.pill-action`, whose white
+             fill would vanish on a white sheet.) -->
         <header class="flex items-center justify-between gap-3 mb-6">
           <h2
             class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
@@ -123,7 +134,7 @@ onBeforeUnmount(() => {
               :key="bucket.id"
               type="button"
               :aria-pressed="selectedBuckets.includes(bucket.id)"
-              class="px-4 min-h-11 rounded-full font-semibold text-sm ring-1 transition-colors duration-300 active:scale-95"
+              class="px-4 min-h-11 rounded-full font-medium text-sm ring-1 transition-colors duration-300 active:scale-95"
               :class="selectedBuckets.includes(bucket.id) ? 'toggle-on' : 'toggle-off'"
               @click="toggleBucket(bucket.id)"
             >
@@ -141,7 +152,7 @@ onBeforeUnmount(() => {
               :key="lvl.value"
               type="button"
               :aria-pressed="selectedLevels.includes(lvl.value)"
-              class="px-4 min-h-11 rounded-full font-semibold text-sm ring-1 transition-colors duration-300 active:scale-95"
+              class="px-4 min-h-11 rounded-full font-medium text-sm ring-1 transition-colors duration-300 active:scale-95"
               :class="selectedLevels.includes(lvl.value) ? 'toggle-on' : 'toggle-off'"
               @click="toggleLevel(lvl.value)"
             >
@@ -203,7 +214,7 @@ onBeforeUnmount(() => {
                reading as one more selected option. -->
           <button
             type="button"
-            class="w-full sm:flex-1 min-h-[52px] rounded-full bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 font-bold text-base transition-transform duration-300 active:scale-95"
+            class="w-full sm:flex-1 min-h-[52px] rounded-full bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 font-bold text-base lg:text-lg transition-transform duration-300 active:scale-95"
             @click="close"
           >
             Voir {{ totalCount }} exercice{{ totalCount > 1 ? 's' : '' }}
