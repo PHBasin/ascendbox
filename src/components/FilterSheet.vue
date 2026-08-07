@@ -207,7 +207,7 @@ onBeforeUnmount(() => {
           <button
             v-if="activeFilterCount"
             type="button"
-            class="w-full sm:w-auto sm:flex-none sm:px-5 inline-flex items-center justify-center gap-2 min-h-11 sm:min-h-[52px] rounded-full text-sm lg:text-base font-semibold ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
+            class="w-full sm:w-auto sm:flex-none sm:px-4 inline-flex items-center justify-center gap-2 min-h-11 sm:min-h-[52px] rounded-full text-sm lg:text-base font-semibold ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
             @click="resetFilters"
           >
             <ResetIcon class="w-3.5 h-3.5" />

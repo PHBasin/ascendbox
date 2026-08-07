@@ -116,7 +116,9 @@ offline (latin + latin-ext).
 | -------------------------------------------- | ------------------------------------------------- |
 | Screen / hero title                          | `text-2xl lg:text-3xl font-bold tracking-tight`   |
 | **Title band** — card titles + scope/Filtres | `text-base lg:text-lg font-bold` (`sm+`)          |
+| **Lead / subtitle** — the detail's `objective` | `text-base lg:text-lg leading-relaxed`           |
 | Body / description                           | `text-[15px] lg:text-base leading-relaxed`        |
+| **Spec value** — the detail's `dd`            | `text-base font-bold` (fixed)                    |
 | Meta (category, duration, tags, level)       | `text-xs font-semibold`                           |
 | Section eyebrow                              | `text-[11px] font-bold tracking-widest uppercase` |
 | Sheet option / chip                          | `text-sm font-medium`                             |
@@ -136,9 +138,23 @@ on purpose: it is an inline pill (empty state, back to catalogue), not the prima
 **One title size links the page.** Card titles and the header's scope pills + `Filtres` share the
 title size (`text-base → lg:text-lg`), so the scope reads as the same family as the cards it filters.
 On the **phone** the scope drops to `text-sm` (Filtres follows) to keep all three axes on one line
-(§5.2), re-expressing to the full size from `sm` up. Content roles (hero, title, body) scale one step
-at `lg`; meta/eyebrow stay fixed — deliberately small. The base _is_ the mobile size; never scale
-below it.
+(§5.2), re-expressing to the full size from `sm` up. Content roles (hero, title, **lead**, body) scale
+one step at `lg`; meta/eyebrow stay fixed — deliberately small. The base _is_ the mobile size; never
+scale below it.
+
+**One size _and_ one weight.** The band is `font-bold` in all four of its members — card titles, scope
+pills, `Filtres`, the detail's back link. Two of them once sat at `font-semibold`, which draws a
+hierarchy that is not there: they are the same tier, so they must not differ by weight either.
+
+**The lead sits one step above body, not one below the title.** The detail's `objective` is the line a
+coach reads at arm's length before committing to a page (§5.6), so it earns its own row rather than
+borrowing the body's. Without it the table described page and card roles only, and a reading surface
+had nowhere to sit — the same hole that let the sheet's apply bar fall out of the scale.
+
+**The spec value is the one content-ish role that stays fixed, and that is the point.** Letting it
+scale to 18px was rendered and rejected: it then equals the lead, and the lead is what the coach must
+read first. `Durée · Niveau · Matériel` are figures to check, not prose to read — they sit one step
+under the objective at every width, deliberately.
 
 ---
 
@@ -168,10 +184,21 @@ instead of scattered ad-hoc gaps:
 | ------------- | --------------------------- | ------------------------------------------------------------------------------------- |
 | **Page**      | **24** (`-6`, → `lg:-8`=32) | gutter (header **=** feed), gap header↔cards, grid gap                                |
 | **Component** | **20** (`p-5`)              | card / panel padding — one notch under the page, so it reads as a _contained_ surface |
+| **Long-form** | **16** (`-4`)               | structural markers in continuous prose — detail only (§5.6)                            |
 | **Group**     | **12** (`-3`)               | title↔copy, meta rows, pill rows, section labels                                      |
 | **Atom**      | **8** (`-2`)                | icon↔text, tight pairs inside a control                                               |
 
 Below the atom, only typographic micro-gaps: title↔teaser `gap-1` (4), gauge segments `gap-0.5` (2).
+
+> **The long-form tier is `ExerciseView`'s, and only its** — the category rule beside the identity
+> block, the spec grid, and the numbered `instructions` spine (step badge↔text, and step↔step at the
+> Component 20). The other four tiers were calibrated on the catalogue, which is a **list**; the detail
+> is a **reading surface**, and a numbered badge is neither an icon inside a control (Atom, 8) nor a
+> meta glyph (6) — it is a structural marker in continuous prose, and it needs more air than either.
+> Conforming it was rendered and rejected on the evidence: pulling badge↔text to 12 crowds the number
+> against its line, pushing step↔step to 24 stretches the spine until five steps stop reading as one
+> sequence, and the page ends up **39px taller** for it. A tier that earns a screen is not an
+> exception; an undocumented value is. Do not spend 16 as a gap anywhere else.
 
 **icon↔text — two values, by role.** Inside a **control** (scope pills, `Filtres`, sheet reset,
 empty-state action) the icon sits at the atom `gap-2` (8). Inside **meta** (`text-xs` — card

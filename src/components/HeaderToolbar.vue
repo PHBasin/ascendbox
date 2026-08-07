@@ -135,7 +135,7 @@ const chips = computed<Chip[]>(() => [
           type="button"
           aria-haspopup="dialog"
           :aria-expanded="sheetOpen"
-          class="pill-action shrink-0 inline-flex items-center gap-2 px-4 min-h-11 font-semibold text-sm sm:text-base lg:text-lg"
+          class="pill-action shrink-0 inline-flex items-center gap-2 px-4 min-h-11 font-bold text-sm sm:text-base lg:text-lg"
           @click="sheetOpen = true"
         >
           <svg
