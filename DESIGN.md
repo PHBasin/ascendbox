@@ -467,6 +467,16 @@ white fill would vanish on a white sheet), and the reset moved down.
 **Bottom cluster — stacked on phones, side by side from `sm`.** Secondary left, primary right; the
 reset is secondary by weight (ring, no fill) either way, so it never competes with the CTA.
 
+**Primary right, and wider.** Right is the terminal position — where the eye finishes — so it belongs
+to the act being confirmed, not to the one that erases. (Put the CTA left and the last thing read,
+nearest the ✕'s own corner, becomes the destructive action.) And the row is **not** split evenly: an
+even split claims two equal choices, which these are not. The reset takes its natural width, the CTA
+takes the rest — **190 / 420px at 1280**, so the widths state the hierarchy the roles already have.
+
+The two also stay **one type step apart at every breakpoint** (14/16, then 16/18): a secondary that
+holds still while the primary scales is the same fault as a CTA that holds still while its trigger
+scales (§3), one level down — it had already opened the gap to 4px at `lg`.
+
 Stacked, `Effacer les filtres` sits _above_ the apply bar: the sheet is anchored to the bottom edge,
 so anything above the CTA leaves it at a constant distance from that edge, while anything below would
 shift the primary target every time the reset appears.

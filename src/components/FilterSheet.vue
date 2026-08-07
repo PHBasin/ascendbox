@@ -196,13 +196,18 @@ onBeforeUnmount(() => {
              At 640px it already does — 290px, 2.3×, roomier than the 305px/2.5× the lg modal ships.
              So `sm` is where the objection stops applying, and waiting for `lg` only left tablets a
              720–975px apply bar: the same slab the max-w-2xl cap was added to remove.
+             In the row the two are *not* split 50/50, which would claim they are equal choices: the
+             reset takes its natural width and the CTA takes the rest (190 / 420px at 1280), so the
+             widths state the hierarchy the roles already have. They stay one type step apart at every
+             breakpoint (14/16 then 16/18) — the reset scales with the CTA rather than sitting still
+             while it grows, which is how the gap had opened to 4px at lg.
              Named for what it clears, to keep it distinct from the feed's `Tout réinitialiser`,
              which also drops search mode. -->
         <div class="flex flex-col gap-3 sm:flex-row">
           <button
             v-if="activeFilterCount"
             type="button"
-            class="w-full sm:flex-1 inline-flex items-center justify-center gap-2 min-h-11 sm:min-h-[52px] rounded-full text-sm font-semibold ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
+            class="w-full sm:w-auto sm:flex-none sm:px-5 inline-flex items-center justify-center gap-2 min-h-11 sm:min-h-[52px] rounded-full text-sm lg:text-base font-semibold ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
             @click="resetFilters"
           >
             <ResetIcon class="w-3.5 h-3.5" />
