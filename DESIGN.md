@@ -431,20 +431,28 @@ state-destroying `Réinitialiser` there meant a thumb reaching to leave could wi
 instead. So the ✕ lives there permanently (ghost circle, `w-11 h-11`; **not** `.pill-action`, whose
 white fill would vanish on a white sheet), and the reset moved down.
 
-**Bottom cluster — stacked on phones, side by side from `lg`.** It is secondary by weight (ring, no
-fill) either way, so it never competes with the CTA.
+**Bottom cluster — stacked on phones, side by side from `sm`.** Secondary left, primary right; the
+reset is secondary by weight (ring, no fill) either way, so it never competes with the CTA.
 
 Stacked, `Effacer les filtres` sits _above_ the apply bar: the sheet is anchored to the bottom edge,
 so anything above the CTA leaves it at a constant distance from that edge, while anything below would
 shift the primary target every time the reset appears.
 
-> **Why side by side is a `lg`-only arrangement.** The reset is conditional, so on a phone a row
-> would halve the CTA — **342px → 165px** — at the exact moment a filter is applied: the target under
-> the thumb shrinking because a _different_ button appeared. At 165px it also lands within 41px of the
-> widest option pill (`Intermédiaire`, 124px), whose ink and radius it now shares, so the separation
-> width was carrying gets thin. From `lg` neither cost applies — the pointer is precise, and a
-> structured modal lets position and alignment do what width was doing — while full-width would leave
-> a 622px pale slab weighing as much as the primary action. Secondary left, primary right.
+> **Where the row starts, and why it is `sm`.** The reset is conditional, so pairing them halves the
+> CTA the moment a filter is applied. What decides the breakpoint is whether that half still reads as
+> the primary action beside the option pills it now shares ink and radius with — widest 124px:
+>
+> | Viewport | CTA in a row | vs. widest pill |
+> | -------- | ------------ | --------------- |
+> | 390px    | 165px        | 1.3× — too thin |
+> | 640px    | 290px        | 2.3×            |
+> | 768px    | 354px        | 2.9×            |
+>
+> At 390px the target under the thumb shrinks because a _different_ button appeared, and 1.3× is not
+> enough separation. By 640px it is already roomier than the **305px / 2.5×** the `lg` modal itself
+> ships, so the objection has stopped applying. Stopping at `lg` instead would have left tablets a
+> **720–975px** apply bar — the very slab the `max-w-2xl` cap exists to remove. Set the breakpoint
+> where the reason expires, not where the next named device begins.
 
 > **Named for what it clears.** `Effacer les filtres` (sheet) drops the attribute filters;
 > `Tout réinitialiser` (the feed's empty state) also drops search mode. The two scopes differ, so the
