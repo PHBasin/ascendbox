@@ -73,7 +73,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
            breadcrumb, not a button. -->
       <RouterLink
         to="/"
-        class="pill-action inline-flex items-center gap-2 px-4 min-h-11 font-semibold text-sm sm:text-base lg:text-lg"
+        class="pill-action inline-flex items-center gap-2 px-4 min-h-11 font-bold text-sm sm:text-base lg:text-lg"
       >
         <svg
           class="w-5 h-5 shrink-0"
@@ -279,7 +279,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
               <li
                 v-for="(item, i) in block.items"
                 :key="i"
-                class="flex gap-3 text-[15px] text-slate-700 dark:text-slate-300 leading-relaxed"
+                class="flex gap-3 text-[15px] lg:text-base text-slate-700 dark:text-slate-300 leading-relaxed"
               >
                 <span
                   class="w-1.5 h-1.5 mt-2.5 shrink-0 rounded-full bg-slate-400 dark:bg-slate-500"

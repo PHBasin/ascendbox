@@ -75,11 +75,15 @@ not a new tier. Error text is the one chromatic exception: `rose-600 dark:rose-4
 Each exercise carries a required **level**: `Débutant` (1) · `Intermédiaire` (2) · `Avancé` (3) — an
 **ordinal** scale (an échauffement lands in _Débutant_, a max-strength drill in _Avancé_).
 
-Encoding is a **3-segment gauge filled left-to-right, plus the text label** — read from _how many
-segments are filled_ and the word, **not** from hue (the old emerald→amber→rose hue meter is dropped;
-hue collapses for CVD users).
+Encoding is a **3-bar gauge rising left-to-right, plus the text label** — read from _how many bars are
+lit_ and the word, **not** from hue (the old emerald→amber→rose hue meter is dropped; hue collapses
+for CVD users). Bar **height** ascends with the level, so magnitude is carried by shape as well as by
+count — a second non-chromatic channel, free.
 
-- Filled segment → `slate-900 dark:slate-50` (ink). Empty → `slate-200 dark:slate-700`.
+- Lit bar → `currentColor`, i.e. it inherits the meta text tier it sits in (`slate-600
+dark:slate-300`, §2.2) rather than full ink: the gauge is icon-sized and rides in a meta row, so it
+  should read as a sibling of the duration's clock, not as a heavier foreign widget. Dimmed →
+  `slate-300 dark:slate-600`.
 - **The word is the carrier; the gauge is the accelerator.** `Débutant`/`Intermédiaire`/`Avancé` is
   never omitted. The bars are `aria-hidden` and add nothing a screen reader or a grayscale print
   needs — what they buy is speed when levels are **compared**, since a filled count reads across a
@@ -112,19 +116,45 @@ offline (latin + latin-ext).
 | -------------------------------------------- | ------------------------------------------------- |
 | Screen / hero title                          | `text-2xl lg:text-3xl font-bold tracking-tight`   |
 | **Title band** — card titles + scope/Filtres | `text-base lg:text-lg font-bold` (`sm+`)          |
+| **Lead / subtitle** — the detail's `objective` | `text-base lg:text-lg leading-relaxed`           |
 | Body / description                           | `text-[15px] lg:text-base leading-relaxed`        |
+| **Spec value** — the detail's `dd`            | `text-base font-bold` (fixed)                    |
 | Meta (category, duration, tags, level)       | `text-xs font-semibold`                           |
 | Section eyebrow                              | `text-[11px] font-bold tracking-widest uppercase` |
 | Sheet option / chip                          | `text-sm font-medium`                             |
+| **Primary action** — the sheet's apply bar   | `text-base lg:text-lg font-bold`                  |
+| **Inline action** — `.btn-ink`               | `text-sm font-semibold`                           |
 
 Weight and size carry hierarchy; do not use colour boxes to rank information.
+
+**An action scales like the title band.** The two action rows above are not decoration: without them
+the table described page roles only, an apply bar had no row to sit in, and the sheet's CTA was set
+by hand at a fixed `text-base` while everything around it scaled. At `lg` that inverted the
+hierarchy — the `Filtres` button that *opens* the panel reached **18px** (title band) while the
+`Voir N exercices` that confirms it stayed at **16px**. A primary action must never end up smaller
+than the control that opened it, so it scales on the same step. `.btn-ink` stays fixed at `text-sm`
+on purpose: it is an inline pill (empty state, back to catalogue), not the primary act of a surface.
 
 **One title size links the page.** Card titles and the header's scope pills + `Filtres` share the
 title size (`text-base → lg:text-lg`), so the scope reads as the same family as the cards it filters.
 On the **phone** the scope drops to `text-sm` (Filtres follows) to keep all three axes on one line
-(§5.2), re-expressing to the full size from `sm` up. Content roles (hero, title, body) scale one step
-at `lg`; meta/eyebrow stay fixed — deliberately small. The base _is_ the mobile size; never scale
-below it.
+(§5.2), re-expressing to the full size from `sm` up. Content roles (hero, title, **lead**, body) scale
+one step at `lg`; meta/eyebrow stay fixed — deliberately small. The base _is_ the mobile size; never
+scale below it.
+
+**One size _and_ one weight.** The band is `font-bold` in all four of its members — card titles, scope
+pills, `Filtres`, the detail's back link. Two of them once sat at `font-semibold`, which draws a
+hierarchy that is not there: they are the same tier, so they must not differ by weight either.
+
+**The lead sits one step above body, not one below the title.** The detail's `objective` is the line a
+coach reads at arm's length before committing to a page (§5.6), so it earns its own row rather than
+borrowing the body's. Without it the table described page and card roles only, and a reading surface
+had nowhere to sit — the same hole that let the sheet's apply bar fall out of the scale.
+
+**The spec value is the one content-ish role that stays fixed, and that is the point.** Letting it
+scale to 18px was rendered and rejected: it then equals the lead, and the lead is what the coach must
+read first. `Durée · Niveau · Matériel` are figures to check, not prose to read — they sit one step
+under the objective at every width, deliberately.
 
 ---
 
@@ -154,10 +184,21 @@ instead of scattered ad-hoc gaps:
 | ------------- | --------------------------- | ------------------------------------------------------------------------------------- |
 | **Page**      | **24** (`-6`, → `lg:-8`=32) | gutter (header **=** feed), gap header↔cards, grid gap                                |
 | **Component** | **20** (`p-5`)              | card / panel padding — one notch under the page, so it reads as a _contained_ surface |
+| **Long-form** | **16** (`-4`)               | structural markers in continuous prose — detail only (§5.6)                            |
 | **Group**     | **12** (`-3`)               | title↔copy, meta rows, pill rows, section labels                                      |
 | **Atom**      | **8** (`-2`)                | icon↔text, tight pairs inside a control                                               |
 
 Below the atom, only typographic micro-gaps: title↔teaser `gap-1` (4), gauge segments `gap-0.5` (2).
+
+> **The long-form tier is `ExerciseView`'s, and only its** — the category rule beside the identity
+> block, the spec grid, and the numbered `instructions` spine (step badge↔text, and step↔step at the
+> Component 20). The other four tiers were calibrated on the catalogue, which is a **list**; the detail
+> is a **reading surface**, and a numbered badge is neither an icon inside a control (Atom, 8) nor a
+> meta glyph (6) — it is a structural marker in continuous prose, and it needs more air than either.
+> Conforming it was rendered and rejected on the evidence: pulling badge↔text to 12 crowds the number
+> against its line, pushing step↔step to 24 stretches the spine until five steps stop reading as one
+> sequence, and the page ends up **39px taller** for it. A tier that earns a screen is not an
+> exception; an undocumented value is. Do not spend 16 as a gap anywhere else.
 
 **icon↔text — two values, by role.** Inside a **control** (scope pills, `Filtres`, sheet reset,
 empty-state action) the icon sits at the atom `gap-2` (8). Inside **meta** (`text-xs` — card
@@ -180,9 +221,31 @@ share the same horizontal gutter at every breakpoint so their edges stay aligned
 
 The grid gap stays a flat `gap-6` (the page unit) at every size; the filter sheet keeps `p-6`.
 
-**Radii & elevation:** `rounded-3xl` (cards, sheets), `rounded-2xl` (buttons/tiles), `rounded-full`
-(chips). **Separation by border + surface contrast, not shadow** — the filter sheet is the one
-exception (a soft top shadow to read as an overlay).
+**Radii — two, and only two.**
+
+| Radius         | Role                                                       |
+| -------------- | ---------------------------------------------------------- |
+| `rounded-3xl`  | **surfaces** — cards, the filter sheet                     |
+| `rounded-full` | **every control** — buttons, pills, chips, fields          |
+
+A third step (`rounded-2xl`, once billed here as "buttons/tiles") described nothing the app actually
+built: all sixteen controls are `rounded-full`, and its only visible use was the sheet's apply bar —
+an orphan radius, _less_ rounded than the sheet containing it and the pills beside it, which is
+exactly why it read as square. Two radii is not a simplification of the system; it is the system,
+written down correctly. Shape therefore never distinguishes one control from another — size, width
+and fill do (§5.5).
+
+**Separation by border + surface contrast, not shadow — everywhere, the filter sheet included.** An
+overlay earns its edge the same way a card does: its own surface token plus a border. The sheet
+carries a soft top shadow on top of that, but as reinforcement only; nothing may rest on it.
+
+> **The exception this replaces failed exactly where it was needed.** The sheet used to be granted a
+> shadow _instead_ of surface contrast — and it was painted in the **page's** background token
+> (`bg-slate-50 dark:bg-slate-900`), so in dark mode it measured **1.00:1** against the page behind
+> it: the same colour. Its shadow was `rgba(15,23,42,0.18)` — slate-900 at 18% over slate-900, a
+> shadow the colour of its own background. Only the rounded corners said an overlay was there. On the
+> `.card` surface (`bg-white dark:bg-slate-800`) the gap is **1.22:1**, the delta cards already hold.
+> The one component that most needed separation was the one place the rule was waived.
 
 ---
 
@@ -321,10 +384,16 @@ titles).
 - **Active** — **solid ink fill**, `bg-slate-900 text-white` (inverted `dark:bg-slate-50
 dark:text-slate-900`). Ink over a category tint so the active state clears AAA and never leans on hue
   (§2.4); the label already names the category.
-- **Inactive** — `bg-slate-100 text-slate-600` with a **visible border** `ring-slate-200
-dark:ring-slate-700`, `hover:bg-slate-200`, and the icon (from `sm+`) category-tinted. The border is
-  shared with search/`Filtres` so the header reads as one family; the recessed fill still marks it as
-  an unselected toggle rather than a standalone action.
+- **Inactive** — `bg-slate-100 dark:bg-slate-700 text-slate-600` with a **visible border**
+  `ring-slate-200 dark:ring-slate-600`, `hover:bg-slate-200`, and the icon (from `sm+`)
+  category-tinted. The border is shared with search/`Filtres` so the header reads as one family; the
+  contrasting fill still marks it as an unselected toggle rather than a standalone action.
+
+> **Why the dark fill is `slate-700` and not `slate-800`.** `.toggle-off` is spent on two different
+> grounds — the header (`slate-900`) and the filter sheet (`slate-800`, §5.5). `slate-800` sat at
+> **1.00:1** on the sheet: the fill disappeared entirely, the same failure §4 documents for the sheet
+> itself. `slate-700` holds on both (1.41 on the sheet, 1.72 on the header) with a single token. A
+> shared skin has to clear the _worst_ surface it lands on, not the one it was designed against.
 - Always `ring-1`, so there is no layout jump between states.
 - **Asymmetric transition (§6).** _Selecting_ fills over **300ms** — the tapped target, confirmed
   where the eye is. _Deselecting_ recedes over **150ms** — a by-product of another action, so it must
@@ -342,8 +411,10 @@ dark:ring-slate-700`, `hover:bg-slate-200`, and the icon (from `sm+`) category-t
 
 ### 5.3 Level gauge
 
-3 segments, `rounded-full`, filled left-to-right where `segment ≤ level`; filled = ink, empty =
-`slate-200 dark:slate-700`. Always paired with the text label. (Replaces the old ascending-bar meter.)
+An **icon-sized SVG glyph** (`w-3.5 h-3.5`) of 3 ascending bars with round caps, lit where
+`bar ≤ level`; lit = `currentColor` (the meta tier it inherits), dimmed = `slate-300 dark:slate-600`.
+Drawn as a glyph rather than as laid-out segments so it sits in the card's meta row as a sibling of
+the duration's clock. Always paired with the text label, and `aria-hidden` (§2.3).
 
 ### 5.4 Tags — flat metadata, category-independent
 
@@ -373,12 +444,97 @@ _attribute_ filters, each a labelled section with the same tap interaction:
 - **Tags** — most-used first; add an in-sheet search once the list exceeds ~10.
 
 Options wear the same skin as the scope pills (§5.2) — literally: both spend `.toggle-on` /
-`.toggle-off` (§11). Only the scope bar's asymmetric timing is its own (§6).
+`.toggle-off` (§11). Only the scope bar's asymmetric timing is its own (§6). All three sections carry
+**one weight**, the `text-sm font-medium` of §3: they are the same control three times, and Durée and
+Niveau once drifted to `font-semibold` while Tags stayed correct — three rows of one control in two
+weights, for no stated reason. The skin classes hold colour only; weight lives at the call site, so
+that is where it has to be kept honest.
 
-Live feedback: the apply button reads **"Voir N exercices"**. Applied filters also show as **removable
-chips** under the scope bar; `Réinitialiser` clears all. Chips read in **scale order** (short → long,
-`Débutant` → `Avancé`), not in the order they were tapped: a row that reshuffles under the thumb is
-harder to re-find than one that holds still.
+**Width and vertical anchoring are two rules, on two breakpoints.** Each moves one variable, like the
+rest of the responsive — folding both into `lg` once made a single pixel change five things at once.
+
+| | Below `sm` | `sm` → `lg` | From `lg` |
+| --- | --- | --- | --- |
+| Width | full-bleed | **capped at `max-w-2xl`, centred** | capped, centred |
+| Vertical | bottom-anchored | bottom-anchored | **centred** |
+
+So: a full-bleed bottom sheet on a phone, the same 672px card resting on the bottom edge on a tablet
+— thumb zone kept — and that card centred on a desktop. The `lg` step is then a vertical move and
+nothing else.
+
+**Why 672px, and why from `sm`.** Measured, the content never exceeds **666px at any viewport**, so
+past that the panel does not fill space, it manufactures void: 333px of it at 1023px — five times the
+63–78px it holds everywhere else — and 1254px at 1920px, under a 1872px-wide apply bar. The cap is
+inert below ~672px of viewport, so it costs the low end nothing; it simply starts working the moment
+there is more room than the content wants. The panel gains `border-x` once it has side edges, and
+keeps square bottom corners until `lg`, since meeting the bottom edge is what reads as a sheet.
+
+Centring uses `inset-0 + m-auto + h-fit`, not `-translate-1/2`, so `transform` stays free for the
+enter/leave classes; those carry `lg:` variants of their own, since a full-height slide reads as a
+sheet and at `lg` this no longer is one. Being centred rather than full-bleed also leaves the feed
+visible around it, which is worth something when filters apply live.
+
+**The ✕ is the one control here with neither fill nor ring, deliberately.** A close is conventionally
+edgeless, and having no edge is what separates it from every control that acts on the filters — it
+acts only on the panel. (It also rules out `.pill-action`, whose white fill would vanish on a white
+sheet.)
+
+**Surface.** The sheet takes the `.card` surface (`bg-white dark:bg-slate-800`) plus a top border —
+the §4 rule, not an exception to it. It must never wear the page's background token: that is what
+left it invisible against the page in dark mode. The white ground also earns back the recessed fill
+`.toggle-off` promises (§5.2) — `bg-slate-100` reads at 1.10:1 there against 1.05:1 on `slate-50`,
+which is the difference between a subtle recess and none at all.
+
+**The ✕ owns the top-right; the reset does not.** On a sheet, the top-right is the slot convention
+reserves for dismissal — and on a phone it is the worst thumb reach on the panel. Putting a
+state-destroying `Réinitialiser` there meant a thumb reaching to leave could wipe every filter
+instead. So the ✕ lives there permanently (ghost circle, `w-11 h-11`; **not** `.pill-action`, whose
+white fill would vanish on a white sheet), and the reset moved down.
+
+**Bottom cluster — stacked on phones, side by side from `sm`.** Secondary left, primary right; the
+reset is secondary by weight (ring, no fill) either way, so it never competes with the CTA.
+
+**Primary right, and wider.** Right is the terminal position — where the eye finishes — so it belongs
+to the act being confirmed, not to the one that erases. (Put the CTA left and the last thing read,
+nearest the ✕'s own corner, becomes the destructive action.) And the row is **not** split evenly: an
+even split claims two equal choices, which these are not. The reset takes its natural width, the CTA
+takes the rest — **190 / 420px at 1280**, so the widths state the hierarchy the roles already have.
+
+The two also stay **one type step apart at every breakpoint** (14/16, then 16/18): a secondary that
+holds still while the primary scales is the same fault as a CTA that holds still while its trigger
+scales (§3), one level down — it had already opened the gap to 4px at `lg`.
+
+Stacked, `Effacer les filtres` sits _above_ the apply bar: the sheet is anchored to the bottom edge,
+so anything above the CTA leaves it at a constant distance from that edge, while anything below would
+shift the primary target every time the reset appears.
+
+> **Where the row starts, and why it is `sm`.** The reset is conditional, so pairing them halves the
+> CTA the moment a filter is applied. What decides the breakpoint is whether that half still reads as
+> the primary action beside the option pills it now shares ink and radius with — widest 124px:
+>
+> | Viewport | CTA in a row | vs. widest pill |
+> | -------- | ------------ | --------------- |
+> | 390px    | 165px        | 1.3× — too thin |
+> | 640px    | 290px        | 2.3×            |
+> | 768px    | 354px        | 2.9×            |
+>
+> At 390px the target under the thumb shrinks because a _different_ button appeared, and 1.3× is not
+> enough separation. By 640px it is already roomier than the **305px / 2.5×** the `lg` modal itself
+> ships, so the objection has stopped applying. Stopping at `lg` instead would have left tablets a
+> **720–975px** apply bar — the very slab the `max-w-2xl` cap exists to remove. Set the breakpoint
+> where the reason expires, not where the next named device begins.
+
+> **Named for what it clears.** `Effacer les filtres` (sheet) drops the attribute filters;
+> `Tout réinitialiser` (the feed's empty state) also drops search mode. The two scopes differ, so the
+> two labels must — leaning on the single word "Tout" to carry that distinction gave a coach nothing
+> to decode.
+
+Live feedback: the apply button reads **"Voir N exercices"** and is **full-width**, which is
+load-bearing rather than decorative — a selected option (`.toggle-on`) wears this exact ink, so once
+the radius is shared (§4) width is the only thing left keeping the primary action from reading as one
+more filter chip. Applied filters also show as **removable chips** under the scope bar. Chips read in
+**scale order** (short → long, `Débutant` → `Avancé`), not in the order they were tapped: a row that
+reshuffles under the thumb is harder to re-find than one that holds still.
 
 > Category is kept out of the sheet by default (§5.2) — single-select scope vs. multi-select
 > attributes. If usage shows it is combined freely with the rest, add it here as a section.
