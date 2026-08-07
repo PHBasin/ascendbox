@@ -69,16 +69,25 @@ onBeforeUnmount(() => {
       ></div>
     </Transition>
 
-    <!-- Panel: slides up from the thumb zone -->
+    <!-- Panel. Below lg it slides up from the thumb zone; from lg it is a centered modal.
+         The transition carries `lg:` variants of its own, so the phone keeps the full sheet slide
+         while the desktop dialog only rises 4 and fades — a full-height slide reads as a sheet, and
+         at lg this is no longer one. -->
     <Transition
-      enter-active-class="transition-transform duration-300 ease-out"
-      enter-from-class="translate-y-full"
-      leave-active-class="transition-transform duration-200 ease-in"
-      leave-to-class="translate-y-full"
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="translate-y-full lg:translate-y-4 lg:opacity-0"
+      leave-active-class="transition duration-200 ease-in"
+      leave-to-class="translate-y-full lg:translate-y-4 lg:opacity-0"
     >
+      <!-- From lg: `inset-0 + m-auto + h-fit` centres the panel with margins alone, deliberately
+           leaving `transform` free for the Transition above — centring by `-translate-1/2` would be
+           overwritten by the enter/leave classes. Width caps at `max-w-2xl` (672px): measured, the
+           content never exceeds 666px at any viewport, so past that the panel was only growing empty
+           (1254px of it at 1920). Bottom sheet → floating card: all four borders, an omnidirectional
+           shadow, and `pb-8` (thumb clearance) relaxes to `pb-6`. -->
       <div
         v-if="open"
-        class="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-[0_-8px_30px_rgba(15,23,42,0.18)] p-6 pb-8"
+        class="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-[0_-8px_30px_rgba(15,23,42,0.18)] p-6 pb-8 lg:inset-0 lg:m-auto lg:h-fit lg:w-full lg:max-w-2xl lg:rounded-3xl lg:border lg:pb-6 lg:shadow-[0_24px_64px_rgba(15,23,42,0.24)]"
         role="dialog"
         aria-modal="true"
         aria-label="Filtres"

@@ -409,6 +409,16 @@ _attribute_ filters, each a labelled section with the same tap interaction:
 Options wear the same skin as the scope pills (§5.2) — literally: both spend `.toggle-on` /
 `.toggle-off` (§11). Only the scope bar's asymmetric timing is its own (§6).
 
+**Two forms, one component.** Below `lg` it is a bottom sheet, anchored in the thumb zone. From `lg`
+it is a **centred modal capped at `max-w-2xl`** — a bottom sheet is a phone affordance, and stretched
+across a desktop it was only growing empty: measured, the content never exceeds **666px at any
+viewport**, so at 1920 the panel carried 1254px of void and a 1872px-wide apply bar. 672px fits the
+content as authored, at every width. Centring uses `inset-0 + m-auto + h-fit`, not
+`-translate-1/2`, so `transform` stays free for the enter/leave classes; those carry `lg:` variants of
+their own, since a full-height slide reads as a sheet and at `lg` this no longer is one. Being
+centred rather than full-bleed also leaves the feed visible around it, which is worth something when
+filters apply live.
+
 **Surface.** The sheet takes the `.card` surface (`bg-white dark:bg-slate-800`) plus a top border —
 the §4 rule, not an exception to it. It must never wear the page's background token: that is what
 left it invisible against the page in dark mode. The white ground also earns back the recessed fill
