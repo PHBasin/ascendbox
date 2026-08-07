@@ -175,16 +175,22 @@ onBeforeUnmount(() => {
           </div>
         </section>
 
-        <!-- Bottom cluster. `Effacer les filtres` sits *above* the CTA on purpose: the panel is
-             anchored to the bottom edge, so anything placed above leaves the CTA at a constant
-             distance from it — below, its conditional appearance would shift the primary target
-             under the thumb. Named for what it clears, to keep it distinct from the feed's
-             `Tout réinitialiser`, which also drops search mode (DESIGN §5.5). -->
-        <div class="flex flex-col gap-3">
+        <!-- Bottom cluster — stacked on phones, side by side from lg (DESIGN §5.5).
+             Stacked, `Effacer les filtres` sits *above* the CTA: the sheet is anchored to the bottom
+             edge, so anything above leaves the CTA at a constant distance from it. Side by side on a
+             phone would instead halve the CTA (342 → 165px) the moment a filter is applied, since the
+             reset is conditional — the primary target shrinking under the thumb because a *different*
+             button appeared, and at 165px it would sit within 41px of the widest option pill it
+             shares its ink and radius with. From lg neither cost applies (precise pointer, and the
+             modal gives position and alignment to do what width was doing), while full-width would
+             leave a 622px pale slab weighing as much as the primary action.
+             Named for what it clears, to keep it distinct from the feed's `Tout réinitialiser`,
+             which also drops search mode. -->
+        <div class="flex flex-col gap-3 lg:flex-row">
           <button
             v-if="activeFilterCount"
             type="button"
-            class="w-full inline-flex items-center justify-center gap-2 min-h-11 rounded-full text-sm font-semibold ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
+            class="w-full lg:flex-1 inline-flex items-center justify-center gap-2 min-h-11 lg:min-h-[52px] rounded-full text-sm font-semibold ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
             @click="resetFilters"
           >
             <ResetIcon class="w-3.5 h-3.5" />
@@ -196,7 +202,7 @@ onBeforeUnmount(() => {
                reading as one more selected option. -->
           <button
             type="button"
-            class="w-full min-h-[52px] rounded-full bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 font-bold text-base transition-transform duration-300 active:scale-95"
+            class="w-full lg:flex-1 min-h-[52px] rounded-full bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 font-bold text-base transition-transform duration-300 active:scale-95"
             @click="close"
           >
             Voir {{ totalCount }} exercice{{ totalCount > 1 ? 's' : '' }}

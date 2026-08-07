@@ -431,10 +431,20 @@ state-destroying `Réinitialiser` there meant a thumb reaching to leave could wi
 instead. So the ✕ lives there permanently (ghost circle, `w-11 h-11`; **not** `.pill-action`, whose
 white fill would vanish on a white sheet), and the reset moved down.
 
-**Bottom cluster — `Effacer les filtres` sits _above_ the apply bar.** The panel is anchored to the
-bottom edge, so anything placed above the CTA leaves it at a constant distance from that edge, while
-anything below would shift the primary target every time the reset appears or disappears. It is
-secondary by weight (ring, no fill, `min-h-11`) so it never competes with the CTA.
+**Bottom cluster — stacked on phones, side by side from `lg`.** It is secondary by weight (ring, no
+fill) either way, so it never competes with the CTA.
+
+Stacked, `Effacer les filtres` sits _above_ the apply bar: the sheet is anchored to the bottom edge,
+so anything above the CTA leaves it at a constant distance from that edge, while anything below would
+shift the primary target every time the reset appears.
+
+> **Why side by side is a `lg`-only arrangement.** The reset is conditional, so on a phone a row
+> would halve the CTA — **342px → 165px** — at the exact moment a filter is applied: the target under
+> the thumb shrinking because a _different_ button appeared. At 165px it also lands within 41px of the
+> widest option pill (`Intermédiaire`, 124px), whose ink and radius it now shares, so the separation
+> width was carrying gets thin. From `lg` neither cost applies — the pointer is precise, and a
+> structured modal lets position and alignment do what width was doing — while full-width would leave
+> a 622px pale slab weighing as much as the primary action. Secondary left, primary right.
 
 > **Named for what it clears.** `Effacer les filtres` (sheet) drops the attribute filters;
 > `Tout réinitialiser` (the feed's empty state) also drops search mode. The two scopes differ, so the
