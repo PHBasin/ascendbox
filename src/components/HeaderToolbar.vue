@@ -122,7 +122,7 @@ const chips = computed<Chip[]>(() => [
             <button
               type="button"
               aria-label="Fermer la recherche"
-              class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-8 h-8 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300"
+              class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-8 h-8 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-150 ease-out"
               @click="closeSearch"
             >
               <CloseIcon class="w-4 h-4" />
@@ -162,12 +162,28 @@ const chips = computed<Chip[]>(() => [
       </div>
     </div>
 
-    <!-- Removable applied-filter chips -->
-    <ul v-if="chips.length" class="flex flex-wrap gap-2">
+    <!-- Removable applied-filter chips. Animated on the standard scale (§6) because this row sits
+         directly above the feed: adding or dropping a filter used to make the whole catalogue jump
+         while the grid one pixel below animated every move it made.
+         `opacity` + `scale` only — both composited, so a row of chips costs no layout work. The
+         leaving chip goes `absolute` (positioned by the `relative` ul, no offsets, so it stays put)
+         to free its slot at once and let the survivors reflow under `move-class` instead of after it.
+         `v-if` stays: removing the *last* chip removes the row itself, which is a different event
+         from a chip leaving one — the row goes at once, and nothing is left to animate out. -->
+    <TransitionGroup
+      v-if="chips.length"
+      tag="ul"
+      class="relative flex flex-wrap gap-2"
+      move-class="transition-transform duration-300 ease-out"
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="opacity-0 scale-95"
+      leave-active-class="absolute transition duration-200 ease-in"
+      leave-to-class="opacity-0 scale-95"
+    >
       <li v-for="chip in chips" :key="chip.key">
         <button
           type="button"
-          class="inline-flex items-center gap-1.5 pl-3 pr-2 min-h-9 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-300"
+          class="inline-flex items-center gap-1.5 pl-3 pr-2 min-h-9 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-150 ease-out"
           :aria-label="`Retirer le filtre ${chip.label}`"
           @click="chip.remove"
         >
@@ -175,7 +191,7 @@ const chips = computed<Chip[]>(() => [
           <CloseIcon class="w-3.5 h-3.5" />
         </button>
       </li>
-    </ul>
+    </TransitionGroup>
 
     <FilterSheet :open="sheetOpen" @close="sheetOpen = false" />
   </div>

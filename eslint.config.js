@@ -5,7 +5,10 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 import globals from 'globals';
 
 export default tseslint.config(
-  { ignores: ['dist/**', 'dev-dist/**', 'node_modules/**', '.github/**', '.claude/**'] },
+  // `.claude/**` is load-bearing: it keeps the visual-check skill's screenshot.mjs out of the
+  // `**/*.{js,mjs,cjs}` block below. `.github/**` needs no entry — it holds only YAML, which no
+  // config block here matches.
+  { ignores: ['dist/**', 'dev-dist/**', 'node_modules/**', '.claude/**'] },
 
   eslint.configs.recommended,
   // Type-aware ruleset (needs the TS program, wired below).

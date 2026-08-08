@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { CATEGORIES, type CategoryId } from '@/domain/exercise';
 import { CATEGORY_TINT } from './categoryStyles';
+import { TOGGLE_ON, TOGGLE_OFF, TOGGLE_ON_DURATION, TOGGLE_OFF_DURATION } from './toggleStyles';
 import CategoryIcon from './CategoryIcon.vue';
 
 const props = defineProps<{ activeCategory: CategoryId; searching?: boolean }>();
@@ -15,14 +16,10 @@ const isActive = (id: CategoryId): boolean => !props.searching && props.activeCa
 // Phone: `flex-auto` sizes each pill to its own label, then grows them to fill the row —
 // proportional, not equal thirds, so the widest label is never crushed. Full labels + icons hold
 // one line from the 360px target up; `truncate` only fires below ~340px (§5.2). `sm+`: natural width.
+// The box only. Skin *and* motion come from `.toggle-on`/`.toggle-off` (main.css) with the arrival
+// duration from `TOGGLE_ON`/`TOGGLE_OFF` — the same recipe the filter sheet's options now use (§5.5).
 const PILL =
-  'flex-auto sm:flex-none min-w-0 inline-flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 min-h-11 rounded-full font-bold text-sm sm:text-base lg:text-lg ring-1 transition-all active:scale-95';
-
-// Skin from `.toggle-on`/`.toggle-off` (main.css), shared with the filter sheet. Only the duration
-// is local: deselect (150ms) is quicker than select (300ms) — it recedes as a by-product of another
-// action, so it must not pull the eye (§6).
-const ON = 'duration-300 toggle-on';
-const OFF = 'duration-150 toggle-off';
+  'flex-auto sm:flex-none min-w-0 inline-flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 min-h-11 rounded-full font-bold text-sm sm:text-base lg:text-lg ring-1';
 </script>
 
 <template>
@@ -35,14 +32,18 @@ const OFF = 'duration-150 toggle-off';
       :key="cat.id"
       type="button"
       :aria-pressed="isActive(cat.id)"
-      :class="[PILL, isActive(cat.id) ? ON : OFF]"
+      :class="[PILL, isActive(cat.id) ? TOGGLE_ON : TOGGLE_OFF]"
       @click="$emit('select', cat.id)"
     >
-      <!-- Icon = reinforcement only (§2.1); 14 px on the phone, 16 px from sm. -->
+      <!-- Icon = reinforcement only (§2.1); 14 px on the phone, 16 px from sm.
+           The tint is set on the icon, so the fade has to be declared here too — and on the same
+           arrival duration as the pill, or the hue would snap while the fill behind it crossfades. -->
       <CategoryIcon
         :category="cat.id"
-        class="inline-flex w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0"
-        :class="isActive(cat.id) ? '' : CATEGORY_TINT[cat.id]"
+        class="inline-flex w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 transition-colors ease-out"
+        :class="
+          isActive(cat.id) ? TOGGLE_ON_DURATION : [TOGGLE_OFF_DURATION, CATEGORY_TINT[cat.id]]
+        "
       />
       <span class="truncate">{{ cat.label }}</span>
     </button>
