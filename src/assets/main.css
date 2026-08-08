@@ -15,8 +15,10 @@
 
 @layer base {
   body {
-    /* Default light mode. Primary ink = slate-900 for AAA-grade contrast in sunlight (DESIGN §2.2). */
-    @apply bg-slate-50 text-slate-900 antialiased transition-colors duration-300;
+    /* Default light mode. Primary ink = slate-900 for AAA-grade contrast in sunlight (DESIGN §2.2).
+       The theme flip is an in-place change (§6, 150ms) — the same cran as `.card`, so the page
+       switches as one block instead of the ground lagging behind the surfaces on it. */
+    @apply bg-slate-50 text-slate-900 antialiased transition-colors duration-150 ease-out;
   }
 
   /* automatic - based on the OS system settings */
@@ -39,8 +41,10 @@
   ::before,
   ::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
     scroll-behavior: auto !important;
   }
 }
@@ -48,12 +52,24 @@
 /* Shared surfaces (DESIGN §11). Each class carries a **skin, never a box**: colour, ring, hover and
    motion live here; size, padding and transition duration stay at the call site, because that is
    exactly what differs between the places that share a look. Extracting the box too would fuse
-   controls that only happen to be the same colour. */
+   controls that only happen to be the same colour.
+
+   MOTION SCALE (DESIGN §6) — three crans, no undocumented exception:
+     150ms ease-out  it changes in place  — hover, active:scale, tint, deselect, theme
+     200ms ease-in   it leaves            — every `leave-active-class`
+     300ms ease-out  a surface moves      — sheet slide, card enter, `move-class`, select
+   `transition` is written bare, never `transition-all`: bare covers colour + transform + opacity +
+   shadow, which is the whole vocabulary above, without making the browser test every animatable
+   property on ~24 grid cards. Pairing `active:scale-*` with `transition-colors` (which excludes
+   `transform`) is the bug this replaced — the press then never animated at all. */
 @layer components {
   .card {
-    /* p-5 (20px): one notch under the 24px page rhythm (DESIGN §4). */
+    /* p-5 (20px): one notch under the 24px page rhythm (DESIGN §4).
+       The feed's `enter-active-class` / `move-class` are utilities, so they land in a later layer
+       than this one and override the timing below while a card enters or reflows — by design, and
+       now by a stated rule rather than by luck of the cascade. */
     @apply bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700
-           rounded-3xl p-5 transition-all duration-300;
+           rounded-3xl p-5 transition duration-150 ease-out;
   }
 
   /* Standalone action on a white surface (DESIGN §5.2): the search magnifier, `Filtres`, the detail
@@ -63,23 +79,29 @@
     @apply rounded-full ring-1 ring-slate-200 dark:ring-slate-700
            bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50
            hover:bg-slate-100 dark:hover:bg-slate-700
-           transition-colors duration-300 active:scale-95;
+           transition duration-150 ease-out active:scale-95;
   }
 
   /* Toggle skin, shared by the scope pills (§5.2) and the filter sheet's options (§5.5) — §5.5 asks
-     for the same interaction, this is it made literal. Active = solid ink, never hue (§2.4).
-     The durations are NOT here: deselect (150ms) is quicker than select (300ms) on the scope bar
-     (§6), and that difference belongs to the call site. */
+     for the same interaction, this is it made literal, motion included. Active = solid ink, never
+     hue (§2.4).
+     The durations are NOT here: deselect (150ms) is quicker than select (300ms) — it recedes as a
+     by-product of another action (§6) — and that difference belongs to the call site, which pairs
+     each skin with its arrival duration (`TOGGLE_ON`/`TOGGLE_OFF`, src/components/toggleStyles.ts).
+     Taking the duration from the *arrival* state also lands the press feedback where it belongs:
+     the only press that means anything is on an *inactive* pill, and that one runs at 150ms. */
   .toggle-on {
     @apply bg-slate-900 text-white ring-slate-900
-           dark:bg-slate-50 dark:text-slate-900 dark:ring-slate-50;
+           dark:bg-slate-50 dark:text-slate-900 dark:ring-slate-50
+           transition ease-out active:scale-95;
   }
   /* The dark fill is slate-700, not slate-800, because this skin has to hold on **two** grounds:
      the header (slate-900) and the filter sheet (slate-800, §4). slate-800 vanished on the sheet at
      1.00:1 — the very defect §4 now forbids. slate-700 reads on both (1.41 / 1.72) with one token. */
   .toggle-off {
     @apply bg-slate-100 text-slate-600 ring-slate-200 hover:bg-slate-200
-           dark:bg-slate-700 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-slate-600;
+           dark:bg-slate-700 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-slate-600
+           transition ease-out active:scale-95;
   }
 
   /* Section label: the small uppercase eyebrow above a block (detail page §5.6, filter sheet §5.5).
@@ -94,6 +116,6 @@
   .btn-ink {
     @apply inline-flex items-center px-4 min-h-11 rounded-full font-semibold text-sm
            bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900
-           transition-transform duration-300 active:scale-95;
+           transition duration-150 ease-out active:scale-95;
   }
 }

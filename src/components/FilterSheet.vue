@@ -2,6 +2,7 @@
 import { computed, ref, watch, onBeforeUnmount } from 'vue';
 import { useExercises, DURATION_BUCKETS } from '@/application/useExercises';
 import { LEVELS } from '@/domain/exercise';
+import { TOGGLE_ON, TOGGLE_OFF } from './toggleStyles';
 import ResetIcon from './icons/ResetIcon.vue';
 import CloseIcon from './icons/CloseIcon.vue';
 
@@ -118,7 +119,7 @@ onBeforeUnmount(() => {
           <button
             type="button"
             aria-label="Fermer les filtres"
-            class="shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
+            class="shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition duration-150 ease-out active:scale-95"
             @click="close"
           >
             <CloseIcon class="w-5 h-5" />
@@ -134,8 +135,8 @@ onBeforeUnmount(() => {
               :key="bucket.id"
               type="button"
               :aria-pressed="selectedBuckets.includes(bucket.id)"
-              class="px-4 min-h-11 rounded-full font-medium text-sm ring-1 transition-colors duration-300 active:scale-95"
-              :class="selectedBuckets.includes(bucket.id) ? 'toggle-on' : 'toggle-off'"
+              class="px-4 min-h-11 rounded-full font-medium text-sm ring-1"
+              :class="selectedBuckets.includes(bucket.id) ? TOGGLE_ON : TOGGLE_OFF"
               @click="toggleBucket(bucket.id)"
             >
               {{ bucket.label }}
@@ -152,8 +153,8 @@ onBeforeUnmount(() => {
               :key="lvl.value"
               type="button"
               :aria-pressed="selectedLevels.includes(lvl.value)"
-              class="px-4 min-h-11 rounded-full font-medium text-sm ring-1 transition-colors duration-300 active:scale-95"
-              :class="selectedLevels.includes(lvl.value) ? 'toggle-on' : 'toggle-off'"
+              class="px-4 min-h-11 rounded-full font-medium text-sm ring-1"
+              :class="selectedLevels.includes(lvl.value) ? TOGGLE_ON : TOGGLE_OFF"
               @click="toggleLevel(lvl.value)"
             >
               {{ lvl.label }}
@@ -177,8 +178,8 @@ onBeforeUnmount(() => {
               :key="tag"
               type="button"
               :aria-pressed="selectedTags.includes(tag)"
-              class="px-4 min-h-11 rounded-full font-medium text-sm ring-1 transition-colors duration-300 active:scale-95"
-              :class="selectedTags.includes(tag) ? 'toggle-on' : 'toggle-off'"
+              class="px-4 min-h-11 rounded-full font-medium text-sm ring-1"
+              :class="selectedTags.includes(tag) ? TOGGLE_ON : TOGGLE_OFF"
               @click="toggleTag(tag)"
             >
               #{{ tag }}
@@ -207,7 +208,7 @@ onBeforeUnmount(() => {
           <button
             v-if="activeFilterCount"
             type="button"
-            class="w-full sm:w-auto sm:flex-none sm:px-4 inline-flex items-center justify-center gap-2 min-h-11 sm:min-h-[52px] rounded-full text-sm lg:text-base font-semibold ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-300 active:scale-95"
+            class="w-full sm:w-auto sm:flex-none sm:px-4 inline-flex items-center justify-center gap-2 min-h-11 sm:min-h-[52px] rounded-full text-sm lg:text-base font-semibold ring-1 ring-slate-200 dark:ring-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition duration-150 ease-out active:scale-95"
             @click="resetFilters"
           >
             <ResetIcon class="w-3.5 h-3.5" />
@@ -219,7 +220,7 @@ onBeforeUnmount(() => {
                reading as one more selected option. -->
           <button
             type="button"
-            class="w-full sm:flex-1 min-h-[52px] rounded-full bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 font-bold text-base lg:text-lg transition-transform duration-300 active:scale-95"
+            class="w-full sm:flex-1 min-h-[52px] rounded-full bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 font-bold text-base lg:text-lg transition duration-150 ease-out active:scale-95"
             @click="close"
           >
             Voir {{ totalCount }} exercice{{ totalCount > 1 ? 's' : '' }}

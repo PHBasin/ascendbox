@@ -28,8 +28,8 @@ its "because," never by overwriting it blind. Update this document in the same m
    the coach never has to remember what they set.
 5. **One intent, one component.** Distinct data types get distinct controls; a control looks like what
    it does (action = filled/elevated; information = flat).
-6. **Motion guides, never distracts.** Short (150–300 ms), single-purpose transitions; subtle tactile
-   feedback (`active:scale`). Never stack animations.
+6. **Motion guides, never distracts.** Three durations, no more (150 / 200 / 300 ms — §6);
+   single-purpose transitions; subtle tactile feedback (`active:scale`). Never stack animations.
 
 ---
 
@@ -112,25 +112,25 @@ dark:slate-300`, §2.2) rather than full ink: the gauge is icon-sized and rides 
 [`main.ts`](src/main.ts). No third-party request; `.woff2` ship from our origin, precached for
 offline (latin + latin-ext).
 
-| Role                                         | Classes (base → `lg`)                             |
-| -------------------------------------------- | ------------------------------------------------- |
-| Screen / hero title                          | `text-2xl lg:text-3xl font-bold tracking-tight`   |
-| **Title band** — card titles + scope/Filtres | `text-base lg:text-lg font-bold` (`sm+`)          |
-| **Lead / subtitle** — the detail's `objective` | `text-base lg:text-lg leading-relaxed`           |
-| Body / description                           | `text-[15px] lg:text-base leading-relaxed`        |
-| **Spec value** — the detail's `dd`            | `text-base font-bold` (fixed)                    |
-| Meta (category, duration, tags, level)       | `text-xs font-semibold`                           |
-| Section eyebrow                              | `text-[11px] font-bold tracking-widest uppercase` |
-| Sheet option / chip                          | `text-sm font-medium`                             |
-| **Primary action** — the sheet's apply bar   | `text-base lg:text-lg font-bold`                  |
-| **Inline action** — `.btn-ink`               | `text-sm font-semibold`                           |
+| Role                                           | Classes (base → `lg`)                             |
+| ---------------------------------------------- | ------------------------------------------------- |
+| Screen / hero title                            | `text-2xl lg:text-3xl font-bold tracking-tight`   |
+| **Title band** — card titles + scope/Filtres   | `text-base lg:text-lg font-bold` (`sm+`)          |
+| **Lead / subtitle** — the detail's `objective` | `text-base lg:text-lg leading-relaxed`            |
+| Body / description                             | `text-[15px] lg:text-base leading-relaxed`        |
+| **Spec value** — the detail's `dd`             | `text-base font-bold` (fixed)                     |
+| Meta (category, duration, tags, level)         | `text-xs font-semibold`                           |
+| Section eyebrow                                | `text-[11px] font-bold tracking-widest uppercase` |
+| Sheet option / chip                            | `text-sm font-medium`                             |
+| **Primary action** — the sheet's apply bar     | `text-base lg:text-lg font-bold`                  |
+| **Inline action** — `.btn-ink`                 | `text-sm font-semibold`                           |
 
 Weight and size carry hierarchy; do not use colour boxes to rank information.
 
 **An action scales like the title band.** The two action rows above are not decoration: without them
 the table described page roles only, an apply bar had no row to sit in, and the sheet's CTA was set
 by hand at a fixed `text-base` while everything around it scaled. At `lg` that inverted the
-hierarchy — the `Filtres` button that *opens* the panel reached **18px** (title band) while the
+hierarchy — the `Filtres` button that _opens_ the panel reached **18px** (title band) while the
 `Voir N exercices` that confirms it stayed at **16px**. A primary action must never end up smaller
 than the control that opened it, so it scales on the same step. `.btn-ink` stays fixed at `text-sm`
 on purpose: it is an inline pill (empty state, back to catalogue), not the primary act of a surface.
@@ -184,7 +184,7 @@ instead of scattered ad-hoc gaps:
 | ------------- | --------------------------- | ------------------------------------------------------------------------------------- |
 | **Page**      | **24** (`-6`, → `lg:-8`=32) | gutter (header **=** feed), gap header↔cards, grid gap                                |
 | **Component** | **20** (`p-5`)              | card / panel padding — one notch under the page, so it reads as a _contained_ surface |
-| **Long-form** | **16** (`-4`)               | structural markers in continuous prose — detail only (§5.6)                            |
+| **Long-form** | **16** (`-4`)               | structural markers in continuous prose — detail only (§5.6)                           |
 | **Group**     | **12** (`-3`)               | title↔copy, meta rows, pill rows, section labels                                      |
 | **Atom**      | **8** (`-2`)                | icon↔text, tight pairs inside a control                                               |
 
@@ -223,10 +223,10 @@ The grid gap stays a flat `gap-6` (the page unit) at every size; the filter shee
 
 **Radii — two, and only two.**
 
-| Radius         | Role                                                       |
-| -------------- | ---------------------------------------------------------- |
-| `rounded-3xl`  | **surfaces** — cards, the filter sheet                     |
-| `rounded-full` | **every control** — buttons, pills, chips, fields          |
+| Radius         | Role                                              |
+| -------------- | ------------------------------------------------- |
+| `rounded-3xl`  | **surfaces** — cards, the filter sheet            |
+| `rounded-full` | **every control** — buttons, pills, chips, fields |
 
 A third step (`rounded-2xl`, once billed here as "buttons/tiles") described nothing the app actually
 built: all sixteen controls are `rounded-full`, and its only visible use was the sheet's apply bar —
@@ -261,7 +261,7 @@ competes with the tap target and implies the wrong model.
 bg-white dark:bg-slate-800
 border border-slate-200 dark:border-slate-700
 rounded-3xl p-5            /* component tier — §4 */
-active:scale-[0.98] transition-all duration-300
+active:scale-[0.98] transition duration-150 ease-out   /* bare `transition`, never `-all` — §6 */
 ```
 
 Anatomy — **title-led**, two zones split by a rule:
@@ -394,11 +394,16 @@ dark:text-slate-900`). Ink over a category tint so the active state clears AAA a
 > **1.00:1** on the sheet: the fill disappeared entirely, the same failure §4 documents for the sheet
 > itself. `slate-700` holds on both (1.41 on the sheet, 1.72 on the header) with a single token. A
 > shared skin has to clear the _worst_ surface it lands on, not the one it was designed against.
+
 - Always `ring-1`, so there is no layout jump between states.
 - **Asymmetric transition (§6).** _Selecting_ fills over **300ms** — the tapped target, confirmed
   where the eye is. _Deselecting_ recedes over **150ms** — a by-product of another action, so it must
-  **not** pull the eye. Implemented via the arrival state's `duration-*`: `duration-300` on active,
-  `duration-150` on inactive.
+  **not** pull the eye. Implemented via the arrival state's `duration-*` — `TOGGLE_ON` / `TOGGLE_OFF`
+  in [`toggleStyles.ts`](src/components/toggleStyles.ts), which the filter sheet's options import
+  too: the asymmetry is the toggle's, not the scope bar's.
+- The icon's category tint carries the **same** arrival duration as the pill it sits in. The tint is
+  set on the icon, so it needs its own `transition-colors` — without it the hue snapped while the
+  fill behind it crossfaded.
 - **Search mode** (field open, §5.9) — search **supersedes the scope**, so every pill reads inactive
   (`aria-pressed=false`), matching a feed that now spans the whole catalogue. Pills stay tappable: one
   tap re-selects that category and exits search (`setCategory` → `closeSearch`). `activeCategory` is
@@ -444,7 +449,9 @@ _attribute_ filters, each a labelled section with the same tap interaction:
 - **Tags** — most-used first; add an in-sheet search once the list exceeds ~10.
 
 Options wear the same skin as the scope pills (§5.2) — literally: both spend `.toggle-on` /
-`.toggle-off` (§11). Only the scope bar's asymmetric timing is its own (§6). All three sections carry
+`.toggle-off` (§11), **and the same timing**, via `TOGGLE_ON` / `TOGGLE_OFF` (§6). The asymmetry
+belongs to the toggle, not to the bar it sits in; while it was written out only in `CategoryScope`,
+these three sections ran a flat 300/300 and quietly contradicted the "same interaction" above. All three sections carry
 **one weight**, the `text-sm font-medium` of §3: they are the same control three times, and Durée and
 Niveau once drifted to `font-semibold` while Tags stayed correct — three rows of one control in two
 weights, for no stated reason. The skin classes hold colour only; weight lives at the call site, so
@@ -453,10 +460,10 @@ that is where it has to be kept honest.
 **Width and vertical anchoring are two rules, on two breakpoints.** Each moves one variable, like the
 rest of the responsive — folding both into `lg` once made a single pixel change five things at once.
 
-| | Below `sm` | `sm` → `lg` | From `lg` |
-| --- | --- | --- | --- |
-| Width | full-bleed | **capped at `max-w-2xl`, centred** | capped, centred |
-| Vertical | bottom-anchored | bottom-anchored | **centred** |
+|          | Below `sm`      | `sm` → `lg`                        | From `lg`       |
+| -------- | --------------- | ---------------------------------- | --------------- |
+| Width    | full-bleed      | **capped at `max-w-2xl`, centred** | capped, centred |
+| Vertical | bottom-anchored | bottom-anchored                    | **centred**     |
 
 So: a full-bleed bottom sheet on a phone, the same 672px card resting on the bottom edge on a tablet
 — thumb zone kept — and that card centred on a desktop. The `lg` step is then a vertical move and
@@ -534,7 +541,12 @@ load-bearing rather than decorative — a selected option (`.toggle-on`) wears t
 the radius is shared (§4) width is the only thing left keeping the primary action from reading as one
 more filter chip. Applied filters also show as **removable chips** under the scope bar. Chips read in
 **scale order** (short → long, `Débutant` → `Avancé`), not in the order they were tapped: a row that
-reshuffles under the thumb is harder to re-find than one that holds still.
+reshuffles under the thumb is harder to re-find than one that holds still. The row is a
+`<TransitionGroup>` on the standard crans (§6) — it sits directly above the feed, so an unanimated
+chip made the whole catalogue jump while the grid one pixel below animated every move it made. It
+fades and scales only (both composited, no layout cost), and a leaving chip goes `absolute` so it
+frees its slot at once and the survivors reflow _under_ the `move`, not after it. Removing the
+**last** chip removes the row itself — a different event, and it goes at once.
 
 > Category is kept out of the sheet by default (§5.2) — single-select scope vs. multi-select
 > attributes. If usage shows it is combined freely with the rest, add it here as a section.
@@ -662,6 +674,10 @@ each block self-hides (§5.6); a lone block keeps its half-width column rather t
 `animate-pulse` on `slate-200 dark:slate-700` blocks in the card's shape; the shell stays interactive
 during `fetch` (`aria-busy` + `aria-live="polite"`).
 
+It hands over to the feed through the **same** keyed crossfade as every other feed state (§6). This
+is the most-watched moment in the app and it used to cut: the state chain animated only the category
+switch, so three of its four branches popped.
+
 ### 5.8 Sticky filter bar
 
 `sticky top-0 z-30`, reachable while scrolling. **Opaque** ground (`bg-slate-50 dark:bg-slate-900` + a
@@ -703,18 +719,45 @@ title + description + tags (case- and accent-insensitive). The scope pills desel
 
 ## 6. Motion
 
-| Context                      | Recipe                                                                                                 |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Colour / theme change        | `transition-colors duration-300`                                                                       |
-| Button feedback              | `active:scale-95`                                                                                      |
-| Scope pill select ⇄ deselect | **select 300ms** (direct target) · **deselect 150ms** (recedes — §5.2), via arrival-state `duration-*` |
-| Card feedback                | `active:scale-[0.98]`                                                                                  |
-| Category (scope) change      | `<Transition mode="out-in">` crossfade + slight `translate-y` (150ms `ease-out` each way)              |
-| Filter sheet                 | slide-up `translate-y` + scrim fade (≈ 300ms)                                                          |
-| Pagination                   | `<TransitionGroup>` enter `opacity-0 translate-y-4` (500ms), `move` 300ms, no `leave`                  |
-| Search open/close            | **instant swap, no animation** (below)                                                                 |
+**Three crans, and every transition in the app is one of them.** The cran is chosen by _what moves_,
+not by which component it is — that is what makes the app feel like one surface.
 
-One transition per intent; never stack.
+| Cran               | Means                   | Where                                                                            |
+| ------------------ | ----------------------- | -------------------------------------------------------------------------------- |
+| **150 `ease-out`** | it changes **in place** | hover, `active:scale-*`, chevron nudge, deselect, category icon tint, theme flip |
+| **200 `ease-in`**  | it **leaves**           | every `leave-active-class`: scrim, sheet panel, feed crossfade, removed chip     |
+| **300 `ease-out`** | a surface **moves in**  | sheet slide-up, card enter, `move-class`, select (fill)                          |
+
+Enter decelerates (`ease-out`), leave accelerates (`ease-in`), and **leave ≤ enter** — an exit should
+never outlast the entrance it undoes. No transition ships without an explicit `ease-*`; falling
+through to Tailwind's default `ease-in-out` is how four curves accumulated here.
+
+**Two exceptions, and only these two.** The skeleton's `animate-pulse` (2s, §5.7) — it is a
+heartbeat, not a transition. And the toggle asymmetry: **select 300ms** (the tapped target, confirmed
+where the eye already is) vs **deselect 150ms** (it recedes as a by-product of another action, §5.2),
+carried by the arrival state's `duration-*` in `TOGGLE_ON`/`TOGGLE_OFF`
+([`toggleStyles.ts`](src/components/toggleStyles.ts)) — shared by the scope bar and the filter
+sheet's options, since §5.5 asks them to be the same interaction.
+
+That asymmetry also settles press feedback for free: the duration comes from the state being
+_arrived at_, so the only press that means anything — on an **inactive** pill — runs at 150ms.
+
+**`transition`, never `transition-all`.** Bare `transition` covers colour, `transform`, `opacity` and
+shadow — the whole vocabulary above — without asking the browser to test every animatable property on
+~24 grid cards, and without the layout properties `all` quietly drags in. The corollary matters more
+than the rule: **never pair `active:scale-*` with `transition-colors` or `transition-transform`.**
+Those lists exclude the very property the other half of the pair animates, so the feedback silently
+does nothing — the defect that had spread to seven controls.
+
+**Each surface animates once.** The feed's four states (error · skeleton · empty · list) all cross
+through one keyed `<Transition mode="out-in">`; the inner `<TransitionGroup>` has **no `leave`**, so a
+category switch is carried by the crossfade alone and the two never stack. Pagination enters on the
+same 300ms as its own `move-class`, so an append and the reflow it causes read as one motion.
+
+**Two scroll idioms, deliberately.** A route change jumps (`scrollBehavior` → `{ top: 0 }`): animating
+a scroll while the page swaps under it is disorienting. A category switch, same page and feed
+replaced, glides (`window.scrollTo({ behavior: 'smooth' })`, reduced-motion-guarded). Different
+intents, different idioms — not an inconsistency to unify.
 
 **No animation on the search swap.** The magnifier ⇄ field toggle (§5.9) changes the row's width, and
 cross-fading while the layout snaps reads as a stutter (animating to a flex/`auto` width is fragile).
@@ -794,6 +837,7 @@ components that used to each hold a copy costs the scanner nothing.
 | Add / change a token colour       | `@theme` in [`main.css`](src/assets/main.css)                                                                                                                    |
 | Add a category (+ icon)           | [`domain/exercise.ts`](src/domain/exercise.ts) `CATEGORIES` + token in `@theme` + a path in [`CategoryIcon.vue`](src/components/CategoryIcon.vue) (the icon map) |
 | Change a category tint / rule     | [`categoryStyles.ts`](src/components/categoryStyles.ts) — never a copy in a component (§10)                                                                      |
+| Change the select/deselect timing | [`toggleStyles.ts`](src/components/toggleStyles.ts) — `TOGGLE_ON` / `TOGGLE_OFF`, read by the scope bar **and** the sheet (§6)                                   |
 | Rename a level / category label   | [`domain/exercise.ts`](src/domain/exercise.ts) — `LEVELS` / `CATEGORIES`; the label records derive from them                                                     |
 | Create a reusable class (`.card`) | `@layer components` in [`main.css`](src/assets/main.css)                                                                                                         |
 | Change a card / chip / gauge      | the relevant component in [`src/components/`](src/components/)                                                                                                   |
