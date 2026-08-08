@@ -120,10 +120,6 @@ function loadMore(): void {
   if (hasMore.value) visibleCount.value += PAGE_SIZE;
 }
 
-function clearSearch(): void {
-  searchQuery.value = '';
-}
-
 function openSearch(): void {
   searchOpen.value = true;
 }
@@ -137,10 +133,8 @@ function closeSearch(): void {
 function setCategory(category: CategoryId): void {
   // Picking an axis is a deliberate exit from search mode (closes the field, clears the query).
   closeSearch();
-  if (category === activeCategory.value) {
-    resetPage();
-    return;
-  }
+  // No same-category short-circuit: assigning a ref its current value does not trigger, and
+  // `resetPage()` has to run either way — re-tapping the active pill still sends the feed home.
   activeCategory.value = category;
   resetPage();
 }
@@ -211,7 +205,6 @@ export function useExercises() {
     isSearching,
     openSearch,
     closeSearch,
-    clearSearch,
     // attribute filters (sheet)
     selectedBuckets,
     selectedLevels,

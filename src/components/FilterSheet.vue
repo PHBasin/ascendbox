@@ -41,14 +41,13 @@ function onKeydown(e: KeyboardEvent): void {
 watch(
   () => props.open,
   (open) => {
-    if (typeof document === 'undefined') return;
     document.body.style.overflow = open ? 'hidden' : '';
     if (open) window.addEventListener('keydown', onKeydown);
     else window.removeEventListener('keydown', onKeydown);
   }
 );
 onBeforeUnmount(() => {
-  if (typeof document !== 'undefined') document.body.style.overflow = '';
+  document.body.style.overflow = '';
   window.removeEventListener('keydown', onKeydown);
 });
 </script>

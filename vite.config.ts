@@ -16,7 +16,8 @@ export default defineConfig({
       scope: '/',
       base: '/',
 
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+      // No includeAssets: everything in public/ is already swept up by the `globPatterns` below,
+      // and listing favicon.svg / apple-touch-icon.png there only duplicated their precache entries.
 
       manifest: {
         name: 'AscendBox — Exercices d’escalade',
@@ -49,10 +50,11 @@ export default defineConfig({
 
       workbox: {
         // Precache the app shell + exercise data (revisioned; a deploy invalidates only what changed).
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2,json}'],
-        // Skip the social image + non-French Inter subsets; keep only latin/latin-ext (the œ ligature).
+        globPatterns: ['**/*.{js,css,html,svg,png,woff2,json}'],
+        // Keep only the Inter subsets French needs (latin + latin-ext, for the œ ligature).
+        // social-preview.jpg needs no entry here: `jpg` is absent from globPatterns above, so it
+        // was never a precache candidate — same for robots.txt and CNAME.
         globIgnores: [
-          '**/social-preview.jpg',
           '**/inter-cyrillic-*.woff2',
           '**/inter-greek-*.woff2',
           '**/inter-vietnamese-*.woff2',
@@ -69,7 +71,9 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      // `import.meta.dirname`, not `__dirname`: the CJS global does not exist under Vite's native
+      // ESM config loader, which is due to become the default. Same form as eslint.config.js.
+      '@': path.resolve(import.meta.dirname, './src'),
     },
   },
   server: {
