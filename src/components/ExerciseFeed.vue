@@ -60,7 +60,7 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
 </script>
 
 <template>
-  <section class="max-w-7xl mx-auto px-6 lg:px-8 py-6 lg:py-8">
+  <section class="page-gutter max-w-7xl py-6 lg:py-8">
     <!-- One `<Transition>` for every state of the feed — error, skeleton, empty, list — keyed by
          `feedKey`. `mode="out-in"` so the two never overlap while the page height changes under
          them. The inner TransitionGroup animates paginated appends; it has no `leave`, so a
@@ -74,7 +74,7 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
     >
       <div :key="feedKey">
         <!-- Loading error (rose-600/400 clears AA on both themes) -->
-        <p v-if="error" class="text-center text-rose-600 dark:text-rose-400 py-12">
+        <p v-if="error" class="state-error">
           {{ error }}
         </p>
 
@@ -99,10 +99,7 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
         </div>
 
         <!-- No results -->
-        <div
-          v-else-if="!exercises.length"
-          class="text-center py-12 flex flex-col items-center gap-3"
-        >
+        <div v-else-if="!exercises.length" class="state-block">
           <p class="text-slate-600 dark:text-slate-300">
             {{ emptyMessage }}
           </p>

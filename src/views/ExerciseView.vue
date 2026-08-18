@@ -58,7 +58,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
   <header class="app-bar">
     <!-- `py-4` + `px-6 lg:px-8` mirror the feed's HeaderToolbar exactly: same gutter, and — with the
          control's min-h-11 — the same bar height, so the sticky bar doesn't jump between routes. -->
-    <div class="max-w-3xl mx-auto px-6 lg:px-8 py-4">
+    <div class="page-gutter max-w-3xl py-4">
       <!-- Same pill as `Filtres`/search, not the scope's: §5.2 keeps the white surface for a
            *standalone action* and the recessed slate-100 for an *unselected toggle* — this is an
            action. Bare text would also break §1.5 (a control must look like what it does) and, with no
@@ -87,8 +87,8 @@ const variantBlocks = computed<VariantBlock[]>(() => {
 
   <!-- Narrower measure than the feed's max-w-7xl: this page is read, not scanned as a grid, and a
        1280 px line length is unreadable. The sticky nav above shares it, so the edges line up (§5.8). -->
-  <main class="max-w-3xl mx-auto px-6 lg:px-8 py-6 lg:py-8">
-    <p v-if="error" class="text-rose-600 dark:text-rose-400 py-12 text-center">{{ error }}</p>
+  <main class="page-gutter max-w-3xl py-6 lg:py-8">
+    <p v-if="error" class="state-error">{{ error }}</p>
 
     <p
       v-else-if="isLoading"
@@ -100,7 +100,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
     </p>
 
     <!-- A shared link can point at an id that no longer exists — offer the way back, not a dead end. -->
-    <div v-else-if="notFound" class="py-12 text-center flex flex-col items-center gap-3">
+    <div v-else-if="notFound" class="state-block">
       <p class="text-slate-600 dark:text-slate-300">Cet exercice n’existe pas.</p>
       <RouterLink to="/" class="btn-ink"> Voir le catalogue </RouterLink>
     </div>
