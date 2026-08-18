@@ -141,12 +141,27 @@
   }
 
   /* Text field skin, shared by the toolbar search and the in-sheet tag search: surface, ink,
-     placeholder and focus-ring. The resting border/ring and the padding stay at the call site —
-     one has a leading icon (extra left padding + `ring-1`), the other doesn't (`border`). */
+     placeholder and focus-ring. Padding stays at the call site — one has a leading icon, the other
+     doesn't.
+
+     The resting edge does NOT stay at the call site, and that is load-bearing rather than a style
+     preference. A resting `ring-1` written as a call-site utility lands in the `utilities` layer,
+     which is emitted after `components` — and layer order beats specificity outright, so it would
+     override the `focus:ring-2` below at *every* state, focus included, while `outline-none` still
+     applied: a field with no focus indicator at all, and nothing to warn you (type-check, lint and
+     Lighthouse all pass green with it dead). `.field-ring` below exists so the resting ring sits in
+     *this* layer, where `.field:focus` simply out-specifies it and the cascade behaves. */
   .field {
     @apply rounded-full bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50
            placeholder:text-slate-500 dark:placeholder:text-slate-400
            focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-50;
+  }
+
+  /* Resting edge for a `.field` that wears a ring rather than a border (the toolbar search, whose
+     leading icon rules out a border). Here, not at the call site, so it cannot outrank
+     `.field:focus` — see the note above. Pair it with `.field`, never alone. */
+  .field-ring {
+    @apply ring-1 ring-slate-200 dark:ring-slate-700;
   }
 
   /* Solid-ink pill CTA: the feed's `Tout réinitialiser` and the detail page's `Voir le catalogue`.
