@@ -163,7 +163,7 @@ onBeforeUnmount(() => {
             v-model="tagQuery"
             type="search"
             placeholder="Rechercher un tag…"
-            class="w-full mb-3 px-4 min-h-11 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-50 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-50"
+            class="field w-full mb-3 px-4 min-h-11 border border-slate-200 dark:border-slate-700"
           />
           <div class="flex flex-wrap gap-2">
             <ToggleChip
