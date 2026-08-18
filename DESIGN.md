@@ -869,9 +869,14 @@ cannot tell you which layer won.
 | Add an icon used in **2+** places | a component in [`src/components/icons/`](src/components/icons/); a single-use glyph stays inline                                                                 |
 | Pick spacing                      | the §4 scale — nearest named step, never arbitrary                                                                                                               |
 
-**Shared classes** (`@layer components` in [`main.css`](src/assets/main.css)) carry a **skin, never a
-box** — colour, ring, hover and motion; size, padding and any deliberate timing stay at the call site.
-That is the line that keeps two controls sharing a look without fusing two different controls:
+**Shared classes** live in `@layer components` in [`main.css`](src/assets/main.css), and are earned
+by **repetition**: a look worn in 2+ places becomes a class, a single use stays at its call site —
+the same threshold as the icons row above. When the second consumer goes away, the class goes with
+it. (A class must also not own a property its call sites set through utilities — §10.1.)
+
+Most of them carry a **skin, never a box** — colour, ring, hover and motion; size, padding and any
+deliberate timing stay at the call site. That is the line that keeps two controls sharing a look
+without fusing two different controls:
 
 | Class                        | What it is                                                                   |
 | ---------------------------- | ---------------------------------------------------------------------------- |
@@ -880,6 +885,19 @@ That is the line that keeps two controls sharing a look without fusing two diffe
 | `.toggle-on` / `.toggle-off` | a selected / unselected toggle — scope pills (§5.2) and sheet options (§5.5) |
 | `.eyebrow`                   | the small uppercase section label (§5.5, §5.6)                               |
 | `.btn-ink`                   | the solid-ink pill CTA — the feed's and detail's reset / back-to-catalogue   |
+| `.app-bar`                   | the opaque sticky bar chrome — feed header and detail back nav (§5.8)        |
+| `.meta-chip`                 | the small inline icon+value label — category badge, duration, gauge (§5.4)   |
+| `.state-error`               | the load-failure message — feed and detail (§2.2 keeps rose for error text)  |
+
+**A second, narrower category: repeated layout.** Two classes carry no colour at all and exist
+because the _arrangement_ repeats, not the look. They are the stated exception to "never a box", not
+a drift from it — and they stay rare on purpose, since a layout class fuses structure, which is
+harder to unpick later than a shared colour:
+
+| Class          | What it is                                                                      |
+| -------------- | ------------------------------------------------------------------------------- |
+| `.page-gutter` | centred measure + the §4 side padding; the `max-w-*` cap stays at the call site |
+| `.state-block` | the centred empty / not-found column — message, then an optional action         |
 
 > **Implementation tracking lives in [`CLAUDE.md`](CLAUDE.md) (§ Tasks), not here.** This document is
 > the design source of truth; what is built vs. pending is recorded there. The exercise detail page
