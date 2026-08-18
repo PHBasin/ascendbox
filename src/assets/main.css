@@ -140,32 +140,6 @@
     @apply mx-auto px-6 lg:px-8;
   }
 
-  /* Text field skin: surface, ink, placeholder and focus-ring. Padding stays at the call site.
-
-     Only the toolbar search wears it today — the in-sheet tag search, the second consumer this was
-     extracted for, is gone (§5.5). Kept as a class rather than folded back into the call site
-     because of the cascade note below: inlining it would put the focus ring back among the
-     utilities, one careless `ring-*` away from the bug it documents.
-
-     The resting edge does NOT stay at the call site, and that is load-bearing rather than a style
-     preference. A resting `ring-1` written as a call-site utility lands in the `utilities` layer,
-     which is emitted after `components` — and layer order beats specificity outright, so it would
-     override the `focus:ring-2` below at *every* state, focus included, while `outline-none` still
-     applied: a field with no focus indicator at all, and nothing to warn you (type-check, lint and
-     Lighthouse all pass green with it dead). `.field-ring` below exists so the resting ring sits in
-     *this* layer, where `.field:focus` simply out-specifies it and the cascade behaves. */
-  .field {
-    @apply rounded-full bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50
-           placeholder:text-slate-500 dark:placeholder:text-slate-400
-           focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-50;
-  }
-
-  /* Resting edge for a `.field` that wears a ring rather than a border. Here, not at the call site,
-     so it cannot outrank `.field:focus` — see the note above. Pair it with `.field`, never alone. */
-  .field-ring {
-    @apply ring-1 ring-slate-200 dark:ring-slate-700;
-  }
-
   /* Solid-ink pill CTA: the feed's `Tout réinitialiser` and the detail page's `Voir le catalogue`.
      Not the filter sheet's apply button — that one is a full-width 52px bar (§5.5/§8), a different
      control that merely shares the ink and the radius. */

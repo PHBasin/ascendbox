@@ -834,6 +834,25 @@ See `CATEGORY_TINT` and `CATEGORY_RULE` in
 spelled out. A shared `.ts` is scanned like any other source, so moving the maps out of the three
 components that used to each hold a copy costs the scanner nothing.
 
+### 10.1 The other constraint — cascade layers
+
+Tailwind emits `theme` → `base` → `components` → `utilities`, and **a later layer wins outright:
+specificity only breaks ties _within_ one layer**. So a shared class in `@layer components` can never
+out-rank a utility written at the call site, however specific it is — `!important` is the only lever
+that flips it, and it is not one we use.
+
+The consequence has teeth for **state** styles. A `@layer components` class that owns a
+`focus:ring-*` is silently defeated by a bare `ring-1` at its own call site: the utility rewrites
+`--tw-ring-shadow` in _every_ state, focus included, while the class's `focus:outline-none` keeps
+applying — a control with no focus indicator at all. That shipped once, on the toolbar search, and
+**no gate caught it**: `type-check`, `lint` and Lighthouse all passed green with the focus ring dead.
+
+So: **a shared class must not own a property its call sites also set through utilities.** Where a
+control needs both a resting and a focus treatment of the same property, keep the pair together —
+both in the class, or both at the call site — never split across the two layers. Verify a focus
+style in a browser by comparing the computed `box-shadow` at rest and on focus; reading the source
+cannot tell you which layer won.
+
 ---
 
 ## 11. Where to add what

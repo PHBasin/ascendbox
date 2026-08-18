@@ -116,7 +116,7 @@ const chips = computed<Chip[]>(() => [
               type="search"
               placeholder="Rechercher …"
               aria-label="Rechercher un exercice"
-              class="field field-ring w-full pl-10 pr-11 min-h-11"
+              class="w-full pl-10 pr-11 min-h-11 rounded-full ring-1 ring-slate-200 dark:ring-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-50"
               @keydown.escape="closeSearch"
             />
             <button
