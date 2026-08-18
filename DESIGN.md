@@ -700,7 +700,7 @@ Within that measure the arrangement follows the feed's breakpoints:
   horizontal scroll**. Opening search expands the field across tier 1 and **hides the title** (§5.9).
 - **Desktop (`lg+`) — one line.** The wide measure fits everything: **title left · scope centered ·
   search + Filtres right**. The scope keeps its natural-width pills, centered between the flanks, and
-  the open search field is capped (`sm:w-80`, §5.9) so it sits by Filtres. Single-line only starts at
+  the open search field is capped (`sm:w-56`, §5.9) so it sits by Filtres. Single-line only starts at
   `lg` because below it there is not enough width for all four groups once search is open — hence the
   two-tier fallback rather than a squeezed, wrapping scope.
 
@@ -712,12 +712,12 @@ A secondary retrieval path for known-item lookup. A **magnifier** on the title r
 field on demand (never a permanent bar), so the browse-first, gloved, in-a-hurry path is never taxed
 with a typing invitation. The magnifier ⇄ field swap is **instant** (§6). The full-width takeover —
 hide the `Exercices` title, fill the actions row — is reserved for **phones (`< sm`)** where space is
-genuinely tight; from `sm` up the title **stays** and the field is **capped** (`sm:w-80`) inline
+genuinely tight; from `sm` up the title **stays** and the field is **capped** (`sm:w-56`) inline
 beside Filtres, so a tablet never gets a half-empty ~600px field. Focus follows the swap (§8).
 
 **Opening the field is itself a mode switch** — it **supersedes the category scope** and shows the
 **whole catalogue** (empty query = every exercise, ~100 of them); a typed term narrows it, matching
-title + description + tags (case- and accent-insensitive). The scope pills deselect accordingly
+title + teaser + tags (case- and accent-insensitive). The scope pills deselect accordingly
 (§5.2). Closing (✕ / `Esc`) drops the mode; picking a category also exits search (`setCategory` →
 `closeSearch`).
 
