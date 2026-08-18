@@ -55,9 +55,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
   <!-- Back nav is sticky: the page can run long and the coach must be able to bail out at any scroll
        position without hunting. Same opaque treatment as the feed bar (DESIGN §5.8) — never frosted,
        which erodes contrast in sunlight. -->
-  <header
-    class="sticky top-0 z-30 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800"
-  >
+  <header class="app-bar">
     <!-- `py-4` + `px-6 lg:px-8` mirror the feed's HeaderToolbar exactly: same gutter, and — with the
          control's min-h-11 — the same bar height, so the sticky bar doesn't jump between routes. -->
     <div class="max-w-3xl mx-auto px-6 lg:px-8 py-4">
