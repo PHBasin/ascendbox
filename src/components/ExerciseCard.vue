@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { CATEGORY_LABELS, type Exercise } from '@/domain/exercise';
-import { CATEGORY_TINT } from './categoryStyles';
-import CategoryIcon from './CategoryIcon.vue';
+import type { Exercise } from '@/domain/exercise';
+import CategoryBadge from './CategoryBadge.vue';
 import LevelGauge from './LevelGauge.vue';
 
 // `showCategory` is true only when the feed spans categories (global search); under a
 // single-category scope the badge would just repeat the active scope, so the feed leaves it off.
 const props = defineProps<{ exercise: Exercise; showCategory?: boolean }>();
 
-const categoryLabel = computed(() => CATEGORY_LABELS[props.exercise.categoryId]);
-const categoryTint = computed(() => CATEGORY_TINT[props.exercise.categoryId]);
 // Sane ceiling, not the guarantee — the 1-line rule is enforced in CSS (DESIGN §5.4), because a
 // *count* cannot promise a line: three short tags fit where two long ones would not. 3 = the widest
 // entry in the catalogue, so it currently truncates nothing while still stopping a 20-tag entry from
@@ -25,17 +22,7 @@ const visibleTags = computed(() => props.exercise.tags.slice(0, 3));
   >
     <!-- Category — search only: under a single-category scope it would just repeat the active scope
          (DESIGN §5.1). Icon + label, never a filled pill: that shape is reserved for controls (§1.5). -->
-    <span
-      v-if="showCategory"
-      class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
-    >
-      <CategoryIcon
-        :category="exercise.categoryId"
-        class="w-4 h-4 shrink-0"
-        :class="categoryTint"
-      />
-      {{ categoryLabel }}
-    </span>
+    <CategoryBadge v-if="showCategory" :category="exercise.categoryId" />
 
     <!-- Title leads; it owns the full row now that duration moved down to the status strip. -->
     <div class="flex flex-col gap-1 min-w-0">

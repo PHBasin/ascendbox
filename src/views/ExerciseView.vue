@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useExercise } from '@/application/useExercises';
-import { CATEGORY_LABELS, LEVEL_LABELS } from '@/domain/exercise';
-import { CATEGORY_TINT, CATEGORY_RULE } from '@/components/categoryStyles';
-import CategoryIcon from '@/components/CategoryIcon.vue';
+import { LEVEL_LABELS } from '@/domain/exercise';
+import { CATEGORY_RULE } from '@/components/categoryStyles';
+import CategoryBadge from '@/components/CategoryBadge.vue';
 
 // Exercise detail (DESIGN §5.6), read-only. The coach reads this standing at the wall, in a hurry:
 // the **Déroulement** is the payload they came for, so it is a scannable list — never a paragraph.
@@ -11,14 +11,9 @@ const props = defineProps<{ id: string }>();
 
 const { exercise, notFound, isLoading, error } = useExercise(() => Number(props.id));
 
-// All three are read only inside `v-else-if="exercise"`, but a computed evaluates regardless — hence
-// the same guard on each, falling back to '' until the catalogue lands.
-const categoryLabel = computed(() =>
-  exercise.value ? CATEGORY_LABELS[exercise.value.categoryId] : ''
-);
-const categoryTint = computed(() =>
-  exercise.value ? CATEGORY_TINT[exercise.value.categoryId] : ''
-);
+// Read only inside `v-else-if="exercise"`, but a computed evaluates regardless — hence the guard,
+// falling back to '' until the catalogue lands. (The category badge takes `exercise.categoryId`
+// directly, safely, since it only renders inside that same guard.)
 const categoryRule = computed(() =>
   exercise.value ? CATEGORY_RULE[exercise.value.categoryId] : ''
 );
@@ -122,16 +117,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
       <header class="flex gap-4">
         <span :class="categoryRule" class="w-1 shrink-0 rounded-full" aria-hidden="true" />
         <div class="flex flex-col gap-2 min-w-0">
-          <span
-            class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
-          >
-            <CategoryIcon
-              :category="exercise.categoryId"
-              class="w-4 h-4 shrink-0"
-              :class="categoryTint"
-            />
-            {{ categoryLabel }}
-          </span>
+          <CategoryBadge :category="exercise.categoryId" />
           <h1
             class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
           >
