@@ -140,9 +140,12 @@
     @apply mx-auto px-6 lg:px-8;
   }
 
-  /* Text field skin, shared by the toolbar search and the in-sheet tag search: surface, ink,
-     placeholder and focus-ring. Padding stays at the call site — one has a leading icon, the other
-     doesn't.
+  /* Text field skin: surface, ink, placeholder and focus-ring. Padding stays at the call site.
+
+     Only the toolbar search wears it today — the in-sheet tag search, the second consumer this was
+     extracted for, is gone (§5.5). Kept as a class rather than folded back into the call site
+     because of the cascade note below: inlining it would put the focus ring back among the
+     utilities, one careless `ring-*` away from the bug it documents.
 
      The resting edge does NOT stay at the call site, and that is load-bearing rather than a style
      preference. A resting `ring-1` written as a call-site utility lands in the `utilities` layer,
@@ -157,9 +160,8 @@
            focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-50;
   }
 
-  /* Resting edge for a `.field` that wears a ring rather than a border (the toolbar search, whose
-     leading icon rules out a border). Here, not at the call site, so it cannot outrank
-     `.field:focus` — see the note above. Pair it with `.field`, never alone. */
+  /* Resting edge for a `.field` that wears a ring rather than a border. Here, not at the call site,
+     so it cannot outrank `.field:focus` — see the note above. Pair it with `.field`, never alone. */
   .field-ring {
     @apply ring-1 ring-slate-200 dark:ring-slate-700;
   }

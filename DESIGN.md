@@ -446,7 +446,13 @@ _attribute_ filters, each a labelled section with the same tap interaction:
 
 - **Durée** — buckets (`< 10 min` · `10–25 min` · `> 25 min`), multi-select.
 - **Niveau** — `Débutant` · `Intermédiaire` · `Avancé`, multi-select.
-- **Tags** — most-used first; add an in-sheet search once the list exceeds ~10.
+- **Tags** — most-used first, all of them, always shown. **No in-sheet search field.** One was
+  specified here ("once the list exceeds ~10") and built; it is removed. The catalogue holds 11
+  distinct tags and each exercise carries at most 3, so the threshold was met by a single tag —
+  a text field to filter eleven chips a coach can already see, on the surface §5.5 calls
+  _secondary_ refinement, in a sheet read with gloves on. Typing to reach what is one tap away
+  is the taxing interaction §5.9 keeps the whole search path collapsed to avoid. Reintroduce it
+  only if the tag vocabulary grows enough that the chips no longer fit the sheet.
 
 Options wear the same skin as the scope pills (§5.2) — literally: both spend `.toggle-on` /
 `.toggle-off` (§11), **and the same timing**, via `TOGGLE_ON` / `TOGGLE_OFF` (§6). The asymmetry

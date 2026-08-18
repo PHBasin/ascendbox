@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch, onBeforeUnmount } from 'vue';
+import { watch, onBeforeUnmount } from 'vue';
 import { useExercises, DURATION_BUCKETS } from '@/application/useExercises';
 import { LEVELS } from '@/domain/exercise';
 import ToggleChip from './ToggleChip.vue';
@@ -21,14 +21,6 @@ const {
   toggleTag,
   resetFilters,
 } = useExercises();
-
-// In-sheet tag search appears only once the list gets long (DESIGN §5.5).
-const tagQuery = ref('');
-const showTagSearch = computed(() => availableTags.value.length > 10);
-const shownTags = computed(() => {
-  const q = tagQuery.value.trim().toLowerCase();
-  return q ? availableTags.value.filter((t) => t.toLowerCase().includes(q)) : availableTags.value;
-});
 
 function close(): void {
   emit('close');
@@ -158,16 +150,9 @@ onBeforeUnmount(() => {
         <!-- Tags -->
         <section v-if="availableTags.length" class="mb-6">
           <p class="eyebrow mb-3">Tags</p>
-          <input
-            v-if="showTagSearch"
-            v-model="tagQuery"
-            type="search"
-            placeholder="Rechercher un tag…"
-            class="field w-full mb-3 px-4 min-h-11 border border-slate-200 dark:border-slate-700"
-          />
           <div class="flex flex-wrap gap-2">
             <ToggleChip
-              v-for="tag in shownTags"
+              v-for="tag in availableTags"
               :key="tag"
               :pressed="selectedTags.includes(tag)"
               @toggle="toggleTag(tag)"
