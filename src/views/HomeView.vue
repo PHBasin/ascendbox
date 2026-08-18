@@ -32,9 +32,7 @@ function onSelectCategory(id: CategoryId): void {
        feed, so the detail route must not inherit them (it carries its own back nav, DESIGN §5.6). -->
   <div>
     <!-- Sticky bar (DESIGN §5.8), opaque for sunlight contrast. -->
-    <header
-      class="sticky top-0 z-30 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800"
-    >
+    <header class="app-bar">
       <!-- CategoryScope slotted into HeaderToolbar as the centered scope. -->
       <HeaderToolbar>
         <CategoryScope

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useExercise } from '@/application/useExercises';
-import { CATEGORY_LABELS, LEVEL_LABELS } from '@/domain/exercise';
-import { CATEGORY_TINT, CATEGORY_RULE } from '@/components/categoryStyles';
-import CategoryIcon from '@/components/CategoryIcon.vue';
+import { LEVEL_LABELS } from '@/domain/exercise';
+import { CATEGORY_RULE } from '@/components/categoryStyles';
+import CategoryBadge from '@/components/CategoryBadge.vue';
 
 // Exercise detail (DESIGN §5.6), read-only. The coach reads this standing at the wall, in a hurry:
 // the **Déroulement** is the payload they came for, so it is a scannable list — never a paragraph.
@@ -11,14 +11,9 @@ const props = defineProps<{ id: string }>();
 
 const { exercise, notFound, isLoading, error } = useExercise(() => Number(props.id));
 
-// All three are read only inside `v-else-if="exercise"`, but a computed evaluates regardless — hence
-// the same guard on each, falling back to '' until the catalogue lands.
-const categoryLabel = computed(() =>
-  exercise.value ? CATEGORY_LABELS[exercise.value.categoryId] : ''
-);
-const categoryTint = computed(() =>
-  exercise.value ? CATEGORY_TINT[exercise.value.categoryId] : ''
-);
+// Read only inside `v-else-if="exercise"`, but a computed evaluates regardless — hence the guard,
+// falling back to '' until the catalogue lands. (The category badge takes `exercise.categoryId`
+// directly, safely, since it only renders inside that same guard.)
 const categoryRule = computed(() =>
   exercise.value ? CATEGORY_RULE[exercise.value.categoryId] : ''
 );
@@ -60,12 +55,10 @@ const variantBlocks = computed<VariantBlock[]>(() => {
   <!-- Back nav is sticky: the page can run long and the coach must be able to bail out at any scroll
        position without hunting. Same opaque treatment as the feed bar (DESIGN §5.8) — never frosted,
        which erodes contrast in sunlight. -->
-  <header
-    class="sticky top-0 z-30 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800"
-  >
+  <header class="app-bar">
     <!-- `py-4` + `px-6 lg:px-8` mirror the feed's HeaderToolbar exactly: same gutter, and — with the
          control's min-h-11 — the same bar height, so the sticky bar doesn't jump between routes. -->
-    <div class="max-w-3xl mx-auto px-6 lg:px-8 py-4">
+    <div class="page-gutter max-w-3xl py-4">
       <!-- Same pill as `Filtres`/search, not the scope's: §5.2 keeps the white surface for a
            *standalone action* and the recessed slate-100 for an *unselected toggle* — this is an
            action. Bare text would also break §1.5 (a control must look like what it does) and, with no
@@ -94,8 +87,8 @@ const variantBlocks = computed<VariantBlock[]>(() => {
 
   <!-- Narrower measure than the feed's max-w-7xl: this page is read, not scanned as a grid, and a
        1280 px line length is unreadable. The sticky nav above shares it, so the edges line up (§5.8). -->
-  <main class="max-w-3xl mx-auto px-6 lg:px-8 py-6 lg:py-8">
-    <p v-if="error" class="text-rose-600 dark:text-rose-400 py-12 text-center">{{ error }}</p>
+  <main class="page-gutter max-w-3xl py-6 lg:py-8">
+    <p v-if="error" class="state-error">{{ error }}</p>
 
     <p
       v-else-if="isLoading"
@@ -107,7 +100,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
     </p>
 
     <!-- A shared link can point at an id that no longer exists — offer the way back, not a dead end. -->
-    <div v-else-if="notFound" class="py-12 text-center flex flex-col items-center gap-3">
+    <div v-else-if="notFound" class="state-block">
       <p class="text-slate-600 dark:text-slate-300">Cet exercice n’existe pas.</p>
       <RouterLink to="/" class="btn-ink"> Voir le catalogue </RouterLink>
     </div>
@@ -122,16 +115,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
       <header class="flex gap-4">
         <span :class="categoryRule" class="w-1 shrink-0 rounded-full" aria-hidden="true" />
         <div class="flex flex-col gap-2 min-w-0">
-          <span
-            class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300"
-          >
-            <CategoryIcon
-              :category="exercise.categoryId"
-              class="w-4 h-4 shrink-0"
-              :class="categoryTint"
-            />
-            {{ categoryLabel }}
-          </span>
+          <CategoryBadge :category="exercise.categoryId" />
           <h1
             class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
           >

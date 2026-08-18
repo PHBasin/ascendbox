@@ -73,7 +73,7 @@ const chips = computed<Chip[]>(() => [
   <!-- Header aligned to the feed grid (DESIGN §5.8): same max-w-7xl measure.
        < lg: two tiers — [title · search · Filtres] over the full-width scope.
        lg+: one line — title · centered scope · search + Filtres. -->
-  <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex flex-col gap-3">
+  <div class="page-gutter max-w-7xl py-4 flex flex-col gap-3">
     <div class="flex flex-wrap items-center gap-3 lg:flex-nowrap">
       <!-- Screen title (DESIGN §3). Hidden while search is open below lg. -->
       <h1

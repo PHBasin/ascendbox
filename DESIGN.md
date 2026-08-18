@@ -446,7 +446,13 @@ _attribute_ filters, each a labelled section with the same tap interaction:
 
 - **Durée** — buckets (`< 10 min` · `10–25 min` · `> 25 min`), multi-select.
 - **Niveau** — `Débutant` · `Intermédiaire` · `Avancé`, multi-select.
-- **Tags** — most-used first; add an in-sheet search once the list exceeds ~10.
+- **Tags** — most-used first, all of them, always shown. **No in-sheet search field.** One was
+  specified here ("once the list exceeds ~10") and built; it is removed. The catalogue holds 11
+  distinct tags and each exercise carries at most 3, so the threshold was met by a single tag —
+  a text field to filter eleven chips a coach can already see, on the surface §5.5 calls
+  _secondary_ refinement, in a sheet read with gloves on. Typing to reach what is one tap away
+  is the taxing interaction §5.9 keeps the whole search path collapsed to avoid. Reintroduce it
+  only if the tag vocabulary grows enough that the chips no longer fit the sheet.
 
 Options wear the same skin as the scope pills (§5.2) — literally: both spend `.toggle-on` /
 `.toggle-off` (§11), **and the same timing**, via `TOGGLE_ON` / `TOGGLE_OFF` (§6). The asymmetry
@@ -694,7 +700,7 @@ Within that measure the arrangement follows the feed's breakpoints:
   horizontal scroll**. Opening search expands the field across tier 1 and **hides the title** (§5.9).
 - **Desktop (`lg+`) — one line.** The wide measure fits everything: **title left · scope centered ·
   search + Filtres right**. The scope keeps its natural-width pills, centered between the flanks, and
-  the open search field is capped (`sm:w-80`, §5.9) so it sits by Filtres. Single-line only starts at
+  the open search field is capped (`sm:w-56`, §5.9) so it sits by Filtres. Single-line only starts at
   `lg` because below it there is not enough width for all four groups once search is open — hence the
   two-tier fallback rather than a squeezed, wrapping scope.
 
@@ -706,12 +712,12 @@ A secondary retrieval path for known-item lookup. A **magnifier** on the title r
 field on demand (never a permanent bar), so the browse-first, gloved, in-a-hurry path is never taxed
 with a typing invitation. The magnifier ⇄ field swap is **instant** (§6). The full-width takeover —
 hide the `Exercices` title, fill the actions row — is reserved for **phones (`< sm`)** where space is
-genuinely tight; from `sm` up the title **stays** and the field is **capped** (`sm:w-80`) inline
+genuinely tight; from `sm` up the title **stays** and the field is **capped** (`sm:w-56`) inline
 beside Filtres, so a tablet never gets a half-empty ~600px field. Focus follows the swap (§8).
 
 **Opening the field is itself a mode switch** — it **supersedes the category scope** and shows the
 **whole catalogue** (empty query = every exercise, ~100 of them); a typed term narrows it, matching
-title + description + tags (case- and accent-insensitive). The scope pills deselect accordingly
+title + teaser + tags (case- and accent-insensitive). The scope pills deselect accordingly
 (§5.2). Closing (✕ / `Esc`) drops the mode; picking a category also exits search (`setCategory` →
 `closeSearch`).
 
@@ -828,6 +834,25 @@ See `CATEGORY_TINT` and `CATEGORY_RULE` in
 spelled out. A shared `.ts` is scanned like any other source, so moving the maps out of the three
 components that used to each hold a copy costs the scanner nothing.
 
+### 10.1 The other constraint — cascade layers
+
+Tailwind emits `theme` → `base` → `components` → `utilities`, and **a later layer wins outright:
+specificity only breaks ties _within_ one layer**. So a shared class in `@layer components` can never
+out-rank a utility written at the call site, however specific it is — `!important` is the only lever
+that flips it, and it is not one we use.
+
+The consequence has teeth for **state** styles. A `@layer components` class that owns a
+`focus:ring-*` is silently defeated by a bare `ring-1` at its own call site: the utility rewrites
+`--tw-ring-shadow` in _every_ state, focus included, while the class's `focus:outline-none` keeps
+applying — a control with no focus indicator at all. That shipped once, on the toolbar search, and
+**no gate caught it**: `type-check`, `lint` and Lighthouse all passed green with the focus ring dead.
+
+So: **a shared class must not own a property its call sites also set through utilities.** Where a
+control needs both a resting and a focus treatment of the same property, keep the pair together —
+both in the class, or both at the call site — never split across the two layers. Verify a focus
+style in a browser by comparing the computed `box-shadow` at rest and on focus; reading the source
+cannot tell you which layer won.
+
 ---
 
 ## 11. Where to add what
@@ -844,9 +869,14 @@ components that used to each hold a copy costs the scanner nothing.
 | Add an icon used in **2+** places | a component in [`src/components/icons/`](src/components/icons/); a single-use glyph stays inline                                                                 |
 | Pick spacing                      | the §4 scale — nearest named step, never arbitrary                                                                                                               |
 
-**Shared classes** (`@layer components` in [`main.css`](src/assets/main.css)) carry a **skin, never a
-box** — colour, ring, hover and motion; size, padding and any deliberate timing stay at the call site.
-That is the line that keeps two controls sharing a look without fusing two different controls:
+**Shared classes** live in `@layer components` in [`main.css`](src/assets/main.css), and are earned
+by **repetition**: a look worn in 2+ places becomes a class, a single use stays at its call site —
+the same threshold as the icons row above. When the second consumer goes away, the class goes with
+it. (A class must also not own a property its call sites set through utilities — §10.1.)
+
+Most of them carry a **skin, never a box** — colour, ring, hover and motion; size, padding and any
+deliberate timing stay at the call site. That is the line that keeps two controls sharing a look
+without fusing two different controls:
 
 | Class                        | What it is                                                                   |
 | ---------------------------- | ---------------------------------------------------------------------------- |
@@ -855,6 +885,19 @@ That is the line that keeps two controls sharing a look without fusing two diffe
 | `.toggle-on` / `.toggle-off` | a selected / unselected toggle — scope pills (§5.2) and sheet options (§5.5) |
 | `.eyebrow`                   | the small uppercase section label (§5.5, §5.6)                               |
 | `.btn-ink`                   | the solid-ink pill CTA — the feed's and detail's reset / back-to-catalogue   |
+| `.app-bar`                   | the opaque sticky bar chrome — feed header and detail back nav (§5.8)        |
+| `.meta-chip`                 | the small inline icon+value label — category badge, duration, gauge (§5.4)   |
+| `.state-error`               | the load-failure message — feed and detail (§2.2 keeps rose for error text)  |
+
+**A second, narrower category: repeated layout.** Two classes carry no colour at all and exist
+because the _arrangement_ repeats, not the look. They are the stated exception to "never a box", not
+a drift from it — and they stay rare on purpose, since a layout class fuses structure, which is
+harder to unpick later than a shared colour:
+
+| Class          | What it is                                                                      |
+| -------------- | ------------------------------------------------------------------------------- |
+| `.page-gutter` | centred measure + the §4 side padding; the `max-w-*` cap stays at the call site |
+| `.state-block` | the centred empty / not-found column — message, then an optional action         |
 
 > **Implementation tracking lives in [`CLAUDE.md`](CLAUDE.md) (§ Tasks), not here.** This document is
 > the design source of truth; what is built vs. pending is recorded there. The exercise detail page

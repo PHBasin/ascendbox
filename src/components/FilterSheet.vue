@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, ref, watch, onBeforeUnmount } from 'vue';
+import { watch, onBeforeUnmount } from 'vue';
 import { useExercises, DURATION_BUCKETS } from '@/application/useExercises';
 import { LEVELS } from '@/domain/exercise';
-import { TOGGLE_ON, TOGGLE_OFF } from './toggleStyles';
+import ToggleChip from './ToggleChip.vue';
 import ResetIcon from './icons/ResetIcon.vue';
 import CloseIcon from './icons/CloseIcon.vue';
 
@@ -21,14 +21,6 @@ const {
   toggleTag,
   resetFilters,
 } = useExercises();
-
-// In-sheet tag search appears only once the list gets long (DESIGN §5.5).
-const tagQuery = ref('');
-const showTagSearch = computed(() => availableTags.value.length > 10);
-const shownTags = computed(() => {
-  const q = tagQuery.value.trim().toLowerCase();
-  return q ? availableTags.value.filter((t) => t.toLowerCase().includes(q)) : availableTags.value;
-});
 
 function close(): void {
   emit('close');
@@ -129,17 +121,14 @@ onBeforeUnmount(() => {
         <section class="mb-6">
           <p class="eyebrow mb-3">Durée</p>
           <div class="flex flex-wrap gap-2">
-            <button
+            <ToggleChip
               v-for="bucket in DURATION_BUCKETS"
               :key="bucket.id"
-              type="button"
-              :aria-pressed="selectedBuckets.includes(bucket.id)"
-              class="px-4 min-h-11 rounded-full font-medium text-sm ring-1"
-              :class="selectedBuckets.includes(bucket.id) ? TOGGLE_ON : TOGGLE_OFF"
-              @click="toggleBucket(bucket.id)"
+              :pressed="selectedBuckets.includes(bucket.id)"
+              @toggle="toggleBucket(bucket.id)"
             >
               {{ bucket.label }}
-            </button>
+            </ToggleChip>
           </div>
         </section>
 
@@ -147,42 +136,29 @@ onBeforeUnmount(() => {
         <section class="mb-6">
           <p class="eyebrow mb-3">Niveau</p>
           <div class="flex flex-wrap gap-2">
-            <button
+            <ToggleChip
               v-for="lvl in LEVELS"
               :key="lvl.value"
-              type="button"
-              :aria-pressed="selectedLevels.includes(lvl.value)"
-              class="px-4 min-h-11 rounded-full font-medium text-sm ring-1"
-              :class="selectedLevels.includes(lvl.value) ? TOGGLE_ON : TOGGLE_OFF"
-              @click="toggleLevel(lvl.value)"
+              :pressed="selectedLevels.includes(lvl.value)"
+              @toggle="toggleLevel(lvl.value)"
             >
               {{ lvl.label }}
-            </button>
+            </ToggleChip>
           </div>
         </section>
 
         <!-- Tags -->
         <section v-if="availableTags.length" class="mb-6">
           <p class="eyebrow mb-3">Tags</p>
-          <input
-            v-if="showTagSearch"
-            v-model="tagQuery"
-            type="search"
-            placeholder="Rechercher un tag…"
-            class="w-full mb-3 px-4 min-h-11 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-50 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-50"
-          />
           <div class="flex flex-wrap gap-2">
-            <button
-              v-for="tag in shownTags"
+            <ToggleChip
+              v-for="tag in availableTags"
               :key="tag"
-              type="button"
-              :aria-pressed="selectedTags.includes(tag)"
-              class="px-4 min-h-11 rounded-full font-medium text-sm ring-1"
-              :class="selectedTags.includes(tag) ? TOGGLE_ON : TOGGLE_OFF"
-              @click="toggleTag(tag)"
+              :pressed="selectedTags.includes(tag)"
+              @toggle="toggleTag(tag)"
             >
               #{{ tag }}
-            </button>
+            </ToggleChip>
           </div>
         </section>
 

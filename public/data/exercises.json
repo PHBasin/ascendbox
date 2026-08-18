@@ -1,936 +1,2438 @@
 [
   {
     "id": 1,
-    "title": "Suspensions Max (Morts)",
-    "teaser": "Tenir 7 secondes sur réglette 15mm. 3 minutes de repos. 5 séries.",
-    "categoryId": "physique",
-    "tags": ["poutre"],
-    "level": 3,
-    "duration": 20,
-    "objective": "Développer la force maximale des doigts en suspension isométrique.",
-    "equipment": ["Poutre", "Réglette 15 mm"],
-    "instructions": [
-      "Échauffer doigts et épaules pendant 10 minutes minimum.",
-      "Se suspendre à la réglette 15 mm, bras légèrement fléchis, épaules engagées.",
-      "Tenir 7 secondes sans jamais relâcher les épaules.",
-      "Récupérer 3 minutes complètes entre les séries.",
-      "Enchaîner 5 séries au total."
+    "title": "Les pieds silencieux",
+    "teaser": "Grimper une voie facile sans faire le moindre bruit en posant le pied.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds",
+      "jeu"
     ],
-    "variants": {
-      "harder": ["Descendre sur une réglette 12 mm.", "Ajouter 2 à 5 kg de lest à la ceinture."],
-      "easier": [
-        "Passer sur une réglette 20 mm.",
-        "Alléger avec un élastique sous les pieds.",
-        "Réduire la tenue à 5 secondes."
-      ]
-    },
-    "safety": "Échauffement complet obligatoire (doigts + épaules). À proscrire avant la fin de la croissance. Arrêter immédiatement en cas de douleur articulaire ou de poulie."
-  },
-  {
-    "id": 2,
-    "title": "Tracter et Bloquer (90°)",
-    "teaser": "Traction asymétrique : bloquer un bras à 90°, redescendre l'autre. 5s par bras.",
-    "categoryId": "physique",
-    "tags": ["poutre", "bloc"],
-    "level": 3,
+    "level": 1,
     "duration": 15,
-    "objective": "Gagner en force de blocage et en dissociation des bras.",
+    "objective": "Force la concentration visuelle jusqu'au contact final du pied sur la prise.",
     "instructions": [
-      "Partir suspendu, bras tendus, épaules engagées.",
-      "Tracter puis bloquer un bras à 90°, l'autre reste tendu.",
-      "Tenir 5 secondes sur ce bras, puis redescendre en contrôle.",
-      "Alterner : 5 secondes par bras.",
-      "Réaliser 3 séries."
+      "Choisir une voie nettement sous son niveau max.",
+      "Déposer chaque pied sur la prise plutôt que de l'y laisser tomber.",
+      "Au moindre bruit, redescendre d'un mouvement et refaire la pose.",
+      "Enchaîner 3 voies, du premier au dernier pied, sans un son."
     ],
     "variants": {
-      "harder": ["Redescendre très lentement, sur 5 secondes.", "Ajouter du lest à la ceinture."],
+      "harder": [
+        "Version « ninja » en groupe : le reste du groupe écoute et signale le moindre bruit."
+      ],
       "easier": [
-        "Poser un pied sur un support pour alléger.",
-        "Utiliser un élastique en assistance.",
-        "Réduire la tenue à 3 secondes."
+        "Le faire en traversée, à un mètre du sol."
       ]
     }
   },
   {
+    "id": 2,
+    "title": "Les pieds collés",
+    "teaser": "Une fois le pied posé sur la prise, interdiction de le repositionner.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Améliore la précision du premier coup.",
+    "instructions": [
+      "Choisir une voie facile, aux prises de pied larges et bien visibles.",
+      "Viser l'endroit exact de la pose avant même de décoller le pied.",
+      "Un pied réajusté, même d'un centimètre, compte comme une chute.",
+      "Faire 3 passages, en réduisant le nombre de corrections à chaque fois."
+    ]
+  },
+  {
     "id": 3,
-    "title": "Pan Güllich (Montée 1-3-5)",
-    "teaser": "Montée dynamique sur lattes moyennes en sautant une latte. Redescente contrôlée.",
-    "categoryId": "physique",
-    "tags": ["poutre"],
-    "level": 3,
-    "duration": 10
+    "title": "Adhérence",
+    "teaser": "Poser les pieds uniquement sur les trous de vis ou les aspérités.",
+    "categoryId": "technique",
+    "tags": [
+      "dalle",
+      "pieds"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Développe la confiance en l'adhérence.",
+    "instructions": [
+      "Choisir une dalle peu raide, avec des prises de main confortables.",
+      "Ignorer toutes les prises de pied : seuls les trous de vis et le relief comptent.",
+      "Poser la semelle bien à plat, talon bas, et charger sans à-coup.",
+      "Garder le regard sur le pied jusqu'à ce qu'il porte tout le poids du corps."
+    ]
   },
   {
     "id": 4,
-    "title": "Gainage Dynamique",
-    "teaser": "Sur un mur à 30°, lâcher les pieds volontairement et gainer violemment pour les replacer.",
-    "categoryId": "physique",
-    "tags": ["devers", "bloc"],
-    "level": 2,
-    "duration": 15
+    "title": "Les talons bas",
+    "teaser": "Descendre le talon sous la ligne des orteils à chaque pose de pied.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds"
+    ],
+    "level": 1,
+    "duration": 15,
+    "objective": "Augmente la surface de gomme en contact avec le mur et relâche le mollet.",
+    "instructions": [
+      "Choisir une voie facile et grimper lentement, un pied à la fois.",
+      "Poser la pointe, puis laisser descendre le talon sous la ligne des orteils.",
+      "Sentir la cheville se relâcher et le mollet cesser de travailler.",
+      "Refaire le même passage talon haut, puis talon bas, pour comparer."
+    ]
   },
   {
     "id": 5,
-    "title": "Résistance Courte (4x4)",
-    "teaser": "Enchaîner 4 blocs modérés sans repos. 3 min de repos, répéter 4 fois.",
-    "categoryId": "physique",
-    "tags": ["bloc"],
+    "title": "Le talon de cristal",
+    "teaser": "Une dégaine pendue au talon : elle ne doit jamais toucher le mur.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds"
+    ],
     "level": 3,
-    "duration": 30
+    "duration": 15,
+    "objective": "Évite la mauvaise habitude de laisser traîner son pied contre le mur.",
+    "equipment": [
+      "Dégaine",
+      "Cordelette"
+    ],
+    "instructions": [
+      "Accrocher une dégaine à la cheville avec une cordelette, côté talon.",
+      "Choisir une voie facile : la dégaine doit pendre librement le long du corps.",
+      "Monter le genou avant de poser, pour tenir le talon à distance du mur.",
+      "Un contact de la dégaine annule le mouvement : le refaire immédiatement."
+    ]
   },
   {
     "id": 6,
-    "title": "Tractions Lestées (+10kg)",
-    "teaser": "Séries de 3 à 5 répétitions explosives à la montée avec baudrier lesté.",
-    "categoryId": "physique",
-    "tags": ["poutre"],
-    "level": 3,
-    "duration": 20
+    "title": "Le verrouillage visuel",
+    "teaser": "Ne détourner le regard qu'une fois le poids transféré sur le pied.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds",
+      "concentration"
+    ],
+    "level": 1,
+    "duration": 15,
+    "objective": "Empêche le cerveau d'anticiper et force à finir l'action en cours.",
+    "instructions": [
+      "Choisir une voie facile, pour que le regard soit la seule difficulté.",
+      "Fixer la prise de pied visée dès l'instant où la jambe se lève.",
+      "Garder les yeux dessus pendant la pose, puis pendant tout le transfert de poids.",
+      "Ne chercher la prise suivante qu'une fois la jambe complètement chargée."
+    ]
   },
   {
     "id": 7,
-    "title": "No-Foot Alterné",
-    "teaser": "Traversée en dévers uniquement avec les bras. Les pieds ne touchent jamais le mur.",
-    "categoryId": "physique",
-    "tags": ["devers", "bloc"],
-    "level": 3,
-    "duration": 15
+    "title": "Focus, focus",
+    "teaser": "Garder le regard sur la prise jusqu'à la pose du pied, en trois temps.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds",
+      "concentration"
+    ],
+    "level": 1,
+    "duration": 15,
+    "objective": "Améliorer la précision de la pose de pied.",
+    "instructions": [
+      "Repérer la prise de pied visée et ne plus la quitter des yeux.",
+      "Approcher le pied lentement, sans regarder ailleurs.",
+      "Poser la pointe, puis charger progressivement.",
+      "Ne relever le regard qu'une fois le pied chargé."
+    ]
   },
   {
     "id": 8,
-    "title": "Suspensions Intermittentes (7/3)",
-    "teaser": "7 secondes de suspension, 3 secondes de repos. À répéter 6 fois de suite.",
-    "categoryId": "physique",
-    "tags": ["poutre"],
-    "level": 3,
-    "duration": 15
+    "title": "Le mille-pattes",
+    "teaser": "Poser le pied sur toutes les prises de pied que la voie propose.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Force à grimper avec les pieds hauts et brise l'habitude de chercher l'extension maximale.",
+    "instructions": [
+      "Choisir une voie riche en prises de pied, deux niveaux sous son max.",
+      "N'en sauter aucune : chaque prise de pied de la voie doit être utilisée.",
+      "Accepter les pieds hauts et les petits pas, même s'ils semblent inutiles.",
+      "Faire 2 passages, puis un troisième en grimpant normalement pour comparer."
+    ]
   },
   {
     "id": 9,
-    "title": "Campus Board : Touches",
-    "teaser": "Garder une main sur la latte de départ, monter l'autre le plus haut possible et revenir.",
-    "categoryId": "physique",
-    "tags": ["poutre"],
-    "level": 3,
-    "duration": 10
+    "title": "Le pivot",
+    "teaser": "Faire pivoter le talon de gauche à droite sans que la pointe glisse.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Valide la bonne pose de la pointe de pied.",
+    "instructions": [
+      "Choisir une traversée basse ou une voie facile, prises de pied moyennes.",
+      "Poser la pointe bien au centre de la prise, talon relevé.",
+      "Faire trois allers-retours du talon sur chaque prise, pointe vissée en place.",
+      "Si la pointe ripe, c'est qu'elle était mal posée : reposer et recommencer."
+    ]
   },
   {
     "id": 10,
-    "title": "Blocs en No-Hand",
-    "teaser": "Grimper un bloc en dalle sans utiliser les mains, uniquement sur l'équilibre des jambes.",
-    "categoryId": "physique",
-    "tags": ["dalle", "bloc"],
-    "level": 2,
-    "duration": 15
+    "title": "Le 1-2-3",
+    "teaser": "Toucher le mur au-dessus puis en dessous de la prise avant de poser.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds"
+    ],
+    "level": 1,
+    "duration": 15,
+    "objective": "Apprend à regarder ses pieds, à poser la pointe et développe la proprioception fine.",
+    "instructions": [
+      "Repérer la prise visée avant tout mouvement.",
+      "Toucher le mur juste au-dessus de la prise.",
+      "Toucher le mur juste en dessous.",
+      "Poser enfin le pied ou la main sur la prise, sans corriger."
+    ]
   },
   {
     "id": 11,
-    "title": "Pompes Déclinées",
-    "teaser": "Pieds surélevés, pompes lentes pour compenser le travail des muscles antagonistes.",
-    "categoryId": "physique",
-    "tags": ["gainage"],
+    "title": "Le pied-main",
+    "teaser": "Amener le pied sur la prise que la main tient encore, avant de partir.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds",
+      "souplesse"
+    ],
     "level": 2,
-    "duration": 10
+    "duration": 15,
+    "objective": "Travaille la souplesse de hanche et la technique de pied.",
+    "instructions": [
+      "Choisir une voie facile aux grosses prises, en dalle ou à la verticale.",
+      "Monter le pied à côté de la main, sur la prise qu'elle tient encore.",
+      "Ne libérer la main qu'une fois le pied stable et chargé.",
+      "Se relever sur cette jambe, puis répéter le pied-main à la prise suivante."
+    ]
   },
   {
     "id": 12,
-    "title": "Tractions à un bras (Assistées)",
-    "teaser": "Traction avec une main sur la barre et l'autre main qui tient le poignet ou une corde.",
-    "categoryId": "physique",
-    "tags": ["poutre"],
-    "level": 3,
-    "duration": 15
+    "title": "Le pied à la place de la main",
+    "teaser": "Poser le pied à l'endroit exact que la main vient de libérer.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds",
+      "souplesse"
+    ],
+    "level": 1,
+    "duration": 15,
+    "objective": "Mobilité articulaire et précision de la pose de pied.",
+    "instructions": [
+      "Choisir une traversée basse ou une voie facile, prises généreuses.",
+      "Mémoriser la position exacte de la main avant qu'elle ne lâche.",
+      "Amener le pied sur cette empreinte, sans tâtonner ni regarder ailleurs.",
+      "Alterner pied droit et pied gauche à chaque mouvement."
+    ]
   },
   {
     "id": 13,
-    "title": "Gainage L-Sit",
-    "teaser": "Assis au sol, soulever le bassin et les jambes tendues à l'équerre pendant 10s.",
-    "categoryId": "physique",
-    "tags": ["gainage"],
-    "level": 3,
-    "duration": 10
+    "title": "L'école du talon",
+    "teaser": "Crocheter le talon derrière chaque prise ou arête en montant.",
+    "categoryId": "technique",
+    "tags": [
+      "devers",
+      "pieds"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Apprendre à utiliser le talon comme une troisième main pour soulager les bras.",
+    "instructions": [
+      "Choisir un mur légèrement déversant, avec des prises à crocheter.",
+      "Poser le talon derrière la prise et tirer avec la jambe, au lieu de le poser seulement.",
+      "Sentir le bras du même côté se décharger avant de partir sur la main suivante.",
+      "Alterner talon droit et talon gauche sur toute la montée."
+    ]
   },
   {
     "id": 14,
-    "title": "Circuit Training 30/30",
-    "teaser": "30s d'escalade intense, 30s de repos. À tenir sur 10 minutes.",
-    "categoryId": "physique",
-    "tags": ["voie"],
-    "level": 3,
-    "duration": 15
+    "title": "Grands pas",
+    "teaser": "Grimper en faisant de très grands pas, pieds bien écartés.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds",
+      "souplesse"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Mieux sentir les jambes lors des transferts d'appui.",
+    "instructions": [
+      "Choisir une voie facile, avec beaucoup de prises de pied disponibles.",
+      "Ne jamais poser un pied à moins d'un grand écart du précédent.",
+      "Pousser sur la jambe basse pour monter, sans tirer sur les bras.",
+      "Deux passages : un en amplitude maximale, un en petits pas, pour comparer."
+    ]
   },
   {
     "id": 15,
-    "title": "Pincettes (Pinch Blocks)",
-    "teaser": "Soulever des poids depuis le sol en utilisant uniquement une prise en pince.",
-    "categoryId": "physique",
-    "tags": ["poutre"],
+    "title": "Contraste des sensations",
+    "teaser": "Un pied en chausson, l'autre pied nu ; alterner à chaque voie.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds"
+    ],
     "level": 2,
-    "duration": 15
+    "duration": 15,
+    "objective": "Améliorer les sensations du pied.",
+    "instructions": [
+      "Choisir une voie facile, sur un mur propre et sans prises agressives.",
+      "Déchausser un pied et grimper la voie en notant ce que le pied nu perçoit.",
+      "Chausser ce pied, déchausser l'autre, et refaire exactement la même voie.",
+      "Terminer chaussé des deux pieds, en cherchant les sensations du pied nu."
+    ]
   },
   {
     "id": 16,
-    "title": "Frenchies (Tractions fractionnées)",
-    "teaser": "Traction complète, blocage en haut (5s), descente à moitié, blocage (5s), redescente.",
-    "categoryId": "physique",
-    "tags": ["poutre"],
-    "level": 3,
-    "duration": 15
+    "title": "Hacky sack",
+    "teaser": "Un hacky sack sur chaque chausson, à ne jamais faire tomber.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds",
+      "jeu"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Poser les pieds en douceur et sans bruit.",
+    "equipment": [
+      "Hacky sacks ou petits sacs de graines"
+    ],
+    "instructions": [
+      "Poser un hacky sack sur le dessus de chaque chausson avant de partir.",
+      "Choisir une voie facile, aux prises de pied larges et horizontales.",
+      "Lever et poser le pied lentement, sans à-coup, pour ne rien faire tomber.",
+      "Un sac tombé : redescendre, le replacer et repartir du sol."
+    ]
   },
   {
     "id": 17,
-    "title": "Jetés à deux mains",
-    "teaser": "Sauter d'une bonne prise vers une autre en décollant les deux mains simultanément.",
-    "categoryId": "physique",
-    "tags": ["bloc", "dynamique"],
+    "title": "Balanciers",
+    "teaser": "Balancer une jambe et poser le pied sans interrompre le mouvement.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds",
+      "dynamique"
+    ],
     "level": 3,
-    "duration": 15
+    "duration": 15,
+    "objective": "Précision de la pose de pied en mouvement.",
+    "instructions": [
+      "Se placer en équilibre sur un pied, l'autre jambe libre.",
+      "Lancer la jambe libre latéralement, en balancier.",
+      "Repérer une prise pendant le balancier.",
+      "Poser le pied dessus sans jamais casser le mouvement."
+    ]
   },
   {
     "id": 18,
-    "title": "Traversée Lestée",
-    "teaser": "Faire des traversées avec un gilet lesté (5-10% du poids du corps) pour la force-endurance.",
-    "categoryId": "physique",
-    "tags": ["voie", "bloc"],
+    "title": "Transferts d'appui en traversée",
+    "teaser": "En traversée, le moins de prises de pied possible.",
+    "categoryId": "technique",
+    "tags": [
+      "traversee",
+      "pieds",
+      "equilibre"
+    ],
     "level": 2,
-    "duration": 20
+    "duration": 15,
+    "objective": "Améliorer les transferts d'appui.",
+    "instructions": [
+      "Choisir une traversée longue, à hauteur de désescalade.",
+      "Compter les prises de pied utilisées lors d'un premier passage libre.",
+      "Refaire la traversée en supprimant deux appuis, puis deux de plus.",
+      "Basculer le bassin d'un appui à l'autre au lieu de chercher un nouveau pied."
+    ]
   },
   {
     "id": 19,
-    "title": "Relevés de genoux suspendus",
-    "teaser": "Suspendu à la barre, remonter les genoux jusqu'au torse sans balancer le corps.",
-    "categoryId": "physique",
-    "tags": ["gainage"],
+    "title": "Les bras tendus (PME)",
+    "teaser": "Grimper sans jamais plier les coudes, en position de moindre effort.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "statique",
+      "equilibre"
+    ],
     "level": 2,
-    "duration": 10
+    "duration": 15,
+    "objective": "Apprend à initier le mouvement par les hanches et à trouver la position de moindre effort.",
+    "instructions": [
+      "Choisir une voie deux niveaux sous son max, sans mouvement de blocage.",
+      "Garder les coudes tendus en permanence, y compris pendant les déplacements de main.",
+      "Chercher la position de moindre effort avant chaque main : pieds, hanches, épaules.",
+      "Un coude plié annule le mouvement : revenir à la position précédente et le refaire."
+    ]
   },
   {
     "id": 20,
-    "title": "Dragon Flags",
-    "teaser": "Allongé sur un banc, soulever tout le corps droit en appui sur les épaules.",
-    "categoryId": "physique",
-    "tags": ["gainage"],
-    "level": 3,
-    "duration": 15
+    "title": "La hanche au mur (égyptien)",
+    "teaser": "Monter de profil, hanche collée au mur, main et pied opposés.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "traversee",
+      "equilibre"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Force le profil, la carre externe et le rapprochement du bassin.",
+    "instructions": [
+      "Choisir une voie facile, verticale ou légèrement déversante.",
+      "Placer le pied en carre externe et pivoter la hanche contre le mur.",
+      "Monter la main opposée au pied qui pousse, bassin toujours proche de la paroi.",
+      "Alterner le profil à chaque mouvement : hanche droite, puis hanche gauche."
+    ]
   },
   {
     "id": 21,
-    "title": "Lock-offs Max",
-    "teaser": "Bloquer un mouvement à l'amplitude maximale de son bras pendant 10s avant de saisir la prise.",
-    "categoryId": "physique",
-    "tags": ["bloc", "devers"],
-    "level": 3,
-    "duration": 15
+    "title": "Monter son nombril",
+    "teaser": "Se concentrer sur un seul point : coller son bassin à la paroi.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "equilibre"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Réduction de la fatigue des bras.",
+    "instructions": [
+      "Choisir une voie très facile, à grimper deux fois de suite.",
+      "Premier passage : grimper normalement et noter la fatigue des avant-bras.",
+      "Second passage : ne penser qu'au nombril, qui doit rester au plus près du mur.",
+      "Comparer l'état des bras à l'arrivée des deux passages."
+    ]
   },
   {
     "id": 22,
-    "title": "Suspensions Demi-Crimp",
-    "teaser": "Travail spécifique de la position arquée (pouce non verrouillé) sur 20mm.",
-    "categoryId": "physique",
-    "tags": ["poutre"],
-    "level": 2,
-    "duration": 15
+    "title": "Le survol",
+    "teaser": "Attendre 3 à 5 secondes, main au-dessus de la prise, avant de saisir.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "statique",
+      "equilibre"
+    ],
+    "level": 3,
+    "duration": 15,
+    "objective": "Valide que le transfert de poids et le placement du corps sont bons.",
+    "instructions": [
+      "Choisir une voie facile, pour tenir les temps d'attente sans forcer.",
+      "Monter la main au-dessus de la prise, puis s'arrêter sans la toucher.",
+      "Tenir 3 à 5 secondes, immobile, avant de refermer les doigts.",
+      "Si la main tremble ou dérive, corriger les pieds et le bassin avant de saisir."
+    ]
   },
   {
     "id": 23,
-    "title": "Descentes Excentriques",
-    "teaser": "Sauter pour attraper la barre en position haute de traction, puis descendre très lentement.",
-    "categoryId": "physique",
-    "tags": ["poutre"],
+    "title": "Le T-Rex",
+    "teaser": "Interdiction de monter les mains au-dessus de la ligne des épaules.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds",
+      "statique"
+    ],
     "level": 2,
-    "duration": 10
+    "duration": 15,
+    "objective": "Anti-traction : oblige à pousser sur les jambes.",
+    "instructions": [
+      "Choisir une dalle ou un mur vertical avec beaucoup de prises de pied.",
+      "Garder les deux mains sous la ligne des épaules pendant toute la montée.",
+      "Monter les pieds haut et se redresser sur les jambes pour gagner de la hauteur.",
+      "Ne remonter les mains qu'une fois la poussée terminée, jamais avant."
+    ]
   },
   {
     "id": 24,
-    "title": "Montées de corde",
-    "teaser": "Monter à la corde lisse sans l'aide des pieds. Redescente contrôlée.",
-    "categoryId": "physique",
-    "tags": ["dynamique"],
+    "title": "Le pied-témoin",
+    "teaser": "Grimper les pieds reliés par un mousqueton, ou une dégaine au pontet.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "pieds",
+      "equilibre"
+    ],
     "level": 3,
-    "duration": 15
+    "duration": 15,
+    "objective": "Améliore la pose des pieds et le placement du bassin.",
+    "equipment": [
+      "Cordelette",
+      "Mousqueton"
+    ],
+    "instructions": [
+      "Relier les deux chaussons par une cordelette courte, fermée d'un mousqueton.",
+      "Choisir une voie facile : les grands écarts deviennent impossibles.",
+      "Avancer par petits pas, en montant le bassin plutôt que la jambe.",
+      "Retirer le lien et refaire la voie : les pieds restent proches par habitude."
+    ]
   },
   {
     "id": 25,
-    "title": "Blocs en 1 minute",
-    "teaser": "Avoir exactement 1 minute pour réussir un bloc. S'il n'est pas fait, asser au suivant.",
-    "categoryId": "physique",
-    "tags": ["bloc"],
+    "title": "Le verrou de gravité",
+    "teaser": "Le mousqueton du pontet doit viser le pied d'appui avant de bouger.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "equilibre",
+      "pieds"
+    ],
     "level": 3,
-    "duration": 20
+    "duration": 15,
+    "objective": "Oblige à faire un transfert de poids complet sur la jambe d'appui avant tout mouvement.",
+    "equipment": [
+      "Mousqueton"
+    ],
+    "instructions": [
+      "Accrocher un mousqueton au pontet du baudrier, pour qu'il pende librement.",
+      "Transférer le poids jusqu'à ce qu'il pende à l'aplomb du pied d'appui.",
+      "Ne lâcher la main qu'une fois dans cette position d'équilibre.",
+      "Répéter à chaque prise, sur une voie facile, pendant 15 minutes."
+    ]
   },
   {
     "id": 26,
-    "title": "Gainage Latéral Étoile",
-    "teaser": "Planche latérale, lever le bras et la jambe libres vers le plafond.",
-    "categoryId": "physique",
-    "tags": ["gainage"],
+    "title": "Sans les mains",
+    "teaser": "Grimper en dalle sans prises de main : paumes à plat autorisées.",
+    "categoryId": "technique",
+    "tags": [
+      "dalle",
+      "pieds",
+      "equilibre"
+    ],
     "level": 2,
-    "duration": 10
+    "duration": 15,
+    "objective": "Comprendre le transfert de poids sur les pieds et l'adhérence.",
+    "instructions": [
+      "Choisir une dalle peu raide, avec des prises de pied nombreuses.",
+      "Poser les paumes à plat sur le mur, sans jamais agripper une prise.",
+      "Monter le bassin haut et pousser sur les jambes pour progresser.",
+      "Regarder le pied jusqu'au bout de la pose : la main ne rattrapera rien."
+    ]
   },
   {
     "id": 27,
-    "title": "Typewriter Pull-ups",
-    "teaser": "En position haute de traction, déplacer le corps de gauche à droite vers chaque main.",
-    "categoryId": "physique",
-    "tags": ["poutre"],
-    "level": 3,
-    "duration": 15
+    "title": "L'arrêt sur image",
+    "teaser": "Se figer 2 secondes au milieu de chaque mouvement de main.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "statique",
+      "gainage"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Supprime l'élan pour valider le gainage et le placement de pieds.",
+    "instructions": [
+      "Choisir une voie facile, sans mouvement dynamique obligatoire.",
+      "Lancer le mouvement de main, puis se figer à mi-course pendant 2 secondes.",
+      "Profiter de l'arrêt pour vérifier le gainage et la pression sur les pieds.",
+      "Reprendre sans élan, et répéter sur chaque prise de main."
+    ]
   },
   {
     "id": 28,
-    "title": "Bidoigts (Pocket Hangs)",
-    "teaser": "Suspension ciblée sur l'index et le majeur, puis le majeur et l'annulaire.",
-    "categoryId": "physique",
-    "tags": ["poutre"],
-    "level": 3,
-    "duration": 15
+    "title": "Le flamant rose",
+    "teaser": "Avant chaque main, lever un pied et tenir 3 secondes sur une jambe.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "equilibre",
+      "statique"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Oblige à trouver le centre de gravité parfait.",
+    "instructions": [
+      "Choisir une voie facile, avec des prises de pied franches.",
+      "Avant chaque prise de main, décoller un pied et tenir 3 secondes.",
+      "Chercher l'équilibre en déplaçant le bassin, pas en tirant sur les bras.",
+      "Reposer le pied avant de saisir la prise, puis alterner le pied levé."
+    ]
   },
   {
     "id": 29,
-    "title": "Gainage sur Boules",
-    "teaser": "Faire la planche en posant les mains sur des boules instables (ou medecine balls).",
-    "categoryId": "physique",
-    "tags": ["gainage"],
+    "title": "Suppression de membre",
+    "teaser": "Grimper une voie facile en s'interdisant un membre : sans pied droit.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "equilibre"
+    ],
     "level": 2,
-    "duration": 10
+    "duration": 15,
+    "objective": "Trouver des solutions créatives comme les drapeaux et les changements de main.",
+    "instructions": [
+      "Choisir une voie facile et annoncer le membre supprimé avant de partir.",
+      "Premier passage sans pied droit, deuxième sans pied gauche.",
+      "Puis une main dans le dos, un passage de chaque côté.",
+      "Chercher les drapeaux et les changements de main plutôt que la force."
+    ]
   },
   {
     "id": 30,
-    "title": "Séries de 40 Mouvements",
-    "teaser": "Enchaîner 40 mouvements continus en traversée ou circuit sans repos pour la continuité.",
-    "categoryId": "physique",
-    "tags": ["voie"],
-    "level": 3,
-    "duration": 25
+    "title": "Le drapeau obligatoire",
+    "teaser": "Placer un drapeau à chaque mouvement avant de monter la main.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "equilibre"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Automatise l'équilibrage sans avoir besoin de deux pieds posés.",
+    "instructions": [
+      "Choisir une voie facile et verticale, aux prises de pied espacées.",
+      "Avant chaque main, tendre la jambe libre en drapeau devant ou derrière l'autre.",
+      "Sentir le bassin se stabiliser avant de lâcher la main.",
+      "Alterner drapeau intérieur et drapeau extérieur au fil de la montée."
+    ]
   },
   {
     "id": 31,
-    "title": "Monodoigts assistés",
-    "teaser": "Suspension sur un doigt avec les pieds sur une chaise ou une bande élastique.",
-    "categoryId": "physique",
-    "tags": ["poutre"],
-    "level": 3,
-    "duration": 15
+    "title": "Escalade à une main",
+    "teaser": "Grimper une main dans le dos, chaque passage deux fois en alternant.",
+    "categoryId": "technique",
+    "tags": [
+      "bloc",
+      "voie",
+      "equilibre"
+    ],
+    "level": 2,
+    "duration": 20,
+    "objective": "Travaille le placement du corps, l'équilibre et l'utilisation des jambes.",
+    "instructions": [
+      "Choisir un bloc ou une voie très facile, aux prises généreuses.",
+      "Grimper avec la main gauche dans le dos, sans jamais l'en sortir.",
+      "Monter les pieds haut et rapprocher le bassin du mur pour compenser.",
+      "Refaire le même passage avec la main droite dans le dos."
+    ]
   },
   {
     "id": 32,
-    "title": "Blocs Lestés",
-    "teaser": "Faire des blocs 2 niveaux sous son max avec un baudrier lesté (+5kg).",
-    "categoryId": "physique",
-    "tags": ["bloc"],
-    "level": 3,
-    "duration": 20
+    "title": "Escalade sur arête",
+    "teaser": "Grimper en utilisant principalement, voire uniquement, l'arête du mur.",
+    "categoryId": "technique",
+    "tags": [
+      "bloc",
+      "voie",
+      "equilibre"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Travaille l'équilibre et la pose de pieds sur des structures fuyantes.",
+    "instructions": [
+      "Choisir un mur avec une arête ou un angle saillant accessible.",
+      "Grimper en n'utilisant que l'arête pour les mains, pieds libres.",
+      "Opposer les appuis de part et d'autre de l'angle pour ne pas tourner.",
+      "Durcir en imposant l'arête aux pieds également."
+    ]
   },
   {
     "id": 33,
-    "title": "Tractions Claquées",
-    "teaser": "Traction très explosive jusqu'à pouvoir lâcher la barre et taper dans ses mains en l'air.",
-    "categoryId": "physique",
-    "tags": ["poutre", "dynamique"],
-    "level": 3,
-    "duration": 15
+    "title": "Uniquement les volumes",
+    "teaser": "Atteindre le sommet en n'utilisant que les volumes.",
+    "categoryId": "technique",
+    "tags": [
+      "bloc",
+      "equilibre"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Travaille la coordination et l'utilisation des volumes.",
+    "instructions": [
+      "Repérer un secteur où les volumes s'enchaînent jusqu'en haut.",
+      "N'utiliser que les volumes : aucune prise vissée, ni aux mains ni aux pieds.",
+      "Chercher les oppositions et l'adhérence sur les faces planes.",
+      "Recommencer en s'interdisant un volume de plus à chaque passage."
+    ]
   },
   {
     "id": 34,
-    "title": "Ab Wheel",
-    "teaser": "Déploiements complets avec la roulette à abdos jusqu'à toucher le sol avec le torse.",
-    "categoryId": "physique",
-    "tags": ["gainage"],
-    "level": 3,
-    "duration": 10
+    "title": "Le tour du volume",
+    "teaser": "Contourner un volume par le bas, puis se rétablir dessus.",
+    "categoryId": "technique",
+    "tags": [
+      "bloc",
+      "equilibre"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Travaille le placement, les équilibres précaires et les rétablissements.",
+    "instructions": [
+      "Choisir un volume : il sert de seule prise de main.",
+      "Toutes les prises du mur restent autorisées pour les pieds.",
+      "Partir d'un côté, contourner le volume par le bas, finir en se rétablissant dessus.",
+      "Recommencer en contournant le volume dans l'autre sens.",
+      "Tenir 15 minutes d'escalade."
+    ]
   },
   {
     "id": 35,
-    "title": "Campus Double Jetés",
-    "teaser": "Lâcher les deux lattes simultanément et monter d'un cran avec les deux mains.",
-    "categoryId": "physique",
-    "tags": ["poutre", "dynamique"],
-    "level": 3,
-    "duration": 10
+    "title": "Dalle : profil puis face",
+    "teaser": "Grimper une dalle de profil, puis de face : un essai par contrainte.",
+    "categoryId": "technique",
+    "tags": [
+      "dalle",
+      "equilibre"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Améliore la conscience corporelle et la technique de placement en dalle.",
+    "instructions": [
+      "Choisir une dalle facile et la grimper une première fois de face.",
+      "La regrimper de profil, hanche au mur et pied en carre externe.",
+      "Noter ce que chaque position coûte en énergie et en équilibre.",
+      "Terminer en choisissant librement, mouvement par mouvement, la meilleure des deux."
+    ]
   },
   {
     "id": 36,
-    "title": "Le Ninja (Silence absolu)",
-    "teaser": "Grimper en s'interdisant le moindre bruit de pied. Si un chausson claque, on redescend.",
+    "title": "Dévers : face puis profil",
+    "teaser": "Grimper un dévers de face, puis de profil : un essai par contrainte.",
     "categoryId": "technique",
-    "tags": ["dalle", "voie"],
-    "level": 1,
-    "duration": 15
+    "tags": [
+      "devers",
+      "gainage"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Améliore le gainage, les placements en dévers et l'économie d'énergie.",
+    "instructions": [
+      "Choisir un dévers court et facile, à répéter deux fois.",
+      "Premier passage de face, hanches parallèles au mur, gainage serré.",
+      "Deuxième passage de profil, une hanche collée au mur à chaque mouvement.",
+      "Comparer l'état des avant-bras à la fin de chaque passage."
+    ]
   },
   {
     "id": 37,
-    "title": "Escalade à Une Main",
-    "teaser": "Mettre une main dans le dos pour obliger la recherche d'équilibres précaires.",
+    "title": "Prise de tête !",
+    "teaser": "Contraintes évolutives : 1 main pour 1 pied, 2 mains pour 1 pied.",
     "categoryId": "technique",
-    "tags": ["dalle", "bloc"],
+    "tags": [
+      "voie",
+      "equilibre"
+    ],
     "level": 2,
-    "duration": 20
+    "duration": 15,
+    "objective": "Améliorer les appuis, développer son répertoire gestuel et s'économiser.",
+    "instructions": [
+      "Premier passage : une main pour un pied.",
+      "Deuxième passage : deux mains pour un pied.",
+      "Troisième passage : bras tendus en permanence.",
+      "Choisir une voie facile pour que la contrainte reste tenable."
+    ]
   },
   {
     "id": 38,
-    "title": "Pieds à l'Aveugle",
-    "teaser": "Regarder la prise, fermer les yeux, poser le pied, rouvrir pour vérifier la précision.",
+    "title": "Les pouces interdits",
+    "teaser": "Grimper pouces collés contre l'index, comme avec des moufles.",
     "categoryId": "technique",
-    "tags": ["voie", "lecture"],
-    "level": 1,
-    "duration": 15
+    "tags": [
+      "voie",
+      "mains"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Oblige à mieux sentir l'orientation de la prise sans l'aide stabilisatrice du pouce.",
+    "instructions": [
+      "Choisir une voie facile, plutôt sur prises arrondies et plates.",
+      "Coller le pouce contre l'index et le garder ainsi tout le passage.",
+      "Chercher l'orientation exacte de chaque prise avant de tirer dessus.",
+      "Reprendre la même voie pouces libres : la différence se sent immédiatement."
+    ],
+    "variants": {
+      "harder": [
+        "Le faire sur un secteur de prises plates uniquement, 20 minutes durant."
+      ]
+    }
   },
   {
     "id": 39,
-    "title": "Gommer les Prises",
-    "teaser": "Supprimer mentalement deux bonnes prises dans un bloc connu et trouver une alternative.",
+    "title": "Les mains à plat",
+    "teaser": "Grimper sans agripper : mains à plat, ou moufles aux poings.",
     "categoryId": "technique",
-    "tags": ["bloc", "devers"],
-    "level": 2,
-    "duration": 20
+    "tags": [
+      "voie",
+      "mains",
+      "pieds"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Valorise les appuis pédestres et le rôle des pieds.",
+    "equipment": [
+      "Moufles ou gants épais"
+    ],
+    "instructions": [
+      "Enfiler des moufles, ou simplement garder les mains ouvertes et à plat.",
+      "Choisir une dalle ou un mur vertical très facile.",
+      "Pousser sur les jambes et n'utiliser les mains que pour l'équilibre.",
+      "Monter les pieds avant de chercher à gagner de la hauteur."
+    ]
   },
   {
     "id": 40,
-    "title": "Mouvements Décomposés (Robot)",
-    "teaser": "Arrêt strict de 3s à chaque étape : initiation, point mort, préhension.",
+    "title": "L'extrême",
+    "teaser": "Progresser en n'utilisant que les prises les plus difficiles du mur.",
     "categoryId": "technique",
-    "tags": ["voie", "statique"],
+    "tags": [
+      "voie",
+      "mains",
+      "lecture"
+    ],
     "level": 2,
-    "duration": 15
+    "duration": 10,
+    "objective": "Identifier les petites prises où le crochetage à plusieurs doigts est impossible.",
+    "instructions": [
+      "Repérer depuis le sol les prises les plus petites du secteur.",
+      "Ne progresser que sur celles-là, pieds libres.",
+      "Serrer le moins fort possible : chercher l'appui, pas la crispation.",
+      "S'arrêter dès que les doigts se crispent : l'exercice est court par nature."
+    ]
   },
   {
     "id": 41,
-    "title": "Croisés Systématiques",
-    "teaser": "S'imposer de croiser les mains à chaque mouvement, forçant les pivots de bassin.",
+    "title": "La traversée fastoche",
+    "teaser": "Traverser en ne choisissant que les prises les plus faciles.",
     "categoryId": "technique",
-    "tags": ["bloc", "dalle"],
+    "tags": [
+      "traversee",
+      "lecture",
+      "enfants"
+    ],
     "level": 1,
-    "duration": 15
+    "duration": 10,
+    "objective": "Repérer visuellement les grosses prises et les crêtes prononcées.",
+    "instructions": [
+      "Choisir une traversée basse, à un mètre du sol.",
+      "Repérer depuis le sol les grosses prises et les crêtes bien marquées.",
+      "Traverser en ne prenant que celles-là, sans jamais forcer.",
+      "Refaire le trajet dans l'autre sens, avec le même choix de prises."
+    ]
   },
   {
     "id": 42,
-    "title": "Talons Obligatoires",
-    "teaser": "Interdiction d'utiliser la pointe des chaussons, progression uniquement en crochet talon.",
+    "title": "Dino contrôlé",
+    "teaser": "Un mouvement dynamique à chaque prise, attrapée au point mort.",
     "categoryId": "technique",
-    "tags": ["devers", "bloc"],
-    "level": 2,
-    "duration": 15
+    "tags": [
+      "voie",
+      "dynamique"
+    ],
+    "level": 3,
+    "duration": 15,
+    "objective": "Essentiel pour économiser de l'énergie et gagner en dynamisme.",
+    "instructions": [
+      "Choisir un bloc ou une voie facile, avec de bonnes prises à attraper.",
+      "Fléchir les jambes puis lancer : le mouvement part de la poussée, pas de la traction.",
+      "Attraper au point mort, quand le corps ne monte plus et ne redescend pas encore.",
+      "Enchaîner chaque prise en dynamique, sans jamais revenir au statique."
+    ]
   },
   {
     "id": 43,
-    "title": "Escalade Lente (Slow Motion)",
-    "teaser": "Interdiction formelle d'utiliser l'élan. Chaque mouvement doit prendre 5 secondes minimum.",
+    "title": "Les croisés",
+    "teaser": "Interdiction de changer de main : il faut croiser les bras.",
     "categoryId": "technique",
-    "tags": ["voie", "statique"],
-    "level": 3,
-    "duration": 20
+    "tags": [
+      "voie",
+      "dynamique"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Permet de grimper plus vite et de garder un rythme fluide.",
+    "instructions": [
+      "Choisir une traversée ou une voie facile, aux prises bien espacées.",
+      "Interdire tout changement de main sur une prise : il faut croiser.",
+      "Croiser devant, puis derrière, pour sentir la différence d'équilibre.",
+      "Garder le rythme : un croisement s'exécute vite ou ne s'exécute pas."
+    ]
   },
   {
     "id": 44,
-    "title": "Pied / Main",
-    "teaser": "Monter le pied exactement sur la prise que la main vient de quitter, à chaque mouvement.",
+    "title": "Escalade chronométrée",
+    "teaser": "Réaliser une voie ou un bloc le plus vite possible.",
     "categoryId": "technique",
-    "tags": ["souplesse", "bloc"],
+    "tags": [
+      "bloc",
+      "voie",
+      "vitesse"
+    ],
     "level": 2,
-    "duration": 15
+    "duration": 15,
+    "objective": "Développe la vitesse d'exécution et la prise de décision rapide.",
+    "equipment": [
+      "Chronomètre ou téléphone"
+    ],
+    "instructions": [
+      "Choisir une voie ou un bloc largement acquis, déjà grimpé plusieurs fois.",
+      "Faire chronométrer un premier passage à vitesse normale.",
+      "Refaire le passage en cherchant à battre son temps, sans sauter d'étape.",
+      "Trois tentatives maximum : au-delà, la précision se dégrade."
+    ]
   },
   {
     "id": 45,
-    "title": "Jeu du Miroir",
-    "teaser": "Grimper un bloc en inversant la séquence exacte (main droite prend la prise de la gauche).",
+    "title": "Ralenti — accéléré",
+    "teaser": "Grimper en imposant un rythme très lent, puis très rapide.",
     "categoryId": "technique",
-    "tags": ["lecture", "bloc"],
-    "level": 1,
-    "duration": 20
+    "tags": [
+      "voie",
+      "dynamique",
+      "statique"
+    ],
+    "level": 2,
+    "duration": 10,
+    "objective": "Maîtrise du tempo et de sa propre énergie.",
+    "instructions": [
+      "Choisir une voie facile, à grimper deux fois de suite.",
+      "Premier passage au ralenti : chaque mouvement dure au moins 5 secondes.",
+      "Deuxième passage le plus vite possible, sans perdre un pied.",
+      "Terminer à vitesse libre, en gardant le meilleur des deux rythmes."
+    ]
   },
   {
     "id": 46,
-    "title": "Drapeaux Forcés",
-    "teaser": "À chaque mouvement de main, la jambe opposée doit être tendue en drapeau pour équilibrer.",
+    "title": "Arrêt interdit",
+    "teaser": "Grimper sans aucun arrêt, du départ à la dernière prise.",
     "categoryId": "technique",
-    "tags": ["statique", "dalle"],
+    "tags": [
+      "voie",
+      "dynamique",
+      "endurance"
+    ],
     "level": 2,
-    "duration": 15
+    "duration": 10,
+    "objective": "Coordination traction-poussée et transfert de poids fluide.",
+    "instructions": [
+      "Choisir une voie facile et fluide, sans passage clé marqué.",
+      "Partir et ne plus jamais s'immobiliser, pas même une seconde.",
+      "Enchaîner main, pied, main, pied, sans reposer ni chercher.",
+      "Tout arrêt met fin au passage : redescendre et repartir du sol."
+    ]
   },
   {
     "id": 47,
-    "title": "Balles de Tennis",
-    "teaser": "Tenir une balle de tennis dans les mains et grimper en utilisant uniquement la paume/poignets.",
+    "title": "Chef d'orchestre",
+    "teaser": "Suivre les consignes du chef : croisement, changement de pied…",
     "categoryId": "technique",
-    "tags": ["dalle", "souplesse"],
-    "level": 1,
-    "duration": 15
+    "tags": [
+      "traversee",
+      "collectif",
+      "dynamique"
+    ],
+    "level": 2,
+    "duration": 10,
+    "objective": "Répertoire gestuel immédiat et adaptabilité.",
+    "instructions": [
+      "Désigner un chef, qui reste au sol face à la traversée.",
+      "Les grimpeurs avancent en traversée basse, à hauteur de saut.",
+      "Le chef lance une consigne à la volée : croisement, changement de pied, drapeau.",
+      "Chacun l'applique au mouvement suivant, sans discuter.",
+      "Changer de chef toutes les 2 minutes."
+    ]
   },
   {
     "id": 48,
-    "title": "Downclimbing (Désescalade)",
-    "teaser": "Interdiction de sauter du bloc. Redescendre en désescaladant de manière contrôlée.",
+    "title": "Minimum de mains",
+    "teaser": "Grimper avec le moins de prises de main possible : sauter des prises.",
     "categoryId": "technique",
-    "tags": ["bloc", "voie"],
+    "tags": [
+      "bloc",
+      "voie",
+      "lecture"
+    ],
     "level": 2,
-    "duration": 20
+    "duration": 15,
+    "objective": "Améliore la force, la lecture de voie et l'optimisation des mouvements.",
+    "instructions": [
+      "Choisir une voie ou un bloc acquis, et compter ses prises de main.",
+      "Le refaire en supprimant deux prises de main, puis deux de plus.",
+      "Monter les pieds plus haut pour allonger chaque mouvement.",
+      "S'arrêter au score qui passe encore proprement, sans se jeter."
+    ]
   },
   {
     "id": 49,
-    "title": "Pivot de Bassin",
-    "teaser": "Coller le flanc droit au mur, puis le flanc gauche au mur à chaque mouvement successif.",
+    "title": "Minimum de pieds",
+    "teaser": "Grimper avec le moins de prises de pied possible : grands mouvements.",
     "categoryId": "technique",
-    "tags": ["devers", "statique"],
+    "tags": [
+      "bloc",
+      "voie",
+      "souplesse"
+    ],
     "level": 2,
-    "duration": 15
+    "duration": 15,
+    "objective": "Travaille la souplesse, la force du haut du corps et les placements lointains.",
+    "instructions": [
+      "Choisir une voie facile, riche en prises de pied.",
+      "Compter les appuis utilisés lors d'un premier passage.",
+      "Refaire la voie en supprimant la moitié d'entre eux.",
+      "Chercher les grandes amplitudes et les poussées longues plutôt que la traction."
+    ]
   },
   {
     "id": 50,
-    "title": "Lolottes Uniquement",
-    "teaser": "Progression en tournant le genou vers l'intérieur à chaque poussée sur les jambes.",
+    "title": "L'économe",
+    "teaser": "Atteindre le sommet avec le moins de prises possible.",
     "categoryId": "technique",
-    "tags": ["devers", "souplesse"],
-    "level": 2,
-    "duration": 15
+    "tags": [
+      "voie",
+      "lecture",
+      "souplesse"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Anticipation et amplitude des mouvements.",
+    "instructions": [
+      "Premier passage : compter et réduire le nombre de prises de main.",
+      "Deuxième passage : réduire aussi le nombre de prises de pied.",
+      "Annoncer son score avant de partir, puis tenter de le battre."
+    ]
   },
   {
     "id": 51,
-    "title": "Saisies 3 Doigts",
-    "teaser": "Interdiction d'utiliser l'auriculaire pour physiquer l'usage parfait de l'index et du majeur.",
+    "title": "Challenge mini-mouv",
+    "teaser": "L'assureur compte les mouvements : refaire la voie en moins de gestes.",
     "categoryId": "technique",
-    "tags": ["bloc"],
+    "tags": [
+      "voie",
+      "binome",
+      "lecture"
+    ],
     "level": 2,
-    "duration": 15
+    "duration": 15,
+    "objective": "Optimiser le parcours : réduire les mouvements pour le même trajet.",
+    "instructions": [
+      "Le grimpeur monte normalement ; l'assureur compte ses mouvements à voix haute.",
+      "Annoncer le total au sol, puis fixer l'objectif : deux mouvements de moins.",
+      "Regrimper en supprimant les gestes inutiles : réajustements, mains intermédiaires.",
+      "Inverser les rôles et recommencer."
+    ]
   },
   {
     "id": 52,
-    "title": "Pieds Collés",
-    "teaser": "Les deux pieds doivent toujours toucher la même prise simultanément avant qu'une main ne bouge.",
+    "title": "Couleurs dissociées",
+    "teaser": "Une couleur de prises pour les mains, une autre pour les pieds.",
     "categoryId": "technique",
-    "tags": ["dalle", "souplesse"],
-    "level": 1,
-    "duration": 15
+    "tags": [
+      "bloc",
+      "voie",
+      "lecture"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Développe la lecture, la créativité et la capacité d'adaptation.",
+    "instructions": [
+      "Choisir deux couleurs de prises présentes sur tout le secteur.",
+      "Annoncer la couleur des mains et celle des pieds avant de partir.",
+      "Grimper sans jamais mélanger les deux.",
+      "Inverser les couleurs et refaire le même trajet."
+    ]
   },
   {
     "id": 53,
-    "title": "Prise de pied lointaine",
-    "teaser": "Interdiction d'utiliser les pieds intermédiaires. Chercher la prise la plus haute possible.",
+    "title": "La ligne",
+    "teaser": "Atteindre le sommet en n'utilisant que des prises alignées.",
     "categoryId": "technique",
-    "tags": ["souplesse", "dynamique"],
-    "level": 3,
-    "duration": 15
+    "tags": [
+      "voie",
+      "equilibre"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Gestion du centre de gravité dans l'axe.",
+    "instructions": [
+      "Repérer une ligne de prises à peu près alignées à la verticale.",
+      "Grimper en n'utilisant que celles-là, mains et pieds.",
+      "Garder le bassin dans l'axe : ni fesse à droite, ni épaule à gauche.",
+      "Redescendre par la même ligne si la hauteur le permet."
+    ]
   },
   {
     "id": 54,
-    "title": "Saisie Dynamique Parfaite",
-    "teaser": "Lancer un mouvement dynamique, sans jamais replacer ses doigts sur la prise d'arrivée.",
+    "title": "Le couloir",
+    "teaser": "Atteindre la prise en restant dans un couloir délimité sur le mur.",
     "categoryId": "technique",
-    "tags": ["dynamique", "bloc"],
-    "level": 3,
-    "duration": 20
+    "tags": [
+      "traversee",
+      "equilibre"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Maîtrise de la ligne d'épaule et de la hauteur du bassin.",
+    "equipment": [
+      "Craie ou sangles"
+    ],
+    "instructions": [
+      "Délimiter à la craie une bande d'environ un mètre de haut sur la traversée.",
+      "Traverser sans qu'aucune main ni aucun pied n'en sorte.",
+      "Garder la ligne d'épaules et le bassin à la même hauteur tout du long.",
+      "Réduire la bande de vingt centimètres à chaque passage réussi."
+    ]
   },
   {
     "id": 55,
-    "title": "Grimpe en Diagonale",
-    "teaser": "Traverser un mur en montant de manière diagonale stricte (1m à droite, 1m en haut).",
+    "title": "La frontière",
+    "teaser": "N'utiliser que les prises situées au-dessus d'une ligne diagonale.",
     "categoryId": "technique",
-    "tags": ["voie", "lecture"],
-    "level": 2,
-    "duration": 15
+    "tags": [
+      "voie",
+      "equilibre"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Équilibre en situation de déséquilibre et d'asymétrie.",
+    "equipment": [
+      "Craie ou sangles"
+    ],
+    "instructions": [
+      "Tracer à la craie une diagonale nette en travers du secteur.",
+      "N'utiliser que les prises situées au-dessus de la ligne, mains et pieds.",
+      "Accepter le déséquilibre : le corps travaille en asymétrie permanente.",
+      "Refaire le passage en inversant le sens de la diagonale."
+    ]
   },
   {
     "id": 56,
-    "title": "Pieds dans les Mains",
-    "teaser": "Grimper un toit en s'obligeant à coincer la pointe du pied sous la prise que l'on tient en main.",
+    "title": "La zone interdite",
+    "teaser": "Grimper sans utiliser aucune prise dans une zone délimitée du mur.",
     "categoryId": "technique",
-    "tags": ["devers", "souplesse"],
-    "level": 3,
-    "duration": 15
+    "tags": [
+      "voie",
+      "souplesse"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Étirements, grandissement et recherche d'allonge.",
+    "equipment": [
+      "Craie ou sangles"
+    ],
+    "instructions": [
+      "Délimiter à la craie une zone d'environ un mètre carré au milieu du secteur.",
+      "Grimper en ignorant toutes les prises qui s'y trouvent.",
+      "Chercher l'allonge et le grandissement pour la franchir d'un seul geste.",
+      "Déplacer la zone et recommencer."
+    ]
   },
   {
     "id": 57,
-    "title": "Adhérence Pure",
-    "teaser": "Grimper un volume sans aucune prise positive. Uniquement jeu de paumes et pointes à plat.",
+    "title": "On s'emmêle",
+    "teaser": "Prises à gauche de la balise pour la main droite, et inversement.",
     "categoryId": "technique",
-    "tags": ["dalle"],
-    "level": 1,
-    "duration": 15
+    "tags": [
+      "voie",
+      "equilibre",
+      "jeu"
+    ],
+    "level": 2,
+    "duration": 10,
+    "objective": "Expérimenter d'autres façons de progresser sous contrainte.",
+    "equipment": [
+      "Balise ou marquage"
+    ],
+    "instructions": [
+      "Fixer une balise ou un repère au centre du secteur.",
+      "La main droite ne prend que les prises situées à gauche de la balise.",
+      "La main gauche ne prend que celles de droite : le corps reste croisé.",
+      "Traverser d'un bout à l'autre sans jamais décroiser."
+    ]
   },
   {
     "id": 58,
-    "title": "Changements de pieds rapides",
-    "teaser": "S'entraîner à échanger les deux pieds sur une toute petite prise sans regarder et sans tomber.",
+    "title": "Dessus dessous",
+    "teaser": "Franchir les obstacles posés sur le mur : cordes, cerceaux.",
     "categoryId": "technique",
-    "tags": ["dalle", "statique"],
-    "level": 2,
-    "duration": 10
+    "tags": [
+      "traversee",
+      "souplesse",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Souplesse et repérage dans l'espace.",
+    "equipment": [
+      "Cordes",
+      "Cerceaux"
+    ],
+    "instructions": [
+      "Fixer cordes et cerceaux en travers d'une traversée basse.",
+      "Annoncer pour chaque obstacle s'il se franchit par-dessus ou par-dessous.",
+      "Traverser en respectant les consignes, sans décrocher un obstacle.",
+      "Refaire le parcours en inversant toutes les consignes."
+    ]
   },
   {
     "id": 59,
-    "title": "Crochet Pointe (Toe Hook)",
-    "teaser": "Progression en utilisant au moins un crochet pointe par mouvement de bras.",
+    "title": "La cueillette des pommes",
+    "teaser": "Pieds fixés, toucher un maximum de prises avec les mains.",
     "categoryId": "technique",
-    "tags": ["devers", "bloc"],
-    "level": 3,
-    "duration": 15
+    "tags": [
+      "voie",
+      "souplesse",
+      "gainage"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Amplitude et dissociation du haut et du bas du corps.",
+    "instructions": [
+      "Choisir une zone riche en prises, à hauteur de saut.",
+      "Poser les deux pieds et ne plus jamais les bouger.",
+      "Toucher un maximum de prises avec les mains, en comptant à voix haute.",
+      "Changer d'appuis de pied et tenter de battre son score."
+    ]
   },
   {
     "id": 60,
-    "title": "Grimpe en Carré",
-    "teaser": "Monter de 3 mètres, traverser à droite de 2 mètres, redescendre de 3 mètres.",
+    "title": "Habillage — déshabillage",
+    "teaser": "Mettre ou enlever sa veste en restant en appui sur le mur.",
     "categoryId": "technique",
-    "tags": ["voie", "statique"],
-    "level": 1,
-    "duration": 20
+    "tags": [
+      "voie",
+      "gainage",
+      "jeu"
+    ],
+    "level": 2,
+    "duration": 10,
+    "objective": "Verrouillage corporel et lâcher de main prolongé.",
+    "equipment": [
+      "Veste"
+    ],
+    "instructions": [
+      "Grimper avec une veste ouverte jusqu'à un bon repos sur trois appuis.",
+      "Se stabiliser, puis retirer une manche sans lâcher le mur de l'autre main.",
+      "Changer de main d'appui et retirer la seconde manche.",
+      "Redescendre en remettant la veste de la même façon."
+    ]
   },
   {
     "id": 61,
-    "title": "Prises Inversées Uniquement",
-    "teaser": "Ne saisir les prises qu'en poigne inversée (pouce vers le bas), forçant le gainage des biceps.",
+    "title": "L'artiste des cimes",
+    "teaser": "Reproduire un dessin sur une feuille accrochée en hauteur.",
     "categoryId": "technique",
-    "tags": ["devers", "bloc"],
-    "level": 3,
-    "duration": 15
+    "tags": [
+      "voie",
+      "equilibre",
+      "jeu"
+    ],
+    "level": 1,
+    "duration": 15,
+    "objective": "Se stabiliser sur trois appuis pour libérer une main longuement.",
+    "equipment": [
+      "Feuille",
+      "Crayon",
+      "Modèle à reproduire"
+    ],
+    "instructions": [
+      "Accrocher une feuille et un crayon en hauteur, à côté d'un bon repos.",
+      "Montrer le modèle à reproduire au grimpeur avant qu'il ne parte.",
+      "Monter, se stabiliser sur trois appuis, et dessiner d'une seule main.",
+      "Redescendre, comparer au modèle, puis passer au grimpeur suivant."
+    ]
   },
   {
     "id": 62,
-    "title": "Main Plate",
-    "teaser": "Interdiction de pincer ou d'arquer. Toutes les prises doivent être tenues à plat.",
+    "title": "Les acrobates",
+    "teaser": "Créer et tenir une position acrobatique, que les autres imitent.",
     "categoryId": "technique",
-    "tags": ["voie"],
+    "tags": [
+      "voie",
+      "equilibre",
+      "collectif"
+    ],
     "level": 2,
-    "duration": 20
+    "duration": 10,
+    "objective": "Créativité et proprioception complexe.",
+    "instructions": [
+      "Un grimpeur monte à hauteur de saut et invente une position acrobatique.",
+      "Il la tient 5 secondes, le temps que le groupe la mémorise.",
+      "Chacun leur tour, les autres montent et la reproduisent à l'identique.",
+      "Le dernier à passer invente la position suivante."
+    ]
   },
   {
     "id": 63,
-    "title": "Le Compas",
-    "teaser": "Garder un bras tendu au maximum et pivoter autour pour chercher la prise suivante.",
+    "title": "La statue",
+    "teaser": "Figer sa position au signal, et la tenir sans chuter.",
     "categoryId": "technique",
-    "tags": ["souplesse", "statique"],
-    "level": 2,
-    "duration": 15
+    "tags": [
+      "voie",
+      "statique",
+      "jeu",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Contrôle de l'équilibre.",
+    "instructions": [
+      "Les grimpeurs progressent en traversée basse pendant que le meneur compte.",
+      "Au signal, chacun se fige exactement dans la position où il se trouve.",
+      "Tenir 5 secondes sans bouger ni reposer un pied au sol.",
+      "Celui qui bouge ou tombe repart du début de la traversée."
+    ]
   },
   {
     "id": 64,
-    "title": "Dynamique à l'Aveugle",
-    "teaser": "Repérer la prise cible, fermer les yeux et lancer le mouvement dynamique.",
+    "title": "Jacques a dit",
+    "teaser": "Prendre les postures annoncées par le meneur et les tenir sans chuter.",
     "categoryId": "technique",
-    "tags": ["dynamique", "bloc"],
-    "level": 3,
-    "duration": 15
+    "tags": [
+      "traversee",
+      "equilibre",
+      "jeu",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Lâcher de prise, transferts de poids et équilibre.",
+    "instructions": [
+      "Le meneur se place au sol, face à la traversée.",
+      "Il annonce une posture : une main en l'air, un pied décollé, le front au mur.",
+      "Les grimpeurs l'exécutent et la tiennent 3 secondes, sans tomber.",
+      "La consigne ne s'applique que si elle commence par « Jacques a dit »."
+    ]
   },
   {
     "id": 65,
-    "title": "Pied Flottant",
-    "teaser": "Interdiction de poser le pied gauche pendant tout le parcours du bloc.",
+    "title": "1, 2, 3, soleil",
+    "teaser": "Progresser sur le mur sans jamais être vu en mouvement par le meneur.",
     "categoryId": "technique",
-    "tags": ["bloc", "statique"],
-    "level": 3,
-    "duration": 10
+    "tags": [
+      "voie",
+      "statique",
+      "jeu",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Blocage corporel, équilibre statique et observation.",
+    "instructions": [
+      "Le meneur se place au sol, dos au mur, et annonce « 1, 2, 3, soleil ».",
+      "Les grimpeurs progressent en traversée basse pendant l'annonce.",
+      "Au « soleil », le meneur se retourne : plus personne ne doit bouger.",
+      "Celui qui est vu en mouvement repart du départ.",
+      "Le premier arrivé au bout de la traversée devient meneur."
+    ]
   },
   {
     "id": 66,
-    "title": "Lecture Chronométrée",
-    "teaser": "Avoir exactement 20 secondes pour lire une voie avant de démarrer l'ascension.",
+    "title": "La balle",
+    "teaser": "Grimper avec une balle coincée sous le menton ou au creux de la main.",
     "categoryId": "technique",
-    "tags": ["lecture", "voie"],
+    "tags": [
+      "voie",
+      "equilibre",
+      "jeu",
+      "enfants"
+    ],
     "level": 1,
-    "duration": 10
+    "duration": 10,
+    "objective": "Posture droite, poussée sur les jambes et douceur du geste.",
+    "equipment": [
+      "Balle de ping-pong ou petite balle"
+    ],
+    "instructions": [
+      "Coincer la balle sous le menton, ou la garder dans le creux de la main.",
+      "Choisir une traversée basse ou une voie très facile.",
+      "Garder la tête droite et le geste doux : la balle tombe au moindre à-coup.",
+      "Une balle tombée met fin au passage : la ramasser et repartir."
+    ],
+    "variants": {
+      "harder": [
+        "Balle coincée sous le menton : interdit de baisser la tête."
+      ],
+      "easier": [
+        "Balle dans le creux de la main : la main reste ouverte sur les prises."
+      ]
+    }
   },
   {
     "id": 67,
-    "title": "Mémorisation Totale",
-    "teaser": "Lire le bloc, tourner le dos au mur et décrire toute la séquence à voix haute avant de partir.",
+    "title": "L'évadé",
+    "teaser": "Grimper avec les mains ou les pieds entravés par une sangle.",
     "categoryId": "technique",
-    "tags": ["lecture", "bloc"],
+    "tags": [
+      "voie",
+      "equilibre",
+      "jeu"
+    ],
     "level": 1,
-    "duration": 15
+    "duration": 10,
+    "objective": "Recherche d'équilibres nouveaux et transferts de poids.",
+    "equipment": [
+      "Sangles"
+    ],
+    "instructions": [
+      "Attacher sans serrer les deux poignets, ou les deux chevilles, avec une sangle.",
+      "Choisir une traversée basse pour rester à hauteur de saut.",
+      "Progresser en petits mouvements, en cherchant de nouveaux équilibres.",
+      "Inverser l'entrave — poignets puis chevilles — et refaire le trajet."
+    ]
   },
   {
     "id": 68,
-    "title": "Relais Virtuel",
-    "teaser": "Au milieu d'une voie, s'arrêter, s'auto-assurer virtuellement avec une main et clipper la dégaine.",
+    "title": "Les Daltons",
+    "teaser": "Grimper à plusieurs, poignets reliés à ceux du partenaire.",
     "categoryId": "technique",
-    "tags": ["voie"],
-    "level": 2,
-    "duration": 15
+    "tags": [
+      "voie",
+      "collectif",
+      "jeu",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Esprit d'équipe, synchronisation et rythme collectif.",
+    "equipment": [
+      "Cordelettes ou sangles"
+    ],
+    "instructions": [
+      "Relier deux grimpeurs par le poignet avec une cordelette de 50 centimètres.",
+      "Les placer côte à côte sur une traversée basse.",
+      "Traverser ensemble : le lien ne doit jamais se tendre.",
+      "Annoncer ses intentions à voix haute avant chaque mouvement."
+    ]
   },
   {
     "id": 69,
-    "title": "Décalage d'un temps",
-    "teaser": "Monter le pied droit, puis le pied gauche, avant de bouger la main droite. Garder ce rythme 2-1.",
+    "title": "La chenille",
+    "teaser": "Grimper à deux en restant solidaires, l'un contre l'autre.",
     "categoryId": "technique",
-    "tags": ["voie"],
+    "tags": [
+      "traversee",
+      "binome",
+      "jeu",
+      "enfants"
+    ],
     "level": 1,
-    "duration": 20
+    "duration": 10,
+    "objective": "Synchronisation et entraide.",
+    "instructions": [
+      "Deux grimpeurs se placent l'un derrière l'autre sur une traversée basse.",
+      "Le second garde en permanence un contact avec le premier.",
+      "Traverser au même rythme, sans jamais rompre le contact.",
+      "Inverser les rôles au retour."
+    ]
   },
   {
     "id": 70,
-    "title": "Pieds Croisés",
-    "teaser": "Le pied droit ne peut se poser que sur des prises à gauche du corps, et inversement.",
+    "title": "Les Apaches",
+    "teaser": "Traverser dans un silence absolu, écouté par le reste du groupe.",
     "categoryId": "technique",
-    "tags": ["souplesse", "dalle"],
-    "level": 2,
-    "duration": 15
+    "tags": [
+      "traversee",
+      "pieds",
+      "collectif",
+      "jeu"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Maîtrise des émotions et délicatesse de la pose de pied.",
+    "instructions": [
+      "Le groupe s'assoit au sol, en silence, et ferme les yeux.",
+      "Un grimpeur traverse à hauteur de saut, sans faire le moindre bruit.",
+      "Tout bruit entendu est signalé par une main levée.",
+      "Compter les signalements, puis passer au grimpeur suivant."
+    ]
   },
   {
     "id": 71,
-    "title": "École de Vol (Le Plomb)",
-    "teaser": "Prendre une chute volontaire 1m au-dessus du point, en soufflant au moment du vol.",
-    "categoryId": "mental",
-    "tags": ["voie", "respiration"],
-    "level": 3,
-    "duration": 30
+    "title": "Les embouteillages",
+    "teaser": "Se croiser en sens inverse sur la même ligne de traversée.",
+    "categoryId": "technique",
+    "tags": [
+      "traversee",
+      "collectif",
+      "jeu",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Organisation collective, partage de l'espace et coordination.",
+    "instructions": [
+      "Placer un grimpeur à chaque extrémité de la traversée.",
+      "Partir en même temps, chacun vers le bout opposé.",
+      "Se croiser sans redescendre au sol ni lâcher le mur.",
+      "S'organiser à voix haute : qui passe dessus, qui passe dessous."
+    ]
   },
   {
     "id": 72,
-    "title": "Visualisation au Sol",
-    "teaser": "Mimer chaque mouvement au sol, yeux fermés. Engager la respiration sur les crux.",
-    "categoryId": "mental",
-    "tags": ["voie", "bloc", "lecture"],
+    "title": "Le petit train",
+    "teaser": "Progresser en file indienne rapprochée sur la traversée.",
+    "categoryId": "technique",
+    "tags": [
+      "traversee",
+      "collectif",
+      "enfants"
+    ],
     "level": 1,
-    "duration": 5
+    "duration": 10,
+    "objective": "Rythme et cohabitation spatiale.",
+    "instructions": [
+      "Former une file de grimpeurs sur la traversée, un mètre entre chacun.",
+      "Le premier donne le rythme et ne s'arrête jamais complètement.",
+      "Les suivants avancent en gardant l'écart constant.",
+      "Le wagon qui touche le sol repart en queue de train."
+    ]
   },
   {
     "id": 73,
-    "title": "Respiration Synchronisée",
-    "teaser": "Inspirer à l'initiation du mouvement, expirer bruyamment lors du contact avec la prise.",
-    "categoryId": "mental",
-    "tags": ["respiration", "devers"],
+    "title": "Le petit poucet",
+    "teaser": "Le meneur pose des cailloux sur les prises ; le suivant les ramasse.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "binome",
+      "jeu",
+      "enfants"
+    ],
     "level": 1,
-    "duration": 15
+    "duration": 10,
+    "objective": "Précision du geste et concentration.",
+    "equipment": [
+      "Petits cailloux ou jetons"
+    ],
+    "instructions": [
+      "Le meneur traverse en posant un caillou sur chaque prise utilisée.",
+      "Le suivant refait le trajet en les ramassant un par un.",
+      "Un caillou tombé ou oublié coûte un point.",
+      "Inverser les rôles à chaque tour."
+    ]
   },
   {
     "id": 74,
-    "title": "Grimper Désengagé",
-    "teaser": "Grimper au-dessus de son max avec l'objectif assumé de tomber pour supprimer la pression.",
-    "categoryId": "mental",
-    "tags": ["voie"],
-    "level": 2,
-    "duration": 25
+    "title": "Jeux d'imitation",
+    "teaser": "Grimper en imitant un animal : chat, ours, singe, paresseux, lézard.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "jeu",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Recherche du geste juste et exploration corporelle.",
+    "instructions": [
+      "Annoncer un animal avant chaque passage : chat, ours, singe, paresseux, lézard.",
+      "Traverser en imitant sa démarche : le chat silencieux, le singe dynamique.",
+      "Le paresseux avance au ralenti, le lézard reste collé au mur.",
+      "Faire deviner l'animal au groupe quand il n'a pas été annoncé."
+    ]
   },
   {
     "id": 75,
-    "title": "Micro-Pauses au Crux",
-    "teaser": "Avant la difficulté, trouver une position de repos et s'y obliger à rester 10 secondes.",
-    "categoryId": "mental",
-    "tags": ["respiration", "voie"],
+    "title": "L'écureuil",
+    "teaser": "Traverser en mousquetonnant son bracelet aux dégaines pour des points.",
+    "categoryId": "technique",
+    "tags": [
+      "traversee",
+      "securite",
+      "jeu"
+    ],
     "level": 2,
-    "duration": 10
+    "duration": 15,
+    "objective": "Initiation à l'escalade en tête et à la manipulation du matériel sous effort.",
+    "equipment": [
+      "Bracelets ou anneaux de sangle",
+      "Dégaines"
+    ],
+    "instructions": [
+      "Équiper chaque grimpeur d'un bracelet ou d'un anneau de sangle au poignet.",
+      "Installer des dégaines le long d'une traversée basse.",
+      "Traverser en mousquetonnant son bracelet dans chaque dégaine, puis en le décrochant.",
+      "Un point par dégaine passée sans reposer les pieds au sol."
+    ]
   },
   {
     "id": 76,
-    "title": "Règle des 3 Essais",
-    "teaser": "Se limiter à 3 essais qualitatifs. En cas d'échec, passer à autre chose sans frustration.",
-    "categoryId": "mental",
-    "tags": ["bloc"],
-    "level": 1,
-    "duration": 20
+    "title": "Relais dégaine",
+    "teaser": "Grimper au premier point, clipper une dégaine et passer le relais.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "securite",
+      "vitesse",
+      "collectif"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Initiation à la manipulation en tête, explosivité et vitesse.",
+    "equipment": [
+      "Dégaines"
+    ],
+    "instructions": [
+      "Former deux équipes au pied de deux voies équipées équivalentes.",
+      "Le premier grimpeur monte au premier point et y clippe une dégaine.",
+      "Il redescend, tape dans la main du suivant, qui monte clipper la sienne.",
+      "La première équipe à avoir équipé tous ses points gagne."
+    ]
   },
   {
     "id": 77,
-    "title": "Chute Inopinée",
-    "teaser": "L'assureur crie 'Tombe !' au hasard pendant l'ascension. Le grimpeur doit lâcher immédiatement.",
-    "categoryId": "mental",
-    "tags": ["voie", "dynamique"],
-    "level": 3,
-    "duration": 20
+    "title": "La cordée",
+    "teaser": "Valider les rôles de la cordée : nœuds, assurage, communication.",
+    "categoryId": "technique",
+    "tags": [
+      "voie",
+      "securite",
+      "binome"
+    ],
+    "level": 2,
+    "duration": 20,
+    "objective": "Travail d'équipe et respect du protocole de sécurité, de bout en bout.",
+    "equipment": [
+      "Corde",
+      "Baudriers",
+      "Système d'assurage"
+    ],
+    "instructions": [
+      "Le grimpeur s'encorde et fait vérifier son nœud par l'assureur.",
+      "L'assureur installe son système et fait la contre-vérification à voix haute.",
+      "Grimper la voie en annonçant chaque étape (« Sec », « Du mou », « Je descends »).",
+      "Échanger les rôles et recommencer."
+    ]
   },
   {
     "id": 78,
-    "title": "Dialogue Constant",
-    "teaser": "Expliquer à voix haute chaque mouvement à son assureur tout en grimpant pour éviter l'apnée.",
-    "categoryId": "mental",
-    "tags": ["voie", "respiration"],
-    "level": 1,
-    "duration": 20
+    "title": "Le 4x4",
+    "teaser": "Enchaîner 4 voies sans repos, 4 minutes de récup, le tout 4 fois.",
+    "categoryId": "physique",
+    "tags": [
+      "voie",
+      "resistance",
+      "endurance"
+    ],
+    "level": 2,
+    "duration": 45,
+    "objective": "Travail de la puissance-endurance.",
+    "instructions": [
+      "Choisir 4 voies enchaînables, nettement sous le niveau max.",
+      "Enchaîner les 4 voies sans reposer les pieds au sol entre elles.",
+      "Récupérer 4 minutes au sol.",
+      "Répéter la série 4 fois."
+    ]
   },
   {
     "id": 79,
-    "title": "Exagération de l'Expiration",
-    "teaser": "Sur un passage dur, crier ou expirer très bruyamment (façon tennisman) pour relâcher la tension.",
-    "categoryId": "mental",
-    "tags": ["bloc", "respiration"],
-    "level": 2,
-    "duration": 10
+    "title": "Le 30/30",
+    "teaser": "30 secondes de grimpe, 30 de récup. 3 séries de 10 répétitions.",
+    "categoryId": "physique",
+    "tags": [
+      "voie",
+      "resistance"
+    ],
+    "level": 3,
+    "duration": 45,
+    "objective": "Développe la récupération rapide et la résistance à l'acide lactique.",
+    "instructions": [
+      "Choisir une voie longue ou une traversée continue, sous le niveau max.",
+      "Grimper 30 secondes à intensité maximale.",
+      "Récupérer 30 secondes, descente comprise.",
+      "Enchaîner 10 répétitions : c'est une série.",
+      "Réaliser 3 séries, avec 5 à 10 minutes de repos entre elles."
+    ]
   },
   {
     "id": 80,
-    "title": "Focus Prise Suivante",
-    "teaser": "Interdiction de penser au relais. Toute la concentration doit être focalisée sur la prochaine main.",
-    "categoryId": "mental",
-    "tags": ["voie"],
-    "level": 1,
-    "duration": 20
+    "title": "Montée — descente",
+    "teaser": "Grimper une voie puis la désescalader sans sauter, et recommencer.",
+    "categoryId": "physique",
+    "tags": [
+      "voie",
+      "endurance"
+    ],
+    "level": 2,
+    "duration": 25,
+    "objective": "Double le volume, travaille tous les muscles et le mental.",
+    "instructions": [
+      "Choisir une voie deux niveaux sous son max, entièrement désescaladable.",
+      "Monter jusqu'au relais, puis redescendre par les mêmes prises, sans sauter.",
+      "Enchaîner la montée et la descente sans repos au relais.",
+      "Faire 3 allers-retours, avec 3 minutes de récupération entre chacun."
+    ]
   },
   {
     "id": 81,
-    "title": "Sourire Forcé",
-    "teaser": "Se forcer à sourire quand la peur monte : le cerveau suit.",
-    "categoryId": "mental",
-    "tags": ["voie", "devers"],
-    "level": 1,
-    "duration": 15
+    "title": "Le 3-2",
+    "teaser": "Monter de 3 mouvements, en désescalader 2, et repartir.",
+    "categoryId": "physique",
+    "tags": [
+      "voie",
+      "endurance",
+      "resistance"
+    ],
+    "level": 2,
+    "duration": 25,
+    "objective": "Augmente le temps sous tension en situation de fatigue.",
+    "instructions": [
+      "Choisir une voie longue et facile, ou une traversée continue.",
+      "Compter à voix haute : trois vers le haut, deux vers le bas, sans pause entre les deux.",
+      "Ne jamais s'arrêter pour secouer les bras pendant la série.",
+      "Continuer jusqu'au relais, ou jusqu'à la chute.",
+      "Récupérer 5 minutes, puis faire une deuxième série."
+    ]
   },
   {
     "id": 82,
-    "title": "Vérification des Appuis",
-    "teaser": "Au milieu d'un crux, se répéter mentalement 'mes pieds tiennent' pour transférer la confiance.",
-    "categoryId": "mental",
-    "tags": ["dalle", "lecture"],
-    "level": 2,
-    "duration": 15
+    "title": "L'ascenseur en tête",
+    "teaser": "En tête, redescendre au sol à chaque dégaine clippée, puis remonter.",
+    "categoryId": "physique",
+    "tags": [
+      "voie",
+      "endurance",
+      "resistance"
+    ],
+    "level": 3,
+    "duration": 30,
+    "objective": "Endurance lourde : simule la fatigue accumulée d'une longue journée.",
+    "instructions": [
+      "Choisir une voie en tête largement sous son niveau max.",
+      "Monter clipper la première dégaine, puis redescendre au sol.",
+      "Repartir, clipper la deuxième, redescendre, et ainsi de suite jusqu'au relais.",
+      "Ne récupérer qu'au sol, le temps de repartir aussitôt."
+    ]
   },
   {
     "id": 83,
-    "title": "Repos Tête en Bas",
-    "teaser": "Trouver un coincement de genou et lâcher les deux mains pour s'habituer à l'exposition du vide.",
-    "categoryId": "mental",
-    "tags": ["devers", "voie"],
+    "title": "Le toucher-revenir",
+    "teaser": "Toucher la prise suivante sans l'agripper. 3 fois, puis attraper.",
+    "categoryId": "physique",
+    "tags": [
+      "voie",
+      "force",
+      "statique"
+    ],
     "level": 3,
-    "duration": 10
+    "duration": 20,
+    "objective": "Travail de blocage et de force pure.",
+    "instructions": [
+      "Choisir un dévers court ou une traversée, sur prises franches.",
+      "Toucher la prise suivante, puis revenir à sa position de départ.",
+      "Répéter le toucher 3 fois avant d'attraper réellement la prise.",
+      "Enchaîner 6 à 8 mouvements ainsi, puis récupérer 3 minutes.",
+      "Réaliser 4 séries."
+    ]
   },
   {
     "id": 84,
-    "title": "Acceptation de la Pompe",
-    "teaser": "Garder son calme et une respiration fluide malgré des avant-bras totalement tétanisés.",
-    "categoryId": "mental",
-    "tags": ["voie", "respiration"],
+    "title": "Le coupe-circuit",
+    "teaser": "En dévers, décoller les deux pieds à chaque prise de main.",
+    "categoryId": "physique",
+    "tags": [
+      "devers",
+      "gainage",
+      "force"
+    ],
     "level": 3,
-    "duration": 25
+    "duration": 20,
+    "objective": "Simule le zippage ; exercice brutal pour les abdominaux et le gainage.",
+    "instructions": [
+      "Choisir un dévers marqué, avec de bonnes prises de main.",
+      "À chaque prise saisie, décoller volontairement les deux pieds du mur.",
+      "Laisser le corps partir, puis replacer les pieds par le gainage, sans balancer.",
+      "5 à 6 mouvements par série, 3 minutes de récupération, 4 séries."
+    ]
   },
   {
     "id": 85,
-    "title": "Grimpe à la Sensation",
-    "teaser": "Monter un bloc facile les yeux mi-clos, pour ressentir la texture plutôt que la performance.",
-    "categoryId": "mental",
-    "tags": ["bloc", "dalle"],
-    "level": 1,
-    "duration": 10
+    "title": "Le blocathlon",
+    "teaser": "8 à 16 blocs sous le niveau max, un seul essai, 30 s de repos.",
+    "categoryId": "physique",
+    "tags": [
+      "bloc",
+      "resistance",
+      "endurance"
+    ],
+    "level": 2,
+    "duration": 40,
+    "objective": "Développe la concentration sous fatigue et le volume de grimpe.",
+    "instructions": [
+      "Sélectionner 8 à 16 blocs nettement sous le niveau max.",
+      "Les enchaîner dans l'ordre, un seul essai par bloc.",
+      "Ne prendre que 30 secondes à 1 minute 30 de repos entre deux blocs.",
+      "Placer la séance en fin d'entraînement."
+    ]
   },
   {
     "id": 86,
-    "title": "Le Mantra",
-    "teaser": "Se répéter un mot apaisant ('Fluide', 'Solide', 'Calme') au rythme de ses poses de pied.",
-    "categoryId": "mental",
-    "tags": ["voie", "respiration"],
-    "level": 1,
-    "duration": 20
+    "title": "À toi, à moi",
+    "teaser": "Se relayer sur un même bloc, sans repos, jusqu'à l'épuisement.",
+    "categoryId": "physique",
+    "tags": [
+      "bloc",
+      "binome",
+      "resistance"
+    ],
+    "level": 2,
+    "duration": 25,
+    "objective": "Vide les batteries en fin de séance et repousse le seuil d'épuisement.",
+    "instructions": [
+      "Choisir un bloc physique d'au moins 10 mouvements, sous le niveau max.",
+      "S'élancer, puis laisser immédiatement la place au partenaire après la chute.",
+      "Aucun repos autre que le passage de l'autre.",
+      "Continuer jusqu'à la chute par épuisement."
+    ]
   },
   {
     "id": 87,
-    "title": "Délier les Mains",
-    "teaser": "Au repos, secouer consciemment les mains et les épaules pour évacuer l'acide lactique et le stress.",
-    "categoryId": "mental",
-    "tags": ["voie"],
-    "level": 1,
-    "duration": 15
+    "title": "L'ascenseur (blocages)",
+    "teaser": "Monter et redescendre en bloquant à différentes hauteurs de traction.",
+    "categoryId": "physique",
+    "tags": [
+      "poutre",
+      "force",
+      "statique"
+    ],
+    "level": 3,
+    "duration": 15,
+    "objective": "Développer la force isométrique des bras.",
+    "equipment": [
+      "Barre de traction ou poutre"
+    ],
+    "instructions": [
+      "Se suspendre à la barre, mains à largeur d'épaules, bras tendus.",
+      "Monter en traction et bloquer 3 secondes coudes à 90 degrés.",
+      "Poursuivre jusqu'au menton, bloquer 3 secondes, puis redescendre en bloquant à mi-course.",
+      "3 à 5 répétitions par série, 3 minutes de récupération, 3 séries."
+    ],
+    "safety": "Sollicitation forte des coudes et des épaules : échauffement complet obligatoire, et arrêt immédiat en cas de douleur articulaire."
   },
   {
     "id": 88,
-    "title": "Saut dans le Vide",
-    "teaser": "Sauter volontairement depuis le haut du mur de bloc pour habituer le corps à la chute au sol.",
-    "categoryId": "mental",
-    "tags": ["bloc", "dynamique"],
-    "level": 2,
-    "duration": 10
+    "title": "Les 3 sommets",
+    "teaser": "Toucher successivement 3 prises repères, en aller-retour.",
+    "categoryId": "physique",
+    "tags": [
+      "voie",
+      "endurance",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 15,
+    "objective": "Endurance et apprentissage de la routine.",
+    "instructions": [
+      "Repérer trois prises repères, à trois hauteurs différentes de la voie.",
+      "Monter toucher la première, redescendre au sol, puis repartir vers la deuxième.",
+      "Continuer jusqu'à la troisième, sans jamais sauter la redescente.",
+      "Refaire le circuit complet 3 fois."
+    ]
   },
   {
     "id": 89,
-    "title": "Volonté de Lâcher",
-    "teaser": "À la dernière dégaine, ne pas clipper et redescendre d'un point pour affronter la panique.",
-    "categoryId": "mental",
-    "tags": ["voie"],
-    "level": 3,
-    "duration": 20
+    "title": "Le relais vertical",
+    "teaser": "En équipe, aller toucher le plus vite possible un foulard de couleur.",
+    "categoryId": "physique",
+    "tags": [
+      "voie",
+      "vitesse",
+      "collectif",
+      "jeu"
+    ],
+    "level": 1,
+    "duration": 15,
+    "objective": "Rapidité d'exécution et dynamisme.",
+    "equipment": [
+      "Foulards de couleur"
+    ],
+    "instructions": [
+      "Accrocher un foulard en haut de deux voies équivalentes, une par équipe.",
+      "Former deux équipes de grimpeurs assurés au pied de leur voie.",
+      "Au signal, le premier monte toucher le foulard et redescend.",
+      "Le suivant part dès que le précédent a les deux pieds au sol.",
+      "La première équipe à avoir fait passer tout le monde gagne."
+    ]
   },
   {
     "id": 90,
-    "title": "Scan Corporel",
-    "teaser": "Sur un point de repos, scanner son corps des pieds à la tête pour repérer les crispations inutiles.",
-    "categoryId": "mental",
-    "tags": ["respiration", "voie"],
+    "title": "Le chat perché",
+    "teaser": "Courir sur le tapis et s'accrocher au mur pour échapper au chat.",
+    "categoryId": "physique",
+    "tags": [
+      "voie",
+      "vitesse",
+      "jeu",
+      "enfants"
+    ],
     "level": 1,
-    "duration": 15
+    "duration": 10,
+    "objective": "Vitesse, engagement vers la paroi et réflexes.",
+    "equipment": [
+      "Tapis"
+    ],
+    "instructions": [
+      "Désigner un chat, qui se déplace uniquement sur le tapis.",
+      "Les autres courent sur le tapis et ne sont sauvés que les pieds décollés du sol.",
+      "Le chat touche ceux qui traînent au sol ; le touché devient chat à son tour.",
+      "Interdiction de rester accroché au mur plus de 10 secondes."
+    ]
   },
   {
     "id": 91,
-    "title": "Escalade en Duo",
-    "teaser": "Grimper en même temps qu'un partenaire sur un bloc parallèle, pour gérer la distraction.",
+    "title": "La flash mentale",
+    "teaser": "Décider de tout au sol. Parti, interdit de changer de méthode.",
     "categoryId": "mental",
-    "tags": ["bloc"],
+    "tags": [
+      "voie",
+      "lecture",
+      "engagement"
+    ],
     "level": 2,
-    "duration": 15
+    "duration": 15,
+    "objective": "Apprend à assumer ses choix et améliore la lecture prévisionnelle.",
+    "instructions": [
+      "Choisir une voie jamais grimpée, à son niveau ou juste en dessous.",
+      "Lire la voie depuis le sol et décider de chaque prise et de chaque méthode.",
+      "Annoncer sa méthode à voix haute avant de partir.",
+      "Une fois parti, s'y tenir : aucune improvisation, même si mieux semble possible.",
+      "Débriefer au sol : ce qui était juste, ce qui ne l'était pas."
+    ]
   },
   {
     "id": 92,
-    "title": "Désescalade de Crux",
-    "teaser": "Réussir le passage dur, puis le désescalader. Brise le mythe psychologique de la prise 'impossible'.",
+    "title": "De moins en moins",
+    "teaser": "Regrimper la même voie en supprimant des prises à chaque essai.",
     "categoryId": "mental",
-    "tags": ["voie", "bloc"],
+    "tags": [
+      "voie",
+      "lecture"
+    ],
     "level": 3,
-    "duration": 20
+    "duration": 20,
+    "objective": "Force à chercher le chemin le plus direct et améliore la lecture de voie.",
+    "instructions": [
+      "Choisir une voie acquise et la grimper une fois normalement.",
+      "Supprimer deux prises de main, puis regrimper la voie.",
+      "Recommencer en supprimant deux prises de plus à chaque essai.",
+      "S'arrêter à l'essai qui ne passe plus, et retenir le trajet le plus direct."
+    ]
   },
   {
     "id": 93,
-    "title": "Célébration des Échecs",
-    "teaser": "S'applaudir ou se féliciter à voix haute après un bel essai raté. Désamorce la frustration.",
+    "title": "Partition",
+    "teaser": "Annoncer depuis le sol toutes les prises que l'on compte utiliser.",
     "categoryId": "mental",
-    "tags": ["bloc"],
-    "level": 1,
-    "duration": 15
+    "tags": [
+      "voie",
+      "lecture"
+    ],
+    "level": 2,
+    "duration": 10,
+    "objective": "Lecture complète de la voie et planification du projet.",
+    "instructions": [
+      "Choisir une voie jamais grimpée, lisible depuis le sol.",
+      "Annoncer à voix haute chaque prise de main que l'on compte utiliser.",
+      "Grimper la voie en suivant exactement la partition annoncée.",
+      "Compter les écarts au sol : chaque prise non prévue est une erreur de lecture."
+    ]
   },
   {
     "id": 94,
-    "title": "Focalisation Tactile",
-    "teaser": "Se concentrer sur la température et la rugosité des prises pour oublier le vide.",
+    "title": "La photo virtuelle",
+    "teaser": "Par binôme, annoncer d'en bas sur un schéma les prises choisies.",
     "categoryId": "mental",
-    "tags": ["dalle", "voie"],
+    "tags": [
+      "voie",
+      "lecture",
+      "binome"
+    ],
     "level": 2,
-    "duration": 15
+    "duration": 15,
+    "objective": "Apprendre à lire une voie, mémoriser un passage et anticiper les mouvements.",
+    "equipment": [
+      "Schéma de la voie",
+      "Crayon"
+    ],
+    "instructions": [
+      "Remettre au grimpeur un schéma vierge de la voie et un crayon.",
+      "Depuis le sol, il repère les prises et les note sur le schéma.",
+      "Il grimpe pendant que son binôme coche les prises réellement utilisées.",
+      "Comparer les deux schémas au sol, puis inverser les rôles."
+    ]
   },
   {
     "id": 95,
-    "title": "Contrôle du Tremblement",
-    "teaser": "Si la jambe commence à trembler (couscous), s'arrêter, expirer profondément et descendre le talon.",
+    "title": "Touchée — gardée",
+    "teaser": "Toute prise touchée doit être gardée : impossible de se raviser.",
     "categoryId": "mental",
-    "tags": ["dalle", "respiration"],
-    "level": 2,
-    "duration": 10
+    "tags": [
+      "voie",
+      "lecture",
+      "engagement"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Lecture préalable et réflexion avant l'action.",
+    "instructions": [
+      "Choisir une voie facile, avec beaucoup de prises disponibles.",
+      "Lire la voie au sol : toute prise touchée devra être utilisée.",
+      "Grimper sans jamais tâtonner ni reposer la main ailleurs.",
+      "Une prise touchée puis abandonnée met fin au passage."
+    ]
   },
   {
     "id": 96,
-    "title": "Découpage d'Objectif",
-    "teaser": "Face à une voie longue, ne penser qu'aux 3 prochaines dégaines. Oublier le sommet.",
+    "title": "La voie de couleur",
+    "teaser": "Grimper en n'utilisant que les prises d'une couleur précise.",
     "categoryId": "mental",
-    "tags": ["voie", "lecture"],
-    "level": 2,
-    "duration": 25
+    "tags": [
+      "voie",
+      "lecture",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Lecture sélective et prise d'information visuelle.",
+    "instructions": [
+      "Choisir une couleur de prises présente du départ jusqu'en haut.",
+      "Repérer depuis le sol le trajet complet de cette couleur.",
+      "Grimper sans jamais toucher une prise d'une autre couleur.",
+      "Recommencer avec une couleur plus rare, donc plus espacée."
+    ]
   },
   {
     "id": 97,
-    "title": "Refus de la Prise de Repli",
-    "teaser": "S'interdire la grosse prise rassurante à côté du crux, pour devoir engager le mouvement dur.",
+    "title": "La dictée",
+    "teaser": "Un partenaire désigne les prises de main une à une, au bâton.",
     "categoryId": "mental",
-    "tags": ["bloc", "dynamique"],
-    "level": 3,
-    "duration": 15
+    "tags": [
+      "bloc",
+      "binome",
+      "lecture"
+    ],
+    "level": 2,
+    "duration": 20,
+    "objective": "Améliore la prise de décision rapide et la grimpe intuitive — la préparation à vue.",
+    "equipment": [
+      "Bâton ou canne"
+    ],
+    "instructions": [
+      "Un partenaire se place au sol avec un bâton.",
+      "Il désigne les prises de main une à une, sans annonce préalable.",
+      "Les pieds restent libres.",
+      "Moins de 10 mouvements pour un travail de force, 10 à 50 pour de l'endurance."
+    ]
   },
   {
     "id": 98,
-    "title": "L'Observation Active",
-    "teaser": "Regarder un autre grimpeur échouer et analyser mentalement sa peur ou son erreur de placement.",
+    "title": "Le 2+2",
+    "teaser": "Chacun répète les mouvements du précédent et en ajoute deux.",
     "categoryId": "mental",
-    "tags": ["lecture"],
-    "level": 1,
-    "duration": 10
+    "tags": [
+      "bloc",
+      "memoire",
+      "collectif"
+    ],
+    "level": 2,
+    "duration": 20,
+    "objective": "Travaille la mémorisation gestuelle ; échauffement à basse intensité, ou résistance si le rythme monte.",
+    "instructions": [
+      "Le premier grimpeur réalise 2 mouvements, puis redescend.",
+      "Le suivant refait ces 2 mouvements et en ajoute 2.",
+      "Continuer ainsi, chacun son tour.",
+      "Le tour s'arrête à la chute, ou quand le circuit devient trop long."
+    ]
   },
   {
     "id": 99,
-    "title": "Ancrage Positif",
-    "teaser": "Toucher son baudrier ou taper dans ses mains avant de partir comme un rituel de confiance.",
+    "title": "La photocopie",
+    "teaser": "Reproduire exactement le déplacement de son partenaire.",
     "categoryId": "mental",
-    "tags": ["voie", "bloc"],
-    "level": 1,
-    "duration": 5
+    "tags": [
+      "voie",
+      "memoire",
+      "binome"
+    ],
+    "level": 2,
+    "duration": 10,
+    "objective": "Prise d'information externe et mémorisation visuelle.",
+    "instructions": [
+      "Le premier grimpeur monte 5 à 6 mouvements, puis redescend.",
+      "Le second l'observe depuis le sol, sans prendre de notes.",
+      "Il refait le même déplacement : mêmes prises, mêmes pieds, même ordre.",
+      "Le premier valide ou corrige, puis les rôles s'inversent."
+    ]
   },
   {
     "id": 100,
-    "title": "Le Lâcher Prise Final",
-    "teaser": "Au relais, fermer les yeux 2 secondes pour ressentir l'accomplissement avant de redescendre.",
+    "title": "L'ascenseur",
+    "teaser": "Monter jusqu'à un repère, puis redescendre par les mêmes prises.",
     "categoryId": "mental",
-    "tags": ["respiration"],
+    "tags": [
+      "voie",
+      "memoire"
+    ],
     "level": 1,
-    "duration": 5
+    "duration": 10,
+    "objective": "Mémorisation kinesthésique et maîtrise de la désescalade.",
+    "instructions": [
+      "Choisir un repère à mi-hauteur de la voie.",
+      "Monter jusqu'à lui en mémorisant chaque prise utilisée.",
+      "Redescendre en désescalade, par les mêmes prises, dans l'ordre inverse.",
+      "Remonter une seconde fois, sans hésitation cette fois."
+    ]
+  },
+  {
+    "id": 101,
+    "title": "La phrase cachée",
+    "teaser": "Reconstituer une phrase en lisant des étiquettes sur le parcours.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "memoire",
+      "concentration",
+      "jeu"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Se focaliser sur une tâche externe malgré la fatigue.",
+    "equipment": [
+      "Étiquettes"
+    ],
+    "instructions": [
+      "Fixer une étiquette portant un mot sur plusieurs prises du parcours.",
+      "Le grimpeur monte, lit un mot, redescend et l'annonce au groupe.",
+      "Le groupe note les mots et cherche à reconstituer la phrase.",
+      "Continuer jusqu'à ce qu'elle soit complète et dans le bon ordre."
+    ]
+  },
+  {
+    "id": 102,
+    "title": "La course aux trésors",
+    "teaser": "Ramasser le plus grand nombre d'objets accrochés sur le mur.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "lecture",
+      "jeu",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Balayage visuel et déplacement fluide sur tout l'espace.",
+    "equipment": [
+      "Objets ou foulards"
+    ],
+    "instructions": [
+      "Accrocher une dizaine d'objets sur le mur, à hauteur de saut.",
+      "Chaque grimpeur dispose de 2 minutes pour en rapporter un maximum.",
+      "Redescendre au sol déposer chaque objet, un par un.",
+      "Compter les objets rapportés, puis tout raccrocher pour le suivant."
+    ]
+  },
+  {
+    "id": 103,
+    "title": "Le ping-pong",
+    "teaser": "Inventer chacun son tour un bloc que l'autre doit réussir.",
+    "categoryId": "mental",
+    "tags": [
+      "bloc",
+      "binome",
+      "lecture"
+    ],
+    "level": 2,
+    "duration": 25,
+    "objective": "Stimule la créativité et la lecture, et force à grimper dans des styles imposés par les autres.",
+    "instructions": [
+      "Se placer à deux ou plus devant un secteur de blocs.",
+      "Chacun invente à son tour un bloc avec les prises en place, 15 minutes maximum par bloc.",
+      "1 point par réussite.",
+      "Malus pour l'inventeur si aucun mouvement n'est faisable."
+    ]
+  },
+  {
+    "id": 104,
+    "title": "Flash",
+    "teaser": "Tenter une voie au niveau max, résoudre le crux au sol, regrimper.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "lecture",
+      "engagement"
+    ],
+    "level": 3,
+    "duration": 25,
+    "objective": "Résolution de problème, technique et pugnacité.",
+    "instructions": [
+      "Choisir une voie à son niveau max, jamais tentée.",
+      "La lire depuis le sol, puis la tenter d'un seul essai.",
+      "En cas de chute, redescendre et résoudre le passage clé au sol, sans regrimper.",
+      "Annoncer la nouvelle méthode, puis repartir du sol.",
+      "Deux tentatives maximum : au-delà, la fatigue décide à la place de la tête."
+    ]
+  },
+  {
+    "id": 105,
+    "title": "Respiration consciente",
+    "teaser": "Expirer bruyamment à chaque fois qu'une main se déplace.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "respiration"
+    ],
+    "level": 1,
+    "duration": 15,
+    "objective": "Oxygène les muscles et réduit le stress.",
+    "instructions": [
+      "Choisir une voie facile, à grimper lentement.",
+      "Expirer bruyamment, bouche ouverte, à chaque déplacement de main.",
+      "Se faire entendre du sol : l'assureur signale les expirations manquées.",
+      "Grimper 3 voies ainsi, jusqu'à ce que le souffle devienne automatique."
+    ]
+  },
+  {
+    "id": 106,
+    "title": "La respiration moteur",
+    "teaser": "Chaque mouvement part sur une expiration. Jamais en apnée.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "respiration"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Améliore la fluidité et détend les antagonistes.",
+    "instructions": [
+      "Choisir une voie facile et se caler sur une respiration lente avant de partir.",
+      "Déclencher chaque mouvement sur le début d'une expiration.",
+      "Ne jamais bloquer sa respiration, même dans les passages durs.",
+      "Si l'apnée revient, s'arrêter sur un repos, souffler trois fois, puis repartir."
+    ]
+  },
+  {
+    "id": 107,
+    "title": "Souffle et pose de pied",
+    "teaser": "Faire coïncider la pose de chaque pied avec une expiration.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "respiration",
+      "pieds"
+    ],
+    "level": 1,
+    "duration": 15,
+    "objective": "Sentir le poids et la pression exercés sur la prise.",
+    "instructions": [
+      "Choisir une voie facile, avec des prises de pied nombreuses.",
+      "Expirer pendant toute la durée de la pose du pied, ni avant, ni après.",
+      "Sentir le poids passer dans la prise à mesure que l'air sort.",
+      "Alterner un passage avec le souffle, un passage sans, et comparer."
+    ]
+  },
+  {
+    "id": 108,
+    "title": "L'aveugle",
+    "teaser": "Grimper et désescalader les yeux bandés, guidé par l'assureur.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "traversee",
+      "concentration",
+      "binome"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Augmente la sensibilité des doigts et des pieds, et la confiance en soi.",
+    "equipment": [
+      "Bandeau"
+    ],
+    "instructions": [
+      "Bander les yeux du grimpeur avant qu'il ne touche le mur.",
+      "Un guide au sol annonce les prises : hauteur, direction, distance.",
+      "Monter en tâtonnant, puis désescalader jusqu'au sol, toujours bandé.",
+      "Retirer le bandeau et inverser les rôles."
+    ],
+    "variants": {
+      "harder": [
+        "Le guide se tait : plus aucune indication verbale."
+      ],
+      "easier": [
+        "Le faire en traversée, à un mètre du sol, sans corde."
+      ]
+    }
+  },
+  {
+    "id": 109,
+    "title": "Araignée grimpe",
+    "teaser": "S'accrocher au mur dès qu'un mot de grimpe est cité dans l'histoire.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "vitesse",
+      "jeu",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Réactivité et vitesse d'engagement.",
+    "instructions": [
+      "Le groupe s'assoit au pied du mur pendant que le meneur raconte une histoire.",
+      "Convenir des mots déclencheurs : prise, corde, chausson, mur.",
+      "Au mot cité, tout le monde se précipite et s'accroche, pieds décollés du sol.",
+      "Le dernier accroché est éliminé, ou donne un gage."
+    ]
+  },
+  {
+    "id": 110,
+    "title": "L'essai unique",
+    "teaser": "Un seul essai par bloc. À muerte. En cas de chute, on change de bloc.",
+    "categoryId": "mental",
+    "tags": [
+      "bloc",
+      "engagement",
+      "concentration"
+    ],
+    "level": 3,
+    "duration": 20,
+    "objective": "Simule la pression de la compétition ou de la falaise.",
+    "instructions": [
+      "Sélectionner 4 à 6 blocs à son niveau, jamais travaillés.",
+      "Un seul essai par bloc, sans repérage prolongé au sol.",
+      "En cas de chute, passer immédiatement au bloc suivant.",
+      "Ne revenir sur aucun bloc raté : le score de la séance est définitif."
+    ]
+  },
+  {
+    "id": 111,
+    "title": "L'école du plomb",
+    "teaser": "Faire une chute en tête juste avant une dégaine, sous surveillance.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "chute",
+      "engagement"
+    ],
+    "level": 2,
+    "duration": 20,
+    "objective": "Apprivoiser la chute pour grimper plus relâché et gagner en confiance.",
+    "instructions": [
+      "Choisir un mur déversant et dégagé, sur une voie déjà connue.",
+      "Prévenir l'assureur : chute annoncée, à chaque fois.",
+      "Monter jusqu'au niveau de la dégaine, sans la clipper.",
+      "Lâcher, corps relâché, pieds devant, sans se rattraper à la corde.",
+      "Augmenter la hauteur de vol très progressivement, essai après essai."
+    ],
+    "safety": "Chute volontaire en tête : à encadrer par une personne diplômée. Vérifier l'absence de vire, d'arête et de mou excessif ; l'assureur est prévenu et attentif à chaque vol."
+  },
+  {
+    "id": 112,
+    "title": "Saute qui peut !",
+    "teaser": "Toucher la ligne à 2,50 m, crier « prêt », puis sauter en poussant.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "chute",
+      "engagement",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Dédramatisation de la chute et apprentissage de l'amorti.",
+    "equipment": [
+      "Tapis"
+    ],
+    "instructions": [
+      "Vérifier que le tapis couvre toute la zone de réception.",
+      "Monter jusqu'à toucher la ligne repère, à 2,50 mètres.",
+      "Crier « prêt », attendre la réponse du pareur, puis sauter en poussant sur les jambes.",
+      "Se réceptionner jambes fléchies, et rouler si l'élan est fort.",
+      "Trois sauts par grimpeur, en remontant la ligne progressivement."
+    ],
+    "safety": "Tapis de réception continu au pied du mur, zone dégagée et un seul grimpeur à la fois. Hauteur de saut limitée à 2,50 m et réception amortie sur les deux pieds."
+  },
+  {
+    "id": 113,
+    "title": "Le scratch",
+    "teaser": "Prendre de l'élan, sauter et se réceptionner collé sur le mur.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "dynamique",
+      "engagement",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Appréhension de la paroi et amorti.",
+    "equipment": [
+      "Tapis"
+    ],
+    "instructions": [
+      "Se placer à 3 ou 4 mètres du mur, face à un secteur légèrement déversant.",
+      "Prendre de l'élan en courant, puis sauter vers la paroi.",
+      "Se coller au mur mains et pieds en même temps, et rester accroché.",
+      "Tenir 3 secondes avant de redescendre, puis reculer le point de départ."
+    ]
+  },
+  {
+    "id": 114,
+    "title": "Les nounours",
+    "teaser": "Grimper toucher de la tête une peluche accrochée en hauteur.",
+    "categoryId": "mental",
+    "tags": [
+      "voie",
+      "engagement",
+      "jeu",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Inciter à aller vers le haut et à l'extension corporelle.",
+    "equipment": [
+      "Peluches"
+    ],
+    "instructions": [
+      "Accrocher des peluches à différentes hauteurs, de plus en plus haut.",
+      "Le grimpeur monte toucher la première avec la tête, pas avec la main.",
+      "Redescendre, puis repartir vers la peluche suivante.",
+      "Continuer tant que la hauteur reste confortable pour l'enfant."
+    ]
+  },
+  {
+    "id": 115,
+    "title": "Jeu de massacre",
+    "teaser": "Une équipe traverse, l'autre vise avec des balles en mousse.",
+    "categoryId": "mental",
+    "tags": [
+      "traversee",
+      "jeu",
+      "collectif",
+      "enfants"
+    ],
+    "level": 1,
+    "duration": 10,
+    "objective": "Gestion du stress, réactivité et adaptation.",
+    "equipment": [
+      "Balles en mousse"
+    ],
+    "instructions": [
+      "Une équipe se place en traversée basse, l'autre au sol avec les balles.",
+      "Les lanceurs visent sous la ceinture, à 3 mètres de distance minimum.",
+      "Le grimpeur touché redescend et rejoint les lanceurs.",
+      "Inverser les équipes après 3 minutes."
+    ]
   }
 ]
