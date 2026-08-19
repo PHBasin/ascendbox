@@ -106,10 +106,22 @@ function label(entry: Record<string, unknown>, index: number): string {
 
 // --- JSON → CSV ---
 
+// A value of the wrong runtime type is `validate:data`'s to report, not the converter's to hide.
+// Dropping it would empty the cell, so the coach could not even see what to correct — and the export
+// is *expected* to run on JSON that is not green yet, since fixing it in a spreadsheet is the point.
+// Scalars therefore go through as text; only a nested object has no honest one-cell form. An absent
+// value stays a gap, and a gap must stay a non-event: the catalogue is authored incrementally, so
+// most optional fields are missing on most entries.
+function formatScalar(value: unknown): string {
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  return '';
+}
+
 function formatList(value: unknown): string {
-  if (!Array.isArray(value)) return '';
+  if (!Array.isArray(value)) return formatScalar(value);
   const items: unknown[] = value;
-  return items.filter((item) => typeof item === 'string').join(LIST_JOIN);
+  return items.map(formatScalar).join(LIST_JOIN);
 }
 
 function formatCell(entry: Record<string, unknown>, column: Column): string {
@@ -118,9 +130,8 @@ function formatCell(entry: Record<string, unknown>, column: Column): string {
 
   switch (column.kind) {
     case 'int':
-      return typeof value === 'number' ? String(value) : '';
     case 'text':
-      return typeof value === 'string' ? value : '';
+      return formatScalar(value);
     case 'list':
       return formatList(value);
     case 'variants':
@@ -265,6 +276,10 @@ function decodeExercises(csv: string): DecodeResult {
       bom: true,
       trim: true,
       skip_empty_lines: true,
+      // Excel and LibreOffice emit a row of empty cells when someone clicks below the data and
+      // saves. `skip_empty_lines` does not catch it (it has delimiters), so it would map to `{}` and
+      // land in the catalogue as a bare empty object.
+      skip_records_with_empty_values: true,
       // The library's own hook: it hands over the raw header, duplicates included, which `columns:
       // true` would silently collapse.
       columns: (header: string[]) => {
@@ -377,12 +392,19 @@ function readCommand(): { run: (options: Options) => void; options: Options } {
     allowPositionals: true,
   });
 
-  const [command] = positionals;
+  const [command, ...extra] = positionals;
   const run = command === undefined ? undefined : COMMANDS[command];
   if (run === undefined) {
     throw new Error(
       `${command === undefined ? 'no command given' : `unknown command "${command}"`}\n\n${USAGE}`
     );
+  }
+  // A path given positionally rather than via --in/--out would otherwise be dropped on the floor and
+  // the default file used instead — the silent fallback this whole function exists to prevent. It is
+  // the destructive direction that matters: `data:import -- mes-exercices.csv` would read a stale
+  // `exercises.csv` and overwrite the catalogue with it, and `validate:data` would call it clean.
+  if (extra.length > 0) {
+    throw new Error(`unexpected argument "${extra[0]}" — paths go to --in/--out\n\n${USAGE}`);
   }
 
   return { run, options: { source: values.in, target: values.out } };
