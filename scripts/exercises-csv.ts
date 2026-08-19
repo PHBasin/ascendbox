@@ -2,10 +2,13 @@
 //
 // Why it exists: `public/data/exercises.json` is hand-authored, and the people who author it are
 // coaches, not developers. A spreadsheet is the tool they already have — but a spreadsheet is also
-// the easiest way to quietly break a contract nothing re-checks. So this converter runs
-// `validateExercises()` — the *same* function `npm run validate:data` runs, imported from
-// `lib/exercise-contract.ts`, not a second transcription of the rules — on both legs, and on import
-// it does so **before writing anything**: a CSV that violates the contract leaves the JSON untouched.
+// the easiest way to quietly break a contract nothing re-checks.
+//
+// So this file contains **no validation of its own**. It shells out to `scripts/validate-data.ts` —
+// the very script `npm run validate:data` runs, in its own process, on a real file — and obeys its
+// exit code. Not a copy of the rules, not a refactor of them: the same gate, invoked. On import the
+// JSON is staged to a temporary file and validated *there*, so a CSV that violates the contract
+// never reaches `exercises.json`; a clean one is moved into place with an atomic rename.
 //
 //   npm run data:export -- [--out fichier.csv]   JSON → CSV (validates the source first)
 //   npm run data:import -- [--in fichier.csv]    CSV → JSON (validates, then writes; --dry-run to
@@ -22,16 +25,11 @@
 //
 // Messages are English like the rest of the tooling; French is for catalogue content only.
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
-import {
-  FIELD_NAMES,
-  isPlainObject,
-  reportContract,
-  validateExercises,
-} from './lib/exercise-contract.ts';
 import type { Exercise, Variants } from '../src/domain/exercise.ts';
 
 // --- The dialect ---
@@ -48,8 +46,14 @@ const BOM = '﻿';
 
 const DEFAULT_JSON = fileURLToPath(new URL('../public/data/exercises.json', import.meta.url));
 const DEFAULT_CSV = fileURLToPath(new URL('../exercises.csv', import.meta.url));
+/** The gate itself — `npm run validate:data` is `node` on exactly this file. */
+const VALIDATOR = fileURLToPath(new URL('./validate-data.ts', import.meta.url));
 
-// --- Columns, derived from the contract ---
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+// --- Columns, derived from the domain ---
 
 /**
  * How a field survives the trip through a flat cell. `variants` is the one field that is neither
@@ -57,9 +61,10 @@ const DEFAULT_CSV = fileURLToPath(new URL('../exercises.csv', import.meta.url));
  */
 type FieldKind = 'int' | 'text' | 'list' | 'variants';
 
-// The same mapped-type coupling `FIELDS` uses in the contract: adding a field to `Exercise` fails
-// `type-check` here until it is given a kind, so a new field can never be silently dropped by an
-// export/import round trip — the failure mode this whole file exists to prevent.
+// The same mapped-type coupling `FIELDS` uses in `validate-data.ts`: adding a field to `Exercise`
+// fails `type-check` here until it is given a kind, so a new field can never be silently dropped by
+// an export/import round trip — the failure mode this whole file exists to prevent. Declared in
+// interface order, which is the order the columns and the written JSON keys come out in.
 const FIELD_KINDS: { [K in keyof Required<Exercise>]: FieldKind } = {
   id: 'int',
   title: 'text',
@@ -74,6 +79,8 @@ const FIELD_KINDS: { [K in keyof Required<Exercise>]: FieldKind } = {
   variants: 'variants',
   safety: 'text',
 };
+
+const FIELD_NAMES = Object.keys(FIELD_KINDS) as (keyof Required<Exercise>)[];
 
 // Mapped over `Variants` for the same reason, one level down.
 const VARIANT_HEADERS: { [K in keyof Required<Variants>]: string } = {
@@ -395,19 +402,29 @@ function readText(path: string): string {
   }
 }
 
-/** The gate. Prints the contract's own report and stops the run on any error. */
-function requireValid(payload: unknown, stage: string): unknown[] {
-  const report = validateExercises(payload);
-  const clean = reportContract(report, verbose);
-  if (!clean) fail(`${stage} — nothing written.`);
-  return payload as unknown[];
+/**
+ * The gate: `npm run validate:data`, on a given file, in its own process. `stdio: 'inherit'` so the
+ * coach reads the validator's own words ("#12 level must be 1 | 2 | 3") rather than a paraphrase.
+ */
+function validateFile(path: string): boolean {
+  const args = [VALIDATOR, path, ...(verbose ? ['--verbose'] : [])];
+  const result = spawnSync(process.execPath, args, { stdio: 'inherit' });
+  if (result.error) fail(`could not run ${VALIDATOR}: ${result.error.message}`);
+  return result.status === 0;
+}
+
+/** Same gate, plus the parsed payload — for the two legs that start from a JSON file on disk. */
+function requireValidFile(path: string): unknown[] {
+  if (!validateFile(path)) fail(`${path} did not pass validate:data — nothing written.`);
+  const parsed = readJson(path);
+  return Array.isArray(parsed) ? (parsed as unknown[]) : [];
 }
 
 function runExport(): void {
   const source = readOption('in', DEFAULT_JSON);
   const target = readOption('out', DEFAULT_CSV);
 
-  const entries = requireValid(readJson(source), `${source} violates the data contract`);
+  const entries = requireValidFile(source);
 
   const conflicts = listSeparatorConflicts(entries);
   if (conflicts.length > 0) {
@@ -437,16 +454,27 @@ function runImport(): void {
     fail(`${source} is malformed — nothing written.`);
   }
 
-  requireValid(parsed.entries, `${source} violates the data contract`);
+  // Staged beside the target rather than in a temp dir, for two reasons: the validator is a separate
+  // process and so needs a real file to read, and the rename that follows is only atomic within one
+  // filesystem. Together they are what lets a rejected CSV leave `exercises.json` byte-for-byte
+  // untouched — no half-written window, no roll-back to get wrong.
+  const staging = `${target}.staging-${String(process.pid)}`;
+  writeFileSync(staging, `${JSON.stringify(parsed.entries, null, 2)}\n`, 'utf8');
+
+  if (!validateFile(staging)) {
+    rmSync(staging, { force: true });
+    fail(`${source} violates the data contract — ${target} left untouched.`);
+  }
 
   if (dryRun) {
+    rmSync(staging, { force: true });
     console.log(
       `→ --dry-run: ${String(parsed.entries.length)} exercises are valid, ${target} left untouched.`
     );
     return;
   }
 
-  writeFileSync(target, `${JSON.stringify(parsed.entries, null, 2)}\n`, 'utf8');
+  renameSync(staging, target);
   console.log(`→ ${String(parsed.entries.length)} exercises written to ${target}.`);
 }
 
@@ -456,7 +484,7 @@ function runImport(): void {
  */
 function runVerify(): void {
   const source = readOption('in', DEFAULT_JSON);
-  const entries = requireValid(readJson(source), `${source} violates the data contract`);
+  const entries = requireValidFile(source);
 
   const conflicts = listSeparatorConflicts(entries);
   for (const conflict of conflicts) console.error(`✖ ${conflict}`);
