@@ -6,8 +6,8 @@
     "categoryId": "technique",
     "tags": [
       "voie",
-      "pieds",
-      "jeu"
+      "solo",
+      "pieds"
     ],
     "level": 1,
     "duration": 15,
@@ -34,6 +34,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds"
     ],
     "level": 2,
@@ -53,6 +54,7 @@
     "categoryId": "technique",
     "tags": [
       "dalle",
+      "solo",
       "pieds"
     ],
     "level": 2,
@@ -72,6 +74,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds"
     ],
     "level": 1,
@@ -82,7 +85,12 @@
       "Poser la pointe, puis laisser descendre le talon sous la ligne des orteils.",
       "Sentir la cheville se relâcher et le mollet cesser de travailler.",
       "Refaire le même passage talon haut, puis talon bas, pour comparer."
-    ]
+    ],
+    "variants": {
+      "harder": [
+        "Ne poser les talons bas que sur des prises de pied fuyantes ou petites."
+      ]
+    }
   },
   {
     "id": 5,
@@ -91,6 +99,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds"
     ],
     "level": 3,
@@ -105,7 +114,12 @@
       "Choisir une voie facile : la dégaine doit pendre librement le long du corps.",
       "Monter le genou avant de poser, pour tenir le talon à distance du mur.",
       "Un contact de la dégaine annule le mouvement : le refaire immédiatement."
-    ]
+    ],
+    "variants": {
+      "harder": [
+        "Le faire dans une voie avec des traversées, quand on croise les pieds."
+      ]
+    }
   },
   {
     "id": 6,
@@ -114,6 +128,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds",
       "concentration"
     ],
@@ -134,6 +149,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds",
       "concentration"
     ],
@@ -154,6 +170,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds"
     ],
     "level": 2,
@@ -164,7 +181,12 @@
       "N'en sauter aucune : chaque prise de pied de la voie doit être utilisée.",
       "Accepter les pieds hauts et les petits pas, même s'ils semblent inutiles.",
       "Faire 2 passages, puis un troisième en grimpant normalement pour comparer."
-    ]
+    ],
+    "variants": {
+      "harder": [
+        "Le faire en désescalade : redescendre la voie en touchant toutes les prises de pied."
+      ]
+    }
   },
   {
     "id": 9,
@@ -173,6 +195,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds"
     ],
     "level": 2,
@@ -192,6 +215,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds"
     ],
     "level": 1,
@@ -211,6 +235,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds",
       "souplesse"
     ],
@@ -231,6 +256,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds",
       "souplesse"
     ],
@@ -251,6 +277,7 @@
     "categoryId": "technique",
     "tags": [
       "devers",
+      "solo",
       "pieds"
     ],
     "level": 2,
@@ -261,7 +288,12 @@
       "Poser le talon derrière la prise et tirer avec la jambe, au lieu de le poser seulement.",
       "Sentir le bras du même côté se décharger avant de partir sur la main suivante.",
       "Alterner talon droit et talon gauche sur toute la montée."
-    ]
+    ],
+    "variants": {
+      "harder": [
+        "Chercher à crocheter le talon à chaque mouvement, et pas seulement dès que possible."
+      ]
+    }
   },
   {
     "id": 14,
@@ -270,6 +302,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds",
       "souplesse"
     ],
@@ -290,6 +323,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds"
     ],
     "level": 2,
@@ -309,8 +343,8 @@
     "categoryId": "technique",
     "tags": [
       "voie",
-      "pieds",
-      "jeu"
+      "solo",
+      "pieds"
     ],
     "level": 2,
     "duration": 15,
@@ -332,6 +366,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds",
       "dynamique"
     ],
@@ -352,6 +387,7 @@
     "categoryId": "technique",
     "tags": [
       "traversee",
+      "solo",
       "pieds",
       "equilibre"
     ],
@@ -372,6 +408,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "statique",
       "equilibre"
     ],
@@ -383,7 +420,12 @@
       "Garder les coudes tendus en permanence, y compris pendant les déplacements de main.",
       "Chercher la position de moindre effort avant chaque main : pieds, hanches, épaules.",
       "Un coude plié annule le mouvement : revenir à la position précédente et le refaire."
-    ]
+    ],
+    "variants": {
+      "harder": [
+        "Faire l'exercice dans un léger dévers."
+      ]
+    }
   },
   {
     "id": 20,
@@ -393,6 +435,7 @@
     "tags": [
       "voie",
       "traversee",
+      "solo",
       "equilibre"
     ],
     "level": 2,
@@ -412,6 +455,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "equilibre"
     ],
     "level": 1,
@@ -431,6 +475,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "statique",
       "equilibre"
     ],
@@ -442,7 +487,12 @@
       "Monter la main au-dessus de la prise, puis s'arrêter sans la toucher.",
       "Tenir 3 à 5 secondes, immobile, avant de refermer les doigts.",
       "Si la main tremble ou dérive, corriger les pieds et le bassin avant de saisir."
-    ]
+    ],
+    "variants": {
+      "harder": [
+        "Tenir 5 secondes, ou toucher la prise du poignet avant de la saisir."
+      ]
+    }
   },
   {
     "id": 23,
@@ -451,6 +501,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds",
       "statique"
     ],
@@ -471,6 +522,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "pieds",
       "equilibre"
     ],
@@ -486,7 +538,12 @@
       "Choisir une voie facile : les grands écarts deviennent impossibles.",
       "Avancer par petits pas, en montant le bassin plutôt que la jambe.",
       "Retirer le lien et refaire la voie : les pieds restent proches par habitude."
-    ]
+    ],
+    "variants": {
+      "harder": [
+        "Le faire dans du léger dévers : la longe pend loin du mur, c'est bien plus dur."
+      ]
+    }
   },
   {
     "id": 25,
@@ -495,6 +552,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "equilibre",
       "pieds"
     ],
@@ -509,7 +567,12 @@
       "Transférer le poids jusqu'à ce qu'il pende à l'aplomb du pied d'appui.",
       "Ne lâcher la main qu'une fois dans cette position d'équilibre.",
       "Répéter à chaque prise, sur une voie facile, pendant 15 minutes."
-    ]
+    ],
+    "variants": {
+      "harder": [
+        "Une fois le pied libre décollé, compter 2 secondes en équilibre sur une jambe avant de le reposer."
+      ]
+    }
   },
   {
     "id": 26,
@@ -518,6 +581,7 @@
     "categoryId": "technique",
     "tags": [
       "dalle",
+      "solo",
       "pieds",
       "equilibre"
     ],
@@ -538,6 +602,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "statique",
       "gainage"
     ],
@@ -558,6 +623,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "equilibre",
       "statique"
     ],
@@ -569,7 +635,12 @@
       "Avant chaque prise de main, décoller un pied et tenir 3 secondes.",
       "Chercher l'équilibre en déplaçant le bassin, pas en tirant sur les bras.",
       "Reposer le pied avant de saisir la prise, puis alterner le pied levé."
-    ]
+    ],
+    "variants": {
+      "harder": [
+        "Pendant les 3 secondes en équilibre, fermer les yeux."
+      ]
+    }
   },
   {
     "id": 29,
@@ -578,6 +649,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "equilibre"
     ],
     "level": 2,
@@ -597,6 +669,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "equilibre"
     ],
     "level": 2,
@@ -615,8 +688,9 @@
     "teaser": "Grimper une main dans le dos, chaque passage deux fois en alternant.",
     "categoryId": "technique",
     "tags": [
-      "bloc",
       "voie",
+      "bloc",
+      "solo",
       "equilibre"
     ],
     "level": 2,
@@ -635,8 +709,9 @@
     "teaser": "Grimper en utilisant principalement, voire uniquement, l'arête du mur.",
     "categoryId": "technique",
     "tags": [
-      "bloc",
       "voie",
+      "bloc",
+      "solo",
       "equilibre"
     ],
     "level": 2,
@@ -656,6 +731,7 @@
     "categoryId": "technique",
     "tags": [
       "bloc",
+      "solo",
       "equilibre"
     ],
     "level": 2,
@@ -675,6 +751,7 @@
     "categoryId": "technique",
     "tags": [
       "bloc",
+      "solo",
       "equilibre"
     ],
     "level": 2,
@@ -695,6 +772,7 @@
     "categoryId": "technique",
     "tags": [
       "dalle",
+      "solo",
       "equilibre"
     ],
     "level": 2,
@@ -714,6 +792,7 @@
     "categoryId": "technique",
     "tags": [
       "devers",
+      "solo",
       "gainage"
     ],
     "level": 2,
@@ -733,6 +812,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "equilibre"
     ],
     "level": 2,
@@ -752,6 +832,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "mains"
     ],
     "level": 2,
@@ -776,6 +857,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "mains",
       "pieds"
     ],
@@ -799,6 +881,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "mains",
       "lecture"
     ],
@@ -819,8 +902,9 @@
     "categoryId": "technique",
     "tags": [
       "traversee",
-      "lecture",
-      "enfants"
+      "solo",
+      "enfants",
+      "lecture"
     ],
     "level": 1,
     "duration": 10,
@@ -839,6 +923,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "dynamique"
     ],
     "level": 3,
@@ -858,6 +943,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "dynamique"
     ],
     "level": 2,
@@ -876,8 +962,9 @@
     "teaser": "Réaliser une voie ou un bloc le plus vite possible.",
     "categoryId": "technique",
     "tags": [
-      "bloc",
       "voie",
+      "bloc",
+      "solo",
       "vitesse"
     ],
     "level": 2,
@@ -900,6 +987,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "dynamique",
       "statique"
     ],
@@ -920,6 +1008,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "dynamique",
       "endurance"
     ],
@@ -960,8 +1049,9 @@
     "teaser": "Grimper avec le moins de prises de main possible : sauter des prises.",
     "categoryId": "technique",
     "tags": [
-      "bloc",
       "voie",
+      "bloc",
+      "solo",
       "lecture"
     ],
     "level": 2,
@@ -980,8 +1070,9 @@
     "teaser": "Grimper avec le moins de prises de pied possible : grands mouvements.",
     "categoryId": "technique",
     "tags": [
-      "bloc",
       "voie",
+      "bloc",
+      "solo",
       "souplesse"
     ],
     "level": 2,
@@ -1001,6 +1092,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "lecture",
       "souplesse"
     ],
@@ -1011,7 +1103,12 @@
       "Premier passage : compter et réduire le nombre de prises de main.",
       "Deuxième passage : réduire aussi le nombre de prises de pied.",
       "Annoncer son score avant de partir, puis tenter de le battre."
-    ]
+    ],
+    "variants": {
+      "easier": [
+        "Ne réduire que le nombre de prises de main ; les pieds restent libres."
+      ]
+    }
   },
   {
     "id": 51,
@@ -1039,8 +1136,9 @@
     "teaser": "Une couleur de prises pour les mains, une autre pour les pieds.",
     "categoryId": "technique",
     "tags": [
-      "bloc",
       "voie",
+      "bloc",
+      "solo",
       "lecture"
     ],
     "level": 2,
@@ -1060,6 +1158,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "equilibre"
     ],
     "level": 1,
@@ -1070,7 +1169,12 @@
       "Grimper en n'utilisant que celles-là, mains et pieds.",
       "Garder le bassin dans l'axe : ni fesse à droite, ni épaule à gauche.",
       "Redescendre par la même ligne si la hauteur le permet."
-    ]
+    ],
+    "variants": {
+      "easier": [
+        "Appliquer la contrainte aux mains seulement ; les pieds prennent où ils veulent."
+      ]
+    }
   },
   {
     "id": 54,
@@ -1079,6 +1183,7 @@
     "categoryId": "technique",
     "tags": [
       "traversee",
+      "solo",
       "equilibre"
     ],
     "level": 1,
@@ -1101,6 +1206,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "equilibre"
     ],
     "level": 1,
@@ -1114,7 +1220,12 @@
       "N'utiliser que les prises situées au-dessus de la ligne, mains et pieds.",
       "Accepter le déséquilibre : le corps travaille en asymétrie permanente.",
       "Refaire le passage en inversant le sens de la diagonale."
-    ]
+    ],
+    "variants": {
+      "easier": [
+        "Appliquer la contrainte aux mains seulement ; les pieds restent libres."
+      ]
+    }
   },
   {
     "id": 56,
@@ -1123,6 +1234,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "souplesse"
     ],
     "level": 1,
@@ -1136,7 +1248,12 @@
       "Grimper en ignorant toutes les prises qui s'y trouvent.",
       "Chercher l'allonge et le grandissement pour la franchir d'un seul geste.",
       "Déplacer la zone et recommencer."
-    ]
+    ],
+    "variants": {
+      "harder": [
+        "Étendre l'interdiction aux pieds : ni main ni pied dans la zone."
+      ]
+    }
   },
   {
     "id": 57,
@@ -1145,8 +1262,8 @@
     "categoryId": "technique",
     "tags": [
       "voie",
-      "equilibre",
-      "jeu"
+      "solo",
+      "equilibre"
     ],
     "level": 2,
     "duration": 10,
@@ -1168,8 +1285,9 @@
     "categoryId": "technique",
     "tags": [
       "traversee",
-      "souplesse",
-      "enfants"
+      "solo",
+      "enfants",
+      "souplesse"
     ],
     "level": 1,
     "duration": 10,
@@ -1192,6 +1310,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "solo",
       "souplesse",
       "gainage"
     ],
@@ -1212,8 +1331,8 @@
     "categoryId": "technique",
     "tags": [
       "voie",
-      "gainage",
-      "jeu"
+      "solo",
+      "gainage"
     ],
     "level": 2,
     "duration": 10,
@@ -1235,8 +1354,8 @@
     "categoryId": "technique",
     "tags": [
       "voie",
-      "equilibre",
-      "jeu"
+      "solo",
+      "equilibre"
     ],
     "level": 1,
     "duration": 15,
@@ -1260,8 +1379,8 @@
     "categoryId": "technique",
     "tags": [
       "voie",
-      "equilibre",
-      "collectif"
+      "collectif",
+      "equilibre"
     ],
     "level": 2,
     "duration": 10,
@@ -1280,9 +1399,9 @@
     "categoryId": "technique",
     "tags": [
       "voie",
-      "statique",
-      "jeu",
-      "enfants"
+      "collectif",
+      "enfants",
+      "statique"
     ],
     "level": 1,
     "duration": 10,
@@ -1301,9 +1420,9 @@
     "categoryId": "technique",
     "tags": [
       "traversee",
-      "equilibre",
-      "jeu",
-      "enfants"
+      "collectif",
+      "enfants",
+      "equilibre"
     ],
     "level": 1,
     "duration": 10,
@@ -1322,9 +1441,9 @@
     "categoryId": "technique",
     "tags": [
       "voie",
-      "statique",
-      "jeu",
-      "enfants"
+      "collectif",
+      "enfants",
+      "statique"
     ],
     "level": 1,
     "duration": 10,
@@ -1344,9 +1463,9 @@
     "categoryId": "technique",
     "tags": [
       "voie",
-      "equilibre",
-      "jeu",
-      "enfants"
+      "solo",
+      "enfants",
+      "equilibre"
     ],
     "level": 1,
     "duration": 10,
@@ -1376,8 +1495,8 @@
     "categoryId": "technique",
     "tags": [
       "voie",
-      "equilibre",
-      "jeu"
+      "solo",
+      "equilibre"
     ],
     "level": 1,
     "duration": 10,
@@ -1399,8 +1518,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
-      "collectif",
-      "jeu",
+      "binome",
       "enfants"
     ],
     "level": 1,
@@ -1424,7 +1542,6 @@
     "tags": [
       "traversee",
       "binome",
-      "jeu",
       "enfants"
     ],
     "level": 1,
@@ -1444,9 +1561,8 @@
     "categoryId": "technique",
     "tags": [
       "traversee",
-      "pieds",
       "collectif",
-      "jeu"
+      "pieds"
     ],
     "level": 1,
     "duration": 10,
@@ -1466,7 +1582,6 @@
     "tags": [
       "traversee",
       "collectif",
-      "jeu",
       "enfants"
     ],
     "level": 1,
@@ -1507,7 +1622,6 @@
     "tags": [
       "voie",
       "binome",
-      "jeu",
       "enfants"
     ],
     "level": 1,
@@ -1530,7 +1644,7 @@
     "categoryId": "technique",
     "tags": [
       "voie",
-      "jeu",
+      "collectif",
       "enfants"
     ],
     "level": 1,
@@ -1550,8 +1664,8 @@
     "categoryId": "technique",
     "tags": [
       "traversee",
-      "securite",
-      "jeu"
+      "binome",
+      "securite"
     ],
     "level": 2,
     "duration": 15,
@@ -1574,9 +1688,9 @@
     "categoryId": "technique",
     "tags": [
       "voie",
+      "collectif",
       "securite",
-      "vitesse",
-      "collectif"
+      "vitesse"
     ],
     "level": 2,
     "duration": 15,
@@ -1598,8 +1712,8 @@
     "categoryId": "technique",
     "tags": [
       "voie",
-      "securite",
-      "binome"
+      "binome",
+      "securite"
     ],
     "level": 2,
     "duration": 20,
@@ -1623,6 +1737,7 @@
     "categoryId": "physique",
     "tags": [
       "voie",
+      "solo",
       "resistance",
       "endurance"
     ],
@@ -1643,6 +1758,7 @@
     "categoryId": "physique",
     "tags": [
       "voie",
+      "solo",
       "resistance"
     ],
     "level": 3,
@@ -1663,6 +1779,7 @@
     "categoryId": "physique",
     "tags": [
       "voie",
+      "solo",
       "endurance"
     ],
     "level": 2,
@@ -1682,6 +1799,7 @@
     "categoryId": "physique",
     "tags": [
       "voie",
+      "solo",
       "endurance",
       "resistance"
     ],
@@ -1703,6 +1821,7 @@
     "categoryId": "physique",
     "tags": [
       "voie",
+      "solo",
       "endurance",
       "resistance"
     ],
@@ -1723,7 +1842,7 @@
     "categoryId": "physique",
     "tags": [
       "voie",
-      "force",
+      "solo",
       "statique"
     ],
     "level": 3,
@@ -1744,8 +1863,8 @@
     "categoryId": "physique",
     "tags": [
       "devers",
-      "gainage",
-      "force"
+      "solo",
+      "gainage"
     ],
     "level": 3,
     "duration": 20,
@@ -1764,6 +1883,7 @@
     "categoryId": "physique",
     "tags": [
       "bloc",
+      "solo",
       "resistance",
       "endurance"
     ],
@@ -1803,8 +1923,7 @@
     "teaser": "Monter et redescendre en bloquant à différentes hauteurs de traction.",
     "categoryId": "physique",
     "tags": [
-      "poutre",
-      "force",
+      "solo",
       "statique"
     ],
     "level": 3,
@@ -1828,8 +1947,9 @@
     "categoryId": "physique",
     "tags": [
       "voie",
-      "endurance",
-      "enfants"
+      "binome",
+      "enfants",
+      "endurance"
     ],
     "level": 1,
     "duration": 15,
@@ -1848,9 +1968,8 @@
     "categoryId": "physique",
     "tags": [
       "voie",
-      "vitesse",
       "collectif",
-      "jeu"
+      "vitesse"
     ],
     "level": 1,
     "duration": 15,
@@ -1873,9 +1992,9 @@
     "categoryId": "physique",
     "tags": [
       "voie",
-      "vitesse",
-      "jeu",
-      "enfants"
+      "collectif",
+      "enfants",
+      "vitesse"
     ],
     "level": 1,
     "duration": 10,
@@ -1888,7 +2007,12 @@
       "Les autres courent sur le tapis et ne sont sauvés que les pieds décollés du sol.",
       "Le chat touche ceux qui traînent au sol ; le touché devient chat à son tour.",
       "Interdiction de rester accroché au mur plus de 10 secondes."
-    ]
+    ],
+    "variants": {
+      "harder": [
+        "Poser des balises au sol : les toucher vaut un point, sans se faire toucher par le chat."
+      ]
+    }
   },
   {
     "id": 91,
@@ -1897,6 +2021,7 @@
     "categoryId": "mental",
     "tags": [
       "voie",
+      "solo",
       "lecture",
       "engagement"
     ],
@@ -1918,6 +2043,7 @@
     "categoryId": "mental",
     "tags": [
       "voie",
+      "solo",
       "lecture"
     ],
     "level": 3,
@@ -1937,6 +2063,7 @@
     "categoryId": "mental",
     "tags": [
       "voie",
+      "solo",
       "lecture"
     ],
     "level": 2,
@@ -1956,8 +2083,8 @@
     "categoryId": "mental",
     "tags": [
       "voie",
-      "lecture",
-      "binome"
+      "binome",
+      "lecture"
     ],
     "level": 2,
     "duration": 15,
@@ -1980,6 +2107,7 @@
     "categoryId": "mental",
     "tags": [
       "voie",
+      "solo",
       "lecture",
       "engagement"
     ],
@@ -2000,8 +2128,9 @@
     "categoryId": "mental",
     "tags": [
       "voie",
-      "lecture",
-      "enfants"
+      "solo",
+      "enfants",
+      "lecture"
     ],
     "level": 1,
     "duration": 10,
@@ -2011,7 +2140,12 @@
       "Repérer depuis le sol le trajet complet de cette couleur.",
       "Grimper sans jamais toucher une prise d'une autre couleur.",
       "Recommencer avec une couleur plus rare, donc plus espacée."
-    ]
+    ],
+    "variants": {
+      "harder": [
+        "Choisir une couleur plus rare et appliquer aussi la contrainte aux pieds."
+      ]
+    }
   },
   {
     "id": 97,
@@ -2043,8 +2177,8 @@
     "categoryId": "mental",
     "tags": [
       "bloc",
-      "memoire",
-      "collectif"
+      "collectif",
+      "memoire"
     ],
     "level": 2,
     "duration": 20,
@@ -2063,8 +2197,8 @@
     "categoryId": "mental",
     "tags": [
       "voie",
-      "memoire",
-      "binome"
+      "binome",
+      "memoire"
     ],
     "level": 2,
     "duration": 10,
@@ -2083,6 +2217,7 @@
     "categoryId": "mental",
     "tags": [
       "voie",
+      "solo",
       "memoire"
     ],
     "level": 1,
@@ -2102,9 +2237,9 @@
     "categoryId": "mental",
     "tags": [
       "voie",
+      "collectif",
       "memoire",
-      "concentration",
-      "jeu"
+      "concentration"
     ],
     "level": 2,
     "duration": 15,
@@ -2126,9 +2261,9 @@
     "categoryId": "mental",
     "tags": [
       "voie",
-      "lecture",
-      "jeu",
-      "enfants"
+      "binome",
+      "enfants",
+      "lecture"
     ],
     "level": 1,
     "duration": 10,
@@ -2170,6 +2305,7 @@
     "categoryId": "mental",
     "tags": [
       "voie",
+      "solo",
       "lecture",
       "engagement"
     ],
@@ -2191,6 +2327,7 @@
     "categoryId": "mental",
     "tags": [
       "voie",
+      "solo",
       "respiration"
     ],
     "level": 1,
@@ -2210,6 +2347,7 @@
     "categoryId": "mental",
     "tags": [
       "voie",
+      "solo",
       "respiration"
     ],
     "level": 2,
@@ -2229,6 +2367,7 @@
     "categoryId": "mental",
     "tags": [
       "voie",
+      "solo",
       "respiration",
       "pieds"
     ],
@@ -2250,8 +2389,8 @@
     "tags": [
       "voie",
       "traversee",
-      "concentration",
-      "binome"
+      "binome",
+      "concentration"
     ],
     "level": 2,
     "duration": 15,
@@ -2281,9 +2420,9 @@
     "categoryId": "mental",
     "tags": [
       "voie",
-      "vitesse",
-      "jeu",
-      "enfants"
+      "solo",
+      "enfants",
+      "vitesse"
     ],
     "level": 1,
     "duration": 10,
@@ -2302,6 +2441,7 @@
     "categoryId": "mental",
     "tags": [
       "bloc",
+      "solo",
       "engagement",
       "concentration"
     ],
@@ -2322,7 +2462,7 @@
     "categoryId": "mental",
     "tags": [
       "voie",
-      "chute",
+      "binome",
       "engagement"
     ],
     "level": 2,
@@ -2344,9 +2484,9 @@
     "categoryId": "mental",
     "tags": [
       "voie",
-      "chute",
-      "engagement",
-      "enfants"
+      "solo",
+      "enfants",
+      "engagement"
     ],
     "level": 1,
     "duration": 10,
@@ -2361,6 +2501,11 @@
       "Se réceptionner jambes fléchies, et rouler si l'élan est fort.",
       "Trois sauts par grimpeur, en remontant la ligne progressivement."
     ],
+    "variants": {
+      "harder": [
+        "Sauter en effectuant un demi-tour (½ vrille) avant la réception."
+      ]
+    },
     "safety": "Tapis de réception continu au pied du mur, zone dégagée et un seul grimpeur à la fois. Hauteur de saut limitée à 2,50 m et réception amortie sur les deux pieds."
   },
   {
@@ -2370,9 +2515,10 @@
     "categoryId": "mental",
     "tags": [
       "voie",
+      "solo",
+      "enfants",
       "dynamique",
-      "engagement",
-      "enfants"
+      "engagement"
     ],
     "level": 1,
     "duration": 10,
@@ -2394,9 +2540,9 @@
     "categoryId": "mental",
     "tags": [
       "voie",
-      "engagement",
-      "jeu",
-      "enfants"
+      "solo",
+      "enfants",
+      "engagement"
     ],
     "level": 1,
     "duration": 10,
@@ -2418,7 +2564,6 @@
     "categoryId": "mental",
     "tags": [
       "traversee",
-      "jeu",
       "collectif",
       "enfants"
     ],
@@ -2434,5 +2579,257 @@
       "Le grimpeur touché redescend et rejoint les lanceurs.",
       "Inverser les équipes après 3 minutes."
     ]
+  },
+  {
+    "id": 116,
+    "title": "Le grutier",
+    "teaser": "Hisser une charge lestée au sommet, puis la déposer au sol sans un bruit.",
+    "categoryId": "technique",
+    "tags": [
+      "binome",
+      "securite",
+      "statique"
+    ],
+    "level": 2,
+    "duration": 20,
+    "objective": "Apprendre à manier un appareil d'assurage autobloquant à la montée et à la descente.",
+    "equipment": [
+      "Corde",
+      "Sac lesté",
+      "Système d'assurage autobloquant",
+      "Baudriers"
+    ],
+    "instructions": [
+      "Fixer un sac de 10 à 15 kg au bout de la corde avec un nœud d'assurage.",
+      "L'assureur installe la corde sur l'appareil accroché à son baudrier.",
+      "Hisser la charge en s'asseyant puis en se relevant, un second assureur avale le mou.",
+      "Pour la descente, contrôler la vitesse main sous l'appareil et poser le sac sans bruit."
+    ],
+    "variants": {
+      "harder": [
+        "À deux grutiers, jouer à « 1, 2, 3, soleil » : bloquer la charge à chaque arrêt."
+      ],
+      "easier": [
+        "Alléger la charge et guider le geste de hissage."
+      ]
+    },
+    "safety": "Personne ne doit se tenir sur les tapis situés sous la charge suspendue. À valider par un encadrant."
+  },
+  {
+    "id": 117,
+    "title": "Cordes et nœuds",
+    "teaser": "Enfiler son baudrier et réaliser un nœud de huit, puis se faire contrôler.",
+    "categoryId": "technique",
+    "tags": [
+      "binome",
+      "securite"
+    ],
+    "level": 1,
+    "duration": 20,
+    "objective": "Se familiariser avec le matériel d'assurage et l'encordement de base.",
+    "equipment": [
+      "Baudrier",
+      "Corde",
+      "Système d'assurage"
+    ],
+    "instructions": [
+      "Enfiler le baudrier et le fermer, sangles à plat et non vrillées, boucles repassées.",
+      "Réaliser un nœud de huit tracé dans les deux points d'encordement.",
+      "Laisser dépasser une dizaine de centimètres et fermer par un nœud d'arrêt.",
+      "Faire contrôler baudrier, nœud et appareil par un partenaire, puis inverser."
+    ],
+    "variants": {
+      "harder": [
+        "S'équiper dans un temps limité, ou faire le huit avec un bandeau sur les yeux."
+      ],
+      "easier": [
+        "S'aider d'une fiche avec dessins et liste d'actions à cocher."
+      ]
+    }
+  },
+  {
+    "id": 118,
+    "title": "Le permis d'assurer",
+    "teaser": "Passer devant un observateur l'évaluation complète de l'assurage.",
+    "categoryId": "technique",
+    "tags": [
+      "collectif",
+      "securite",
+      "lecture"
+    ],
+    "level": 2,
+    "duration": 20,
+    "objective": "Évaluer sa maîtrise de l'assurage avant de gagner en autonomie.",
+    "equipment": [
+      "Baudriers",
+      "Corde",
+      "Système d'assurage"
+    ],
+    "instructions": [
+      "Former un groupe : un grimpeur, un premier et un second assureur, un observateur.",
+      "Le grimpeur monte jusqu'au repère pendant que l'assureur maintient la corde tendue.",
+      "L'observateur coche chaque item : matériel, corde tendue à la montée, position à la descente.",
+      "Le permis est accordé quand tous les items sont validés, puis les rôles tournent."
+    ],
+    "variants": {
+      "easier": [
+        "Réduire la hauteur à une seule ligne et guider l'assureur au fur et à mesure."
+      ]
+    }
+  },
+  {
+    "id": 119,
+    "title": "Le laveur de vitres",
+    "teaser": "Pied bloqué sur une prise, toucher un maximum de prises avec les mains.",
+    "categoryId": "technique",
+    "tags": [
+      "binome",
+      "equilibre",
+      "statique"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Trouver son équilibre au-dessus d'un pied d'appui unique et repousser sa zone d'atteinte.",
+    "equipment": [
+      "Craie"
+    ],
+    "instructions": [
+      "Repérer à la craie une prise de pied, en traversée basse.",
+      "Garder ce pied fixe et toucher le plus de prises possible avec les mains.",
+      "Changer de pied d'appui sur la même prise pour en atteindre d'autres.",
+      "Un observateur compte les prises touchées, puis les rôles s'échangent."
+    ],
+    "variants": {
+      "harder": [
+        "Fixer aussi une main : toucher un maximum de prises avec la seule main libre."
+      ],
+      "easier": [
+        "Choisir une prise de pied plus confortable et une zone plus facile."
+      ]
+    }
+  },
+  {
+    "id": 120,
+    "title": "La grande traversée",
+    "teaser": "Traverser une large zone du mur sans jamais poser le pied au sol.",
+    "categoryId": "technique",
+    "tags": [
+      "traversee",
+      "solo",
+      "endurance"
+    ],
+    "level": 1,
+    "duration": 15,
+    "objective": "Explorer le mur en longueur et enchaîner sans repos au sol.",
+    "equipment": [
+      "Craie ou étiquettes"
+    ],
+    "instructions": [
+      "Repérer une zone de 4 à 5 mètres de large sur une traversée basse.",
+      "La franchir d'un bout à l'autre sans poser le pied au sol.",
+      "Le grimpeur suivant part quand le précédent a dépassé le repère à un mètre.",
+      "Refaire la zone dans l'autre sens."
+    ],
+    "variants": {
+      "harder": [
+        "Course-poursuite : essayer de toucher le grimpeur parti devant."
+      ],
+      "easier": [
+        "Réduire la largeur de la zone et repérer un passage plus facile."
+      ]
+    }
+  },
+  {
+    "id": 121,
+    "title": "Gravir les plus hauts monuments",
+    "teaser": "En cordée, viser une hauteur cumulée en pariant sur des voies cotées.",
+    "categoryId": "mental",
+    "tags": [
+      "collectif",
+      "lecture",
+      "engagement",
+      "securite"
+    ],
+    "level": 3,
+    "duration": 30,
+    "objective": "Établir un projet d'ascension collectif et connaître son niveau relatif aux cotations.",
+    "equipment": [
+      "Corde",
+      "Baudriers",
+      "Système d'assurage",
+      "Fiche de score"
+    ],
+    "instructions": [
+      "En cordée de 3, choisir un monument-objectif et estimer la hauteur atteignable.",
+      "Chaque voie réussie vaut sa hauteur, multipliée par un coefficient lié à la cotation.",
+      "Établir le projet avant de commencer : un grimpeur tente 4 voies au maximum.",
+      "Additionner les hauteurs et comparer le total réel au projet annoncé."
+    ],
+    "variants": {
+      "easier": [
+        "Compter aussi un demi-score pour une voie atteinte à mi-hauteur."
+      ]
+    }
+  },
+  {
+    "id": 122,
+    "title": "Contest de bloc par équipe",
+    "teaser": "Par équipe, marquer un maximum de points sur 8 à 10 blocs balisés.",
+    "categoryId": "physique",
+    "tags": [
+      "bloc",
+      "collectif"
+    ],
+    "level": 2,
+    "duration": 20,
+    "objective": "Gérer ses essais en équipe et choisir ses blocs pour maximiser le score collectif.",
+    "equipment": [
+      "Cerceaux ou marquages de couleur"
+    ],
+    "instructions": [
+      "Matérialiser 8 à 10 blocs avec un départ et une arrivée nets, par exemple des cerceaux.",
+      "Par équipe de 3 ou 4, réaliser le plus de blocs possible en peu d'essais.",
+      "Observer chaque bloc au moins 30 secondes avant le premier essai.",
+      "Compter les points : 3 pour une réussite d'entrée, 2 en plusieurs essais, 1 pour un bloc tenté."
+    ],
+    "variants": {
+      "harder": [
+        "Limiter le nombre de prises autorisées, ou imposer mains et pieds."
+      ],
+      "easier": [
+        "Réduire à 4 ou 5 blocs sur des passages courts et francs."
+      ]
+    }
+  },
+  {
+    "id": 123,
+    "title": "Relais cerceau en traversée",
+    "teaser": "En équipe, se répartir sur la traversée puis se passer un cerceau jusqu'à l'arrivée.",
+    "categoryId": "physique",
+    "tags": [
+      "traversee",
+      "collectif",
+      "vitesse"
+    ],
+    "level": 2,
+    "duration": 15,
+    "objective": "Coopérer et tenir une position d'attente sous fatigue sur le mur.",
+    "equipment": [
+      "Cerceau"
+    ],
+    "instructions": [
+      "Par équipe de 5 ou 6, se répartir en grimpant sur toute la largeur du mur.",
+      "Quand tous sont en place sur la traversée, le premier reçoit le cerceau.",
+      "Se transmettre le cerceau de main en main, sans reposer le pied au sol.",
+      "Le dernier l'accroche sur la prise d'arrivée : l'équipe la plus rapide gagne."
+    ],
+    "variants": {
+      "harder": [
+        "Chronométrer et faire deux manches, en inversant le sens."
+      ],
+      "easier": [
+        "Raccourcir la largeur et autoriser un pied au sol par grimpeur."
+      ]
+    }
   }
 ]
