@@ -262,8 +262,9 @@ export function decodeExercises(csv: string): DecodeResult {
 
   if (headerIssues.length > 0) return { entries: [], errors: headerIssues };
 
-  // An empty array passes the contract, so without this an import of a header-only file would wipe
-  // the catalogue and report success.
+  // An empty array is valid JSON *and* passes the contract — `validate:data` on a wiped catalogue
+  // reports "0 exercises checked, 0 errors". So a header-only file would erase everything and every
+  // downstream check would agree it went fine. This is the only place that can catch it.
   if (records.length === 0) {
     return { entries: [], errors: ['no exercise row — refusing to empty the catalogue'] };
   }

@@ -8,22 +8,13 @@
 // Messages are English like the rest of the tooling; French is for catalogue content only.
 
 import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 import { CATEGORIES, LEVELS } from '../src/domain/exercise.ts';
 import type { Exercise, Variants } from '../src/domain/exercise.ts';
 
-// The catalogue by default; any other path on demand — which is how `scripts/exercises-csv.ts`
-// re-uses *this* gate rather than restating its rules, on the JSON a CSV import has staged but not
-// yet put in place. Argument, not env var, so `node scripts/validate-data.ts autre.json` just works.
-const [pathArgument] = process.argv.slice(2).filter((argument) => !argument.startsWith('--'));
-
-const DATA_PATH =
-  pathArgument === undefined
-    ? fileURLToPath(new URL('../public/data/exercises.json', import.meta.url))
-    : resolve(pathArgument);
+const DATA_PATH = fileURLToPath(new URL('../public/data/exercises.json', import.meta.url));
 
 // --- Primitives ---
 
