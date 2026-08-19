@@ -3,7 +3,7 @@ name: visual-check
 description: Launch AscendBox (Vite dev server) and screenshot it in a real headless Chromium via Playwright, at mobile through desktop viewports, asserting no horizontal scroll. Use whenever asked to run the app, screenshot it, or confirm a UI change works at a given viewport.
 ---
 
-# Visual check — drive AscendBox in a real browser
+# Visual check - drive AscendBox in a real browser
 
 `type-check` and `lint` prove the app compiles; they do not prove the layout is
 right. This skill runs the real app at real widths and captures what it looks
@@ -11,7 +11,7 @@ like.
 
 It exists because a metrics-only check once passed green while `Technique` was
 silently rendering as `Techniq…`. The script therefore asserts exactly one thing
-— no horizontal scroll — and leaves everything else to your eyes.
+— no horizontal scroll - and leaves everything else to your eyes.
 
 ## Run it
 
@@ -21,7 +21,7 @@ npm run dev                                                      # only if not 2
 node .claude/skills/visual-check/screenshot.mjs /tmp/ascendbox-shots
 ```
 
-Run the script **from the repo root** — a bare `import` of `playwright-core`
+Run the script **from the repo root** - a bare `import` of `playwright-core`
 resolves by walking up from the script's directory, so it fails from `/tmp`.
 
 Options: `--full` shoots the whole page instead of the sticky header,
@@ -29,8 +29,8 @@ Options: `--full` shoots the whole page instead of the sticky header,
 
 ## Read the result
 
-The script prints one line per viewport — `ok`/`FAIL`, the size, and why that
-width is checked — then **exits non-zero if any viewport scrolls horizontally**.
+The script prints one line per viewport - `ok`/`FAIL`, the size, and why that
+width is checked - then **exits non-zero if any viewport scrolls horizontally**.
 A green run is necessary, not sufficient.
 
 So open every PNG with the Read tool and look at it. A blank frame means the
@@ -39,7 +39,7 @@ invisible to the overflow number. That is the whole point of the skill.
 
 ## One-time browser setup
 
-Neither Playwright nor a browser is in `package.json` — the project keeps a
+Neither Playwright nor a browser is in `package.json` - the project keeps a
 deliberately tiny dependency set.
 
 ```bash
@@ -48,7 +48,7 @@ npm install --no-save playwright-core          # driver lib, node_modules only
 ```
 
 Both are idempotent and fast once cached. The script discovers the Chromium
-binary itself, and falls back to a system Chrome if that cache is absent — but
+binary itself, and falls back to a system Chrome if that cache is absent - but
 prefer the pinned build, since a system Chrome auto-updates and makes screenshots
 incomparable between runs.
 

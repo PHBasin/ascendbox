@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// Circular arrow — "start over". Decorative (`aria-hidden`, inherits `currentColor`); the button's
+// Circular arrow - "start over". Decorative (`aria-hidden`, inherits `currentColor`); the button's
 // text label carries the meaning. Size comes from the call site's `class`, same contract as
 // CategoryIcon.vue.
 </script>

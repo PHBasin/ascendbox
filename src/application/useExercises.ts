@@ -6,7 +6,7 @@ import { getAllExercises } from '@/data/exerciseRepository';
 
 const PAGE_SIZE = 12;
 
-// Attribute filters (sheet, DESIGN §5.5) — duration buckets, a value is in exactly one.
+// Attribute filters (sheet, DESIGN §5.5) - duration buckets, a value is in exactly one.
 export type DurationBucketId = 'short' | 'mid' | 'long';
 export const DURATION_BUCKETS: ReadonlyArray<{
   id: DurationBucketId;
@@ -40,8 +40,8 @@ const selectedLevels = ref<Level[]>([]);
 const selectedTags = ref<string[]>([]);
 
 // Search mode (DESIGN §5.2 / §5.9): opening the field enters a whole-catalogue mode that
-// supersedes the category scope — an empty query then shows *every* exercise, and typing narrows
-// it (title + teaser + tags — `instructions` is deliberately out: matching prose the card cannot
+// supersedes the category scope - an empty query then shows *every* exercise, and typing narrows
+// it (title + teaser + tags - `instructions` is deliberately out: matching prose the card cannot
 // show would return results whose match is invisible). It is state, not header chrome, as it widens
 // scope, so it lives here. `isSearching` = a term is actually typed (drives only the text filter).
 const searchOpen = ref(false);
@@ -61,7 +61,7 @@ async function load(): Promise<void> {
   }
 }
 
-// Category scope first — but search mode overrides it, spanning the whole catalog (even before a
+// Category scope first - but search mode overrides it, spanning the whole catalog (even before a
 // term is typed: an open, empty field already means "browse everything").
 const byCategory = computed<Exercise[]>(() =>
   all.value.filter((ex) => ex.categoryId === activeCategory.value)
@@ -134,7 +134,7 @@ function setCategory(category: CategoryId): void {
   // Picking an axis is a deliberate exit from search mode (closes the field, clears the query).
   closeSearch();
   // No same-category short-circuit: assigning a ref its current value does not trigger, and
-  // `resetPage()` has to run either way — re-tapping the active pill still sends the feed home.
+  // `resetPage()` has to run either way - re-tapping the active pill still sends the feed home.
   activeCategory.value = category;
   resetPage();
 }
@@ -166,13 +166,13 @@ function resetFilters(): void {
   resetPage();
 }
 
-// Clears every refinement at once (attribute filters + search mode) — used by the empty state.
+// Clears every refinement at once (attribute filters + search mode) - used by the empty state.
 function resetAll(): void {
   closeSearch();
   resetFilters();
 }
 
-// One exercise, resolved by id against the same cached catalogue (no second request — the repository
+// One exercise, resolved by id against the same cached catalogue (no second request - the repository
 // caches for the app's lifetime). `id` is a getter so the view re-resolves if the route param
 // changes without remounting.
 //
@@ -180,7 +180,7 @@ function resetAll(): void {
 // straight from a shared link) mounts the view *before* the catalogue has arrived: "not loaded yet"
 // must never be rendered as "no such exercise".
 export function useExercise(id: () => number) {
-  void load(); // idempotent — a deep-link may be the app's first screen
+  void load(); // idempotent - a deep-link may be the app's first screen
   const exercise = computed<Exercise | undefined>(() => all.value.find((ex) => ex.id === id()));
   const notFound = computed(() => !isLoading.value && !error.value && !exercise.value);
   return { exercise, notFound, isLoading, error };

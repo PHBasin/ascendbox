@@ -6,12 +6,12 @@ import { LEVEL_LABELS, type Level } from '@/domain/exercise';
 // bars are decorative (`aria-hidden`); the word carries the meaning, so this passes a grayscale and a
 // screen-reader test alike.
 //
-// **Card-only.** The bars pay for themselves where levels are *scanned* — a filled count compares
+// **Card-only.** The bars pay for themselves where levels are *scanned* - a filled count compares
 // across a grid faster than a word reads. The detail page's spec block is read one exercise at a
 // time and prints the word plain, so its three values stay typographic siblings (§5.6).
 defineProps<{ level: Level }>();
 
-// Bars above the level: dimmed, never absent — an empty slot is what makes the count readable.
+// Bars above the level: dimmed, never absent - an empty slot is what makes the count readable.
 const MUTED = 'stroke-slate-300 dark:stroke-slate-600';
 </script>
 

@@ -1,6 +1,6 @@
 // src/components/categoryStyles.ts
 // Presentation layer: the category palette as Tailwind classes. Kept out of `domain/exercise.ts` on
-// purpose — the domain names the piliers, it must not know how they are painted.
+// purpose - the domain names the piliers, it must not know how they are painted.
 //
 // **Full static strings, one per category (DESIGN §10).** The v4 JIT scanner only generates class
 // names it can read whole in a source file, so these records exist precisely so nothing ever builds
@@ -11,7 +11,7 @@
 // meaning, so each surface survives grayscale and colour-vision differences with nothing lost.
 import type { CategoryId } from '@/domain/exercise';
 
-// Icon tint — the card, the scope pills and the detail eyebrow.
+// Icon tint - the card, the scope pills and the detail eyebrow.
 export const CATEGORY_TINT: Record<CategoryId, string> = {
   physique: 'text-physique',
   technique: 'text-technique',

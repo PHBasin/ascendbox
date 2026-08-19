@@ -1,8 +1,8 @@
-// scripts/validate-data.ts — contract check for the hand-authored catalogue. CI only, never shipped.
+// scripts/validate-data.ts - contract check for the hand-authored catalogue. CI only, never shipped.
 //
 // `exercises.json` is *fetched* at runtime, never imported, so `vue-tsc` cannot see it: a renamed
 // field or a `level: 4` type-checks clean and fails in the coach's browser, outdoors and offline.
-// `FIELDS` closes that gap — it is a mapped type over `keyof Required<Exercise>`, so touching the
+// `FIELDS` closes that gap - it is a mapped type over `keyof Required<Exercise>`, so touching the
 // interface fails `type-check` here until a rule exists. The gate cannot fall behind what it checks.
 //
 // Messages are English like the rest of the tooling; French is for catalogue content only.
@@ -45,19 +45,19 @@ function filledString(value: unknown): string | null {
 }
 
 // An empty array and an absent field look identical to the UI (sections render on `v-if`), but only
-// one of them is honest — so an empty one is rejected rather than tolerated.
+// one of them is honest - so an empty one is rejected rather than tolerated.
 function filledStringArray(value: unknown): string | null {
   if (!Array.isArray(value)) return `must be an array (got ${format(value)})`;
   const items: unknown[] = value;
-  if (items.length === 0) return 'is an empty array — drop the field rather than leave it empty';
+  if (items.length === 0) return 'is an empty array - drop the field rather than leave it empty';
   const bad = items.findIndex((item) => typeof item !== 'string' || item.trim() === '');
   return bad === -1 ? null : `has an empty or non-string entry at index ${bad}`;
 }
 
 // --- Teaser budgets (DESIGN §5.1) ---
 // Both numbers are the *390px* budget (~38 chars/line) and mean nothing without that width; 360px
-// would need ~90. Past the ceiling `line-clamp-3` truncates mid-word — an error. Past the target the
-// card stops being title-led — a real regression but an editorial one, and 92 of 100 teasers sit
+// would need ~90. Past the ceiling `line-clamp-3` truncates mid-word - an error. Past the target the
+// card stops being title-led - a real regression but an editorial one, and 92 of 100 teasers sit
 // there pending the teaser/instructions rewrite, so it only warns. §5.1 forbids hardening it.
 
 const TEASER_CEILING = 100;
@@ -68,11 +68,11 @@ function teaser(value: unknown): string | null {
   if (issue !== null) return issue;
   const { length } = value as string;
   return length > TEASER_CEILING
-    ? `is ${length} chars — past ${TEASER_CEILING}, line-clamp-3 truncates it mid-word`
+    ? `is ${length} chars - past ${TEASER_CEILING}, line-clamp-3 truncates it mid-word`
     : null;
 }
 
-/** Warning tier of the same budget — an error is never also a warning. */
+/** Warning tier of the same budget - an error is never also a warning. */
 function teaserWarning(value: unknown): string | null {
   if (typeof value !== 'string') return null;
   const { length } = value;
@@ -92,7 +92,7 @@ const VARIANT_FIELDS: { [K in keyof Required<Variants>]: Check } = {
 function variants(value: unknown): string | null {
   if (!isPlainObject(value)) return `must be an object (got ${format(value)})`;
   const keys = Object.keys(value);
-  if (keys.length === 0) return 'is empty — drop the field rather than leave it empty';
+  if (keys.length === 0) return 'is empty - drop the field rather than leave it empty';
 
   const unknown = keys.filter((key) => !(key in VARIANT_FIELDS));
   if (unknown.length > 0) return `has an unknown field: ${unknown.join(', ')}`;
@@ -109,7 +109,7 @@ function variants(value: unknown): string | null {
 const CATEGORY_IDS: readonly string[] = CATEGORIES.map((category) => category.id);
 
 // Both read off the domain, so neither can drift from what it checks. `LEVELS` used to be restated
-// here as [1, 2, 3] — `Level` is a union of literals with no runtime form — but the ordered list the
+// here as [1, 2, 3] - `Level` is a union of literals with no runtime form - but the ordered list the
 // filter sheet renders gives that union a runtime shape, and this reads it back.
 const LEVEL_VALUES: readonly unknown[] = LEVELS.map((level) => level.value);
 
@@ -208,7 +208,7 @@ if (warnings.length > shown.length) {
 for (const error of errors) console.error(`✖ ${error}`);
 
 console.log(
-  `\n${entries.length} exercises checked — ${errors.length} error(s), ${warnings.length} warning(s).`
+  `\n${entries.length} exercises checked - ${errors.length} error(s), ${warnings.length} warning(s).`
 );
 
 if (errors.length > 0) process.exit(1);

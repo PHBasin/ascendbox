@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Category eyebrow: the tinted icon + label pair, shared by the card (global search) and the detail
 // page's identity block. The one place the id → label / id → tint mapping is resolved for this badge,
-// so the card and the detail can no longer drift. Icon + label, never a filled pill — that shape is
+// so the card and the detail can no longer drift. Icon + label, never a filled pill - that shape is
 // reserved for controls (§1.5); the tint is reinforcement only (§2.1), the label carries meaning.
 import { computed } from 'vue';
 import { CATEGORY_LABELS, type CategoryId } from '@/domain/exercise';

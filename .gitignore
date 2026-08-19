@@ -43,5 +43,5 @@ Thumbs.db
 # Lighthouse CI output
 .lighthouseci
 
-# CSV interchange artefact (npm run data:export) — regenerate, never commit
+# CSV interchange artefact (npm run data:export) - regenerate, never commit
 /exercises.csv

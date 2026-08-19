@@ -71,8 +71,8 @@ const chips = computed<Chip[]>(() => [
 
 <template>
   <!-- Header aligned to the feed grid (DESIGN §5.8): same max-w-7xl measure.
-       < lg: two tiers — [title · search · Filtres] over the full-width scope.
-       lg+: one line — title · centered scope · search + Filtres. -->
+       < lg: two tiers - [title · search · Filtres] over the full-width scope.
+       lg+: one line - title · centered scope · search + Filtres. -->
   <div class="page-gutter max-w-7xl py-4 flex flex-col gap-3">
     <div class="flex flex-wrap items-center gap-3 lg:flex-nowrap">
       <!-- Screen title (DESIGN §3). Hidden while search is open below lg. -->
@@ -83,7 +83,7 @@ const chips = computed<Chip[]>(() => [
         Exercices
       </h1>
 
-      <!-- Category scope — full-width line below lg (order-last), inline + centered on lg+. -->
+      <!-- Category scope - full-width line below lg (order-last), inline + centered on lg+. -->
       <div class="order-last w-full lg:order-none lg:w-auto">
         <slot />
       </div>
@@ -165,11 +165,11 @@ const chips = computed<Chip[]>(() => [
     <!-- Removable applied-filter chips. Animated on the standard scale (§6) because this row sits
          directly above the feed: adding or dropping a filter used to make the whole catalogue jump
          while the grid one pixel below animated every move it made.
-         `opacity` + `scale` only — both composited, so a row of chips costs no layout work. The
+         `opacity` + `scale` only - both composited, so a row of chips costs no layout work. The
          leaving chip goes `absolute` (positioned by the `relative` ul, no offsets, so it stays put)
          to free its slot at once and let the survivors reflow under `move-class` instead of after it.
          `v-if` stays: removing the *last* chip removes the row itself, which is a different event
-         from a chip leaving one — the row goes at once, and nothing is left to animate out. -->
+         from a chip leaving one - the row goes at once, and nothing is left to animate out. -->
     <TransitionGroup
       v-if="chips.length"
       tag="ul"

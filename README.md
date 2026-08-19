@@ -3,7 +3,7 @@
   <h1>AscendBox</h1>
   <p><em>The exercise toolbox for climbing coaches.</em></p>
 
-  <p><strong><a href="https://www.ascendbox.fr">www.ascendbox.fr</a></strong> — live, installable, works offline.</p>
+  <p><strong><a href="https://www.ascendbox.fr">www.ascendbox.fr</a></strong> - live, installable, works offline.</p>
 
   <p>
     <a href="https://github.com/PHBasin/ascendbox/actions/workflows/ci-cd.yml"><img src="https://github.com/PHBasin/ascendbox/actions/workflows/ci-cd.yml/badge.svg" alt="CI/CD" /></a>
@@ -28,22 +28,22 @@
 ---
 
 **AscendBox** is a _mobile-first_ web app that lets climbing-club coaches browse a catalog of
-training exercises, filtered by category (**Physique**, **Technique**, **Mental** — strength, technique,
+training exercises, filtered by category (**Physique**, **Technique**, **Mental** - strength, technique,
 mental) and qualified by level and duration.
 
 > Exercise content is in French; the code and comments are in English.
 
 ## ✨ Features
 
-- 🎯 **Category scope** — Physique, Technique, Mental, each with its own icon + identity color.
-- 🔍 **Collapsible search** — a magnifier expands into a field; when used it searches the whole catalog (title, teaser, tags — case/accent-insensitive), overriding the category scope.
-- 🎛️ **Attribute filters** — a bottom sheet refines the feed by duration, level and tags (multi-select), with an active-count badge and removable chips.
-- 📊 **At-a-glance reading** — every card shows duration, up to 3 tags and a neutral 3-segment level gauge with its label (no meaning carried by colour alone).
-- 📖 **Exercise detail page** — a shareable route (`/#/exercice/12`) with the objective, a numbered step-by-step, adaptations and any safety warning; each section renders only when its data exists.
-- ♾️ **Infinite scroll** — automatic pagination on scroll (with prefetch).
-- 🌗 **Light / dark theme** — automatic, follows the operating-system setting.
-- 📱 **Mobile-minded** — touch targets ≥ 44px, single-column feed, sticky filter bar.
-- 📶 **Installable PWA** — service worker + manifest; the app shell, the exercise data and the Inter latin subsets are precached, so it works **fully offline** at the crag and auto-updates on a new deploy.
+- 🎯 **Category scope** - Physique, Technique, Mental, each with its own icon + identity color.
+- 🔍 **Collapsible search** - a magnifier expands into a field; when used it searches the whole catalog (title, teaser, tags - case/accent-insensitive), overriding the category scope.
+- 🎛️ **Attribute filters** - a bottom sheet refines the feed by duration, level and tags (multi-select), with an active-count badge and removable chips.
+- 📊 **At-a-glance reading** - every card shows duration, up to 3 tags and a neutral 3-segment level gauge with its label (no meaning carried by colour alone).
+- 📖 **Exercise detail page** - a shareable route (`/#/exercice/12`) with the objective, a numbered step-by-step, adaptations and any safety warning; each section renders only when its data exists.
+- ♾️ **Infinite scroll** - automatic pagination on scroll (with prefetch).
+- 🌗 **Light / dark theme** - automatic, follows the operating-system setting.
+- 📱 **Mobile-minded** - touch targets ≥ 44px, single-column feed, sticky filter bar.
+- 📶 **Installable PWA** - service worker + manifest; the app shell, the exercise data and the Inter latin subsets are precached, so it works **fully offline** at the crag and auto-updates on a new deploy.
 
 ## 🚀 Getting started
 
@@ -64,28 +64,28 @@ npm run dev      # start the dev server at http://localhost:3000
 | `npm run preview`       | Serve the production build locally.                                                                               |
 | `npm run type-check`    | Type-checking via `vue-tsc` (emits no files).                                                                     |
 | `npm run lint`          | ESLint over the project, auto-fixing where possible (`--fix`).                                                    |
-| `npm run lint:ci`       | ESLint with no auto-fix — the exact gate CI runs.                                                                 |
+| `npm run lint:ci`       | ESLint with no auto-fix - the exact gate CI runs.                                                                 |
 | `npm run validate:data` | Check `exercises.json` against the `Exercise` contract (`--verbose` lists every editorial warning).               |
 | `npm run format`        | Prettier write across the project ([`.prettierrc`](.prettierrc): 100 cols, single quotes, `es5` trailing commas). |
 
 > ℹ️ There is **no test runner yet**, but correctness is enforced **statically**:
 >
-> - a **hardened `tsconfig`** checked by `vue-tsc` — `strict` plus `noUncheckedIndexedAccess`,
+> - a **hardened `tsconfig`** checked by `vue-tsc` - `strict` plus `noUncheckedIndexedAccess`,
 >   `noImplicitReturns`, `noFallthroughCasesInSwitch`, `verbatimModuleSyntax`, `noImplicitOverride`,
 >   `noUnusedLocals`, `noUnusedParameters`, `allowUnreachableCode: false`…
 > - **type-aware ESLint** (`typescript-eslint` _recommendedTypeChecked_ via `projectService`), which
->   catches type-level bugs `vue-tsc` compiles through — e.g. floating promises. `eslint-config-prettier`
+>   catches type-level bugs `vue-tsc` compiles through - e.g. floating promises. `eslint-config-prettier`
 >   switches off the rules that would fight the formatter; formatting itself is a separate pass
 >   (`npm run format`), not an ESLint rule.
 > - **`validate:data`**, which closes the one hole the two above cannot see: the catalogue JSON is
 >   fetched, not imported, so no compiler reads it.
 >
-> None of the three runs during `dev` or `build` — a green build is not type-, lint- or data-clean.
+> None of the three runs during `dev` or `build` - a green build is not type-, lint- or data-clean.
 > CI runs all three plus a **Lighthouse accessibility gate** on every push and pull request.
 >
 > They prove the app _compiles_; only a browser proves it _lays out_. The `visual-check` skill
 > ([`.claude/skills/visual-check/`](.claude/skills/visual-check/)) screenshots the app at fixed
-> viewports and fails on horizontal overflow — it exists because a metrics-only check once passed
+> viewports and fails on horizontal overflow - it exists because a metrics-only check once passed
 > green while `Technique` rendered as `Techniq…`.
 
 ## 🧱 Tech stack
@@ -94,7 +94,7 @@ npm run dev      # start the dev server at http://localhost:3000
 - [Vite 8](https://vitejs.dev/) (bundler & dev server) + [`vite-plugin-pwa`](https://vite-pwa-org.netlify.app/)
 - [TypeScript](https://www.typescriptlang.org/) (`strict` + hardened compiler flags)
 - [Tailwind CSS v4](https://tailwindcss.com/) (_CSS-first_ config, no `tailwind.config.js`)
-- [Inter](https://rsms.me/inter/) — **self-hosted** (`@fontsource-variable/inter`), no third-party request
+- [Inter](https://rsms.me/inter/) - **self-hosted** (`@fontsource-variable/inter`), no third-party request
 
 > Runtime dependencies are deliberately kept to three: `vue`, `vue-router` and the font.
 
@@ -109,13 +109,13 @@ domain  →  data  →  application  →  presentation
 
 | Layer            | File                                                                 | Role                                                                                                                                                                                                |
 | ---------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Domain**       | [`src/domain/exercise.ts`](src/domain/exercise.ts)                   | Pure business entities & types. Single source of truth for the closed vocabularies — `CATEGORIES` and `LEVELS`, with their label records derived from them. Zero framework dependency.              |
+| **Domain**       | [`src/domain/exercise.ts`](src/domain/exercise.ts)                   | Pure business entities & types. Single source of truth for the closed vocabularies - `CATEGORIES` and `LEVELS`, with their label records derived from them. Zero framework dependency.              |
 | **Data**         | [`src/data/exerciseRepository.ts`](src/data/exerciseRepository.ts)   | The only module that knows the source. `fetch`es the JSON, freezes it (`Object.freeze`) and caches it. Swap it to move to an API.                                                                   |
 | **Application**  | [`src/application/useExercises.ts`](src/application/useExercises.ts) | State composable (shared singleton): scope, search, filtering, pagination, loading/error. Behavior lives here.                                                                                      |
 | **Presentation** | [`src/views/`](src/views/) + [`src/components/`](src/components/)    | One component per route (`HomeView`, `ExerciseView`), plus purely visual components: `HeaderToolbar`, `CategoryScope`, `CategoryIcon`, `ExerciseFeed`, `ExerciseCard`, `LevelGauge`, `FilterSheet`. |
 
 - **Path alias**: `@` → `./src` (declared in both `vite.config.ts` **and** `tsconfig.json`).
-- **Routing**: [`src/router/index.ts`](src/router/index.ts) — **hash** history (`/#/exercice/12`), because GitHub Pages is a static host with no rewrite rule.
+- **Routing**: [`src/router/index.ts`](src/router/index.ts) - **hash** history (`/#/exercice/12`), because GitHub Pages is a static host with no rewrite rule.
 - **No duplicated look**: repeated Tailwind strings live as classes in `@layer components`
   ([`main.css`](src/assets/main.css)); the category palette lives in
   [`categoryStyles.ts`](src/components/categoryStyles.ts) and the shared toggle recipe in
@@ -130,7 +130,7 @@ Exercises live in [`public/data/exercises.json`](public/data/exercises.json), **
 [`index.html`](index.html)).
 
 Each entry conforms to the `Exercise` interface. Seven fields are required; the rest feed the detail
-page (§5.6) and are **optional by design** — the catalogue is authored incrementally, and a section
+page (§5.6) and are **optional by design** - the catalogue is authored incrementally, and a section
 with no data simply does not render.
 
 ```json
@@ -154,16 +154,16 @@ with no data simply does not render.
 - `categoryId`: `"physique"` | `"technique"` | `"mental"`.
 - `level`: `1` (low) | `2` (moderate) | `3` (high).
 - `duration`: in minutes.
-- **`teaser` ≠ `objective` ≠ `instructions`** — three surfaces, not one field. The teaser is the
+- **`teaser` ≠ `objective` ≠ `instructions`** - three surfaces, not one field. The teaser is the
   card's hook and says _what you do_; the objective is the detail's subtitle and says _what it buys
   you_; `instructions` is the step-by-step, one bullet per step. The detail never echoes the teaser.
 
-> Because the JSON is _fetched_ (not imported), `vue-tsc` cannot see it — a schema drift would only
+> Because the JSON is _fetched_ (not imported), `vue-tsc` cannot see it - a schema drift would only
 > fail at runtime, in the field. **`npm run validate:data` is the gate that closes this** and runs in
 > CI: it checks every entry against the contract and exits non-zero on a violation. Its field table is
 > a mapped type over `keyof Required<Exercise>`, and each field's `required` flag is derived from the
 > interface's optionality, so **changing the interface fails `type-check` until the validator is
-> updated** — the check cannot fall behind what it checks.
+> updated** - the check cannot fall behind what it checks.
 
 ## 🔄 CI/CD & security
 
@@ -171,7 +171,7 @@ Two GitHub Actions workflows run on every push and pull request to `main`. Every
 a **commit SHA**, not a tag, and dependency installation is shared through the composite action
 [`.github/actions/setup`](.github/actions/setup/action.yml) (Node from `.nvmrc`, npm cache, `npm ci`).
 
-### `CI/CD` — [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml)
+### `CI/CD` - [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml)
 
 Triggered on push and PR to `main`, and manually (`workflow_dispatch`). The Quality Gate gates
 everything; build and Lighthouse then run **in parallel**, and only the build branch continues to
@@ -182,16 +182,16 @@ release and deploy:
                  └─ 🔦 Lighthouse
 ```
 
-1. **🛡️ Quality Gate** — `type-check` (`vue-tsc`), `lint:ci` and `validate:data`.
-2. **⚒️ Build Application** — `npm run build`, then uploads `dist/` as a GitHub Pages artifact.
-3. **🔦 Lighthouse** — audits the build with [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci) ([`lighthouserc.json`](lighthouserc.json)): **accessibility ≥ 0.95** as an _error_, best-practices ≥ 0.9 as a _warning_. Independent of the release/deploy chain.
-4. **📦 Semantic Release** — on `main`, for a push or a manual dispatch. Runs [semantic-release](https://semantic-release.gitbook.io/): version tag and GitHub release notes driven by commit messages. No `CHANGELOG.md` is committed — the notes live on the [Releases](https://github.com/PHBasin/ascendbox/releases) page.
-5. **🚀 Deploy to Production** — publishes the artifact to GitHub Pages (`production` environment, custom domain via [`public/CNAME`](public/CNAME)). It fires when a release actually happened, or unconditionally on a manual dispatch.
+1. **🛡️ Quality Gate** - `type-check` (`vue-tsc`), `lint:ci` and `validate:data`.
+2. **⚒️ Build Application** - `npm run build`, then uploads `dist/` as a GitHub Pages artifact.
+3. **🔦 Lighthouse** - audits the build with [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci) ([`lighthouserc.json`](lighthouserc.json)): **accessibility ≥ 0.95** as an _error_, best-practices ≥ 0.9 as a _warning_. Independent of the release/deploy chain.
+4. **📦 Semantic Release** - on `main`, for a push or a manual dispatch. Runs [semantic-release](https://semantic-release.gitbook.io/): version tag and GitHub release notes driven by commit messages. No `CHANGELOG.md` is committed - the notes live on the [Releases](https://github.com/PHBasin/ascendbox/releases) page.
+5. **🚀 Deploy to Production** - publishes the artifact to GitHub Pages (`production` environment, custom domain via [`public/CNAME`](public/CNAME)). It fires when a release actually happened, or unconditionally on a manual dispatch.
 
-Concurrency is grouped per ref with **`cancel-in-progress: false`** — a semantic-release run must
+Concurrency is grouped per ref with **`cancel-in-progress: false`** - a semantic-release run must
 never be interrupted mid-publish.
 
-### `Security Analysis` — [`.github/workflows/codeql.yml`](.github/workflows/codeql.yml)
+### `Security Analysis` - [`.github/workflows/codeql.yml`](.github/workflows/codeql.yml)
 
 [CodeQL](https://codeql.github.com/) scanning on push and PR to `main`, plus a weekly schedule
 (Mondays, 00:00 UTC). Analyzes the `javascript-typescript` and `actions` languages with the
@@ -244,38 +244,38 @@ ascendbox/
 
 ## 🚧 Roadmap
 
-Possible directions, grouped by theme. None is blocking — the project works as-is.
+Possible directions, grouped by theme. None is blocking - the project works as-is.
 Work actually in flight is tracked in [`.claude/CLAUDE.md`](.claude/CLAUDE.md), not here.
 
 ### Quality & robustness
 
-- **Tests** — there are no tests yet. Add [Vitest](https://vitest.dev/) for the logic
+- **Tests** - there are no tests yet. Add [Vitest](https://vitest.dev/) for the logic
   ([`useExercises.ts`](src/application/useExercises.ts): filtering, pagination) and
   [Vue Test Utils](https://test-utils.vuejs.org/) for the components, then wire them into the
   Quality Gate.
-- **Runtime JSON validation** — `validate:data` guards the file in CI, but the app itself trusts what
+- **Runtime JSON validation** - `validate:data` guards the file in CI, but the app itself trusts what
   it fetches. Validating in [`exerciseRepository.ts`](src/data/exerciseRepository.ts) would also catch
   a bad response from a future API.
 
 ### Features
 
 - **Favorites** for exercises (persisted in `localStorage`).
-- **Session builder** — pick exercises to assemble a training session.
+- **Session builder** - pick exercises to assemble a training session.
 
 ### Technical
 
-- **API migration** — the architecture is already prepared: just rewrite
+- **API migration** - the architecture is already prepared: just rewrite
   [`exerciseRepository.ts`](src/data/exerciseRepository.ts); nothing else moves.
-- **TypeScript 7** — held back, not skipped: the native compiler rewrite is stable, but
+- **TypeScript 7** - held back, not skipped: the native compiler rewrite is stable, but
   `typescript-eslint` still requires `typescript <6.1.0`, so upgrading would break type-aware
   linting. Pinned to `^6.0.0` until that peer range moves.
-- **Automated accessibility tests** (axe-core) — component-level a11y assertions, to come with the Vitest setup above.
+- **Automated accessibility tests** (axe-core) - component-level a11y assertions, to come with the Vitest setup above.
 
-### Content (see [DESIGN.md](DESIGN.md) — status tracked in [`.claude/CLAUDE.md`](.claude/CLAUDE.md))
+### Content (see [DESIGN.md](DESIGN.md) - status tracked in [`.claude/CLAUDE.md`](.claude/CLAUDE.md))
 
-- **Fill in the detail content** — the detail page ([DESIGN.md §5.6](DESIGN.md)) is built, but only
+- **Fill in the detail content** - the detail page ([DESIGN.md §5.6](DESIGN.md)) is built, but only
   **id 1** is fully authored; id 2 carries `objective` / `instructions` / `variants` and nothing
   more. The other 98 show the identity and spec blocks alone. Content work, not code.
-- **Rewrite the teasers** — 92 of the 100 sit above the 70-character editorial target (none breaks
+- **Rewrite the teasers** - 92 of the 100 sit above the 70-character editorial target (none breaks
   the 100 ceiling). They still recite protocols that `instructions` now displays properly, so they
   should shrink as the detail content lands.

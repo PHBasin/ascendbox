@@ -35,7 +35,7 @@ jobs:
         run: npm run type-check
       - name: Code Linting
         run: npm run lint:ci
-      # exercises.json is fetched, not imported, so vue-tsc cannot see it — this is the only
+      # exercises.json is fetched, not imported, so vue-tsc cannot see it - this is the only
       # gate standing between a hand-edited catalogue and a runtime failure in the field.
       - name: Data Contract
         run: npm run validate:data

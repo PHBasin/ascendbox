@@ -1,4 +1,4 @@
-// Browser-driven visual check for AscendBox — see SKILL.md.
+// Browser-driven visual check for AscendBox - see SKILL.md.
 // Run from the repo root so Node resolves `playwright-core` from ./node_modules:
 //   node .claude/skills/visual-check/screenshot.mjs [outDir] [--full] [--only=a,b] [--url=…]
 //
@@ -11,7 +11,7 @@ import { join } from 'node:path';
 import { homedir } from 'node:os';
 
 // playwright-core does NOT download browsers. Prefer the pinned Chromium that
-// `playwright install` fetched (reproducible across runs — a system Chrome
+// `playwright install` fetched (reproducible across runs - a system Chrome
 // auto-updates under you), and fall back to a system Chrome so the skill still
 // runs on a machine that never had the one-time setup.
 function findChromium() {
@@ -33,7 +33,7 @@ function findChromium() {
   for (const p of ['/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser']) {
     if (existsSync(p)) return p;
   }
-  throw new Error('No browser found — run: npx --yes playwright@latest install chromium');
+  throw new Error('No browser found - run: npx --yes playwright@latest install chromium');
 }
 
 const args = process.argv.slice(2);

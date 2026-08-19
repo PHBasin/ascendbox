@@ -5,7 +5,7 @@
 // three sections share it exactly. Content is a slot so the tag section can pass its `#` prefix.
 //
 // Not shared with CategoryScope's pills: those carry an icon, `flex-auto` sizing and their own
-// arrival duration — a different box, deliberately not fused (skin, never box — §10/§11).
+// arrival duration - a different box, deliberately not fused (skin, never box - §10/§11).
 import { TOGGLE_ON, TOGGLE_OFF } from './toggleStyles';
 
 defineProps<{ pressed: boolean }>();

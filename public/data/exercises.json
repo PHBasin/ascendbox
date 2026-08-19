@@ -982,7 +982,7 @@
   },
   {
     "id": 45,
-    "title": "Ralenti — accéléré",
+    "title": "Ralenti-accéléré",
     "teaser": "Grimper en imposant un rythme très lent, puis très rapide.",
     "categoryId": "technique",
     "tags": [
@@ -1326,7 +1326,7 @@
   },
   {
     "id": 60,
-    "title": "Habillage — déshabillage",
+    "title": "Habillage-déshabillage",
     "teaser": "Mettre ou enlever sa veste en restant en appui sur le mur.",
     "categoryId": "technique",
     "tags": [
@@ -1505,10 +1505,10 @@
       "Sangles"
     ],
     "instructions": [
-      "Attacher sans serrer les deux poignets, ou les deux chevilles, avec une sangle.",
+      "Attacher sans serrer les deux poignets ou les deux chevilles avec une sangle.",
       "Choisir une traversée basse pour rester à hauteur de saut.",
       "Progresser en petits mouvements, en cherchant de nouveaux équilibres.",
-      "Inverser l'entrave — poignets puis chevilles — et refaire le trajet."
+      "Inverser l'entrave (poignets ou chevilles) et refaire le trajet."
     ]
   },
   {
@@ -1774,7 +1774,7 @@
   },
   {
     "id": 80,
-    "title": "Montée — descente",
+    "title": "Montée-descente",
     "teaser": "Grimper une voie puis la désescalader sans sauter, et recommencer.",
     "categoryId": "physique",
     "tags": [
@@ -2102,7 +2102,7 @@
   },
   {
     "id": 95,
-    "title": "Touchée — gardée",
+    "title": "Touchée-gardée",
     "teaser": "Toute prise touchée doit être gardée : impossible de se raviser.",
     "categoryId": "mental",
     "tags": [
@@ -2159,7 +2159,7 @@
     ],
     "level": 2,
     "duration": 20,
-    "objective": "Améliore la prise de décision rapide et la grimpe intuitive — la préparation à vue.",
+    "objective": "Améliore la prise de décision rapide, la grimpe intuitive et la préparation à vue.",
     "equipment": [
       "Bâton ou canne"
     ],

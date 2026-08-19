@@ -30,7 +30,7 @@ const emptyMessage = computed(() => {
 });
 
 // One key for every state the feed can be in, so all four cross-fade through the *same* recipe
-// (§6). Before, only the category switch animated and the other three cut — including skeleton →
+// (§6). Before, only the category switch animated and the other three cut - including skeleton →
 // feed, which is the most-watched moment in the app.
 const feedKey = computed(() => {
   if (props.error) return 'error';
@@ -61,7 +61,7 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
 
 <template>
   <section class="page-gutter max-w-7xl py-6 lg:py-8">
-    <!-- One `<Transition>` for every state of the feed — error, skeleton, empty, list — keyed by
+    <!-- One `<Transition>` for every state of the feed - error, skeleton, empty, list - keyed by
          `feedKey`. `mode="out-in"` so the two never overlap while the page height changes under
          them. The inner TransitionGroup animates paginated appends; it has no `leave`, so a
          category switch is carried by this crossfade alone and the two never stack (§6). -->
@@ -110,7 +110,7 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
         </div>
 
         <!-- The list. `enter` matches its own `move` (300ms): an append and the reflow it causes
-             are one motion, not two that drift apart. No `leave` — removals are instant, so a
+             are one motion, not two that drift apart. No `leave` - removals are instant, so a
              category switch never overlaps the crossfade above (§6). -->
         <template v-else>
           <TransitionGroup

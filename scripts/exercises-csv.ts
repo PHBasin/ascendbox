@@ -1,4 +1,4 @@
-// scripts/exercises-csv.ts — JSON ⇄ CSV for the catalogue. Tooling only, never shipped.
+// scripts/exercises-csv.ts - JSON ⇄ CSV for the catalogue. Tooling only, never shipped.
 //
 // Why it exists: `public/data/exercises.json` is hand-authored, and the people who author it are
 // coaches, not developers. A spreadsheet is the tool they already have.
@@ -6,15 +6,15 @@
 //   npm run data:export -- [--out fichier.csv]   JSON → CSV
 //   npm run data:import -- [--in fichier.csv]    CSV → JSON
 //
-// It converts, and nothing else. Checking the *content* is `npm run validate:data` — the existing
-// gate, unchanged and unwrapped — run after an import. Two commands, one job each, rather than one
+// It converts, and nothing else. Checking the *content* is `npm run validate:data` - the existing
+// gate, unchanged and unwrapped - run after an import. Two commands, one job each, rather than one
 // command with an opinion about when the other should fire.
 //
 // The refusals below are all about the *conversion* being faithful, never about the data being good:
 // a `|` inside a value, a header that does not match the columns, a file with no data row. Each one
 // is a silent corruption if it goes through.
 //
-// Dialect: `;` separator — the constraint this tool was written to, and what a French Excel expects
+// Dialect: `;` separator - the constraint this tool was written to, and what a French Excel expects
 // without an import wizard; RFC 4180 quoting, which is what makes `;` safe inside a teaser; CRLF and
 // a UTF-8 BOM so Excel opens the accents right. `csv-parse` / `csv-stringify` do the parsing and the
 // quoting; this file only maps fields to cells.
@@ -45,7 +45,7 @@ const DEFAULT_CSV_PATH = fileURLToPath(new URL('../exercises.csv', import.meta.u
 
 /**
  * How a field survives the trip through a flat cell. `variants` is the only one that is neither
- * scalar nor list — it spans two columns, one per adaptation direction.
+ * scalar nor list - it spans two columns, one per adaptation direction.
  */
 type FieldKind = 'int' | 'text' | 'list' | 'variants';
 
@@ -174,7 +174,7 @@ function findListSeparatorConflicts(entries: readonly unknown[]): string[] {
 
 // --- CSV → JSON ---
 
-/** An empty cell means the field is absent, never `""` — optional is load-bearing (DESIGN §5.6). */
+/** An empty cell means the field is absent, never `""` - optional is load-bearing (DESIGN §5.6). */
 function parseList(raw: string): string[] | undefined {
   const items = raw
     .split(LIST_SEPARATOR)
@@ -184,7 +184,7 @@ function parseList(raw: string): string[] | undefined {
 }
 
 /**
- * A number when it reads as one, the raw string otherwise — so `level;abc` reaches `validate:data` as
+ * A number when it reads as one, the raw string otherwise - so `level;abc` reaches `validate:data` as
  * `level must be 1 | 2 | 3 (got "abc")` instead of a silent `NaN`. Making bad input legible is this
  * function's job; rejecting it is the validator's.
  */
@@ -219,7 +219,7 @@ function toEntry(record: Record<string, string>): Record<string, unknown> {
     else variants[column.variantKey] = value;
   }
 
-  // Absent rather than `{}` — the contract rejects an empty object, and rightly so.
+  // Absent rather than `{}` - the contract rejects an empty object, and rightly so.
   if (Object.keys(variants).length > 0) entry['variants'] = variants;
 
   // Interface order regardless of the column order in the file, so a round trip stays a no-op on the
@@ -251,7 +251,7 @@ function findHeaderIssues(header: readonly string[]): string[] {
 
 interface DecodeResult {
   entries: Record<string, unknown>[];
-  /** Structural faults — malformed CSV, or a header that does not match the columns. */
+  /** Structural faults - malformed CSV, or a header that does not match the columns. */
   errors: string[];
 }
 
@@ -275,18 +275,18 @@ function decodeExercises(csv: string): DecodeResult {
   } catch (error) {
     // csv-parse raises typed codes (CSV_RECORD_INCONSISTENT_COLUMNS, CSV_QUOTE_NOT_CLOSED…) whose
     // messages already name the offending line, so they are passed through rather than paraphrased.
-    // The header hook has already run by then, so its findings ride along — a bad row must not hide
+    // The header hook has already run by then, so its findings ride along - a bad row must not hide
     // a bad header and cost the coach a second round trip.
     return { entries: [], errors: [...headerIssues, (error as Error).message] };
   }
 
   if (headerIssues.length > 0) return { entries: [], errors: headerIssues };
 
-  // An empty array is valid JSON *and* passes the contract — `validate:data` on a wiped catalogue
+  // An empty array is valid JSON *and* passes the contract - `validate:data` on a wiped catalogue
   // reports "0 exercises checked, 0 errors". So a header-only file would erase everything and every
   // downstream check would agree it went fine. This is the only place that can catch it.
   if (records.length === 0) {
-    return { entries: [], errors: ['no exercise row — refusing to empty the catalogue'] };
+    return { entries: [], errors: ['no exercise row - refusing to empty the catalogue'] };
   }
 
   return { entries: records.map(toEntry), errors: [] };
@@ -371,7 +371,7 @@ CSV dialect: "${CSV_DELIMITER}" separator, RFC 4180 quoting, CRLF, UTF-8 BOM; li
 
 function readCommand(): { run: (options: Options) => void; options: Options } {
   // `parseArgs` is native and rejects an unknown flag, so a typo is an error rather than a silent
-  // fallback to the default path — the failure mode a hand-rolled argv scan invites.
+  // fallback to the default path - the failure mode a hand-rolled argv scan invites.
   const { values, positionals } = parseArgs({
     options: { in: { type: 'string' }, out: { type: 'string' } },
     allowPositionals: true,

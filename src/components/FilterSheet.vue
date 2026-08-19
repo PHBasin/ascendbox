@@ -63,7 +63,7 @@ onBeforeUnmount(() => {
 
     <!-- Panel. Below lg it slides up from the thumb zone; from lg it is a centered modal.
          The transition carries `lg:` variants of its own, so the phone keeps the full sheet slide
-         while the desktop dialog only rises 4 and fades — a full-height slide reads as a sheet, and
+         while the desktop dialog only rises 4 and fades - a full-height slide reads as a sheet, and
          at lg this is no longer one. -->
     <Transition
       enter-active-class="transition duration-300 ease-out"
@@ -75,13 +75,13 @@ onBeforeUnmount(() => {
            each moves one variable, as the rest of the responsive does.
            **Width** caps at `max-w-2xl` (672px) from `sm`, centred by `mx-auto` against the existing
            `inset-x-0`: measured, the content never exceeds 666px at any viewport, so past that the
-           panel only grows empty — 333px of void at 1023px, five times the 63–78px it holds
+           panel only grows empty - 333px of void at 1023px, five times the 63–78px it holds
            everywhere else. The cap is inert below ~672px of viewport, so it costs the low end
            nothing. `sm:border-x` because the panel now has side edges it never had while full-bleed;
            `rounded-t-3xl` stays until `lg` since it still meets the bottom edge, and square bottom
            corners are what read as a sheet.
            **Vertical**: bottom-anchored (thumb zone) until `lg`, then centred by
-           `inset-0 + m-auto + h-fit` — margins, not `-translate-1/2`, so `transform` stays free for
+           `inset-0 + m-auto + h-fit` - margins, not `-translate-1/2`, so `transform` stays free for
            the Transition above, whose enter/leave classes would otherwise overwrite the centring.
            At `lg` it also closes into a floating card: bottom border, omnidirectional shadow, and
            `pb-8` (thumb clearance) relaxed to `pb-6`. -->
@@ -95,11 +95,11 @@ onBeforeUnmount(() => {
         <!-- No grab handle: it implies swipe-to-dismiss, which we don't wire up (dismiss = ✕ / scrim / Esc). -->
 
         <!-- The ✕ owns the top-right (DESIGN §5.5): on a sheet that is the slot convention reserves
-             for dismissal, and it is the worst thumb reach on a phone — the wrong place for a
+             for dismissal, and it is the worst thumb reach on a phone - the wrong place for a
              state-destroying action, which is why `Effacer les filtres` moved down by the CTA.
              Deliberately the one control here with neither fill nor ring: a close is conventionally
              edgeless, and having no edge is what separates it from every control that acts on the
-             filters — this one only acts on the panel. (It also rules out `.pill-action`, whose white
+             filters - this one only acts on the panel. (It also rules out `.pill-action`, whose white
              fill would vanish on a white sheet.) -->
         <header class="flex items-center justify-between gap-3 mb-6">
           <h2
@@ -162,20 +162,20 @@ onBeforeUnmount(() => {
           </div>
         </section>
 
-        <!-- Bottom cluster — stacked on phones, side by side from sm (DESIGN §5.5).
+        <!-- Bottom cluster - stacked on phones, side by side from sm (DESIGN §5.5).
              Stacked, `Effacer les filtres` sits *above* the CTA: the sheet is anchored to the bottom
              edge, so anything above leaves the CTA at a constant distance from it.
              The breakpoint is `sm`, not `lg`, and it is measured rather than guessed. The reset is
              conditional, so a row halves the CTA the moment a filter is applied; what decides is
              whether the half still reads as the primary action next to the option pills it now
-             shares ink and radius with (widest: 124px). At 390px it does not — 165px, only 1.3×.
-             At 640px it already does — 290px, 2.3×, roomier than the 305px/2.5× the lg modal ships.
+             shares ink and radius with (widest: 124px). At 390px it does not - 165px, only 1.3×.
+             At 640px it already does - 290px, 2.3×, roomier than the 305px/2.5× the lg modal ships.
              So `sm` is where the objection stops applying, and waiting for `lg` only left tablets a
              720–975px apply bar: the same slab the max-w-2xl cap was added to remove.
              In the row the two are *not* split 50/50, which would claim they are equal choices: the
              reset takes its natural width and the CTA takes the rest (190 / 420px at 1280), so the
              widths state the hierarchy the roles already have. They stay one type step apart at every
-             breakpoint (14/16 then 16/18) — the reset scales with the CTA rather than sitting still
+             breakpoint (14/16 then 16/18) - the reset scales with the CTA rather than sitting still
              while it grows, which is how the gap had opened to 4px at lg.
              Named for what it clears, to keep it distinct from the feed's `Tout réinitialiser`,
              which also drops search mode. -->
@@ -190,7 +190,7 @@ onBeforeUnmount(() => {
             Effacer les filtres
           </button>
 
-          <!-- Live feedback CTA (~52px, full-width) — DESIGN §5.5 / §8. Full-width is load-bearing:
+          <!-- Live feedback CTA (~52px, full-width) - DESIGN §5.5 / §8. Full-width is load-bearing:
                `.toggle-on` shares this exact ink, so width is what keeps the primary action from
                reading as one more selected option. -->
           <button

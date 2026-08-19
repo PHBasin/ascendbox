@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
-      // 'autoUpdate': new deploy activates + reloads silently. Safe — read-only catalog,
+      // 'autoUpdate': new deploy activates + reloads silently. Safe - read-only catalog,
       // updates only fetch when online.
       registerType: 'autoUpdate',
 
@@ -20,7 +20,7 @@ export default defineConfig({
       // and listing favicon.svg / apple-touch-icon.png there only duplicated their precache entries.
 
       manifest: {
-        name: 'AscendBox — Exercices d’escalade',
+        name: 'AscendBox - Exercices d’escalade',
         short_name: 'AscendBox',
         description:
           'Catalogue d’exercices d’entraînement pour coachs d’escalade, utilisable hors ligne.',
@@ -53,7 +53,7 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,svg,png,woff2,json}'],
         // Keep only the Inter subsets French needs (latin + latin-ext, for the œ ligature).
         // social-preview.jpg needs no entry here: `jpg` is absent from globPatterns above, so it
-        // was never a precache candidate — same for robots.txt and CNAME.
+        // was never a precache candidate - same for robots.txt and CNAME.
         globIgnores: [
           '**/inter-cyrillic-*.woff2',
           '**/inter-greek-*.woff2',

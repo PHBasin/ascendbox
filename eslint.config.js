@@ -6,7 +6,7 @@ import globals from 'globals';
 
 export default tseslint.config(
   // `.claude/**` is load-bearing: it keeps the visual-check skill's screenshot.mjs out of the
-  // `**/*.{js,mjs,cjs}` block below. `.github/**` needs no entry — it holds only YAML, which no
+  // `**/*.{js,mjs,cjs}` block below. `.github/**` needs no entry - it holds only YAML, which no
   // config block here matches.
   { ignores: ['dist/**', 'dev-dist/**', 'node_modules/**', '.claude/**'] },
 

@@ -6,12 +6,12 @@ import { CATEGORY_RULE } from '@/components/categoryStyles';
 import CategoryBadge from '@/components/CategoryBadge.vue';
 
 // Exercise detail (DESIGN §5.6), read-only. The coach reads this standing at the wall, in a hurry:
-// the **Déroulement** is the payload they came for, so it is a scannable list — never a paragraph.
+// the **Déroulement** is the payload they came for, so it is a scannable list - never a paragraph.
 const props = defineProps<{ id: string }>();
 
 const { exercise, notFound, isLoading, error } = useExercise(() => Number(props.id));
 
-// Read only inside `v-else-if="exercise"`, but a computed evaluates regardless — hence the guard,
+// Read only inside `v-else-if="exercise"`, but a computed evaluates regardless - hence the guard,
 // falling back to '' until the catalogue lands. (The category badge takes `exercise.categoryId`
 // directly, safely, since it only renders inside that same guard.)
 const categoryRule = computed(() =>
@@ -19,7 +19,7 @@ const categoryRule = computed(() =>
 );
 
 // The spec block's three planning facts, in reading order. Built here rather than spelled out three
-// times in the template so the cells cannot drift apart typographically — the whole point of the
+// times in the template so the cells cannot drift apart typographically - the whole point of the
 // block is that its values read as siblings. `Matériel` is the only variable-length one, so it takes
 // the full row on phones; the other two are short and fixed.
 type Spec = { key: string; label: string; value: string; wide: boolean };
@@ -36,7 +36,7 @@ const specs = computed<Spec[]>(() => {
   return out;
 });
 
-// Only the directions that carry items — one-sided adaptation is the norm (plenty of exercises can
+// Only the directions that carry items - one-sided adaptation is the norm (plenty of exercises can
 // be made easier but not usefully harder), and a missing one is a non-event (§5.6), never an empty
 // block. `up` picks the arrow: direction must be legible without hue (§1.3).
 type VariantBlock = { key: string; label: string; up: boolean; items: string[] };
@@ -53,14 +53,14 @@ const variantBlocks = computed<VariantBlock[]>(() => {
 
 <template>
   <!-- Back nav is sticky: the page can run long and the coach must be able to bail out at any scroll
-       position without hunting. Same opaque treatment as the feed bar (DESIGN §5.8) — never frosted,
+       position without hunting. Same opaque treatment as the feed bar (DESIGN §5.8) - never frosted,
        which erodes contrast in sunlight. -->
   <header class="app-bar">
-    <!-- `py-4` + `px-6 lg:px-8` mirror the feed's HeaderToolbar exactly: same gutter, and — with the
-         control's min-h-11 — the same bar height, so the sticky bar doesn't jump between routes. -->
+    <!-- `py-4` + `px-6 lg:px-8` mirror the feed's HeaderToolbar exactly: same gutter, and - with the
+         control's min-h-11 - the same bar height, so the sticky bar doesn't jump between routes. -->
     <div class="page-gutter max-w-3xl py-4">
       <!-- Same pill as `Filtres`/search, not the scope's: §5.2 keeps the white surface for a
-           *standalone action* and the recessed slate-100 for an *unselected toggle* — this is an
+           *standalone action* and the recessed slate-100 for an *unselected toggle* - this is an
            action. Bare text would also break §1.5 (a control must look like what it does) and, with no
            hover on touch, would rest as plain bold text right above a same-weight h1: read as a
            breadcrumb, not a button. -->
@@ -99,7 +99,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
       Chargement…
     </p>
 
-    <!-- A shared link can point at an id that no longer exists — offer the way back, not a dead end. -->
+    <!-- A shared link can point at an id that no longer exists - offer the way back, not a dead end. -->
     <div v-else-if="notFound" class="state-block">
       <p class="text-slate-600 dark:text-slate-300">Cet exercice n’existe pas.</p>
       <RouterLink to="/" class="btn-ink"> Voir le catalogue </RouterLink>
@@ -109,7 +109,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
          paragraphs, and 24px (the container tier) read as one undifferentiated stack. -->
     <article v-else-if="exercise" class="flex flex-col gap-8">
       <!-- Identity block. The category rule spans eyebrow + title + objective, so the pillar reads as
-           the identity of the whole block rather than a mark next to a word — legible at arm's length
+           the identity of the whole block rather than a mark next to a word - legible at arm's length
            in sunlight, where a 16px icon is not. It is a **third** channel on top of the icon and the
            label (§2.1): pure reinforcement, so grayscale loses nothing. -->
       <header class="flex gap-4">
@@ -122,7 +122,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
             {{ exercise.title }}
           </h1>
           <!-- `objective`, never the teaser: the coach read the teaser on the card and tapped *because
-             of it* — echoing it here would spend the most valuable line of the page saying something
+             of it* - echoing it here would spend the most valuable line of the page saying something
              already known (same rule as the contextual category, §5.1). The objective answers the
              other question ("what does this buy me?"), which is what belongs under a title.
              No eyebrow label: the block already opens with the category eyebrow, and a second one
@@ -137,12 +137,12 @@ const variantBlocks = computed<VariantBlock[]>(() => {
         </div>
       </header>
 
-      <!-- Spec block — the planning facts, read before committing to the exercise.
+      <!-- Spec block - the planning facts, read before committing to the exercise.
            A labelled `<dl>` grid, not a row of icon+value pairs: the label is *visible* rather than
            `sr-only`, so sighted and screen-reader users get the same page and no icon has to be
            decoded (a dumbbell meaning "level" is a rebus, not a label). Every value is the same type,
            which is what makes the block read as a spec sheet instead of three unrelated facts.
-           The grid also retires the middot problem outright — cells never need separators, so it
+           The grid also retires the middot problem outright - cells never need separators, so it
            wraps freely at any width, which is what §5.6's wrapping rule asks for. -->
       <dl
         class="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-4 py-4 border-y border-slate-200 dark:border-slate-700"
@@ -160,13 +160,13 @@ const variantBlocks = computed<VariantBlock[]>(() => {
         </div>
       </dl>
 
-      <!-- Déroulement — the page's signature, and its payload. It carries the figures the removed
+      <!-- Déroulement - the page's signature, and its payload. It carries the figures the removed
            `protocol` tiles used to hold ("3 min de récup", "5 s par bras").
            **Numbered, on a spine.** A déroulement *is* a sequence, so order is information the coach
            needs rather than decoration: the numbers give a spoken anchor mid-session ("j'en suis à la
            3") that a bullet cannot, and the connecting rule binds the steps into one object, which is
            what someone glancing back down at a phone re-finds their place in.
-           Nodes are **pure ink** — maximum contrast for sunlight, and no hue to lose in grayscale or
+           Nodes are **pure ink** - maximum contrast for sunlight, and no hue to lose in grayscale or
            to a colour-vision difference (§1.3). -->
       <section v-if="exercise.instructions?.length" class="flex flex-col gap-4">
         <h2 class="eyebrow">Déroulement</h2>
@@ -199,7 +199,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
         </ol>
       </section>
 
-      <!-- Sécurité — must be unmissable, but never by hue alone (§1.3): the warning icon and the
+      <!-- Sécurité - must be unmissable, but never by hue alone (§1.3): the warning icon and the
            explicit "Sécurité" heading carry it; the rose surface only reinforces. Body stays slate so
            a long warning is still comfortably readable (§2.2 keeps rose for error text only). -->
       <section
@@ -231,9 +231,9 @@ const variantBlocks = computed<VariantBlock[]>(() => {
         </p>
       </section>
 
-      <!-- Adapter — deliberately **after** Sécurité: the "plus dur" column is where a coach adds load
+      <!-- Adapter - deliberately **after** Sécurité: the "plus dur" column is where a coach adds load
            and removes holds, so it must be read once the warning has been. Direction is carried by
-           the heading *and* the arrow, never by hue (§1.3) — the blocks are plain slate surfaces, so
+           the heading *and* the arrow, never by hue (§1.3) - the blocks are plain slate surfaces, so
            the section survives grayscale and colour-vision differences untouched. -->
       <section v-if="variantBlocks.length" class="flex flex-col gap-3">
         <h2 class="eyebrow">Adapter</h2>
@@ -276,10 +276,10 @@ const variantBlocks = computed<VariantBlock[]>(() => {
         </div>
       </section>
 
-      <!-- Tags = flat metadata, never pills (pills are for controls — DESIGN §5.4/§1.5).
+      <!-- Tags = flat metadata, never pills (pills are for controls - DESIGN §5.4/§1.5).
            **No rule above them.** One here looked right on a full page and broke an empty one: with
            no detail data the tags follow the spec block directly, and its closing border plus this
-           one framed 32px of nothing — a visible empty band, which is precisely the shell §5.6 says
+           one framed 32px of nothing - a visible empty band, which is precisely the shell §5.6 says
            a missing section must never produce. The spec block's own border already closes the
            record; a second rule was an accessory. -->
       <ul v-if="exercise.tags.length" class="flex flex-wrap gap-x-3 gap-y-1">
