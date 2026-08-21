@@ -447,9 +447,12 @@ _attribute_ filters, each a labelled section with the same tap interaction:
 - **Durée** - buckets (`< 10 min` · `10–25 min` · `> 25 min`), multi-select.
 - **Niveau** - `Débutant` · `Intermédiaire` · `Avancé`, multi-select.
 - **Tags** - most-used first, all of them, always shown. **No in-sheet search field.** One was
-  specified here ("once the list exceeds ~10") and built; it is removed. The catalogue holds 11
-  distinct tags and each exercise carries at most 3, so the threshold was met by a single tag —
-  a text field to filter eleven chips a coach can already see, on the surface §5.5 calls
+  specified here ("once the list exceeds ~10") and built; it is removed. When that call was made the
+  catalogue held **11** distinct tags; **re-measured 2026-08-21 it holds 25** across 123 exercises,
+  so the "~10" threshold this paragraph set for itself has been passed — the decision now rests on
+  the argument below, not on the count. Revisit it with a real measurement of whether 25 chips still
+  fit the sheet. Each exercise carries at most 3, so the threshold was originally met by a single
+  tag — a text field to filter chips a coach can already see, on the surface §5.5 calls
   _secondary_ refinement, in a sheet read with gloves on. Typing to reach what is one tap away
   is the taxing interaction §5.9 keeps the whole search path collapsed to avoid. Reintroduce it
   only if the tag vocabulary grows enough that the chips no longer fit the sheet.
@@ -684,6 +687,12 @@ It hands over to the feed through the **same** keyed crossfade as every other fe
 is the most-watched moment in the app and it used to cut: the state chain animated only the category
 switch, so three of its four branches popped.
 
+**The failure state is not a dead end.** When the load fails, the feed and the detail page both show
+`.state-error` copy inside a `.state-block` with a **`Réessayer`** `.btn-ink` — the same shape the
+empty state has always had. The shape is the point: the bare message was a terminus, and the failure
+it reports is usually a lost signal at the crag, which clears by itself. The copy is French and
+chosen from an error `kind`, never a raw `SyntaxError` or an HTTP code (see `useCatalogue`).
+
 ### 5.8 Sticky filter bar
 
 `sticky top-0 z-30`, reachable while scrolling. **Opaque** ground (`bg-slate-50 dark:bg-slate-900` + a
@@ -797,8 +806,24 @@ check `matchMedia`. Motion is reinforcement only - never the sole carrier of a s
 - **Contrast:** primary text/actions target AAA (§2.4); never ship below AA.
 - **Announced states:** `aria-pressed` (active scope/filter), `aria-busy` + `aria-live` (skeleton),
   `aria-hidden` on decorative SVG/dividers.
+- **The result count is announced, from outside the feed.** `HomeView` holds one
+  `role="status" aria-live="polite"` region reporting "N exercices" (or the empty message). It sits
+  **outside** the feed's keyed `<Transition>` on purpose: the skeleton's own `aria-live` is destroyed
+  by that transition the instant results arrive, so it could only ever announce the wait and never
+  the outcome — which left the whole filtering path silent.
 - **Focus management:** the collapsible search moves focus with the swap - to the field on open, back
-  to the magnifier on close - so keyboard users never land on `<body>` (§5.9).
+  to the magnifier on close - so keyboard users never land on `<body>` (§5.9). It is driven by a
+  watcher on `searchOpen`, not by wrappers around the two buttons, because search also closes by a
+  third route: picking a category. The restore fires only when the focused element is the one being
+  destroyed, so a mouse tap never yanks focus.
+- **A modal traps focus, or it is not modal.** The filter sheet declares `aria-modal="true"`, so it
+  owes three things: focus moves into the panel on open, `Tab` stays contained (`useFocusTrap`), and
+  focus returns to the invoking control on close. The app root also takes `inert` while it is up —
+  without that, `aria-modal` is a label rather than a behaviour and the feed underneath stays
+  reachable.
+- **A screen title always exists.** Below `sm` the open search field takes the row, but the `h1` goes
+  `sr-only`, never `hidden`: a phone is where this app is used, and it was the one viewport left with
+  no `h1` in the document at all.
 - **Reduced motion:** `prefers-reduced-motion` is honoured globally (§6); nothing relies on motion to
   convey meaning.
 
@@ -867,6 +892,7 @@ cannot tell you which layer won.
 | Create a reusable class (`.card`) | `@layer components` in [`main.css`](src/assets/main.css)                                                                                                         |
 | Change a card / chip / gauge      | the relevant component in [`src/components/`](src/components/)                                                                                                   |
 | Add an icon used in **2+** places | a component in [`src/components/icons/`](src/components/icons/); a single-use glyph stays inline                                                                 |
+| Trap focus in a modal surface     | [`useFocusTrap.ts`](src/components/useFocusTrap.ts) - focus in, `Tab` contained, focus restored on close (§8); the caller keeps `inert`, the scroll lock and `Esc` |
 | Pick spacing                      | the §4 scale - nearest named step, never arbitrary                                                                                                               |
 
 **Shared classes** live in `@layer components` in [`main.css`](src/assets/main.css), and are earned
