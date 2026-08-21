@@ -21,7 +21,7 @@
 //
 // Messages are English like the rest of the tooling; French is for catalogue content only.
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, renameSync, unlinkSync, writeFileSync } from 'node:fs';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
@@ -266,7 +266,22 @@ interface DecodeResult {
   errors: string[];
 }
 
+// U+FFFD is what a byte that is not valid UTF-8 decodes to. It is never typed by a human, so its
+// presence means the file was saved in another encoding - Excel's plain "CSV (séparateur
+// point-virgule)" writes Windows-1252. Nothing else notices: the decode does not throw, the CSV
+// parses, the contract passes, and "récupération" lands in the catalogue as "r?cup?ration".
+const REPLACEMENT_CHARACTER = '\uFFFD';
+
 function decodeExercises(csv: string): DecodeResult {
+  if (csv.includes(REPLACEMENT_CHARACTER)) {
+    return {
+      entries: [],
+      errors: [
+        'the file is not UTF-8 (accents are already lost on read) - re-save it as "CSV UTF-8" from the spreadsheet',
+      ],
+    };
+  }
+
   const headerIssues: string[] = [];
   let records: Record<string, string>[];
 
@@ -313,15 +328,35 @@ function readTextFile(path: string): string {
   try {
     return readFileSync(path, 'utf8');
   } catch (error) {
-    throw new Error(`${path} is unreadable: ${(error as Error).message}`, { cause: error });
+    throw new Error(
+      `${path} is unreadable: ${error instanceof Error ? error.message : String(error)}`,
+      { cause: error }
+    );
   }
 }
 
+/**
+ * Write via a temporary file and a rename, which is atomic on the same filesystem.
+ *
+ * `writeFileSync` truncates first and fills after: a crash, a full disk or a killed terminal between
+ * the two leaves `exercises.json` half-written - the catalogue destroyed by the tool meant to edit
+ * it. The rename means the target is either the old file or the new one, never a fragment.
+ */
 function writeTextFile(path: string, contents: string): void {
+  const temporary = `${path}.tmp`;
   try {
-    writeFileSync(path, contents, 'utf8');
+    writeFileSync(temporary, contents, 'utf8');
+    renameSync(temporary, path);
   } catch (error) {
-    throw new Error(`${path} could not be written: ${(error as Error).message}`, { cause: error });
+    try {
+      unlinkSync(temporary);
+    } catch {
+      // Nothing to clean up, or nothing we can do about it - the failure below is the one that matters.
+    }
+    throw new Error(
+      `${path} could not be written: ${error instanceof Error ? error.message : String(error)}`,
+      { cause: error }
+    );
   }
 }
 
@@ -393,7 +428,11 @@ function readCommand(): { run: (options: Options) => void; options: Options } {
   });
 
   const [command, ...extra] = positionals;
-  const run = command === undefined ? undefined : COMMANDS[command];
+  // `Object.hasOwn`, never a bare index: `COMMANDS['toString']` resolved to `Object.prototype`'s own
+  // method, sailed past the `undefined` guard below, was *called*, printed nothing and exited 0 -
+  // a command that silently does nothing is worse than one that is rejected.
+  const run =
+    command !== undefined && Object.hasOwn(COMMANDS, command) ? COMMANDS[command] : undefined;
   if (run === undefined) {
     throw new Error(
       `${command === undefined ? 'no command given' : `unknown command "${command}"`}\n\n${USAGE}`
@@ -406,6 +445,14 @@ function readCommand(): { run: (options: Options) => void; options: Options } {
   if (extra.length > 0) {
     throw new Error(`unexpected argument "${extra[0]}" — paths go to --in/--out\n\n${USAGE}`);
   }
+  // The shape of argv was checked; the *targets* were not. `data:export -- --out public/data/exercises.json`
+  // writes CSV over the catalogue, and every downstream check would then agree the JSON is unreadable
+  // rather than say what happened.
+  if (values.in !== undefined && values.in === values.out) {
+    throw new Error(
+      `--in and --out are the same file ("${values.in}") - one would overwrite the other`
+    );
+  }
 
   return { run, options: { source: values.in, target: values.out } };
 }
@@ -414,6 +461,8 @@ try {
   const { run, options } = readCommand();
   run(options);
 } catch (error) {
-  console.error(`✖ ${(error as Error).message}`);
-  process.exit(1);
+  console.error(`✖ ${error instanceof Error ? error.message : String(error)}`);
+  // `exitCode`, not `process.exit()`: the latter does not flush a piped stdout, so the ✖ lines above
+  // could be lost on exactly the run that failed.
+  process.exitCode = 1;
 }

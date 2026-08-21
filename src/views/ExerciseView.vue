@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onBeforeUnmount, watchEffect } from 'vue';
 import { useExercise } from '@/application/useExercises';
 import { LEVEL_LABELS } from '@/domain/exercise';
 import { CATEGORY_RULE } from '@/components/categoryStyles';
 import CategoryBadge from '@/components/CategoryBadge.vue';
+import ResetIcon from '@/components/icons/ResetIcon.vue';
 
 // Exercise detail (DESIGN §5.6), read-only. The coach reads this standing at the wall, in a hurry:
 // the **Déroulement** is the payload they came for, so it is a scannable list - never a paragraph.
 const props = defineProps<{ id: string }>();
 
-const { exercise, notFound, isLoading, error } = useExercise(() => Number(props.id));
+const { exercise, notFound, isLoading, error, retry } = useExercise(() => Number(props.id));
 
 // Read only inside `v-else-if="exercise"`, but a computed evaluates regardless - hence the guard,
 // falling back to '' until the catalogue lands. (The category badge takes `exercise.categoryId`
@@ -48,6 +49,18 @@ const variantBlocks = computed<VariantBlock[]>(() => {
   if (v.easier?.length)
     out.push({ key: 'easier', label: 'Plus facile', up: false, items: v.easier });
   return out;
+});
+
+// The document title, which this page never set. A shared `/#/exercice/12` is the whole point of the
+// hash route, yet the tab, the back-stack entry and the OS share sheet all read a flat "AscendBox" -
+// so a coach sending three exercises to a colleague sends three identical-looking links. Restored on
+// unmount so the catalogue does not inherit an exercise's name.
+const BASE_TITLE = 'AscendBox';
+watchEffect(() => {
+  document.title = exercise.value ? `${exercise.value.title} — ${BASE_TITLE}` : BASE_TITLE;
+});
+onBeforeUnmount(() => {
+  document.title = BASE_TITLE;
 });
 </script>
 
@@ -88,7 +101,15 @@ const variantBlocks = computed<VariantBlock[]>(() => {
   <!-- Narrower measure than the feed's max-w-7xl: this page is read, not scanned as a grid, and a
        1280 px line length is unreadable. The sticky nav above shares it, so the edges line up (§5.8). -->
   <main class="page-gutter max-w-3xl py-6 lg:py-8">
-    <p v-if="error" class="state-error">{{ error }}</p>
+    <!-- Same retry affordance as the feed: a cold deep link is the *most* likely place to meet a
+         failed load, since it can be the app's first screen. -->
+    <div v-if="error" class="state-block">
+      <p class="state-error py-0">{{ error }}</p>
+      <button type="button" class="btn-ink gap-2" @click="retry">
+        <ResetIcon class="w-4 h-4" />
+        Réessayer
+      </button>
+    </div>
 
     <p
       v-else-if="isLoading"

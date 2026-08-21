@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, ref, nextTick } from 'vue';
-import { useExercises, DURATION_BUCKETS } from '@/application/useExercises';
+import { computed, ref, nextTick, watch } from 'vue';
+import { useExercises } from '@/application/useExercises';
+import { DURATION_BUCKETS } from '@/application/useFilters';
 import { LEVELS } from '@/domain/exercise';
 import FilterSheet from './FilterSheet.vue';
 import SearchIcon from './icons/SearchIcon.vue';
@@ -9,8 +10,8 @@ import CloseIcon from './icons/CloseIcon.vue';
 const {
   searchOpen,
   searchQuery,
-  openSearch: openSearchMode,
-  closeSearch: closeSearchMode,
+  openSearch,
+  closeSearch,
   selectedBuckets,
   selectedLevels,
   selectedTags,
@@ -24,22 +25,26 @@ const sheetOpen = ref(false);
 
 // Collapsible search (DESIGN §5.9): magnifier ⇄ field, instant swap (no transition). Below lg the
 // field takes the actions row; on lg+ it grows inline, capped in width. `searchOpen` is store state
-// (it widens the feed to the whole catalogue), so here we only wrap open/close to move focus with
-// the swap (a11y): to the field on open, back to the magnifier on close.
+// (it widens the feed to the whole catalogue); all this component owes it is that focus follows the
+// swap (a11y, §8).
 const searchInput = ref<HTMLInputElement | null>(null);
 const searchButton = ref<HTMLButtonElement | null>(null);
 
-async function openSearch(): Promise<void> {
-  openSearchMode();
-  await nextTick();
-  searchInput.value?.focus();
-}
-
-async function closeSearch(): Promise<void> {
-  closeSearchMode();
-  await nextTick();
-  searchButton.value?.focus();
-}
+// A watcher on the *state*, not wrappers around the two actions - because search closes by a third
+// route the wrappers never saw: `setCategory` calls the store's `closeSearch` directly. Tapping a
+// category pill with the field focused therefore destroyed the focused element and dropped focus to
+// <body>. This fires whichever way the mode is left, and the wrappers it replaces were also two
+// module-scope names shadowing the two store functions they called.
+watch(searchOpen, (open) => {
+  // Read before the DOM updates (`flush: 'pre'`): the element about to be removed still holds focus.
+  const leavingFocus = searchInput.value !== null && document.activeElement === searchInput.value;
+  void nextTick(() => {
+    if (open) searchInput.value?.focus();
+    // Only when the coach's focus is the thing being destroyed. Tapping a pill with the mouse must
+    // not yank focus to the magnifier.
+    else if (leavingFocus) searchButton.value?.focus();
+  });
+});
 
 // Applied attribute filters as removable chips (DESIGN §5.5): recognition over recall.
 //
@@ -75,10 +80,12 @@ const chips = computed<Chip[]>(() => [
        lg+: one line - title · centered scope · search + Filtres. -->
   <div class="page-gutter max-w-7xl py-4 flex flex-col gap-3">
     <div class="flex flex-wrap items-center gap-3 lg:flex-nowrap">
-      <!-- Screen title (DESIGN §3). Hidden while search is open below lg. -->
+      <!-- Screen title (DESIGN §3). Below sm the open field takes the row, so the title gives up its
+           pixels - but `sr-only`, never `hidden`: `hidden` left the document with no h1 at all on a
+           phone, which is the one place this app is actually used. -->
       <h1
         class="mr-auto lg:mr-0 lg:flex-1 text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
-        :class="searchOpen ? 'hidden sm:block' : 'block'"
+        :class="searchOpen ? 'sr-only sm:not-sr-only sm:block' : 'block'"
       >
         Exercices
       </h1>
