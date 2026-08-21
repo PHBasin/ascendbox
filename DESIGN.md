@@ -2,15 +2,33 @@
 
 AscendBox is a mobile-first PWA that lets climbing-club coaches browse training exercises.
 This document is the **design source of truth** for the UI. Product context (usage environment,
-audience) lives in `CLAUDE.md` - the rules here implement it.
+audience) lives in [`.claude/CLAUDE.md`](.claude/CLAUDE.md) - the rules here implement it.
 
 > **Technical context** - Vue 3 + Tailwind CSS **v4** (`tailwindcss@next`), _CSS-first_ config in
 > [`src/assets/main.css`](src/assets/main.css) via `@theme` (no `tailwind.config.js`). Tokens are
 > CSS variables exposed as utilities (`bg-physique`, `text-mental`, …). Read §10 (Tailwind v4 JIT)
 > before writing any dynamic class.
 
-Each rule carries its **rationale** so the system can evolve deliberately: change a rule by engaging
-its "because," never by overwriting it blind. Update this document in the same move as the code.
+Rules carry their **rationale** wherever it still governs a future change: change such a rule by
+engaging its "because," never by overwriting it blind. Rationale for a decision already applied and
+settled is _not_ kept here - that history lives in git, and a spec that also narrates its own past
+stops being scannable. Update this document in the same move as the code.
+
+## Contents
+
+| §                                                                 | What it settles                                          |
+| ----------------------------------------------------------------- | -------------------------------------------------------- |
+| [1. Principles](#1-principles)                                    | the six rules every other section answers to             |
+| [2. Colour](#2-foundations---colour)                              | categories, neutrals, the level scale, contrast targets  |
+| [3. Typography](#3-typography)                                    | the type scale and what scales with what                 |
+| [4. Spacing & layout](#4-spacing--layout)                         | the 4px grid, the five rhythm tiers, radii, separation   |
+| [5. Components](#5-components)                                    | card, scope bar, gauge, tags, filter sheet, detail, bars |
+| [6. Motion](#6-motion)                                            | three durations, and nothing outside them                |
+| [7. Theming](#7-theming)                                          | OS-driven light/dark                                     |
+| [8. Accessibility](#8-accessibility)                              | targets, redundant encoding, focus, announcements        |
+| [9. Content](#9-content)                                          | what belongs on a card vs. the detail page               |
+| [10. Tailwind v4 JIT](#10--critical-constraint---tailwind-v4-jit) | the two constraints that bite silently                   |
+| [11. Where to add what](#11-where-to-add-what)                    | the file to open, per kind of change                     |
 
 ---
 
@@ -92,8 +110,9 @@ dark:slate-300`, §2.2) rather than full ink: the gauge is icon-sized and rides 
   the detail page's spec block (§5.6) there is exactly one level on screen, nothing to compare it
   against, and an icon on one value out of three breaks the block's typographic alignment: there the
   word stands alone. Dropping it costs nothing against §1.3, which polices hue, not glyphs.
-- An optional semantic accent (`--color-level-*`) may tint the **label** where it clears AAA - never
-  the gauge, never as the sole cue.
+- **The scale is achromatic, full stop.** There is no `--color-level-*` token and none is to be
+  added: [`main.css`](src/assets/main.css) says so at the point where one would go. Count and word
+  carry the level; hue carries nothing.
 
 ### 2.4 Contrast targets
 
@@ -127,13 +146,11 @@ offline (latin + latin-ext).
 
 Weight and size carry hierarchy; do not use colour boxes to rank information.
 
-**An action scales like the title band.** The two action rows above are not decoration: without them
-the table described page roles only, an apply bar had no row to sit in, and the sheet's CTA was set
-by hand at a fixed `text-base` while everything around it scaled. At `lg` that inverted the
-hierarchy - the `Filtres` button that _opens_ the panel reached **18px** (title band) while the
-`Voir N exercices` that confirms it stayed at **16px**. A primary action must never end up smaller
-than the control that opened it, so it scales on the same step. `.btn-ink` stays fixed at `text-sm`
-on purpose: it is an inline pill (empty state, back to catalogue), not the primary act of a surface.
+**An action scales like the title band.** A primary action must never end up smaller than the control
+that opened it, so it scales on the same step - otherwise `Filtres` reaches 18px at `lg` while the
+`Voir N exercices` confirming it sits at 16px, and the hierarchy inverts. `.btn-ink` stays fixed at
+`text-sm` on purpose: it is an inline pill (empty state, back to catalogue), not the primary act of
+a surface.
 
 **One title size links the page.** Card titles and the header's scope pills + `Filtres` share the
 title size (`text-base → lg:text-lg`), so the scope reads as the same family as the cards it filters.
@@ -143,18 +160,16 @@ one step at `lg`; meta/eyebrow stay fixed - deliberately small. The base _is_ th
 scale below it.
 
 **One size _and_ one weight.** The band is `font-bold` in all four of its members - card titles, scope
-pills, `Filtres`, the detail's back link. Two of them once sat at `font-semibold`, which draws a
-hierarchy that is not there: they are the same tier, so they must not differ by weight either.
+pills, `Filtres`, the detail's back link. They are the same tier, so they must not differ by weight
+either; a stray `font-semibold` draws a hierarchy that is not there.
 
 **The lead sits one step above body, not one below the title.** The detail's `objective` is the line a
 coach reads at arm's length before committing to a page (§5.6), so it earns its own row rather than
-borrowing the body's. Without it the table described page and card roles only, and a reading surface
-had nowhere to sit - the same hole that let the sheet's apply bar fall out of the scale.
+borrowing the body's.
 
-**The spec value is the one content-ish role that stays fixed, and that is the point.** Letting it
-scale to 18px was rendered and rejected: it then equals the lead, and the lead is what the coach must
-read first. `Durée · Niveau · Matériel` are figures to check, not prose to read - they sit one step
-under the objective at every width, deliberately.
+**The spec value is the one content-ish role that stays fixed, and that is the point.** Scaled to
+18px it equals the lead, and the lead is what the coach must read first. `Durée · Niveau · Matériel`
+are figures to check, not prose to read - they sit one step under the objective at every width.
 
 ---
 
@@ -192,13 +207,12 @@ Below the atom, only typographic micro-gaps: title↔teaser `gap-1` (4), gauge s
 
 > **The long-form tier is `ExerciseView`'s, and only its** - the category rule beside the identity
 > block, the spec grid, and the numbered `instructions` spine (step badge↔text, and step↔step at the
-> Component 20). The other four tiers were calibrated on the catalogue, which is a **list**; the detail
-> is a **reading surface**, and a numbered badge is neither an icon inside a control (Atom, 8) nor a
-> meta glyph (6) - it is a structural marker in continuous prose, and it needs more air than either.
-> Conforming it was rendered and rejected on the evidence: pulling badge↔text to 12 crowds the number
-> against its line, pushing step↔step to 24 stretches the spine until five steps stop reading as one
-> sequence, and the page ends up **39px taller** for it. A tier that earns a screen is not an
-> exception; an undocumented value is. Do not spend 16 as a gap anywhere else.
+> Component 20). The other four tiers were calibrated on the catalogue, which is a **list**; the
+> detail is a **reading surface**, and a numbered badge is neither an icon inside a control (Atom, 8)
+> nor a meta glyph (6) - it is a structural marker in continuous prose, and it needs more air than
+> either. Conforming it to the other tiers was rendered and rejected: 12 crowds the number against
+> its line, 24 stretches the spine until five steps stop reading as one sequence, and the page ends
+> up **39px taller**. Do not spend 16 as a gap anywhere else.
 
 **icon↔text - two values, by role.** Inside a **control** (scope pills, `Filtres`, sheet reset,
 empty-state action) the icon sits at the atom `gap-2` (8). Inside **meta** (`text-xs` - card
@@ -228,24 +242,19 @@ The grid gap stays a flat `gap-6` (the page unit) at every size; the filter shee
 | `rounded-3xl`  | **surfaces** - cards, the filter sheet            |
 | `rounded-full` | **every control** - buttons, pills, chips, fields |
 
-A third step (`rounded-2xl`, once billed here as "buttons/tiles") described nothing the app actually
-built: all sixteen controls are `rounded-full`, and its only visible use was the sheet's apply bar —
-an orphan radius, _less_ rounded than the sheet containing it and the pills beside it, which is
-exactly why it read as square. Two radii is not a simplification of the system; it is the system,
-written down correctly. Shape therefore never distinguishes one control from another - size, width
-and fill do (§5.5).
+A third step (`rounded-2xl`) is **not** in the system: every control is `rounded-full` and the
+codebase contains no `rounded-2xl` at all. Shape therefore never distinguishes one control from
+another - size, width and fill do (§5.5).
 
 **Separation by border + surface contrast, not shadow - everywhere, the filter sheet included.** An
 overlay earns its edge the same way a card does: its own surface token plus a border. The sheet
 carries a soft top shadow on top of that, but as reinforcement only; nothing may rest on it.
 
-> **The exception this replaces failed exactly where it was needed.** The sheet used to be granted a
-> shadow _instead_ of surface contrast - and it was painted in the **page's** background token
-> (`bg-slate-50 dark:bg-slate-900`), so in dark mode it measured **1.00:1** against the page behind
-> it: the same colour. Its shadow was `rgba(15,23,42,0.18)` - slate-900 at 18% over slate-900, a
-> shadow the colour of its own background. Only the rounded corners said an overlay was there. On the
-> `.card` surface (`bg-white dark:bg-slate-800`) the gap is **1.22:1**, the delta cards already hold.
-> The one component that most needed separation was the one place the rule was waived.
+> **A surface may never wear the page's own background token.** Painted `bg-slate-50
+dark:bg-slate-900`, the sheet measured **1.00:1** against the page behind it in dark mode - the
+> same colour, with only its corners to say an overlay was there, and a shadow the colour of its own
+> background. On the `.card` surface (`bg-white dark:bg-slate-800`) the gap is **1.22:1**, the delta
+> cards already hold. This is why §5.5 spends `.card` on the sheet rather than a page tone.
 
 ---
 
@@ -285,11 +294,11 @@ at the same height across a grid row however long each teaser runs. Pinning only
 it splits the tags from their rule. The card's slack belongs on the content↔metadata boundary, not
 inside either zone.
 
-**The teaser is clamped to 3 lines** (`line-clamp-3`) - a guarantee, not a cut. At the supported
-widths nothing in the catalogue reaches a 4th line, so today it truncates **nothing** while still
-bounding what a hand-authored entry can become in production. A clamp that never fires is free. (`-2`
-was tried and cut **68%** of the catalogue - many of them Mental, whose prose _is_ the exercise; the
-mistake was treating a layout guarantee as an editorial rule.)
+**The teaser is clamped to 3 lines** (`line-clamp-3`) - a guarantee, not a cut. It truncates nothing
+in the catalogue today while still bounding what a hand-authored entry can become in production; a
+clamp that never fires is free. Do not tighten it to `-2` to enforce brevity: that is an editorial
+rule wearing a layout guarantee's clothes, and Mental exercises - whose prose _is_ the exercise -
+are the ones it cuts.
 
 **Teaser length - think in lines, not characters.** The teaser box is `viewport − 105px`, and real
 French prose at 15px Inter measures ~7.1px per character (7.4 worst case in this catalogue). That
@@ -303,23 +312,20 @@ gives one usable rule:
 | **Ceiling** | **100**  | past it `line-clamp-3` truncates; a 3-line teaser outweighs the title ~3.4× and the card reads description-led |
 
 **The ceiling is the 390px budget** (box 285px ≈ 38 chars/line). **A character count only means
-something next to the width it was measured at**: the previous ceiling of 108 was also a 390px number
-but stated unconditionally, and it silently truncated 13 teasers on a 360px phone. 100 keeps real
-headroom at 390 instead of sitting 6 chars from the edge.
+something next to the width it was measured at** - a ceiling stated unconditionally is one that has
+not been measured at the narrowest width it has to hold.
 
-**Known gap - 360px is not yet guaranteed.** At 360 (the common Android width) the budget is ~34
-chars/line and **5 teasers still reach a 4th line** (ids 52, 92, 95, 98, 100). A true 360 guarantee
-needs a ceiling near **90**, which 29 of the current teasers exceed. That is deferred to the
-teaser/`instructions` split (CLAUDE.md), which rewrites these same strings toward the 70 target
-anyway - doing it twice would be wasted editing. Re-measure and drop the ceiling to 90 then.
+**360px is covered, measured rather than assumed.** Rendered at 360 (the common Android width),
+**every one of the 123 teasers lands on 2 or 3 lines - none reaches a 4th** (115 at two lines, 8 at
+three; at 390 it is 122 and 1). The editorial rewrite has since brought the longest teaser to **84
+chars**, with only 4 above the 70 target and none above 90, so the ceiling of 100 now sits well clear
+of the data at both widths. _Measured 2026-08-22, headless Chromium, whole catalogue._
 
 Note that no character ceiling can _prove_ the clamp holds: wrapping breaks on words, so a 92-char
-teaser with long words spills to 4 lines where a 100-char one with short words does not. All four of
-the 4-line cases at 360 are under 100. The number is a cheap heuristic; the clamp is the guarantee.
-
-Wrapping follows words, not characters, so the target is deliberately conservative and the clamp is
-the real backstop. Do **not** turn 70 into a validated hard limit - it is an aim, and the clamp
-already covers the failure.
+teaser with long words spills to 4 lines where a 100-char one with short words does not. The number
+is a cheap heuristic; the clamp is the guarantee. So do **not** turn 70 into a validated hard limit -
+it is an aim, and the clamp already covers the failure. `validate:data` enforces the ceiling as an
+error and the target as a warning only, exactly on that reasoning.
 
 **Contextual category - no redundancy.** The scope is always exactly one category (§5.2), so a badge
 on every card would just repeat it. The card omits it while browsing (title leads) and shows it only
@@ -432,11 +438,18 @@ meaning), so the card must not mimic them.
 **On a card, tags never exceed one line** - and the guarantee is **CSS, not a count**: `flex-wrap` +
 `max-h-[1lh]` + `overflow-hidden` clips an overflowing tag on a whole second row (`flex-nowrap` would
 clip mid-word, "#lect"). A cap on the _number_ of tags cannot promise a line - three short tags fit
-where two long ones do not - so `slice(0, 3)` in `ExerciseCard` is only a sane default (3 = the widest
-entry today), never the promise.
+where two long ones do not - so the `slice` in `ExerciseCard` is a DOM backstop, never the promise.
+
+> **Tie the backstop to the layout, not to the catalogue.** It was `slice(0, 3)`, justified as "the
+> widest entry today". The catalogue outgrew it: **55 of 123 exercises now carry 4 or 5 tags**, so
+> nearly half the cards were dropping a tag the row had room for. Rendered with every tag at 360px,
+> only **two** cards overflow (ids 113 and 121) and one at 390 (id 113) - which is precisely the case
+> `max-h-[1lh]` exists to clip. The slice is now **6**, deliberately above any plausible entry rather
+> than on the current maximum, so it cannot go stale the same way twice. _Measured 2026-08-22._
 
 > **`lh` gotcha:** the unit resolves against the element's **own** line-height, so the list must carry
 > `text-xs` itself. Inheriting the parent's 24px let half a second row through and clipped tags in two
+>
 > - invisible in the current catalogue, which is why a long-tag stress test caught it, not the eye.
 
 ### 5.5 Filter sheet - secondary refinement
@@ -446,25 +459,37 @@ _attribute_ filters, each a labelled section with the same tap interaction:
 
 - **Durée** - buckets (`< 10 min` · `10–25 min` · `> 25 min`), multi-select.
 - **Niveau** - `Débutant` · `Intermédiaire` · `Avancé`, multi-select.
-- **Tags** - most-used first, all of them, always shown. **No in-sheet search field.** One was
-  specified here ("once the list exceeds ~10") and built; it is removed. When that call was made the
-  catalogue held **11** distinct tags; **re-measured 2026-08-21 it holds 25** across 123 exercises,
-  so the "~10" threshold this paragraph set for itself has been passed — the decision now rests on
-  the argument below, not on the count. Revisit it with a real measurement of whether 25 chips still
-  fit the sheet. Each exercise carries at most 3, so the threshold was originally met by a single
-  tag — a text field to filter chips a coach can already see, on the surface §5.5 calls
-  _secondary_ refinement, in a sheet read with gloves on. Typing to reach what is one tap away
-  is the taxing interaction §5.9 keeps the whole search path collapsed to avoid. Reintroduce it
-  only if the tag vocabulary grows enough that the chips no longer fit the sheet.
+- **Tags** - most-used first, all of them, always shown. **No in-sheet search field**, and the reason
+  is the interaction, not the count: a text field to filter chips a coach can already see, on the
+  surface this § calls _secondary_ refinement, in a sheet read with gloves on. Typing to reach what
+  is one tap away is exactly the tax §5.9 keeps the whole search path collapsed to avoid. The old
+  "reintroduce it past ~10 tags" threshold is **withdrawn** - it measured the wrong thing (see the
+  height budget below, which a search field would worsen rather than fix).
+
+> **The sheet is at its height budget, and that is the live constraint.** The scope decides how many
+> chips it holds, because the sheet only ever offers `availableTags` for the current scope - never
+> the catalogue's full vocabulary unless search is open. Measured 2026-08-22 at **360px**, against
+> `max-h-[85vh]`:
+>
+> | Scope        | Chips | Overflow | `Voir N exercices` reachable without scrolling |
+> | ------------ | ----- | -------- | ---------------------------------------------- |
+> | Physique     | 13    | —        | yes                                            |
+> | Mental       | 16    | 62px     | **no**                                         |
+> | Technique    | 21    | 114px    | **no**                                         |
+> | Search (all) | 25    | 218px    | **no**                                         |
+>
+> At 390px the same three overflow by 10 / 62 / 166px. So on three of four scopes the **primary
+> action sits below the fold of a bottom sheet whose entire rationale is thumb-zone reach** (§4).
+> The panel is therefore **out of vertical budget**: nothing may be added to it that costs height —
+> a filter-the-filters field least of all, since it would pay height to solve a height problem. The
+> fix itself is a task, not a rule, and is tracked in [`.claude/CLAUDE.md`](.claude/CLAUDE.md)
+> (§ Tasks); the budget constraint above holds whichever way it is settled.
 
 Options wear the same skin as the scope pills (§5.2) - literally: both spend `.toggle-on` /
 `.toggle-off` (§11), **and the same timing**, via `TOGGLE_ON` / `TOGGLE_OFF` (§6). The asymmetry
-belongs to the toggle, not to the bar it sits in; while it was written out only in `CategoryScope`,
-these three sections ran a flat 300/300 and quietly contradicted the "same interaction" above. All three sections carry
-**one weight**, the `text-sm font-medium` of §3: they are the same control three times, and Durée and
-Niveau once drifted to `font-semibold` while Tags stayed correct - three rows of one control in two
-weights, for no stated reason. The skin classes hold colour only; weight lives at the call site, so
-that is where it has to be kept honest.
+belongs to the toggle, not to the bar it sits in. All three sections carry **one weight**, the
+`text-sm font-medium` of §3 - they are the same control three times. The skin classes hold colour
+only; weight lives at the call site, so that is where it has to be kept honest.
 
 **Width and vertical anchoring are two rules, on two breakpoints.** Each moves one variable, like the
 rest of the responsive - folding both into `lg` once made a single pixel change five things at once.
@@ -525,20 +550,12 @@ so anything above the CTA leaves it at a constant distance from that edge, while
 shift the primary target every time the reset appears.
 
 > **Where the row starts, and why it is `sm`.** The reset is conditional, so pairing them halves the
-> CTA the moment a filter is applied. What decides the breakpoint is whether that half still reads as
-> the primary action beside the option pills it now shares ink and radius with - widest 124px:
->
-> | Viewport | CTA in a row | vs. widest pill |
-> | -------- | ------------ | --------------- |
-> | 390px    | 165px        | 1.3× - too thin |
-> | 640px    | 290px        | 2.3×            |
-> | 768px    | 354px        | 2.9×            |
->
-> At 390px the target under the thumb shrinks because a _different_ button appeared, and 1.3× is not
-> enough separation. By 640px it is already roomier than the **305px / 2.5×** the `lg` modal itself
-> ships, so the objection has stopped applying. Stopping at `lg` instead would have left tablets a
-> **720–975px** apply bar - the very slab the `max-w-2xl` cap exists to remove. Set the breakpoint
-> where the reason expires, not where the next named device begins.
+> CTA the moment a filter is applied; the breakpoint is where that half still reads as the primary
+> action beside the 124px option pills. At 390px it is 165px - **1.3×**, too thin, and the target
+> under the thumb shrank because a _different_ button appeared. At 640px it is 290px (**2.3×**),
+> already roomier than the 2.5× the `lg` modal itself ships, so the objection has expired. Waiting
+> for `lg` would leave tablets a 720–975px apply bar - the slab `max-w-2xl` exists to remove. Set a
+> breakpoint where the reason expires, not where the next named device begins.
 
 > **Named for what it clears.** `Effacer les filtres` (sheet) drops the attribute filters;
 > `Tout réinitialiser` (the feed's empty state) also drops search mode. The two scopes differ, so the
@@ -638,12 +655,11 @@ one trailing past the final step reads as an unfinished list.
 > pick from, not a sequence you execute, so numbering them would assert an order that is not there.
 > The marker encodes what the content _is_.
 
-> **Why the numeric `Déroulé` tiles were removed.** They were fed by a `protocol` object
-> (`reps`/`sets`/`restSec`/`holdSec`) that broke twice on real content: `restSec` meant "rest between
-> sets" but #8 needs rest **between reps**, and nothing could express #2's "5 s **par bras**" - the
-> tile rendered "5 s TENUE", wrong by half. A fixed vocabulary of four figures cannot describe ~100
-> hand-authored exercises; a sentence can. Prose absorbs the exception at zero schema cost, which is
-> the whole reason the tiles are gone rather than patched.
+> **There is no `protocol` field, and none is to be added.** The numeric `Déroulé` tiles it fed
+> (`reps`/`sets`/`restSec`/`holdSec`) broke on real content: `restSec` meant rest between _sets_
+> where some exercises need it between _reps_, and nothing could express "5 s **par bras**". A fixed
+> vocabulary of four figures cannot describe 123 hand-authored exercises; a sentence can. Figures
+> live in `instructions` prose - the exceptions are the rule here.
 
 **Markers are drawn, not `list-disc`/`list-decimal`.** A native marker inherits the line-height and
 drifts off the first line as the item wraps. `Adapter`'s bullets are a `w-1.5` span pinned at `mt-2.5`
@@ -683,9 +699,8 @@ each block self-hides (§5.6); a lone block keeps its half-width column rather t
 `animate-pulse` on `slate-200 dark:slate-700` blocks in the card's shape; the shell stays interactive
 during `fetch` (`aria-busy` + `aria-live="polite"`).
 
-It hands over to the feed through the **same** keyed crossfade as every other feed state (§6). This
-is the most-watched moment in the app and it used to cut: the state chain animated only the category
-switch, so three of its four branches popped.
+It hands over to the feed through the **same** keyed crossfade as every other feed state (§6) - the
+most-watched moment in the app, so no branch of the state chain may pop.
 
 **The failure state is not a dead end.** When the load fails, the feed and the detail page both show
 `.state-error` copy inside a `.state-block` with a **`Réessayer`** `.btn-ink` — the same shape the
@@ -725,7 +740,7 @@ genuinely tight; from `sm` up the title **stays** and the field is **capped** (`
 beside Filtres, so a tablet never gets a half-empty ~600px field. Focus follows the swap (§8).
 
 **Opening the field is itself a mode switch** - it **supersedes the category scope** and shows the
-**whole catalogue** (empty query = every exercise, ~100 of them); a typed term narrows it, matching
+**whole catalogue** (empty query = all 123 exercises); a typed term narrows it, matching
 title + teaser + tags (case- and accent-insensitive). The scope pills deselect accordingly
 (§5.2). Closing (✕ / `Esc`) drops the mode; picking a category also exits search (`setCategory` →
 `closeSearch`).
@@ -882,18 +897,18 @@ cannot tell you which layer won.
 
 ## 11. Where to add what
 
-| I want to…                        | File                                                                                                                                                             |
-| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Add / change a token colour       | `@theme` in [`main.css`](src/assets/main.css)                                                                                                                    |
-| Add a category (+ icon)           | [`domain/exercise.ts`](src/domain/exercise.ts) `CATEGORIES` + token in `@theme` + a path in [`CategoryIcon.vue`](src/components/CategoryIcon.vue) (the icon map) |
-| Change a category tint / rule     | [`categoryStyles.ts`](src/components/categoryStyles.ts) - never a copy in a component (§10)                                                                      |
-| Change the select/deselect timing | [`toggleStyles.ts`](src/components/toggleStyles.ts) - `TOGGLE_ON` / `TOGGLE_OFF`, read by the scope bar **and** the sheet (§6)                                   |
-| Rename a level / category label   | [`domain/exercise.ts`](src/domain/exercise.ts) - `LEVELS` / `CATEGORIES`; the label records derive from them                                                     |
-| Create a reusable class (`.card`) | `@layer components` in [`main.css`](src/assets/main.css)                                                                                                         |
-| Change a card / chip / gauge      | the relevant component in [`src/components/`](src/components/)                                                                                                   |
-| Add an icon used in **2+** places | a component in [`src/components/icons/`](src/components/icons/); a single-use glyph stays inline                                                                 |
+| I want to…                        | File                                                                                                                                                               |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Add / change a token colour       | `@theme` in [`main.css`](src/assets/main.css)                                                                                                                      |
+| Add a category (+ icon)           | [`domain/exercise.ts`](src/domain/exercise.ts) `CATEGORIES` + token in `@theme` + a path in [`CategoryIcon.vue`](src/components/CategoryIcon.vue) (the icon map)   |
+| Change a category tint / rule     | [`categoryStyles.ts`](src/components/categoryStyles.ts) - never a copy in a component (§10)                                                                        |
+| Change the select/deselect timing | [`toggleStyles.ts`](src/components/toggleStyles.ts) - `TOGGLE_ON` / `TOGGLE_OFF`, read by the scope bar **and** the sheet (§6)                                     |
+| Rename a level / category label   | [`domain/exercise.ts`](src/domain/exercise.ts) - `LEVELS` / `CATEGORIES`; the label records derive from them                                                       |
+| Create a reusable class (`.card`) | `@layer components` in [`main.css`](src/assets/main.css)                                                                                                           |
+| Change a card / chip / gauge      | the relevant component in [`src/components/`](src/components/)                                                                                                     |
+| Add an icon used in **2+** places | a component in [`src/components/icons/`](src/components/icons/); a single-use glyph stays inline                                                                   |
 | Trap focus in a modal surface     | [`useFocusTrap.ts`](src/components/useFocusTrap.ts) - focus in, `Tab` contained, focus restored on close (§8); the caller keeps `inert`, the scroll lock and `Esc` |
-| Pick spacing                      | the §4 scale - nearest named step, never arbitrary                                                                                                               |
+| Pick spacing                      | the §4 scale - nearest named step, never arbitrary                                                                                                                 |
 
 **Shared classes** live in `@layer components` in [`main.css`](src/assets/main.css), and are earned
 by **repetition**: a look worn in 2+ places becomes a class, a single use stays at its call site —
@@ -925,6 +940,8 @@ harder to unpick later than a shared colour:
 | `.page-gutter` | centred measure + the §4 side padding; the `max-w-*` cap stays at the call site |
 | `.state-block` | the centred empty / not-found column - message, then an optional action         |
 
-> **Implementation tracking lives in [`CLAUDE.md`](CLAUDE.md) (§ Tasks), not here.** This document is
-> the design source of truth; what is built vs. pending is recorded there. The exercise detail page
-> (§5.6) is the main piece specified here but not yet fully filled in.
+> **Implementation tracking lives in [`CLAUDE.md`](.claude/CLAUDE.md) (§ Tasks), not here.** This
+> document is the design source of truth; what is built vs. pending is recorded there. Every surface
+> specified above is built. What remains is **content**: as of 2026-08-22, `objective` and
+> `instructions` are on all 123 exercises, while `equipment` (40), `variants` (28) and `safety` (4)
+> are still partial - so §5.6's self-hiding sections are load-bearing today, not a future concern.

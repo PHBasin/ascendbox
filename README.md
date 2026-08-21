@@ -66,7 +66,16 @@ npm run dev      # start the dev server at http://localhost:3000
 | `npm run lint`          | ESLint over the project, auto-fixing where possible (`--fix`).                                                    |
 | `npm run lint:ci`       | ESLint with no auto-fix - the exact gate CI runs.                                                                 |
 | `npm run validate:data` | Check `exercises.json` against the `Exercise` contract (`--verbose` lists every editorial warning).               |
+| `npm run data:export`   | JSON → CSV for spreadsheet editing (`-- --out fichier.csv`; default `exercises.csv`, gitignored).                 |
+| `npm run data:import`   | CSV → JSON (`-- --in fichier.csv`).                                                                               |
 | `npm run format`        | Prettier write across the project ([`.prettierrc`](.prettierrc): 100 cols, single quotes, `es5` trailing commas). |
+
+> 📄 **`data:import` converts; it does not check.** Editing 123 exercises is a job for a spreadsheet,
+> so the catalogue round-trips through a `;`-separated, BOM'd CSV that a French Excel opens without an
+> import wizard. The converter refuses only what would make the conversion _unfaithful_ (a `|` inside
+> a value, a mismatched header, a file with no data row - which would otherwise erase the catalogue
+> silently). Judging the **content** is `validate:data`'s job: run it as a separate second step after
+> every import. `git checkout` is the undo.
 
 > ℹ️ There is **no test runner yet**, but correctness is enforced **statically**:
 >
@@ -107,12 +116,12 @@ source can be swapped without touching the UI. Dependencies flow in a single dir
 domain  →  data  →  application  →  presentation
 ```
 
-| Layer            | File                                                                 | Role                                                                                                                                                                                                |
-| ---------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Domain**       | [`src/domain/exercise.ts`](src/domain/exercise.ts)                   | Pure business entities & types. Single source of truth for the closed vocabularies - `CATEGORIES` and `LEVELS`, with their label records derived from them. Zero framework dependency.              |
-| **Data**         | [`src/data/exerciseRepository.ts`](src/data/exerciseRepository.ts)   | The only module that knows the source. `fetch`es the JSON, freezes it (`Object.freeze`) and caches it. Swap it to move to an API.                                                                   |
-| **Application**  | [`src/application/useExercises.ts`](src/application/useExercises.ts) | State composable (shared singleton): scope, search, filtering, pagination, loading/error. Behavior lives here.                                                                                      |
-| **Presentation** | [`src/views/`](src/views/) + [`src/components/`](src/components/)    | One component per route (`HomeView`, `ExerciseView`), plus purely visual components: `HeaderToolbar`, `CategoryScope`, `CategoryIcon`, `ExerciseFeed`, `ExerciseCard`, `LevelGauge`, `FilterSheet`. |
+| Layer            | File                                                               | Role                                                                                                                                                                                                                                                                                         |
+| ---------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Domain**       | [`src/domain/exercise.ts`](src/domain/exercise.ts)                 | Pure business entities & types. Single source of truth for the closed vocabularies - `CATEGORIES` and `LEVELS`, with their label records derived from them. Zero framework dependency.                                                                                                       |
+| **Data**         | [`src/data/exerciseRepository.ts`](src/data/exerciseRepository.ts) | The only module that knows the source. `fetch`es the JSON, **validates the payload**, freezes and caches it, and aborts after 10 s. Swap it to move to an API.                                                                                                                               |
+| **Application**  | [`src/application/`](src/application/)                             | State as a shared singleton, split by owner: `useCatalogue` (data + load/retry), `useSearch`, `useFilters`, `usePagination`, and `useExercises` as the façade. Behavior lives here, not in components.                                                                                       |
+| **Presentation** | [`src/views/`](src/views/) + [`src/components/`](src/components/)  | One component per route (`HomeView`, `ExerciseView`) over an `App.vue` that is only a `<RouterView>`, plus presentational components - `HeaderToolbar`, `CategoryScope`, `ExerciseFeed`, `ExerciseCard`, `FilterSheet`, `LevelGauge`, `CategoryBadge`, `ToggleChip` and the `icons/` glyphs. |
 
 - **Path alias**: `@` → `./src` (declared in both `vite.config.ts` **and** `tsconfig.json`).
 - **Routing**: [`src/router/index.ts`](src/router/index.ts) - **hash** history (`/#/exercice/12`), because GitHub Pages is a static host with no rewrite rule.
@@ -121,7 +130,13 @@ domain  →  data  →  application  →  presentation
   [`categoryStyles.ts`](src/components/categoryStyles.ts) and the shared toggle recipe in
   [`toggleStyles.ts`](src/components/toggleStyles.ts); a glyph used more than once is a component
   in [`src/components/icons/`](src/components/icons/). See [DESIGN.md §10/§11](DESIGN.md).
+- **Failures are values, not sentences**: the repository raises a `CatalogueError` carrying a `kind`
+  (`network` / `timeout` / `http` / `malformed`). Infrastructure knows what broke; `useCatalogue` is
+  the single place that turns that into French copy, and every failure state offers **`Réessayer`**.
 - **Design system**: see [DESIGN.md](DESIGN.md).
+- **Deeper architecture notes**: [`.claude/CLAUDE.md`](.claude/CLAUDE.md) is the internal reference -
+  it carries the reasoning behind each layer, and is where work in flight is tracked. This README
+  stays the short version on purpose.
 
 ## 📂 Data
 
@@ -129,9 +144,9 @@ Exercises live in [`public/data/exercises.json`](public/data/exercises.json), **
 (out of the JS bundle for a better _time-to-interactive_; preloaded via `<link rel="preload">` in
 [`index.html`](index.html)).
 
-Each entry conforms to the `Exercise` interface. Seven fields are required; the rest feed the detail
-page (§5.6) and are **optional by design** - the catalogue is authored incrementally, and a section
-with no data simply does not render.
+The catalogue holds **123 exercises**. Each entry conforms to the `Exercise` interface: seven fields
+are required, and the rest feed the detail page (DESIGN §5.6) and are **optional by design** - the
+catalogue is authored incrementally, and a section with no data simply does not render.
 
 ```json
 {
@@ -157,6 +172,12 @@ with no data simply does not render.
 - **`teaser` ≠ `objective` ≠ `instructions`** - three surfaces, not one field. The teaser is the
   card's hook and says _what you do_; the objective is the detail's subtitle and says _what it buys
   you_; `instructions` is the step-by-step, one bullet per step. The detail never echoes the teaser.
+- **There is no `protocol`.** Figures live inside `instructions` prose, in the unit a coach says out
+  loud ("3 min", never "180 s") - a fixed vocabulary of `reps`/`sets`/`restSec` could not describe a
+  hand-authored catalogue (DESIGN §5.6).
+
+**Authoring status** (2026-08-22): `objective` and `instructions` are complete on all 123 entries;
+`equipment` is on 40, `variants` on 28 and `safety` on 4.
 
 > Because the JSON is _fetched_ (not imported), `vue-tsc` cannot see it - a schema drift would only
 > fail at runtime, in the field. **`npm run validate:data` is the gate that closes this** and runs in
@@ -219,17 +240,20 @@ ascendbox/
 │   ├── favicon.svg           # logo (isometric cube + chevron)
 │   ├── CNAME                 # custom domain
 │   └── pwa-*.png, apple-touch-icon.png, maskable-512x512.png
-├── scripts/validate-data.ts  # the data-contract gate
+├── scripts/
+│   ├── validate-data.ts      # the data-contract gate
+│   └── exercises-csv.ts      # JSON ⇄ CSV, for spreadsheet editing
 ├── src/
 │   ├── domain/               # entities & types
 │   ├── data/                 # data access
-│   ├── application/          # state & logic (composables)
+│   ├── application/          # state & logic (5 composables)
 │   ├── router/               # routes (hash history)
 │   ├── views/                # one component per route
 │   ├── components/           # Vue components
 │   │   ├── icons/            # glyphs used in 2+ places
 │   │   ├── categoryStyles.ts # the category palette, as classes
-│   │   └── toggleStyles.ts   # the shared toggle recipe
+│   │   ├── toggleStyles.ts   # the shared toggle recipe
+│   │   └── useFocusTrap.ts   # focus containment for modal surfaces
 │   ├── assets/main.css       # Tailwind v4 tokens (@theme) + shared classes
 │   ├── App.vue               # shell: <RouterView> and nothing else
 │   └── main.ts               # entry point
@@ -250,32 +274,26 @@ Work actually in flight is tracked in [`.claude/CLAUDE.md`](.claude/CLAUDE.md), 
 ### Quality & robustness
 
 - **Tests** - there are no tests yet. Add [Vitest](https://vitest.dev/) for the logic
-  ([`useExercises.ts`](src/application/useExercises.ts): filtering, pagination) and
+  ([`src/application/`](src/application/): filtering, pagination, the search index) and
   [Vue Test Utils](https://test-utils.vuejs.org/) for the components, then wire them into the
-  Quality Gate.
-- **Runtime JSON validation** - `validate:data` guards the file in CI, but the app itself trusts what
-  it fetches. Validating in [`exerciseRepository.ts`](src/data/exerciseRepository.ts) would also catch
-  a bad response from a future API.
+  Quality Gate. **Automated accessibility assertions** (axe-core) come with the same setup, and
+  splitting `tsconfig.json` into app/node projects is the step that unblocks it.
 
 ### Features
 
 - **Favorites** for exercises (persisted in `localStorage`).
-- **Session builder** - pick exercises to assemble a training session.
+- **Session builder** - pick exercises to assemble a training session. DESIGN §5.6 already keeps the
+  detail page's sticky footer out of scope until this exists.
 
 ### Technical
 
-- **API migration** - the architecture is already prepared: just rewrite
-  [`exerciseRepository.ts`](src/data/exerciseRepository.ts); nothing else moves.
 - **TypeScript 7** - held back, not skipped: the native compiler rewrite is stable, but
   `typescript-eslint` still requires `typescript <6.1.0`, so upgrading would break type-aware
   linting. Pinned to `^6.0.0` until that peer range moves.
-- **Automated accessibility tests** (axe-core) - component-level a11y assertions, to come with the Vitest setup above.
 
-### Content (see [DESIGN.md](DESIGN.md) - status tracked in [`.claude/CLAUDE.md`](.claude/CLAUDE.md))
+### Content
 
-- **Fill in the detail content** - the detail page ([DESIGN.md §5.6](DESIGN.md)) is built, but only
-  **id 1** is fully authored; id 2 carries `objective` / `instructions` / `variants` and nothing
-  more. The other 98 show the identity and spec blocks alone. Content work, not code.
-- **Rewrite the teasers** - 92 of the 100 sit above the 70-character editorial target (none breaks
-  the 100 ceiling). They still recite protocols that `instructions` now displays properly, so they
-  should shrink as the detail content lands.
+- **Finish the detail data** - `equipment` (40/123), `variants` (28/123) and `safety` (4/123) are
+  still partial. Content authoring, not code: the model is settled and every section self-hides, so
+  a gap is a non-event. `safety` is the one field that cannot be bulk-filled - it is coaching advice,
+  so it needs a human who coaches.
