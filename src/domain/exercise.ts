@@ -32,6 +32,22 @@ export const CATEGORY_LABELS: Record<CategoryId, string> = Object.fromEntries(
   CATEGORIES.map((c) => [c.id, c.label])
 ) as Record<CategoryId, string>;
 
+// Runtime guards for the two closed vocabularies, derived from the same lists as the labels above.
+// `Exercise` is a compile-time promise about a file that is *fetched*, never imported: nothing in the
+// type system reaches `exercises.json`. These are what let the data layer check that promise at the
+// boundary instead of casting past it - an unknown `categoryId` used to reach `CATEGORY_TINT[bad]`
+// and render an untinted icon with no error anywhere.
+const CATEGORY_ID_SET: ReadonlySet<string> = new Set<string>(CATEGORIES.map((c) => c.id));
+const LEVEL_SET: ReadonlySet<unknown> = new Set<unknown>(LEVELS.map((l) => l.value));
+
+export function isCategoryId(value: unknown): value is CategoryId {
+  return typeof value === 'string' && CATEGORY_ID_SET.has(value);
+}
+
+export function isLevel(value: unknown): value is Level {
+  return LEVEL_SET.has(value);
+}
+
 /**
  * How to make the exercise harder or easier - the "Adapter" section of the detail page (§5.6).
  *

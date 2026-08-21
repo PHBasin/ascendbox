@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onBeforeUnmount } from 'vue';
 import type { Exercise, CategoryId } from '@/domain/exercise';
+import { PAGE_SIZE } from '@/application/usePagination';
 import ExerciseCard from './ExerciseCard.vue';
 import ResetIcon from './icons/ResetIcon.vue';
 
@@ -17,7 +18,7 @@ const props = defineProps<{
   hasFilters: boolean;
 }>();
 
-const emit = defineEmits<{ loadMore: []; reset: [] }>();
+const emit = defineEmits<{ loadMore: []; reset: []; retry: [] }>();
 
 // Name why the feed is empty (search vs filters vs both).
 const hasRefinement = computed(() => props.isSearching || props.hasFilters);
@@ -39,13 +40,17 @@ const feedKey = computed(() => {
   return `list-${props.category}-${props.searchMode}`;
 });
 
-// Infinite scroll: we observe a sentinel at the bottom of the list.
+// Infinite scroll: we observe a sentinel at the bottom of the list. Without the API there is no
+// path to page 2 at all, so the sentinel gives way to a plain button rather than to nothing.
+const supportsObserver = typeof window !== 'undefined' && 'IntersectionObserver' in window;
+
 const sentinel = ref<HTMLElement | null>(null);
 let observer: IntersectionObserver | null = null;
 
 // The ref only exists while `hasMore` renders the sentinel → (re)observe on change.
 watch(sentinel, (el) => {
   observer?.disconnect();
+  observer = null; // the old instance is spent; keeping the reference only hid that
   if (!el) return;
   observer = new IntersectionObserver(
     (entries) => {
@@ -55,6 +60,23 @@ watch(sentinel, (el) => {
   );
   observer.observe(el);
 });
+
+// An append does not move the sentinel *element*, so the watcher above does not re-run - and an
+// IntersectionObserver only reports **transitions**. On a tall viewport the freshly appended page can
+// leave the sentinel still inside the 200px margin: no crossing, no callback, and pagination stalls
+// until the coach scrolls by hand. Re-observing re-delivers the current state, so the feed keeps
+// filling until the sentinel is genuinely off-screen (or `hasMore` unmounts it). `post` so the DOM
+// already holds the new cards when we ask.
+watch(
+  () => props.exercises.length,
+  () => {
+    const el = sentinel.value;
+    if (!observer || !el) return;
+    observer.unobserve(el);
+    observer.observe(el);
+  },
+  { flush: 'post' }
+);
 
 onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
 </script>
@@ -73,10 +95,16 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
       leave-to-class="opacity-0 -translate-y-2"
     >
       <div :key="feedKey">
-        <!-- Loading error (rose-600/400 clears AA on both themes) -->
-        <p v-if="error" class="state-error">
-          {{ error }}
-        </p>
+        <!-- Loading error (rose-600/400 clears AA on both themes). A retry, not a dead end: the
+             failure this shows is usually a lost signal at the crag, and it clears by itself. Same
+             shape as the empty state below, which has always offered its way out. -->
+        <div v-if="error" class="state-block">
+          <p class="state-error py-0">{{ error }}</p>
+          <button type="button" class="btn-ink gap-2" @click="emit('retry')">
+            <ResetIcon class="w-4 h-4" />
+            Réessayer
+          </button>
+        </div>
 
         <!-- Skeleton: same grid as the feed, shell stays interactive during fetch. -->
         <div
@@ -85,7 +113,7 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
           aria-busy="true"
           aria-live="polite"
         >
-          <div v-for="n in 6" :key="n" class="card animate-pulse flex flex-col gap-3">
+          <div v-for="n in PAGE_SIZE" :key="n" class="card animate-pulse flex flex-col gap-3">
             <div class="h-6 w-2/3 rounded bg-slate-200 dark:bg-slate-700"></div>
             <div class="flex flex-col gap-2">
               <div class="h-4 w-full rounded bg-slate-200 dark:bg-slate-700"></div>
@@ -129,7 +157,16 @@ onBeforeUnmount(() => observer?.disconnect()); // no leaking listener
           </TransitionGroup>
 
           <!-- Sentinel: triggers loading of the next page -->
-          <div v-if="hasMore" ref="sentinel" class="h-8" aria-hidden="true"></div>
+          <div
+            v-if="hasMore && supportsObserver"
+            ref="sentinel"
+            class="h-8"
+            aria-hidden="true"
+          ></div>
+          <!-- No IntersectionObserver (disabled, or an old browser): the only remaining way forward. -->
+          <div v-else-if="hasMore" class="pt-8 flex justify-center">
+            <button type="button" class="btn-ink" @click="emit('loadMore')">Charger plus</button>
+          </div>
         </template>
       </div>
     </Transition>

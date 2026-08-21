@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { watch, onBeforeUnmount } from 'vue';
-import { useExercises, DURATION_BUCKETS } from '@/application/useExercises';
+import { ref, watch, onBeforeUnmount } from 'vue';
+import { useExercises } from '@/application/useExercises';
+import { DURATION_BUCKETS } from '@/application/useFilters';
 import { LEVELS } from '@/domain/exercise';
 import ToggleChip from './ToggleChip.vue';
 import ResetIcon from './icons/ResetIcon.vue';
 import CloseIcon from './icons/CloseIcon.vue';
+import { useFocusTrap } from './useFocusTrap';
 
 const props = defineProps<{ open: boolean }>();
 const emit = defineEmits<{ close: [] }>();
@@ -26,22 +28,55 @@ function close(): void {
   emit('close');
 }
 
+// The panel itself, so focus can be moved into it and kept there: `aria-modal="true"` below is a
+// promise, and this is what keeps it (DESIGN §8).
+const panel = ref<HTMLElement | null>(null);
+useFocusTrap(panel, () => props.open);
+
 // Esc closes; lock body scroll while the sheet is up.
 function onKeydown(e: KeyboardEvent): void {
   if (e.key === 'Escape') close();
 }
+
+// The value we replaced, not the empty string: writing `''` on close clobbers whatever *else* had
+// locked the scroll, which is the classic way two lock owners end up fighting.
+let restoreOverflow: string | null = null;
+
+// `inert` on the app root is the other half of `aria-modal`: without it the promise is only a label,
+// and a screen reader can still walk the feed underneath. The sheet is teleported to <body>, so the
+// root is never its own ancestor. Side benefit: the field's own Escape handler can no longer race
+// this one, because the field is no longer reachable.
+function setBackgroundInert(on: boolean): void {
+  document.getElementById('app')?.toggleAttribute('inert', on);
+}
+
+function unlock(): void {
+  if (restoreOverflow !== null) {
+    document.body.style.overflow = restoreOverflow;
+    restoreOverflow = null;
+  }
+  setBackgroundInert(false);
+  window.removeEventListener('keydown', onKeydown);
+}
+
 watch(
   () => props.open,
   (open) => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    if (open) window.addEventListener('keydown', onKeydown);
-    else window.removeEventListener('keydown', onKeydown);
-  }
+    if (open) {
+      restoreOverflow ??= document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      setBackgroundInert(true);
+      window.addEventListener('keydown', onKeydown);
+    } else {
+      unlock();
+    }
+  },
+  // Mounted open (a future deep link into the filters, a keep-alive restore) would otherwise get
+  // neither the scroll lock nor Escape.
+  { immediate: true }
 );
-onBeforeUnmount(() => {
-  document.body.style.overflow = '';
-  window.removeEventListener('keydown', onKeydown);
-});
+
+onBeforeUnmount(unlock);
 </script>
 
 <template>
@@ -87,6 +122,7 @@ onBeforeUnmount(() => {
            `pb-8` (thumb clearance) relaxed to `pb-6`. -->
       <div
         v-if="open"
+        ref="panel"
         class="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-[0_-8px_30px_rgba(15,23,42,0.18)] p-6 pb-8 sm:max-w-2xl sm:mx-auto sm:border-x lg:inset-0 lg:m-auto lg:h-fit lg:rounded-3xl lg:border-b lg:pb-6 lg:shadow-[0_24px_64px_rgba(15,23,42,0.24)]"
         role="dialog"
         aria-modal="true"
