@@ -10,6 +10,7 @@
 import { readFileSync } from 'node:fs';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
+import { parseArgs } from 'node:util';
 
 import { CATEGORIES, LEVELS } from '../src/domain/exercise.ts';
 import type { Exercise, Variants } from '../src/domain/exercise.ts';
@@ -29,8 +30,14 @@ function isPositiveInt(value: unknown): boolean {
   return typeof value === 'number' && Number.isInteger(value) && value > 0;
 }
 
+// `JSON.stringify` is typed `: string` but returns `undefined` for `undefined`, so this used to hand
+// back a non-string from a function that promised one. Long values are clipped: an error line naming
+// the offending field is useful, one that dumps a 40-item array is not.
+const MAX_SHOWN = 60;
+
 function format(value: unknown): string {
-  return typeof value === 'string' ? `"${value}"` : JSON.stringify(value);
+  const text = typeof value === 'string' ? `"${value}"` : (JSON.stringify(value) ?? 'undefined');
+  return text.length > MAX_SHOWN ? `${text.slice(0, MAX_SHOWN)}…` : text;
 }
 
 function positiveInt(unit = ''): Check {
@@ -57,8 +64,9 @@ function filledStringArray(value: unknown): string | null {
 // --- Teaser budgets (DESIGN §5.1) ---
 // Both numbers are the *390px* budget (~38 chars/line) and mean nothing without that width; 360px
 // would need ~90. Past the ceiling `line-clamp-3` truncates mid-word - an error. Past the target the
-// card stops being title-led - a real regression but an editorial one, and 92 of 100 teasers sit
-// there pending the teaser/instructions rewrite, so it only warns. §5.1 forbids hardening it.
+// card stops being title-led - a real regression but an editorial one, so it only warns. §5.1 forbids
+// hardening it. (That tier is now nearly quiet: re-measured 2026-08-21, 4 of 123 teasers sit above
+// the target and none reaches the ceiling - the rewrite it was waiting on has happened.)
 
 const TEASER_CEILING = 100;
 const TEASER_TARGET = 70;
@@ -94,8 +102,10 @@ function variants(value: unknown): string | null {
   const keys = Object.keys(value);
   if (keys.length === 0) return 'is empty - drop the field rather than leave it empty';
 
-  const unknown = keys.filter((key) => !(key in VARIANT_FIELDS));
-  if (unknown.length > 0) return `has an unknown field: ${unknown.join(', ')}`;
+  // `Object.hasOwn`, never `in`: `in` walks the prototype chain, so a variant field named `toString`
+  // or `constructor` was accepted as *known* and then never checked by the loop below.
+  const unexpected = keys.filter((key) => !Object.hasOwn(VARIANT_FIELDS, key));
+  if (unexpected.length > 0) return `has an unknown field: ${unexpected.join(', ')}`;
 
   for (const [name, check] of Object.entries(VARIANT_FIELDS)) {
     const issue = value[name] === undefined ? null : check(value[name]);
@@ -147,68 +157,89 @@ const FIELDS: { [K in keyof Required<Exercise>]: FieldSpec<K> } = {
 // --- Run ---
 
 function fail(message: string): never {
-  console.error(`✖ ${message}`);
-  process.exit(1);
+  throw new Error(message);
 }
 
-let parsed: unknown;
-try {
-  parsed = JSON.parse(readFileSync(DATA_PATH, 'utf8'));
-} catch (error) {
-  fail(`${DATA_PATH} is unreadable or not valid JSON: ${(error as Error).message}`);
-}
-if (!Array.isArray(parsed)) fail('exercises.json must contain a bare array of exercises');
+// Hoisted: `Object.entries` rebuilt a 12-pair array, and 12 tuples, once per catalogue entry.
+const FIELD_ENTRIES = Object.entries(FIELDS);
 
-const entries: unknown[] = parsed;
-const errors: string[] = [];
-const warnings: string[] = [];
-const seenIds = new Map<number, number>();
+function main(): void {
+  // `parseArgs` rather than a scan of `process.argv`, for the reason the sibling script spells out:
+  // `-- --verbos` was silently ignored, which is the failure mode a hand-rolled scan invites.
+  const { values } = parseArgs({ options: { verbose: { type: 'boolean', default: false } } });
 
-entries.forEach((entry, index) => {
-  if (!isPlainObject(entry)) {
-    errors.push(`[${index}] must be an object (got ${format(entry)})`);
-    return;
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(readFileSync(DATA_PATH, 'utf8'));
+  } catch (error) {
+    fail(
+      `${DATA_PATH} is unreadable or not valid JSON: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
+  if (!Array.isArray(parsed)) fail('exercises.json must contain a bare array of exercises');
 
-  const id = entry['id'];
-  const label = typeof id === 'number' ? `#${id}` : `[${index}]`;
+  const entries: unknown[] = parsed;
+  const errors: string[] = [];
+  const warnings: string[] = [];
+  const seenIds = new Map<number, number>();
 
-  for (const key of Object.keys(entry)) {
-    if (!(key in FIELDS)) errors.push(`${label} unknown field "${key}"`);
-  }
-
-  for (const [name, spec] of Object.entries(FIELDS)) {
-    const value = entry[name];
-    if (value === undefined) {
-      if (spec.required) errors.push(`${label} required field "${name}" is missing`);
-      continue;
+  entries.forEach((entry, index) => {
+    if (!isPlainObject(entry)) {
+      errors.push(`[${index}] must be an object (got ${format(entry)})`);
+      return;
     }
-    const issue = spec.check(value);
-    if (issue !== null) errors.push(`${label} ${name} ${issue}`);
+
+    const id = entry['id'];
+    const label = typeof id === 'number' ? `#${id}` : `[${index}]`;
+
+    for (const key of Object.keys(entry)) {
+      // Same prototype hole as `VARIANT_FIELDS` above: `'constructor' in FIELDS` is `true`.
+      if (!Object.hasOwn(FIELDS, key)) errors.push(`${label} unknown field "${key}"`);
+    }
+
+    for (const [name, spec] of FIELD_ENTRIES) {
+      const value = entry[name];
+      if (value === undefined) {
+        if (spec.required) errors.push(`${label} required field "${name}" is missing`);
+        continue;
+      }
+      const issue = spec.check(value);
+      if (issue !== null) errors.push(`${label} ${name} ${issue}`);
+    }
+
+    if (typeof id === 'number') {
+      const first = seenIds.get(id);
+      if (first === undefined) seenIds.set(id, index);
+      else errors.push(`${label} duplicate id (already used at index ${first})`);
+    }
+
+    const warning = teaserWarning(entry['teaser']);
+    if (warning !== null) warnings.push(`${label} ${warning}`);
+  });
+
+  // --- Report ---
+
+  const shown = values.verbose ? warnings : warnings.slice(0, 5);
+  for (const warning of shown) console.warn(`⚠ ${warning}`);
+  if (warnings.length > shown.length) {
+    console.warn(`⚠ … and ${warnings.length - shown.length} more (--verbose to list them all)`);
   }
 
-  if (typeof id === 'number') {
-    const first = seenIds.get(id);
-    if (first === undefined) seenIds.set(id, index);
-    else errors.push(`${label} duplicate id (already used at index ${first})`);
-  }
+  for (const error of errors) console.error(`✖ ${error}`);
 
-  const warning = teaserWarning(entry['teaser']);
-  if (warning !== null) warnings.push(`${label} ${warning}`);
-});
+  console.log(
+    `\n${entries.length} exercises checked - ${errors.length} error(s), ${warnings.length} warning(s).`
+  );
 
-// --- Report ---
-
-const shown = process.argv.includes('--verbose') ? warnings : warnings.slice(0, 5);
-for (const warning of shown) console.warn(`⚠ ${warning}`);
-if (warnings.length > shown.length) {
-  console.warn(`⚠ … and ${warnings.length - shown.length} more (--verbose to list them all)`);
+  // `exitCode`, not `process.exit()`: on a piped stdout - which is exactly what CI gives us -
+  // `process.exit` does not flush pending writes, so the summary above could be lost on precisely
+  // the run that failed. Setting the code lets the process end on its own, once stdout has drained.
+  if (errors.length > 0) process.exitCode = 1;
 }
 
-for (const error of errors) console.error(`✖ ${error}`);
-
-console.log(
-  `\n${entries.length} exercises checked - ${errors.length} error(s), ${warnings.length} warning(s).`
-);
-
-if (errors.length > 0) process.exit(1);
+try {
+  main();
+} catch (error) {
+  console.error(`✖ ${error instanceof Error ? error.message : String(error)}`);
+  process.exitCode = 1;
+}
