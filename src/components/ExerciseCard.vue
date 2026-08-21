@@ -9,10 +9,11 @@ import LevelGauge from './LevelGauge.vue';
 const props = defineProps<{ exercise: Exercise; showCategory?: boolean }>();
 
 // Sane ceiling, not the guarantee - the 1-line rule is enforced in CSS (DESIGN §5.4), because a
-// *count* cannot promise a line: three short tags fit where two long ones would not. 3 = the widest
-// entry in the catalogue, so it currently truncates nothing while still stopping a 20-tag entry from
-// even trying. Was 2, which hid a tag on one exercise for no stated reason.
-const visibleTags = computed(() => props.exercise.tags.slice(0, 3));
+// *count* cannot promise a line: three short tags fit where two long ones would not. The number is
+// only a DOM backstop against a malformed 20-tag entry, so it sits deliberately *above* any
+// plausible entry rather than on the catalogue's current widest - that is what let the old value of
+// 3 go stale and silently drop a tag on 53 cards that had room for it (measured 2026-08-22).
+const visibleTags = computed(() => props.exercise.tags.slice(0, 6));
 </script>
 
 <template>
