@@ -149,7 +149,14 @@ onBeforeUnmount(unlock);
              edgeless, and having no edge is what separates it from every control that acts on the
              filters - this one only acts on the panel. (It also rules out `.pill-action`, whose white
              fill would vanish on a white sheet.) -->
-        <header class="shrink-0 flex items-center justify-between gap-3 px-6 py-6">
+        <!-- `border-b` for the same reason the footer has a `border-t`, and it is needed more here:
+             when the body scrolls, the first group's eyebrow leaves before its chips do, so
+             without an edge those chips read as broken pills under the title rather than as
+             content continuing above. Always on, like the footer's - a scroll listener would
+             buy a rest state nobody asked for. -->
+        <header
+          class="shrink-0 flex items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-700 px-6 py-6"
+        >
           <h2
             id="sheet-title"
             class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
