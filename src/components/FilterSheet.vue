@@ -180,7 +180,7 @@ onBeforeUnmount(unlock);
              The gutter lives here rather than on the panel: with `overflow` on this element, a
              panel-level `p-6` would put the scrollbar *inside* the padding and clip the rounded
              corners. -->
-        <div class="flex-1 min-h-0 overflow-y-auto overscroll-contain px-6 pb-3">
+        <div class="flex-1 min-h-0 overflow-y-auto overscroll-contain px-6 py-3">
           <!-- Durée -->
           <section aria-labelledby="sheet-duration" class="mb-6 last:mb-0">
             <h3 id="sheet-duration" class="eyebrow mb-3">Durée</h3>
