@@ -459,7 +459,11 @@ _attribute_ filters, each a labelled section with the same tap interaction:
 
 - **Durée** - buckets (`< 10 min` · `10–25 min` · `> 25 min`), multi-select.
 - **Niveau** - `Débutant` · `Intermédiaire` · `Avancé`, multi-select.
-- **Tags** - most-used first, all of them, always shown. **No in-sheet search field**, and the reason
+- **Tags** - most-used first, **ties alphabetical**, all of them, always shown. The tie-break is a
+  rule, not a detail: sorting on the count alone left equal counts in first-appearance order within
+  the _current_ result set, so toggling a duration bucket reshuffled the chips under the thumb - the
+  same instability this § refuses for the applied-filter chips below, which the sheet's own options
+  had simply never been held to. **No in-sheet search field**, and the reason
   is the interaction, not the count: a text field to filter chips a coach can already see, on the
   surface this § calls _secondary_ refinement, in a sheet read with gloves on. Typing to reach what
   is one tap away is exactly the tax §5.9 keeps the whole search path collapsed to avoid. The old
