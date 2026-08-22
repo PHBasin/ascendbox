@@ -52,7 +52,7 @@ export function isLevel(value: unknown): value is Level {
  * How to make the exercise harder or easier - the "Adapter" section of the detail page (§5.6).
  *
  * Grouped rather than two root fields because they are one editorial idea: a coach writes both in
- * the same breath and the page renders them as one section. Nesting also keeps the extension cheap —
+ * the same breath and the page renders them as one section. Nesting also keeps the extension cheap -
  * if adaptation ever splits by audience (children are *not* simply "easier"), that is a key here,
  * not a 12th field on `Exercise`.
  */

@@ -126,7 +126,7 @@ dark:slate-300`, §2.2) rather than full ink: the gauge is icon-sized and rides 
 
 ## 3. Typography
 
-**Family**: `--font-sans: "Inter Variable", "Inter", system-ui, -apple-system, sans-serif` —
+**Family**: `--font-sans: "Inter Variable", "Inter", system-ui, -apple-system, sans-serif` -
 **self-hosted** via `@fontsource-variable/inter` (weight axis), imported in
 [`main.ts`](src/main.ts). No third-party request; `.woff2` ship from our origin, precached for
 offline (latin + latin-ext).
@@ -316,10 +316,11 @@ something next to the width it was measured at** - a ceiling stated unconditiona
 not been measured at the narrowest width it has to hold.
 
 **360px is covered, measured rather than assumed.** Rendered at 360 (the common Android width),
-**every one of the 123 teasers lands on 2 or 3 lines - none reaches a 4th** (115 at two lines, 8 at
-three; at 390 it is 122 and 1). The editorial rewrite has since brought the longest teaser to **84
-chars**, with only 4 above the 70 target and none above 90, so the ceiling of 100 now sits well clear
-of the data at both widths. _Measured 2026-08-22, headless Chromium, whole catalogue._
+**every one of the 149 teasers lands on 2 or 3 lines - none reaches a 4th** (140 at two lines, 9 at
+three; at 390 it is 148 and 1). The longest teaser is **84 chars**, with only 4 above the 70 target
+and none above 90, so the ceiling of 100 sits well clear of the data at both widths - and it held
+through a 26-exercise batch, which is the interesting part: the margin absorbed new content without
+re-measuring the ceiling. _Measured 2026-08-22, headless Chromium, whole catalogue._
 
 Note that no character ceiling can _prove_ the clamp holds: wrapping breaks on words, so a 92-char
 teaser with long words spills to 4 lines where a 100-char one with short words does not. The number
@@ -441,11 +442,13 @@ clip mid-word, "#lect"). A cap on the _number_ of tags cannot promise a line - t
 where two long ones do not - so the `slice` in `ExerciseCard` is a DOM backstop, never the promise.
 
 > **Tie the backstop to the layout, not to the catalogue.** It was `slice(0, 3)`, justified as "the
-> widest entry today". The catalogue outgrew it: **55 of 123 exercises now carry 4 or 5 tags**, so
-> nearly half the cards were dropping a tag the row had room for. Rendered with every tag at 360px,
-> only **two** cards overflow (ids 113 and 121) and one at 390 (id 113) - which is precisely the case
-> `max-h-[1lh]` exists to clip. The slice is now **6**, deliberately above any plausible entry rather
-> than on the current maximum, so it cannot go stale the same way twice. _Measured 2026-08-22._
+> widest entry today", and the catalogue outgrew it within one release. The number is now **6**,
+> deliberately **above** any plausible entry rather than on the current maximum, which is the whole
+> point: a backstop pinned to today's data goes stale silently. It has already survived two moves it
+> would not have before - a batch that pushed entries to 5 tags, then a rationalisation back down to
+> **16 distinct tags and a maximum of 4** (3 exercises). Re-measured 2026-08-22 on 149 exercises:
+> rendering every tag, exactly **one** card clips at 360px (id 121, 4 tags) and none at 390 - which is
+> precisely the case `max-h-[1lh]` exists to absorb.
 
 > **`lh` gotcha:** the unit resolves against the element's **own** line-height, so the list must carry
 > `text-xs` itself. Inheriting the parent's 24px let half a second row through and clipped tags in two
@@ -459,31 +462,37 @@ _attribute_ filters, each a labelled section with the same tap interaction:
 
 - **Durée** - buckets (`< 10 min` · `10–25 min` · `> 25 min`), multi-select.
 - **Niveau** - `Débutant` · `Intermédiaire` · `Avancé`, multi-select.
-- **Tags** - most-used first, all of them, always shown. **No in-sheet search field**, and the reason
+- **Tags** - most-used first, **ties alphabetical**, all of them, always shown. The tie-break is a
+  rule, not a detail: sorting on the count alone left equal counts in first-appearance order within
+  the _current_ result set, so toggling a duration bucket reshuffled the chips under the thumb - the
+  same instability this § refuses for the applied-filter chips below, which the sheet's own options
+  had simply never been held to. **No in-sheet search field**, and the reason
   is the interaction, not the count: a text field to filter chips a coach can already see, on the
   surface this § calls _secondary_ refinement, in a sheet read with gloves on. Typing to reach what
   is one tap away is exactly the tax §5.9 keeps the whole search path collapsed to avoid. The old
   "reintroduce it past ~10 tags" threshold is **withdrawn** - it measured the wrong thing (see the
   height budget below, which a search field would worsen rather than fix).
 
-> **The sheet is at its height budget, and that is the live constraint.** The scope decides how many
-> chips it holds, because the sheet only ever offers `availableTags` for the current scope - never
-> the catalogue's full vocabulary unless search is open. Measured 2026-08-22 at **360px**, against
-> `max-h-[85vh]`:
+> **The sheet fits, with about one chip row to spare - and that is a measurement, not a guarantee.**
+> The scope decides how many chips it holds: the sheet only ever offers `availableTags` for the
+> current scope, never the catalogue's whole vocabulary unless search is open. Re-measured
+> **2026-08-22 on 149 exercises / 16 tags**, at 360px against `max-h-[85vh]`:
 >
-> | Scope        | Chips | Overflow | `Voir N exercices` reachable without scrolling |
-> | ------------ | ----- | -------- | ---------------------------------------------- |
-> | Physique     | 13    | —        | yes                                            |
-> | Mental       | 16    | 62px     | **no**                                         |
-> | Technique    | 21    | 114px    | **no**                                         |
-> | Search (all) | 25    | 218px    | **no**                                         |
+> | Scope        | Chips | Rows | Overflow | `Voir N exercices` reachable without scrolling |
+> | ------------ | ----- | ---- | -------- | ---------------------------------------------- |
+> | Physique     | 9     | 4    | -        | yes                                            |
+> | Mental       | 11    | 5    | -        | yes                                            |
+> | Technique    | 15    | 6    | 10px     | yes                                            |
+> | Search (all) | 16    | 6    | 10px     | yes                                            |
 >
-> At 390px the same three overflow by 10 / 62 / 166px. So on three of four scopes the **primary
-> action sits below the fold of a bottom sheet whose entire rationale is thumb-zone reach** (§4).
-> The panel is therefore **out of vertical budget**: nothing may be added to it that costs height —
-> a filter-the-filters field least of all, since it would pay height to solve a height problem. The
-> fix itself is a task, not a rule, and is tracked in [`.claude/CLAUDE.md`](.claude/CLAUDE.md)
-> (§ Tasks); the budget constraint above holds whichever way it is settled.
+> At 390px only search mode overflows, also by 10px. **The previous measurement is why this block
+> exists.** At 25 tags the same panel ran 62-218px over on three scopes of four and put the primary
+> action below the fold of a bottom sheet whose entire rationale is thumb-zone reach (§4). Nothing in
+> the layout was changed to fix that: the tag vocabulary was rationalised from 25 to 16, and the
+> overflow went with it. So the height budget is real and it is **spent by the tag count** - which
+> makes it an editorial lever as much as a layout one. Adding six tags would put the CTA back under
+> the fold, and a filter-the-filters field would spend the remaining margin to solve a problem the
+> vocabulary no longer has.
 
 Options wear the same skin as the scope pills (§5.2) - literally: both spend `.toggle-on` /
 `.toggle-off` (§11), **and the same timing**, via `TOGGLE_ON` / `TOGGLE_OFF` (§6). The asymmetry
@@ -500,7 +509,7 @@ rest of the responsive - folding both into `lg` once made a single pixel change 
 | Vertical | bottom-anchored | bottom-anchored                    | **centred**     |
 
 So: a full-bleed bottom sheet on a phone, the same 672px card resting on the bottom edge on a tablet
-— thumb zone kept - and that card centred on a desktop. The `lg` step is then a vertical move and
+- thumb zone kept - and that card centred on a desktop. The `lg` step is then a vertical move and
 nothing else.
 
 **Why 672px, and why from `sm`.** Measured, the content never exceeds **666px at any viewport**, so
@@ -520,7 +529,7 @@ edgeless, and having no edge is what separates it from every control that acts o
 acts only on the panel. (It also rules out `.pill-action`, whose white fill would vanish on a white
 sheet.)
 
-**Surface.** The sheet takes the `.card` surface (`bg-white dark:bg-slate-800`) plus a top border —
+**Surface.** The sheet takes the `.card` surface (`bg-white dark:bg-slate-800`) plus a top border -
 the §4 rule, not an exception to it. It must never wear the page's background token: that is what
 left it invisible against the page in dark mode. The white ground also earns back the recessed fill
 `.toggle-off` promises (§5.2) - `bg-slate-100` reads at 1.10:1 there against 1.05:1 on `slate-50`,
@@ -579,7 +588,7 @@ frees its slot at once and the survivors reflow _under_ the `move`, not after it
 
 ### 5.6 Exercise detail page
 
-Master-detail: full how-to, big text, execution focus. Route `/exercice/:id` (**hash** history —
+Master-detail: full how-to, big text, execution focus. Route `/exercice/:id` (**hash** history -
 GitHub Pages is static, so `#` keeps deep links working on a cold hit with no server rewrite).
 
 **The page is a topo, not an article.** A coach at the wall does what a climber does with a guidebook
@@ -648,7 +657,7 @@ by a `w-0.5` rule. The numbering is earned, not decorative - a déroulement _is_
 is information, and the numbers give a coach a spoken anchor mid-session ("j'en suis à la 3") that a
 bullet cannot. The rule binds the steps into one object, which is what someone glancing back down at a
 phone re-finds their place in. Nodes are **pure ink**: maximum contrast in sun, no hue to lose to
-grayscale or a colour-vision difference (§1.3). The rule is drawn per-step and **hidden on the last** —
+grayscale or a colour-vision difference (§1.3). The rule is drawn per-step and **hidden on the last** -
 one trailing past the final step reads as an unfinished list.
 
 > **Numbered here, bulleted in `Adapter`** - and the difference is the point. Variants are a menu you
@@ -703,7 +712,7 @@ It hands over to the feed through the **same** keyed crossfade as every other fe
 most-watched moment in the app, so no branch of the state chain may pop.
 
 **The failure state is not a dead end.** When the load fails, the feed and the detail page both show
-`.state-error` copy inside a `.state-block` with a **`Réessayer`** `.btn-ink` — the same shape the
+`.state-error` copy inside a `.state-block` with a **`Réessayer`** `.btn-ink` - the same shape the
 empty state has always had. The shape is the point: the bare message was a terminus, and the failure
 it reports is usually a lost signal at the crag, which clears by itself. The copy is French and
 chosen from an error `kind`, never a raw `SyntaxError` or an HTTP code (see `useCatalogue`).
@@ -734,7 +743,7 @@ The screen **title** (`Exercices`, §3) sits top-left at both sizes.
 
 A secondary retrieval path for known-item lookup. A **magnifier** on the title row expands into a
 field on demand (never a permanent bar), so the browse-first, gloved, in-a-hurry path is never taxed
-with a typing invitation. The magnifier ⇄ field swap is **instant** (§6). The full-width takeover —
+with a typing invitation. The magnifier ⇄ field swap is **instant** (§6). The full-width takeover -
 hide the `Exercices` title, fill the actions row - is reserved for **phones (`< sm`)** where space is
 genuinely tight; from `sm` up the title **stays** and the field is **capped** (`sm:w-56`) inline
 beside Filtres, so a tablet never gets a half-empty ~600px field. Focus follows the swap (§8).
@@ -825,7 +834,7 @@ check `matchMedia`. Motion is reinforcement only - never the sole carrier of a s
   `role="status" aria-live="polite"` region reporting "N exercices" (or the empty message). It sits
   **outside** the feed's keyed `<Transition>` on purpose: the skeleton's own `aria-live` is destroyed
   by that transition the instant results arrive, so it could only ever announce the wait and never
-  the outcome — which left the whole filtering path silent.
+  the outcome - which left the whole filtering path silent.
 - **Focus management:** the collapsible search moves focus with the swap - to the field on open, back
   to the magnifier on close - so keyboard users never land on `<body>` (§5.9). It is driven by a
   watcher on `searchOpen`, not by wrappers around the two buttons, because search also closes by a
@@ -833,7 +842,7 @@ check `matchMedia`. Motion is reinforcement only - never the sole carrier of a s
   destroyed, so a mouse tap never yanks focus.
 - **A modal traps focus, or it is not modal.** The filter sheet declares `aria-modal="true"`, so it
   owes three things: focus moves into the panel on open, `Tab` stays contained (`useFocusTrap`), and
-  focus returns to the invoking control on close. The app root also takes `inert` while it is up —
+  focus returns to the invoking control on close. The app root also takes `inert` while it is up -
   without that, `aria-modal` is a label rather than a behaviour and the feed underneath stays
   reachable.
 - **A screen title always exists.** Below `sm` the open search field takes the row, but the `h1` goes
@@ -847,7 +856,7 @@ check `matchMedia`. Motion is reinforcement only - never the sole carrier of a s
 ## 9. Content
 
 Cards are triage, detail is execution (§5.1 / §5.6). Keep card copy to a title + one teaser line; the
-objective, the step-by-step, the variants and the safety warning live on the detail page. No filler —
+objective, the step-by-step, the variants and the safety warning live on the detail page. No filler -
 every metadata point earns its place.
 
 ---
@@ -888,7 +897,7 @@ applying - a control with no focus indicator at all. That shipped once, on the t
 **no gate caught it**: `type-check`, `lint` and Lighthouse all passed green with the focus ring dead.
 
 So: **a shared class must not own a property its call sites also set through utilities.** Where a
-control needs both a resting and a focus treatment of the same property, keep the pair together —
+control needs both a resting and a focus treatment of the same property, keep the pair together -
 both in the class, or both at the call site - never split across the two layers. Verify a focus
 style in a browser by comparing the computed `box-shadow` at rest and on focus; reading the source
 cannot tell you which layer won.
@@ -911,7 +920,7 @@ cannot tell you which layer won.
 | Pick spacing                      | the §4 scale - nearest named step, never arbitrary                                                                                                                 |
 
 **Shared classes** live in `@layer components` in [`main.css`](src/assets/main.css), and are earned
-by **repetition**: a look worn in 2+ places becomes a class, a single use stays at its call site —
+by **repetition**: a look worn in 2+ places becomes a class, a single use stays at its call site -
 the same threshold as the icons row above. When the second consumer goes away, the class goes with
 it. (A class must also not own a property its call sites set through utilities - §10.1.)
 

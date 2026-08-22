@@ -42,7 +42,10 @@ const feedKey = computed(() => {
 
 // Infinite scroll: we observe a sentinel at the bottom of the list. Without the API there is no
 // path to page 2 at all, so the sentinel gives way to a plain button rather than to nothing.
-const supportsObserver = typeof window !== 'undefined' && 'IntersectionObserver' in window;
+// Feature detection only. The `typeof window !== 'undefined'` half that used to lead this line was
+// an SSR guard in an app that mounts to the DOM in `main.ts` and reads `window.matchMedia` unguarded
+// in `HomeView` - it protected nothing and implied a rendering mode this app does not have.
+const supportsObserver = 'IntersectionObserver' in window;
 
 const sentinel = ref<HTMLElement | null>(null);
 let observer: IntersectionObserver | null = null;

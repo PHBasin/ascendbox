@@ -2,11 +2,13 @@
 import { ref, watch, onBeforeUnmount } from 'vue';
 import { useExercises } from '@/application/useExercises';
 import { DURATION_BUCKETS } from '@/application/useFilters';
+import { countOf } from '@/application/plural';
 import { LEVELS } from '@/domain/exercise';
 import ToggleChip from './ToggleChip.vue';
 import ResetIcon from './icons/ResetIcon.vue';
 import CloseIcon from './icons/CloseIcon.vue';
 import { useFocusTrap } from './useFocusTrap';
+import { APP_ROOT_ID } from '@/appRoot';
 
 const props = defineProps<{ open: boolean }>();
 const emit = defineEmits<{ close: [] }>();
@@ -47,7 +49,7 @@ let restoreOverflow: string | null = null;
 // root is never its own ancestor. Side benefit: the field's own Escape handler can no longer race
 // this one, because the field is no longer reachable.
 function setBackgroundInert(on: boolean): void {
-  document.getElementById('app')?.toggleAttribute('inert', on);
+  document.getElementById(APP_ROOT_ID)?.toggleAttribute('inert', on);
 }
 
 function unlock(): void {
@@ -106,7 +108,7 @@ onBeforeUnmount(unlock);
       leave-active-class="transition duration-200 ease-in"
       leave-to-class="translate-y-full lg:translate-y-4 lg:opacity-0"
     >
-      <!-- Width and vertical anchoring are two independent rules, on two different breakpoints —
+      <!-- Width and vertical anchoring are two independent rules, on two different breakpoints -
            each moves one variable, as the rest of the responsive does.
            **Width** caps at `max-w-2xl` (672px) from `sm`, centred by `mx-auto` against the existing
            `inset-x-0`: measured, the content never exceeds 666px at any viewport, so past that the
@@ -234,7 +236,7 @@ onBeforeUnmount(unlock);
             class="w-full sm:flex-1 min-h-[52px] rounded-full bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 font-bold text-base lg:text-lg transition duration-150 ease-out active:scale-95"
             @click="close"
           >
-            Voir {{ totalCount }} exercice{{ totalCount > 1 ? 's' : '' }}
+            Voir {{ countOf(totalCount, 'exercice') }}
           </button>
         </div>
       </div>

@@ -9,22 +9,16 @@
 
 import { readFileSync } from 'node:fs';
 import process from 'node:process';
-import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 
 import { CATEGORIES, LEVELS } from '../src/domain/exercise.ts';
 import type { Exercise, Variants } from '../src/domain/exercise.ts';
-
-const DATA_PATH = fileURLToPath(new URL('../public/data/exercises.json', import.meta.url));
+import { CATALOGUE_PATH, entryLabel, isPlainObject, messageOf } from './catalogue.ts';
 
 // --- Primitives ---
 
 /** `null` = valid. Otherwise a message completing "<field> …", e.g. "must be an integer > 0". */
 type Check = (value: unknown) => string | null;
-
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
 
 function isPositiveInt(value: unknown): boolean {
   return typeof value === 'number' && Number.isInteger(value) && value > 0;
@@ -170,11 +164,9 @@ function main(): void {
 
   let parsed: unknown;
   try {
-    parsed = JSON.parse(readFileSync(DATA_PATH, 'utf8'));
+    parsed = JSON.parse(readFileSync(CATALOGUE_PATH, 'utf8'));
   } catch (error) {
-    fail(
-      `${DATA_PATH} is unreadable or not valid JSON: ${error instanceof Error ? error.message : String(error)}`
-    );
+    fail(`${CATALOGUE_PATH} is unreadable or not valid JSON: ${messageOf(error)}`);
   }
   if (!Array.isArray(parsed)) fail('exercises.json must contain a bare array of exercises');
 
@@ -190,7 +182,7 @@ function main(): void {
     }
 
     const id = entry['id'];
-    const label = typeof id === 'number' ? `#${id}` : `[${index}]`;
+    const label = entryLabel(entry, index);
 
     for (const key of Object.keys(entry)) {
       // Same prototype hole as `VARIANT_FIELDS` above: `'constructor' in FIELDS` is `true`.
@@ -240,6 +232,6 @@ function main(): void {
 try {
   main();
 } catch (error) {
-  console.error(`✖ ${error instanceof Error ? error.message : String(error)}`);
+  console.error(`✖ ${messageOf(error)}`);
   process.exitCode = 1;
 }
