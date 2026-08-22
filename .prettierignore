@@ -1,0 +1,9 @@
+# Written by a tool, so that tool owns its formatting: `scripts/exercises-csv.ts` emits
+# `JSON.stringify(entries, null, 2)`, which Prettier would re-fold on every run - each
+# `data:import` undoing the last `format` and back, ~900 lines of churn per round trip.
+public/data/exercises.json
+
+# Build output.
+dist
+dev-dist
+node_modules
