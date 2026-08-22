@@ -469,26 +469,23 @@ _attribute_ filters, each a labelled section with the same tap interaction:
   "reintroduce it past ~10 tags" threshold is **withdrawn** - it measured the wrong thing (see the
   height budget below, which a search field would worsen rather than fix).
 
-> **The sheet fits, with about one chip row to spare - and that is a measurement, not a guarantee.**
-> The scope decides how many chips it holds: the sheet only ever offers `availableTags` for the
-> current scope, never the catalogue's whole vocabulary unless search is open. Re-measured
-> **2026-08-22 on 149 exercises / 16 tags**, at 360px against `max-h-[85vh]`:
+> **The CTA is reachable by construction, not by the tag count staying small.** The panel is three
+> regions - pinned header, scrolling body, pinned footer - so `Voir N exercices` never leaves the
+> thumb zone this sheet exists for (§4), whatever the vocabulary does. Measured at 360x780, 390x844,
+> 360x480 and 320x568 on the Technique scope (the widest, 15 chips): the CTA sits fully in view at
+> every one, with no prior scrolling, while the body absorbs 81 to 469px of overflow.
 >
-> | Scope        | Chips | Rows | Overflow | `Voir N exercices` reachable without scrolling |
-> | ------------ | ----- | ---- | -------- | ---------------------------------------------- |
-> | Physique     | 9     | 4    | -        | yes                                            |
-> | Mental       | 11    | 5    | -        | yes                                            |
-> | Technique    | 15    | 6    | 10px     | yes                                            |
-> | Search (all) | 16    | 6    | 10px     | yes                                            |
+> **This replaced a real defect, and the history is the point.** The panel used to be the scroll
+> container itself, so the apply bar scrolled away with the options. At 25 tags it ran 62-218px past
+> `max-h-[85vh]` on three scopes of four, putting the primary action below the fold. That was
+> answered editorially - the vocabulary was rationalised from 25 to 16 tags, and the overflow went
+> with it - which worked, but left the layout depending on a number nobody guarded: six more tags
+> would have brought it back. The structural fix retires that dependency.
 >
-> At 390px only search mode overflows, also by 10px. **The previous measurement is why this block
-> exists.** At 25 tags the same panel ran 62-218px over on three scopes of four and put the primary
-> action below the fold of a bottom sheet whose entire rationale is thumb-zone reach (§4). Nothing in
-> the layout was changed to fix that: the tag vocabulary was rationalised from 25 to 16, and the
-> overflow went with it. So the height budget is real and it is **spent by the tag count** - which
-> makes it an editorial lever as much as a layout one. Adding six tags would put the CTA back under
-> the fold, and a filter-the-filters field would spend the remaining margin to solve a problem the
-> vocabulary no longer has.
+> What the tag count still buys is **scrolling**, not reach: a larger vocabulary means more travel in
+> the body, never an unreachable button. A nuisance, no longer a dead end - and one more reason the
+> filter-the-filters field (above) stays refused, since it would spend height to solve a problem the
+> body already absorbs.
 
 Options wear the same skin as the scope pills (§5.2) - literally: both spend `.toggle-on` /
 `.toggle-off` (§11), **and the same timing**, via `TOGGLE_ON` / `TOGGLE_OFF` (§6). The asymmetry
