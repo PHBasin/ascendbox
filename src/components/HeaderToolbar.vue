@@ -38,8 +38,9 @@ watch(searchOpen, (open) => {
   <!-- Header aligned to the feed grid (DESIGN §5.8): same max-w-7xl measure.
        < lg: two tiers - [title · search · Filtres] over the full-width scope.
        lg+: one line - title · centered scope · search + Filtres.
-       No applied-filter chips tier: the count badge below carries that state, and the row it
-       replaces cost up to 92px of *sticky* height, on every screen of every scroll (§5.5). -->
+       No applied-filter chips tier: the count badge on `Filtres` carries that state. The row it
+       replaces cost 48px of *sticky* height at the first filter, 92px at the third and 136px at
+       seven - measured, on every screen of every scroll (§5.5). -->
   <div class="page-gutter max-w-7xl py-4">
     <div class="flex flex-wrap items-center gap-3 lg:flex-nowrap">
       <!-- Screen title (DESIGN §3). Below sm the open field takes the row, so the title gives up its
