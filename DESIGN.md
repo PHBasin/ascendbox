@@ -532,7 +532,9 @@ which is the difference between a subtle recess and none at all.
 **The ✕ owns the top-right; the reset does not.** On a sheet, the top-right is the slot convention
 reserves for dismissal - and on a phone it is the worst thumb reach on the panel. Putting a
 state-destroying `Réinitialiser` there meant a thumb reaching to leave could wipe every filter
-instead. So the ✕ lives there permanently (ghost circle, `w-11 h-11`; **not** `.pill-action`, whose
+instead. So the ✕ lives there permanently (ghost circle, **drawn 32 and tapped 44** per §8 - a 44px
+circle set the header band's height, and vertical space is this surface's scarce resource; **not**
+`.pill-action`, whose
 white fill would vanish on a white sheet), and the reset moved down.
 
 **Bottom cluster - stacked on phones, side by side from `sm`.** Secondary left, primary right; the

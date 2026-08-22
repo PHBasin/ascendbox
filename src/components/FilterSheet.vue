@@ -127,11 +127,11 @@ onBeforeUnmount(unlock);
            makes the CTA reachable by construction rather than by the tag count staying small. The
            padding went with the split: `px-6` per region, and the bottom clearance moved to the
            footer, where it clears the screen edge the footer actually meets.
-           **The header's 24 reads as 30, and that is the ✕, not the padding.** The close button is
-           44px (a touch target, §8) while the title's line box is 32, so `items-center` leaves 6px
-           of slack above and below the text that every declared padding stacks on. Symmetric
-           `py-6` is therefore what reads as balanced here; do not chase the 6px, it is the price of
-           the touch target. -->
+           **The ✕ is drawn at 32 and tapped at 44** (§8's rule, the same one the search field's ✕
+           spends). A 44px circle set the header row height, so the band cost 93px for one word and
+           a close - on the surface where vertical space is the scarce resource. Drawn at 32 it
+           matches the title's own line box, which also retires the 6px of `items-center` slack that
+           made a declared 24 read as 31: the padding now means what it says. -->
       <div
         v-if="open"
         ref="panel"
@@ -166,10 +166,10 @@ onBeforeUnmount(unlock);
           <button
             type="button"
             aria-label="Fermer les filtres"
-            class="shrink-0 inline-flex items-center justify-center w-11 h-11 btn-ghost"
+            class="relative shrink-0 inline-flex items-center justify-center w-8 h-8 btn-ghost after:absolute after:-inset-1.5"
             @click="close"
           >
-            <CloseIcon class="w-5 h-5" />
+            <CloseIcon class="w-4 h-4" />
           </button>
         </header>
 
