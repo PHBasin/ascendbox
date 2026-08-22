@@ -133,7 +133,7 @@ onBeforeUnmount(unlock);
         class="fixed inset-x-0 bottom-0 z-50 flex max-h-[85vh] flex-col rounded-t-3xl border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-[0_-8px_30px_rgba(15,23,42,0.18)] sm:max-w-2xl sm:mx-auto sm:border-x lg:inset-0 lg:m-auto lg:h-fit lg:rounded-3xl lg:border-b lg:shadow-[0_24px_64px_rgba(15,23,42,0.24)]"
         role="dialog"
         aria-modal="true"
-        aria-label="Filtres"
+        aria-labelledby="sheet-title"
       >
         <!-- No grab handle: it implies swipe-to-dismiss, which we don't wire up (dismiss = ✕ / scrim / Esc). -->
 
@@ -144,8 +144,9 @@ onBeforeUnmount(unlock);
              edgeless, and having no edge is what separates it from every control that acts on the
              filters - this one only acts on the panel. (It also rules out `.pill-action`, whose white
              fill would vanish on a white sheet.) -->
-        <header class="shrink-0 flex items-center justify-between gap-3 px-6 pt-6 pb-6">
+        <header class="shrink-0 flex items-center justify-between gap-3 px-6 pt-6 pb-8">
           <h2
+            id="sheet-title"
             class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
           >
             Filtres
@@ -167,10 +168,10 @@ onBeforeUnmount(unlock);
              The gutter lives here rather than on the panel: with `overflow` on this element, a
              panel-level `p-6` would put the scrollbar *inside* the padding and clip the rounded
              corners. -->
-        <div class="flex-1 min-h-0 overflow-y-auto overscroll-contain px-6">
+        <div class="flex-1 min-h-0 overflow-y-auto overscroll-contain px-6 pb-3">
           <!-- Durée -->
-          <section class="mb-6">
-            <p class="eyebrow mb-3">Durée</p>
+          <section aria-labelledby="sheet-duration" class="mb-6 last:mb-0">
+            <h3 id="sheet-duration" class="eyebrow mb-3">Durée</h3>
             <div class="flex flex-wrap gap-2">
               <ToggleChip
                 v-for="bucket in DURATION_BUCKETS"
@@ -184,8 +185,8 @@ onBeforeUnmount(unlock);
           </section>
 
           <!-- Niveau -->
-          <section class="mb-6">
-            <p class="eyebrow mb-3">Niveau</p>
+          <section aria-labelledby="sheet-level" class="mb-6 last:mb-0">
+            <h3 id="sheet-level" class="eyebrow mb-3">Niveau</h3>
             <div class="flex flex-wrap gap-2">
               <ToggleChip
                 v-for="lvl in LEVELS"
@@ -199,8 +200,8 @@ onBeforeUnmount(unlock);
           </section>
 
           <!-- Tags -->
-          <section v-if="availableTags.length" class="mb-6">
-            <p class="eyebrow mb-3">Tags</p>
+          <section v-if="availableTags.length" aria-labelledby="sheet-tags" class="mb-6 last:mb-0">
+            <h3 id="sheet-tags" class="eyebrow mb-3">Tags</h3>
             <div class="flex flex-wrap gap-2">
               <ToggleChip
                 v-for="tag in availableTags"
@@ -232,7 +233,7 @@ onBeforeUnmount(unlock);
              Named for what it clears, to keep it distinct from the feed's `Tout réinitialiser`,
              which also drops search mode. -->
         <div
-          class="shrink-0 flex flex-col gap-3 sm:flex-row border-t border-slate-200 dark:border-slate-700 px-6 pt-4 pb-8 lg:pb-6"
+          class="shrink-0 flex flex-col gap-3 sm:flex-row border-t border-slate-200 dark:border-slate-700 px-6 pt-3 pb-8 lg:pb-6"
         >
           <button
             v-if="activeFilterCount"
