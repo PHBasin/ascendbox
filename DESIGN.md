@@ -508,9 +508,9 @@ rest of the responsive - folding both into `lg` once made a single pixel change 
 | Width    | full-bleed      | **capped at `max-w-2xl`, centred** | capped, centred |
 | Vertical | bottom-anchored | bottom-anchored                    | **centred**     |
 
-So: a full-bleed bottom sheet on a phone, the same 672px card resting on the bottom edge on a tablet
-- thumb zone kept - and that card centred on a desktop. The `lg` step is then a vertical move and
-nothing else.
+So: a full-bleed bottom sheet on a phone, the same 672px card resting on the bottom edge on a
+tablet - thumb zone kept - and that card centred on a desktop. The `lg` step is then a vertical
+move and nothing else.
 
 **Why 672px, and why from `sm`.** Measured, the content never exceeds **666px at any viewport**, so
 past that the panel does not fill space, it manufactures void: 333px of it at 1023px - five times the

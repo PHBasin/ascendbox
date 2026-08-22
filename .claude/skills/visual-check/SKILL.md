@@ -10,8 +10,8 @@ right. This skill runs the real app at real widths and captures what it looks
 like.
 
 It exists because a metrics-only check once passed green while `Technique` was
-silently rendering as `Techniq…`. The script therefore asserts exactly one thing
-- no horizontal scroll - and leaves everything else to your eyes.
+silently rendering as `Techniq…`. The script therefore asserts exactly one
+thing - no horizontal scroll - and leaves everything else to your eyes.
 
 ## Run it
 
