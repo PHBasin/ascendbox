@@ -216,12 +216,8 @@ Below the atom, only typographic micro-gaps: title↔teaser `gap-1` (4), gauge s
 
 **icon↔text - two values, by role.** Inside a **control** (scope pills, `Filtres`, sheet reset,
 empty-state action) the icon sits at the atom `gap-2` (8). Inside **meta** (`text-xs` - card
-category, duration, gauge label, chips) it tightens to `gap-1.5` (6) so the glyph hugs the small
+category, duration, gauge label) it tightens to `gap-1.5` (6) so the glyph hugs the small
 text. Never mix the two within a role.
-
-**Compact "chip" tier.** Applied-filter chips are deliberately small: `min-h-9` (36px), `text-xs`,
-`pl-3 pr-2` - read-mostly, tapped occasionally (§8 covers the a11y carve-out). Every _primary_ control
-stays on the `min-h-11` / `text-sm`+ system.
 
 **Responsive bumps (mobile-first)** - generous on desktop without crowding the phone. Header and feed
 share the same horizontal gutter at every breakpoint so their edges stay aligned (§5.8).
@@ -464,9 +460,9 @@ _attribute_ filters, each a labelled section with the same tap interaction:
 - **Niveau** - `Débutant` · `Intermédiaire` · `Avancé`, multi-select.
 - **Tags** - most-used first, **ties alphabetical**, all of them, always shown. The tie-break is a
   rule, not a detail: sorting on the count alone left equal counts in first-appearance order within
-  the _current_ result set, so toggling a duration bucket reshuffled the chips under the thumb - the
-  same instability this § refuses for the applied-filter chips below, which the sheet's own options
-  had simply never been held to. **No in-sheet search field**, and the reason
+  the _current_ result set, so toggling a duration bucket reshuffled the options under the thumb, and
+  a row that reshuffles under the thumb is harder to re-find than one that holds still.
+  **No in-sheet search field**, and the reason
   is the interaction, not the count: a text field to filter chips a coach can already see, on the
   surface this § calls _secondary_ refinement, in a sheet read with gloves on. Typing to reach what
   is one tap away is exactly the tax §5.9 keeps the whole search path collapsed to avoid. The old
@@ -527,7 +523,8 @@ visible around it, which is worth something when filters apply live.
 **The ✕ is the one control here with neither fill nor ring, deliberately.** A close is conventionally
 edgeless, and having no edge is what separates it from every control that acts on the filters - it
 acts only on the panel. (It also rules out `.pill-action`, whose white fill would vanish on a white
-sheet.)
+sheet.) That edgeless look is `.btn-ghost` (§11), shared with the search field's ✕ (§5.9): the two
+closes are one skin, and each keeps its own box.
 
 **Surface.** The sheet takes the `.card` surface (`bg-white dark:bg-slate-800`) plus a top border -
 the §4 rule, not an exception to it. It must never wear the page's background token: that is what
@@ -574,14 +571,29 @@ shift the primary target every time the reset appears.
 Live feedback: the apply button reads **"Voir N exercices"** and is **full-width**, which is
 load-bearing rather than decorative - a selected option (`.toggle-on`) wears this exact ink, so once
 the radius is shared (§4) width is the only thing left keeping the primary action from reading as one
-more filter chip. Applied filters also show as **removable chips** under the scope bar. Chips read in
-**scale order** (short → long, `Débutant` → `Avancé`), not in the order they were tapped: a row that
-reshuffles under the thumb is harder to re-find than one that holds still. The row is a
-`<TransitionGroup>` on the standard crans (§6) - it sits directly above the feed, so an unanimated
-chip made the whole catalogue jump while the grid one pixel below animated every move it made. It
-fades and scales only (both composited, no layout cost), and a leaving chip goes `absolute` so it
-frees its slot at once and the survivors reflow _under_ the `move`, not after it. Removing the
-**last** chip removes the row itself - a different event, and it goes at once.
+more filter chip.
+
+> **No applied-filter chips, and that is deliberate.** A row of removable chips under the scope bar
+> was built, shipped, and then removed. It rendered a second time state the sheet already owns -
+> every selection is `aria-pressed` there - and it did so **inside the sticky bar**, so it was paid
+> for on every screen of every scroll. **Measured at 360px** (headless Chromium, 2026-08-22,
+> Technique scope): 133px with no filter, **181px** from the first chip, **225px from the third - 29%
+> of a 780px viewport** - and 269px at seven. The wrap lands on the third filter because 312px of
+> usable gutter hold `Intermédiaire` and one `#tag` and no more, and a level plus two tags is an
+> ordinary refinement, not a corner case. A surface this § calls _secondary_ refinement had taken a
+> permanent, primary-sized footprint in the one bar that has to stay reachable while scrolling
+> (§5.8).
+>
+> Without the row the bar is **133px flat, at every filter count** - measured at 0, 1, 3 and 7.
+>
+> **What carries the state instead.** The **count badge on `Filtres`** is sticky and answers the
+> question a coach actually has mid-scroll - _am I looking at a filtered catalogue?_ The **sheet**,
+> one tap away, answers _which ones_, and that tap lands exactly where they can be changed. The
+> feed's own empty state already names filters as the cause and offers `Tout réinitialiser`.
+>
+> **The cost, accepted:** removing a single filter goes from one tap to two or three. Do not
+> reintroduce the row to buy that tap back without re-measuring the bar first - that is the trade
+> that created it.
 
 > Category is kept out of the sheet by default (§5.2) - single-select scope vs. multi-select
 > attributes. If usage shows it is combined freely with the rest, add it here as a section.
@@ -764,7 +776,7 @@ not by which component it is - that is what makes the app feel like one surface.
 | Cran               | Means                   | Where                                                                            |
 | ------------------ | ----------------------- | -------------------------------------------------------------------------------- |
 | **150 `ease-out`** | it changes **in place** | hover, `active:scale-*`, chevron nudge, deselect, category icon tint, theme flip |
-| **200 `ease-in`**  | it **leaves**           | every `leave-active-class`: scrim, sheet panel, feed crossfade, removed chip     |
+| **200 `ease-in`**  | it **leaves**           | every `leave-active-class`: scrim, sheet panel, feed crossfade                   |
 | **300 `ease-out`** | a surface **moves in**  | sheet slide-up, card enter, `move-class`, select (fill)                          |
 
 Enter decelerates (`ease-out`), leave accelerates (`ease-in`), and **leave ≤ enter** - an exit should
@@ -822,9 +834,10 @@ check `matchMedia`. Motion is reinforcement only - never the sole carrier of a s
 ## 8. Accessibility
 
 - **Touch targets** ≥ 44px everywhere (`min-h-11`); 48px comfortable; the primary full-width CTA
-  ~52px. **One documented exception:** applied-filter chips are a compact `min-h-9` (36px) "chip"
-  tier - read far more than tapped, removal is occasional, and the **whole chip** is the tap target
-  (not a tiny ✕). Every _primary_ control stays ≥ 44px.
+  ~52px. Every _primary_ control stays ≥ 44px. **A control drawn smaller carries a 44px hit area
+  rather than shrinking the target with it:** the search field's ✕ is a 32px circle, because a 44px
+  one would crowd a 44px field, so it takes `after:absolute after:-inset-1.5` and the target is 44px
+  even where the ink is not. Draw small, tap big - never the reverse.
 - **Redundant encoding (hard rule):** category = icon + label + colour; level = filled-segment count +
   label. Nothing relies on hue alone. Verify with a grayscale + CVD pass.
 - **Contrast:** primary text/actions target AAA (§2.4); never ship below AA.
@@ -935,6 +948,7 @@ without fusing two different controls:
 | `.toggle-on` / `.toggle-off` | a selected / unselected toggle - scope pills (§5.2) and sheet options (§5.5) |
 | `.eyebrow`                   | the small uppercase section label (§5.5, §5.6)                               |
 | `.btn-ink`                   | the solid-ink pill CTA - the feed's and detail's reset / back-to-catalogue   |
+| `.btn-ghost`                 | the edgeless circular close - the sheet's ✕ (§5.5), the search's ✕ (§5.9)    |
 | `.app-bar`                   | the opaque sticky bar chrome - feed header and detail back nav (§5.8)        |
 | `.meta-chip`                 | the small inline icon+value label - category badge, duration, gauge (§5.4)   |
 | `.state-error`               | the load-failure message - feed and detail (§2.2 keeps rose for error text)  |

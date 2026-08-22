@@ -148,7 +148,7 @@ onBeforeUnmount(unlock);
           <button
             type="button"
             aria-label="Fermer les filtres"
-            class="shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition duration-150 ease-out active:scale-95"
+            class="shrink-0 inline-flex items-center justify-center w-11 h-11 btn-ghost"
             @click="close"
           >
             <CloseIcon class="w-5 h-5" />

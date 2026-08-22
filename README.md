@@ -37,7 +37,7 @@ mental) and qualified by level and duration.
 
 - 🎯 **Category scope** - Physique, Technique, Mental, each with its own icon + identity color.
 - 🔍 **Collapsible search** - a magnifier expands into a field; when used it searches the whole catalog (title, teaser, tags - case/accent-insensitive), overriding the category scope.
-- 🎛️ **Attribute filters** - a bottom sheet refines the feed by duration, level and tags (multi-select), with an active-count badge and removable chips.
+- 🎛️ **Attribute filters** - a bottom sheet refines the feed by duration, level and tags (multi-select), with an active-count badge on the `Filtres` button.
 - 📊 **At-a-glance reading** - every card shows duration, up to 3 tags and a neutral 3-segment level gauge with its label (no meaning carried by colour alone).
 - 📖 **Exercise detail page** - a shareable route (`/#/exercice/12`) with the objective, a numbered step-by-step, adaptations and any safety warning; each section renders only when its data exists.
 - ♾️ **Infinite scroll** - automatic pagination on scroll (with prefetch).
