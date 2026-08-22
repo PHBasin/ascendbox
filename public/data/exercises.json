@@ -18,7 +18,7 @@
     ],
     "variants": {
       "harder": [
-        "Version « ninja » en groupe : le reste du groupe écoute et signale le moindre bruit."
+        "En groupe : les autres écoutent et signalent le moindre bruit."
       ],
       "easier": [
         "Le faire en traversée, à un mètre du sol."
@@ -291,7 +291,7 @@
   {
     "id": 15,
     "title": "Contraste des sensations",
-    "teaser": "Un pied en chausson, l'autre pied nu ; alterner à chaque voie.",
+    "teaser": "Un pied en chausson, l'autre pied nu, alterner à chaque voie.",
     "categoryId": "technique",
     "tags": [
       "pieds"
@@ -318,7 +318,7 @@
     "duration": 15,
     "objective": "Poser les pieds en douceur et sans bruit.",
     "equipment": [
-      "Hacky sacks ou petits sacs de graines"
+      "Petits sacs de graines"
     ],
     "instructions": [
       "Poser un hacky sack sur le dessus de chaque chausson avant de partir.",
@@ -392,7 +392,7 @@
   },
   {
     "id": 20,
-    "title": "La hanche au mur (égyptien)",
+    "title": "L'égyptien",
     "teaser": "Monter de profil, hanche collée au mur, main et pied opposés.",
     "categoryId": "technique",
     "tags": [
@@ -737,7 +737,7 @@
   },
   {
     "id": 37,
-    "title": "Prise de tête !",
+    "title": "Prise de tête",
     "teaser": "Contraintes évolutives : 1 main pour 1 pied, 2 mains pour 1 pied.",
     "categoryId": "technique",
     "tags": [
@@ -789,7 +789,7 @@
     "duration": 10,
     "objective": "Valorise les appuis pédestres et le rôle des pieds.",
     "equipment": [
-      "Moufles ou gants épais"
+      "Moufles"
     ],
     "instructions": [
       "Enfiler des moufles, ou simplement garder les mains ouvertes et à plat.",
@@ -886,7 +886,7 @@
     "duration": 15,
     "objective": "Développe la vitesse d'exécution et la prise de décision rapide.",
     "equipment": [
-      "Chronomètre ou téléphone"
+      "Chronomètre"
     ],
     "instructions": [
       "Choisir une voie ou un bloc largement acquis, déjà grimpé plusieurs fois.",
@@ -1011,7 +1011,7 @@
     ],
     "variants": {
       "easier": [
-        "Ne réduire que le nombre de prises de main ; les pieds restent libres."
+        "Ne réduire que le nombre de prises de main, les pieds restent libres."
       ]
     }
   },
@@ -1028,7 +1028,7 @@
     "duration": 15,
     "objective": "Optimiser le parcours : réduire les mouvements pour le même trajet.",
     "instructions": [
-      "Le grimpeur monte normalement ; l'assureur compte ses mouvements à voix haute.",
+      "Le grimpeur monte normalement, l'assureur compte ses mouvements à voix haute.",
       "Annoncer le total au sol, puis fixer l'objectif : deux mouvements de moins.",
       "Regrimper en supprimant les gestes inutiles : réajustements, mains intermédiaires.",
       "Inverser les rôles et recommencer."
@@ -1072,7 +1072,7 @@
     ],
     "variants": {
       "easier": [
-        "Appliquer la contrainte aux mains seulement ; les pieds prennent où ils veulent."
+        "Appliquer la contrainte aux mains seulement, les pieds prennent où ils veulent."
       ]
     }
   },
@@ -1120,7 +1120,7 @@
     ],
     "variants": {
       "easier": [
-        "Appliquer la contrainte aux mains seulement ; les pieds restent libres."
+        "Appliquer la contrainte aux mains seulement, les pieds restent libres."
       ]
     }
   },
@@ -1185,7 +1185,6 @@
     "duration": 10,
     "objective": "Souplesse et repérage dans l'espace.",
     "equipment": [
-      "Cordes",
       "Cerceaux"
     ],
     "instructions": [
@@ -1352,7 +1351,7 @@
     "duration": 10,
     "objective": "Posture droite, poussée sur les jambes et douceur du geste.",
     "equipment": [
-      "Balle de ping-pong ou petite balle"
+      "Petite balle"
     ],
     "instructions": [
       "Coincer la balle sous le menton, ou la garder dans le creux de la main.",
@@ -1495,7 +1494,7 @@
   {
     "id": 73,
     "title": "Le petit poucet",
-    "teaser": "Le meneur pose des cailloux sur les prises ; le suivant les ramasse.",
+    "teaser": "Le meneur pose des cailloux sur les prises, le suivant les ramasse.",
     "categoryId": "technique",
     "tags": [
       "binome",
@@ -1505,7 +1504,7 @@
     "duration": 10,
     "objective": "Précision du geste et concentration.",
     "equipment": [
-      "Petits cailloux ou jetons"
+      "Petits cailloux ou scotsh"
     ],
     "instructions": [
       "Le meneur traverse en posant un caillou sur chaque prise utilisée.",
@@ -1547,7 +1546,7 @@
     "duration": 15,
     "objective": "Initiation à l'escalade en tête et à la manipulation du matériel sous effort.",
     "equipment": [
-      "Bracelets ou anneaux de sangle",
+      "Anneaux de sangle",
       "Dégaines"
     ],
     "instructions": [
@@ -1592,11 +1591,6 @@
     "level": 2,
     "duration": 20,
     "objective": "Travail d'équipe et respect du protocole de sécurité, de bout en bout.",
-    "equipment": [
-      "Corde",
-      "Baudriers",
-      "Système d'assurage"
-    ],
     "instructions": [
       "Le grimpeur s'encorde et fait vérifier son nœud par l'assureur.",
       "L'assureur installe son système et fait la contre-vérification à voix haute.",
@@ -1624,7 +1618,7 @@
   },
   {
     "id": 79,
-    "title": "Le 30/30",
+    "title": "Le 30-30",
     "teaser": "30 secondes de grimpe, 30 de récup. 3 séries de 10 répétitions.",
     "categoryId": "physique",
     "tags": [
@@ -1725,7 +1719,7 @@
     ],
     "level": 3,
     "duration": 20,
-    "objective": "Simule le zippage ; exercice brutal pour les abdominaux et le gainage.",
+    "objective": "Simule le zippage, exercice brutal pour les abdominaux et le gainage.",
     "instructions": [
       "Choisir un dévers marqué, avec de bonnes prises de main.",
       "À chaque prise saisie, décoller volontairement les deux pieds du mur.",
@@ -1784,7 +1778,7 @@
     "duration": 15,
     "objective": "Développer la force isométrique des bras.",
     "equipment": [
-      "Barre de traction ou poutre"
+      "Barre de traction"
     ],
     "instructions": [
       "Se suspendre à la barre, mains à largeur d'épaules, bras tendus.",
@@ -1850,13 +1844,10 @@
     "level": 1,
     "duration": 10,
     "objective": "Vitesse, engagement vers la paroi et réflexes.",
-    "equipment": [
-      "Tapis"
-    ],
     "instructions": [
       "Désigner un chat, qui se déplace uniquement sur le tapis.",
       "Les autres courent sur le tapis et ne sont sauvés que les pieds décollés du sol.",
-      "Le chat touche ceux qui traînent au sol ; le touché devient chat à son tour.",
+      "Le chat touche ceux qui traînent au sol, le touché devient chat à son tour.",
       "Interdiction de rester accroché au mur plus de 10 secondes."
     ],
     "variants": {
@@ -2001,7 +1992,7 @@
     "duration": 20,
     "objective": "Améliore la prise de décision rapide, la grimpe intuitive et la préparation à vue.",
     "equipment": [
-      "Bâton ou canne"
+      "Bâton"
     ],
     "instructions": [
       "Un partenaire se place au sol avec un bâton.",
@@ -2022,7 +2013,7 @@
     ],
     "level": 2,
     "duration": 20,
-    "objective": "Travaille la mémorisation gestuelle ; échauffement à basse intensité, ou résistance si le rythme monte.",
+    "objective": "Travaille la mémorisation gestuelle, échauffement à basse intensité, ou résistance si le rythme monte.",
     "instructions": [
       "Le premier grimpeur réalise 2 mouvements, puis redescend.",
       "Le suivant refait ces 2 mouvements et en ajoute 2.",
@@ -2235,7 +2226,7 @@
         "Le guide se tait : plus aucune indication verbale."
       ],
       "easier": [
-        "Le faire en traversée, à un mètre du sol, sans corde."
+        "Le faire en traversée, à un mètre du sol et sans corde."
       ]
     }
   },
@@ -2297,7 +2288,7 @@
       "Lâcher, corps relâché, pieds devant, sans se rattraper à la corde.",
       "Augmenter la hauteur de vol très progressivement, essai après essai."
     ],
-    "safety": "Chute volontaire en tête : à encadrer par une personne diplômée. Vérifier l'absence de vire, d'arête et de mou excessif ; l'assureur est prévenu et attentif à chaque vol."
+    "safety": "Chute volontaire en tête : à encadrer par une personne diplômée. Vérifier l'absence de vire, d'arête et de mou excessif, l'assureur est prévenu et attentif à chaque vol."
   },
   {
     "id": 112,
@@ -2312,10 +2303,10 @@
     "duration": 10,
     "objective": "Dédramatisation de la chute et apprentissage de l'amorti.",
     "equipment": [
-      "Tapis"
+      "Crash pad"
     ],
     "instructions": [
-      "Vérifier que le tapis couvre toute la zone de réception.",
+      "Vérifier que le crash pad couvre toute la zone de réception.",
       "Monter jusqu'à toucher la ligne repère, à 2,50 mètres.",
       "Crier « prêt », attendre la réponse du pareur, puis sauter en poussant sur les jambes.",
       "Se réceptionner jambes fléchies, et rouler si l'élan est fort.",
@@ -2326,7 +2317,7 @@
         "Sauter en effectuant un demi-tour (½ vrille) avant la réception."
       ]
     },
-    "safety": "Tapis de réception continu au pied du mur, zone dégagée et un seul grimpeur à la fois. Hauteur de saut limitée à 2,50 m et réception amortie sur les deux pieds."
+    "safety": "Crash pad au pied du mur, zone dégagée et un seul grimpeur à la fois. Hauteur de saut limitée à 2,50 m et réception amortie sur les deux pieds."
   },
   {
     "id": 113,
@@ -2342,7 +2333,7 @@
     "duration": 10,
     "objective": "Appréhension de la paroi et amorti.",
     "equipment": [
-      "Tapis"
+      "Crash pad"
     ],
     "instructions": [
       "Se placer à 3 ou 4 mètres du mur, face à un secteur légèrement déversant.",
@@ -2410,10 +2401,7 @@
     "duration": 20,
     "objective": "Apprendre à manier un appareil d'assurage autobloquant à la montée et à la descente.",
     "equipment": [
-      "Corde",
-      "Sac lesté",
-      "Système d'assurage autobloquant",
-      "Baudriers"
+      "Sac lesté"
     ],
     "instructions": [
       "Fixer un sac de 10 à 15 kg au bout de la corde avec un nœud d'assurage.",
@@ -2429,7 +2417,7 @@
         "Alléger la charge et guider le geste de hissage."
       ]
     },
-    "safety": "Personne ne doit se tenir sur les tapis situés sous la charge suspendue. À valider par un encadrant."
+    "safety": "Personne ne doit se tenir sur les tapis situés sous la charge suspendue."
   },
   {
     "id": 117,
@@ -2443,11 +2431,6 @@
     "level": 1,
     "duration": 20,
     "objective": "Se familiariser avec le matériel d'assurage et l'encordement de base.",
-    "equipment": [
-      "Baudrier",
-      "Corde",
-      "Système d'assurage"
-    ],
     "instructions": [
       "Enfiler le baudrier et le fermer, sangles à plat et non vrillées, boucles repassées.",
       "Réaliser un nœud de huit tracé dans les deux points d'encordement.",
@@ -2476,11 +2459,6 @@
     "level": 2,
     "duration": 20,
     "objective": "Évaluer sa maîtrise de l'assurage avant de gagner en autonomie.",
-    "equipment": [
-      "Baudriers",
-      "Corde",
-      "Système d'assurage"
-    ],
     "instructions": [
       "Former un groupe : un grimpeur, un premier et un second assureur, un observateur.",
       "Le grimpeur monte jusqu'au repère pendant que l'assureur maintient la corde tendue.",
@@ -2569,9 +2547,6 @@
     "duration": 30,
     "objective": "Établir un projet d'ascension collectif et connaître son niveau relatif aux cotations.",
     "equipment": [
-      "Corde",
-      "Baudriers",
-      "Système d'assurage",
       "Fiche de score"
     ],
     "instructions": [
@@ -2683,11 +2658,6 @@
     "level": 2,
     "duration": 180,
     "objective": "Développe la filière aérobie et le plaisir de l'effort long.",
-    "equipment": [
-      "Corde",
-      "Baudriers",
-      "Système d'assurage"
-    ],
     "instructions": [
       "Choisir une grande voie bien équipée, un cran sous son niveau max.",
       "Prévoir une marche d'approche de 20 min à 1 h pour s'échauffer.",
@@ -2787,7 +2757,6 @@
     "duration": 10,
     "objective": "Optimise le geste de mousquetonnage.",
     "equipment": [
-      "Corde",
       "Dégaines"
     ],
     "instructions": [
@@ -2889,11 +2858,6 @@
     "level": 2,
     "duration": 150,
     "objective": "Développe la filière aérobie et la gestion de l'effort.",
-    "equipment": [
-      "Corde",
-      "Baudriers",
-      "Système d'assurage"
-    ],
     "instructions": [
       "Enchaîner 2 ou 3 voies en tête sans repos entre elles.",
       "Monter d'un niveau à chaque voie de la série.",
@@ -2909,7 +2873,7 @@
   {
     "id": 135,
     "title": "Recule de 4 cases",
-    "teaser": "Enchaîner des voies plus dures ; une chute fait reculer de 4 niveaux.",
+    "teaser": "Enchaîner des voies plus dures, une chute fait reculer de 4 niveaux.",
     "categoryId": "physique",
     "tags": [
       "endurance"
@@ -2917,11 +2881,6 @@
     "level": 2,
     "duration": 150,
     "objective": "Travaille le volume et la gestion de l'effort en difficulté progressive.",
-    "equipment": [
-      "Corde",
-      "Baudriers",
-      "Système d'assurage"
-    ],
     "instructions": [
       "Enchaîner les voies à vue, en montant d'un niveau à chaque fois.",
       "Récupérer 5 à 10 minutes entre deux voies.",
@@ -3007,14 +2966,14 @@
       "Sur poutre, choisir une prise où l'on tient au moins 10 s à une main.",
       "Se suspendre d'une main le plus longtemps possible.",
       "Changer de main, et ainsi de suite.",
-      "S'arrêter à moins de 3 s ; faire 4 à 6 séries, 10 min de repos."
+      "S'arrêter à moins de 3 s, faire 4 à 6 séries, 10 min de repos."
     ],
     "safety": "Sollicitation forte des doigts et des coudes : échauffement complet obligatoire, arrêt à la moindre douleur articulaire."
   },
   {
     "id": 140,
     "title": "Mémoire ou galère",
-    "teaser": "Refaire un long circuit de mémoire ; une erreur, un pas en arrière.",
+    "teaser": "Refaire un long circuit de mémoire, une erreur, un pas en arrière.",
     "categoryId": "mental",
     "tags": [
       "bloc",
@@ -3129,7 +3088,7 @@
       "Alterner doigts tendus, doigts arqués et mains serrées.",
       "Arrêter la série si la prise se dégrade."
     ],
-    "safety": "Échauffement des doigts obligatoire ; ne pas forcer en arqué à froid."
+    "safety": "Échauffement des doigts obligatoire, ne pas forcer en arqué à froid."
   },
   {
     "id": 146,
@@ -3201,27 +3160,5 @@
         "N'accorder qu'un repos égal au temps d'escalade entre les répétitions."
       ]
     }
-  },
-  {
-    "id": 149,
-    "title": "Les tablettes de choco",
-    "teaser": "Grimper une voie inventée avec une étagère pour les pieds.",
-    "categoryId": "physique",
-    "tags": [
-      "endurance",
-      "statique"
-    ],
-    "level": 3,
-    "duration": 60,
-    "objective": "Travaille une filière au choix et renforce les abdominaux.",
-    "equipment": [
-      "Étagère ou prises pour les pieds"
-    ],
-    "instructions": [
-      "Ne travailler qu'une filière par séance (force, rési courte, rési longue ou conti).",
-      "Recréer une voie en alternant prises de main et poussées sur les pieds.",
-      "Poser les pieds sur une étagère ou des prises, nus ou en chaussons.",
-      "Respecter les temps d'effort de la filière choisie."
-    ]
   }
 ]
