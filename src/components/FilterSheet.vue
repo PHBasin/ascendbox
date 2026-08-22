@@ -120,15 +120,25 @@ onBeforeUnmount(unlock);
            **Vertical**: bottom-anchored (thumb zone) until `lg`, then centred by
            `inset-0 + m-auto + h-fit` - margins, not `-translate-1/2`, so `transform` stays free for
            the Transition above, whose enter/leave classes would otherwise overwrite the centring.
-           At `lg` it also closes into a floating card: bottom border, omnidirectional shadow, and
-           `pb-8` (thumb clearance) relaxed to `pb-6`. -->
+           At `lg` it also closes into a floating card: bottom border and omnidirectional shadow.
+           **Three regions, one of which scrolls.** The panel used to be the scroll container itself,
+           so the apply bar scrolled away with the options and left the thumb zone this sheet exists
+           for. It is now a flex column: pinned header, scrolling body, pinned footer - which is what
+           makes the CTA reachable by construction rather than by the tag count staying small. The
+           padding went with the split: `px-6` per region, and the bottom clearance moved to the
+           footer, where it clears the screen edge the footer actually meets.
+           **The ✕ is drawn at 32 and tapped at 44** (§8's rule, the same one the search field's ✕
+           spends). A 44px circle set the header row height, so the band cost 93px for one word and
+           a close - on the surface where vertical space is the scarce resource. Drawn at 32 it
+           matches the title's own line box, which also retires the 6px of `items-center` slack that
+           made a declared 24 read as 31: the padding now means what it says. -->
       <div
         v-if="open"
         ref="panel"
-        class="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-[0_-8px_30px_rgba(15,23,42,0.18)] p-6 pb-8 sm:max-w-2xl sm:mx-auto sm:border-x lg:inset-0 lg:m-auto lg:h-fit lg:rounded-3xl lg:border-b lg:pb-6 lg:shadow-[0_24px_64px_rgba(15,23,42,0.24)]"
+        class="fixed inset-x-0 bottom-0 z-50 flex max-h-[85vh] flex-col rounded-t-3xl border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-[0_-8px_30px_rgba(15,23,42,0.18)] sm:max-w-2xl sm:mx-auto sm:border-x lg:inset-0 lg:m-auto lg:h-fit lg:rounded-3xl lg:border-b lg:shadow-[0_24px_64px_rgba(15,23,42,0.24)]"
         role="dialog"
         aria-modal="true"
-        aria-label="Filtres"
+        aria-labelledby="sheet-title"
       >
         <!-- No grab handle: it implies swipe-to-dismiss, which we don't wire up (dismiss = ✕ / scrim / Esc). -->
 
@@ -139,8 +149,16 @@ onBeforeUnmount(unlock);
              edgeless, and having no edge is what separates it from every control that acts on the
              filters - this one only acts on the panel. (It also rules out `.pill-action`, whose white
              fill would vanish on a white sheet.) -->
-        <header class="flex items-center justify-between gap-3 mb-6">
+        <!-- `border-b` for the same reason the footer has a `border-t`, and it is needed more here:
+             when the body scrolls, the first group's eyebrow leaves before its chips do, so
+             without an edge those chips read as broken pills under the title rather than as
+             content continuing above. Always on, like the footer's - a scroll listener would
+             buy a rest state nobody asked for. -->
+        <header
+          class="shrink-0 flex items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-700 px-6 py-6"
+        >
           <h2
+            id="sheet-title"
             class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
           >
             Filtres
@@ -148,57 +166,66 @@ onBeforeUnmount(unlock);
           <button
             type="button"
             aria-label="Fermer les filtres"
-            class="shrink-0 inline-flex items-center justify-center w-11 h-11 btn-ghost"
+            class="relative shrink-0 inline-flex items-center justify-center w-8 h-8 btn-ghost after:absolute after:-inset-1.5"
             @click="close"
           >
-            <CloseIcon class="w-5 h-5" />
+            <CloseIcon class="w-4 h-4" />
           </button>
         </header>
 
-        <!-- Durée -->
-        <section class="mb-6">
-          <p class="eyebrow mb-3">Durée</p>
-          <div class="flex flex-wrap gap-2">
-            <ToggleChip
-              v-for="bucket in DURATION_BUCKETS"
-              :key="bucket.id"
-              :pressed="selectedBuckets.includes(bucket.id)"
-              @toggle="toggleBucket(bucket.id)"
-            >
-              {{ bucket.label }}
-            </ToggleChip>
-          </div>
-        </section>
+        <!-- The only region that scrolls (DESIGN §5.5). `min-h-0` is load-bearing and is the bug
+             this pattern is famous for: a flex child defaults to `min-height: auto`, which refuses
+             to shrink below its content, so without it this never scrolls and the footer is pushed
+             off screen again - the exact symptom, restored while looking fixed.
+             The gutter lives here rather than on the panel: with `overflow` on this element, a
+             panel-level `p-6` would put the scrollbar *inside* the padding and clip the rounded
+             corners. -->
+        <div class="flex-1 min-h-0 overflow-y-auto overscroll-contain px-6 py-3">
+          <!-- Durée -->
+          <section aria-labelledby="sheet-duration" class="mb-6 last:mb-0">
+            <h3 id="sheet-duration" class="eyebrow mb-3">Durée</h3>
+            <div class="flex flex-wrap gap-2">
+              <ToggleChip
+                v-for="bucket in DURATION_BUCKETS"
+                :key="bucket.id"
+                :pressed="selectedBuckets.includes(bucket.id)"
+                @toggle="toggleBucket(bucket.id)"
+              >
+                {{ bucket.label }}
+              </ToggleChip>
+            </div>
+          </section>
 
-        <!-- Niveau -->
-        <section class="mb-6">
-          <p class="eyebrow mb-3">Niveau</p>
-          <div class="flex flex-wrap gap-2">
-            <ToggleChip
-              v-for="lvl in LEVELS"
-              :key="lvl.value"
-              :pressed="selectedLevels.includes(lvl.value)"
-              @toggle="toggleLevel(lvl.value)"
-            >
-              {{ lvl.label }}
-            </ToggleChip>
-          </div>
-        </section>
+          <!-- Niveau -->
+          <section aria-labelledby="sheet-level" class="mb-6 last:mb-0">
+            <h3 id="sheet-level" class="eyebrow mb-3">Niveau</h3>
+            <div class="flex flex-wrap gap-2">
+              <ToggleChip
+                v-for="lvl in LEVELS"
+                :key="lvl.value"
+                :pressed="selectedLevels.includes(lvl.value)"
+                @toggle="toggleLevel(lvl.value)"
+              >
+                {{ lvl.label }}
+              </ToggleChip>
+            </div>
+          </section>
 
-        <!-- Tags -->
-        <section v-if="availableTags.length" class="mb-6">
-          <p class="eyebrow mb-3">Tags</p>
-          <div class="flex flex-wrap gap-2">
-            <ToggleChip
-              v-for="tag in availableTags"
-              :key="tag"
-              :pressed="selectedTags.includes(tag)"
-              @toggle="toggleTag(tag)"
-            >
-              #{{ tag }}
-            </ToggleChip>
-          </div>
-        </section>
+          <!-- Tags -->
+          <section v-if="availableTags.length" aria-labelledby="sheet-tags" class="mb-6 last:mb-0">
+            <h3 id="sheet-tags" class="eyebrow mb-3">Tags</h3>
+            <div class="flex flex-wrap gap-2">
+              <ToggleChip
+                v-for="tag in availableTags"
+                :key="tag"
+                :pressed="selectedTags.includes(tag)"
+                @toggle="toggleTag(tag)"
+              >
+                #{{ tag }}
+              </ToggleChip>
+            </div>
+          </section>
+        </div>
 
         <!-- Bottom cluster - stacked on phones, side by side from sm (DESIGN §5.5).
              Stacked, `Effacer les filtres` sits *above* the CTA: the sheet is anchored to the bottom
@@ -217,7 +244,9 @@ onBeforeUnmount(unlock);
              while it grows, which is how the gap had opened to 4px at lg.
              Named for what it clears, to keep it distinct from the feed's `Tout réinitialiser`,
              which also drops search mode. -->
-        <div class="flex flex-col gap-3 sm:flex-row">
+        <div
+          class="shrink-0 flex flex-col gap-3 sm:flex-row border-t border-slate-200 dark:border-slate-700 px-6 py-6"
+        >
           <button
             v-if="activeFilterCount"
             type="button"
