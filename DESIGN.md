@@ -312,7 +312,7 @@ something next to the width it was measured at** - a ceiling stated unconditiona
 not been measured at the narrowest width it has to hold.
 
 **360px is covered, measured rather than assumed.** Rendered at 360 (the common Android width),
-**every one of the 149 teasers lands on 2 or 3 lines - none reaches a 4th** (140 at two lines, 9 at
+**every teaser lands on 2 or 3 lines - none reaches a 4th** (140 at two lines, 9 at
 three; at 390 it is 148 and 1). The longest teaser is **84 chars**, with only 4 above the 70 target
 and none above 90, so the ceiling of 100 sits well clear of the data at both widths - and it held
 through a 26-exercise batch, which is the interesting part: the margin absorbed new content without
@@ -442,7 +442,7 @@ where two long ones do not - so the `slice` in `ExerciseCard` is a DOM backstop,
 > deliberately **above** any plausible entry rather than on the current maximum, which is the whole
 > point: a backstop pinned to today's data goes stale silently. It has already survived two moves it
 > would not have before - a batch that pushed entries to 5 tags, then a rationalisation back down to
-> **16 distinct tags and a maximum of 4** (3 exercises). Re-measured 2026-08-22 on 149 exercises:
+> **16 distinct tags and a maximum of 4** (3 exercises). Re-measured 2026-08-22 on the whole catalogue:
 > rendering every tag, exactly **one** card clips at 360px (id 121, 4 tags) and none at 390 - which is
 > precisely the case `max-h-[1lh]` exists to absorb.
 

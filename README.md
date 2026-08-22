@@ -144,7 +144,7 @@ Exercises live in [`public/data/exercises.json`](public/data/exercises.json), **
 (out of the JS bundle for a better _time-to-interactive_; preloaded via `<link rel="preload">` in
 [`index.html`](index.html)).
 
-The catalogue holds **149 exercises** (measured 2026-08-22). Each entry conforms to the `Exercise` interface: seven fields
+The catalogue holds **~150 exercises** (`npm run validate:data` prints the exact count). Each entry conforms to the `Exercise` interface: seven fields
 are required, and the rest feed the detail page (DESIGN §5.6) and are **optional by design** - the
 catalogue is authored incrementally, and a section with no data simply does not render.
 
@@ -176,8 +176,9 @@ catalogue is authored incrementally, and a section with no data simply does not 
   loud ("3 min", never "180 s") - a fixed vocabulary of `reps`/`sets`/`restSec` could not describe a
   hand-authored catalogue (DESIGN §5.6).
 
-**Authoring status** (2026-08-22): `objective` and `instructions` are complete on all 149 entries;
-`equipment` is on 52, `variants` on 35 and `safety` on 8.
+**Authoring status** (2026-08-22): `objective` and `instructions` are complete on **every** entry;
+`equipment` is on about a third, `variants` on a quarter and `safety` on a handful. The counts live
+with the tracking, in [`.claude/CLAUDE.md`](.claude/CLAUDE.md), not here.
 
 > Because the JSON is _fetched_ (not imported), `vue-tsc` cannot see it - a schema drift would only
 > fail at runtime, in the field. **`npm run validate:data` is the gate that closes this** and runs in
@@ -293,7 +294,7 @@ Work actually in flight is tracked in [`.claude/CLAUDE.md`](.claude/CLAUDE.md), 
 
 ### Content
 
-- **Finish the detail data** - `equipment` (52/149), `variants` (35/149) and `safety` (8/149) are
+- **Finish the detail data** - `equipment` (about a third), `variants` (a quarter) and `safety` (a handful) are
   still partial. Content authoring, not code: the model is settled and every section self-hides, so
   a gap is a non-event. `safety` is the one field that cannot be bulk-filled - it is coaching advice,
   so it needs a human who coaches.
