@@ -1,26 +1,12 @@
 <script setup lang="ts">
-import { computed, ref, nextTick, watch } from 'vue';
+import { ref, nextTick, watch } from 'vue';
 import { useExercises } from '@/application/useExercises';
-import { DURATION_BUCKETS } from '@/application/useFilters';
 import { countOf, plural } from '@/application/plural';
-import { LEVELS } from '@/domain/exercise';
 import FilterSheet from './FilterSheet.vue';
 import SearchIcon from './icons/SearchIcon.vue';
 import CloseIcon from './icons/CloseIcon.vue';
 
-const {
-  searchOpen,
-  searchQuery,
-  openSearch,
-  closeSearch,
-  selectedBuckets,
-  selectedLevels,
-  selectedTags,
-  activeFilterCount,
-  toggleBucket,
-  toggleLevel,
-  toggleTag,
-} = useExercises();
+const { searchOpen, searchQuery, openSearch, closeSearch, activeFilterCount } = useExercises();
 
 const sheetOpen = ref(false);
 
@@ -46,40 +32,15 @@ watch(searchOpen, (open) => {
     else if (leavingFocus) searchButton.value?.focus();
   });
 });
-
-// Applied attribute filters as removable chips (DESIGN §5.5): recognition over recall.
-//
-// Buckets and levels are filtered *from their source list* rather than mapped from the selection:
-// the label travels with the option, so no id → label lookup is needed. It also fixes their order -
-// a chip keeps its place in the scale instead of moving to wherever it was tapped.
-//
-// Tags are mapped from the selection instead, and deliberately: `availableTags` narrows with the
-// scope, so walking it could drop a chip for a filter that is still applied. Their label is the tag.
-type Chip = { key: string; label: string; remove: () => void };
-const chips = computed<Chip[]>(() => [
-  ...DURATION_BUCKETS.filter((b) => selectedBuckets.value.includes(b.id)).map((b) => ({
-    key: `d:${b.id}`,
-    label: b.label,
-    remove: () => toggleBucket(b.id),
-  })),
-  ...LEVELS.filter((l) => selectedLevels.value.includes(l.value)).map((l) => ({
-    key: `l:${l.value}`,
-    label: l.label,
-    remove: () => toggleLevel(l.value),
-  })),
-  ...selectedTags.value.map((t: string) => ({
-    key: `t:${t}`,
-    label: `#${t}`,
-    remove: () => toggleTag(t),
-  })),
-]);
 </script>
 
 <template>
   <!-- Header aligned to the feed grid (DESIGN §5.8): same max-w-7xl measure.
        < lg: two tiers - [title · search · Filtres] over the full-width scope.
-       lg+: one line - title · centered scope · search + Filtres. -->
-  <div class="page-gutter max-w-7xl py-4 flex flex-col gap-3">
+       lg+: one line - title · centered scope · search + Filtres.
+       No applied-filter chips tier: the count badge below carries that state, and the row it
+       replaces cost up to 92px of *sticky* height, on every screen of every scroll (§5.5). -->
+  <div class="page-gutter max-w-7xl py-4">
     <div class="flex flex-wrap items-center gap-3 lg:flex-nowrap">
       <!-- Screen title (DESIGN §3). Below sm the open field takes the row, so the title gives up its
            pixels - but `sr-only`, never `hidden`: `hidden` left the document with no h1 at all on a
@@ -169,37 +130,6 @@ const chips = computed<Chip[]>(() => [
         </button>
       </div>
     </div>
-
-    <!-- Removable applied-filter chips. Animated on the standard scale (§6) because this row sits
-         directly above the feed: adding or dropping a filter used to make the whole catalogue jump
-         while the grid one pixel below animated every move it made.
-         `opacity` + `scale` only - both composited, so a row of chips costs no layout work. The
-         leaving chip goes `absolute` (positioned by the `relative` ul, no offsets, so it stays put)
-         to free its slot at once and let the survivors reflow under `move-class` instead of after it.
-         `v-if` stays: removing the *last* chip removes the row itself, which is a different event
-         from a chip leaving one - the row goes at once, and nothing is left to animate out. -->
-    <TransitionGroup
-      v-if="chips.length"
-      tag="ul"
-      class="relative flex flex-wrap gap-2"
-      move-class="transition-transform duration-300 ease-out"
-      enter-active-class="transition duration-300 ease-out"
-      enter-from-class="opacity-0 scale-95"
-      leave-active-class="absolute transition duration-200 ease-in"
-      leave-to-class="opacity-0 scale-95"
-    >
-      <li v-for="chip in chips" :key="chip.key">
-        <button
-          type="button"
-          class="inline-flex items-center gap-1.5 pl-3 pr-2 min-h-9 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-150 ease-out"
-          :aria-label="`Retirer le filtre ${chip.label}`"
-          @click="chip.remove"
-        >
-          {{ chip.label }}
-          <CloseIcon class="w-3.5 h-3.5" />
-        </button>
-      </li>
-    </TransitionGroup>
 
     <FilterSheet :open="sheetOpen" @close="sheetOpen = false" />
   </div>
