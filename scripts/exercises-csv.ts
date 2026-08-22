@@ -30,6 +30,7 @@ import { parse } from 'csv-parse/sync';
 import { stringify } from 'csv-stringify/sync';
 
 import type { Exercise, Variants } from '../src/domain/exercise.ts';
+import { CATALOGUE_PATH, entryLabel, isPlainObject, messageOf } from './catalogue.ts';
 
 const CSV_DELIMITER = ';';
 
@@ -38,7 +39,6 @@ const CSV_DELIMITER = ';';
 const LIST_SEPARATOR = '|';
 const LIST_JOIN = ` ${LIST_SEPARATOR} `;
 
-const CATALOGUE_PATH = fileURLToPath(new URL('../public/data/exercises.json', import.meta.url));
 const DEFAULT_CSV_PATH = fileURLToPath(new URL('../exercises.csv', import.meta.url));
 
 // --- Columns, derived from the domain ---
@@ -96,18 +96,10 @@ const COLUMNS: readonly Column[] = FIELD_NAMES.flatMap((field): Column[] => {
 
 const HEADERS: readonly string[] = COLUMNS.map((column) => column.header);
 
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
-
-function label(entry: Record<string, unknown>, index: number): string {
-  return typeof entry['id'] === 'number' ? `#${String(entry['id'])}` : `[${String(index)}]`;
-}
-
 // --- JSON → CSV ---
 
 // A value of the wrong runtime type is `validate:data`'s to report, not the converter's to hide.
-// Dropping it would empty the cell, so the coach could not even see what to correct — and the export
+// Dropping it would empty the cell, so the coach could not even see what to correct - and the export
 // is *expected* to run on JSON that is not green yet, since fixing it in a spreadsheet is the point.
 // Scalars therefore go through as text; only a nested object has no honest one-cell form. An absent
 // value stays a gap, and a gap must stay a non-event: the catalogue is authored incrementally, so
@@ -175,7 +167,7 @@ function findListSeparatorConflicts(entries: readonly unknown[]): string[] {
       return items.flatMap((item, position) =>
         typeof item === 'string' && item.includes(LIST_SEPARATOR)
           ? [
-              `${label(entry, index)} ${column.header}[${String(position)}] contains "${LIST_SEPARATOR}", the list separator`,
+              `${entryLabel(entry, index)} ${column.header}[${String(position)}] contains "${LIST_SEPARATOR}", the list separator`,
             ]
           : []
       );
@@ -328,10 +320,7 @@ function readTextFile(path: string): string {
   try {
     return readFileSync(path, 'utf8');
   } catch (error) {
-    throw new Error(
-      `${path} is unreadable: ${error instanceof Error ? error.message : String(error)}`,
-      { cause: error }
-    );
+    throw new Error(`${path} is unreadable: ${messageOf(error)}`, { cause: error });
   }
 }
 
@@ -353,10 +342,7 @@ function writeTextFile(path: string, contents: string): void {
     } catch {
       // Nothing to clean up, or nothing we can do about it - the failure below is the one that matters.
     }
-    throw new Error(
-      `${path} could not be written: ${error instanceof Error ? error.message : String(error)}`,
-      { cause: error }
-    );
+    throw new Error(`${path} could not be written: ${messageOf(error)}`, { cause: error });
   }
 }
 
@@ -439,11 +425,11 @@ function readCommand(): { run: (options: Options) => void; options: Options } {
     );
   }
   // A path given positionally rather than via --in/--out would otherwise be dropped on the floor and
-  // the default file used instead — the silent fallback this whole function exists to prevent. It is
+  // the default file used instead - the silent fallback this whole function exists to prevent. It is
   // the destructive direction that matters: `data:import -- mes-exercices.csv` would read a stale
   // `exercises.csv` and overwrite the catalogue with it, and `validate:data` would call it clean.
   if (extra.length > 0) {
-    throw new Error(`unexpected argument "${extra[0]}" — paths go to --in/--out\n\n${USAGE}`);
+    throw new Error(`unexpected argument "${extra[0]}" - paths go to --in/--out\n\n${USAGE}`);
   }
   // The shape of argv was checked; the *targets* were not. `data:export -- --out public/data/exercises.json`
   // writes CSV over the catalogue, and every downstream check would then agree the JSON is unreadable
@@ -461,7 +447,7 @@ try {
   const { run, options } = readCommand();
   run(options);
 } catch (error) {
-  console.error(`✖ ${error instanceof Error ? error.message : String(error)}`);
+  console.error(`✖ ${messageOf(error)}`);
   // `exitCode`, not `process.exit()`: the latter does not flush a piped stdout, so the ✖ lines above
   // could be lost on exactly the run that failed.
   process.exitCode = 1;

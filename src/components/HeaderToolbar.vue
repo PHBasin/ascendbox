@@ -2,6 +2,7 @@
 import { computed, ref, nextTick, watch } from 'vue';
 import { useExercises } from '@/application/useExercises';
 import { DURATION_BUCKETS } from '@/application/useFilters';
+import { countOf, plural } from '@/application/plural';
 import { LEVELS } from '@/domain/exercise';
 import FilterSheet from './FilterSheet.vue';
 import SearchIcon from './icons/SearchIcon.vue';
@@ -49,7 +50,7 @@ watch(searchOpen, (open) => {
 // Applied attribute filters as removable chips (DESIGN §5.5): recognition over recall.
 //
 // Buckets and levels are filtered *from their source list* rather than mapped from the selection:
-// the label travels with the option, so no id → label lookup is needed. It also fixes their order —
+// the label travels with the option, so no id → label lookup is needed. It also fixes their order -
 // a chip keeps its place in the scale instead of moving to wherever it was tapped.
 //
 // Tags are mapped from the selection instead, and deliberately: `availableTags` narrows with the
@@ -161,7 +162,7 @@ const chips = computed<Chip[]>(() => [
           <span
             v-if="activeFilterCount"
             class="inline-flex items-center justify-center min-w-5 h-5 px-1 rounded-full bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 text-xs font-bold"
-            :aria-label="`${activeFilterCount} filtre(s) actif(s)`"
+            :aria-label="`${countOf(activeFilterCount, 'filtre')} actif${plural(activeFilterCount)}`"
           >
             {{ activeFilterCount }}
           </span>

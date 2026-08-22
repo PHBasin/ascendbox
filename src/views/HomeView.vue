@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useExercises } from '@/application/useExercises';
+import { countOf } from '@/application/plural';
 import type { CategoryId } from '@/domain/exercise';
 import CategoryScope from '@/components/CategoryScope.vue';
 import HeaderToolbar from '@/components/HeaderToolbar.vue';
@@ -39,7 +40,7 @@ function onSelectCategory(id: CategoryId): void {
 const resultAnnouncement = computed(() => {
   if (isLoading.value || error.value) return '';
   if (totalCount.value === 0) return 'Aucun exercice';
-  return `${totalCount.value} exercice${totalCount.value > 1 ? 's' : ''}`;
+  return countOf(totalCount.value, 'exercice');
 });
 </script>
 

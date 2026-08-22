@@ -6,16 +6,17 @@
 // why this is application state and not header chrome - it widens what the feed is about.
 import { computed, ref } from 'vue';
 
+// Hoisted: `fold` runs once per keystroke *and* once per exercise per catalogue load (the search
+// index), so the literal was being recompiled on the one path this file calls expensive.
+const COMBINING_MARKS = /[\u0300-\u036f]/g;
+
 /**
  * Case- and accent-insensitive folding. `normalize('NFD')` is the expensive step, which is exactly
  * why the catalogue side of the comparison is folded **once per load** into an index rather than once
  * per keystroke per exercise (see `useExercises.ts`); only the query passes through here on input.
  */
 export function fold(value: string): string {
-  return value
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '');
+  return value.toLowerCase().normalize('NFD').replace(COMBINING_MARKS, '');
 }
 
 const searchOpen = ref(false);
