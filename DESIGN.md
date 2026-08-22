@@ -679,7 +679,7 @@ one trailing past the final step reads as an unfinished list.
 > **There is no `protocol` field, and none is to be added.** The numeric `Déroulé` tiles it fed
 > (`reps`/`sets`/`restSec`/`holdSec`) broke on real content: `restSec` meant rest between _sets_
 > where some exercises need it between _reps_, and nothing could express "5 s **par bras**". A fixed
-> vocabulary of four figures cannot describe 123 hand-authored exercises; a sentence can. Figures
+> vocabulary of four figures cannot describe ~150 hand-authored exercises; a sentence can. Figures
 > live in `instructions` prose - the exceptions are the rule here.
 
 **Markers are drawn, not `list-disc`/`list-decimal`.** A native marker inherits the line-height and
@@ -761,7 +761,7 @@ genuinely tight; from `sm` up the title **stays** and the field is **capped** (`
 beside Filtres, so a tablet never gets a half-empty ~600px field. Focus follows the swap (§8).
 
 **Opening the field is itself a mode switch** - it **supersedes the category scope** and shows the
-**whole catalogue** (empty query = all 123 exercises); a typed term narrows it, matching
+**whole catalogue** (empty query = all ~150 exercises); a typed term narrows it, matching
 title + teaser + tags (case- and accent-insensitive). The scope pills deselect accordingly
 (§5.2). Closing (✕ / `Esc`) drops the mode; picking a category also exits search (`setCategory` →
 `closeSearch`).
@@ -966,5 +966,6 @@ harder to unpick later than a shared colour:
 > **Implementation tracking lives in [`CLAUDE.md`](.claude/CLAUDE.md) (§ Tasks), not here.** This
 > document is the design source of truth; what is built vs. pending is recorded there. Every surface
 > specified above is built. What remains is **content**: as of 2026-08-22, `objective` and
-> `instructions` are on all 123 exercises, while `equipment` (40), `variants` (28) and `safety` (4)
-> are still partial - so §5.6's self-hiding sections are load-bearing today, not a future concern.
+> `instructions` are on **every** exercise, while `equipment` (about a third), `variants` (a quarter)
+> and `safety` (a handful) are still partial - so §5.6's self-hiding sections are load-bearing today,
+> not a future concern. The current counts live with the tracking, in `CLAUDE.md`, not here.

@@ -59,8 +59,9 @@ function filledStringArray(value: unknown): string | null {
 // Both numbers are the *390px* budget (~38 chars/line) and mean nothing without that width; 360px
 // would need ~90. Past the ceiling `line-clamp-3` truncates mid-word - an error. Past the target the
 // card stops being title-led - a real regression but an editorial one, so it only warns. §5.1 forbids
-// hardening it. (That tier is now nearly quiet: re-measured 2026-08-21, 4 of 123 teasers sit above
-// the target and none reaches the ceiling - the rewrite it was waiting on has happened.)
+// hardening it. (That tier is now nearly quiet: re-measured 2026-08-21, a handful of teasers sit
+// above the target and none reaches the ceiling - the rewrite it was waiting on has happened. No
+// count is frozen here: this script prints the live one on every run, and `--verbose` lists them.)
 
 const TEASER_CEILING = 100;
 const TEASER_TARGET = 70;
