@@ -125,8 +125,13 @@ onBeforeUnmount(unlock);
            so the apply bar scrolled away with the options and left the thumb zone this sheet exists
            for. It is now a flex column: pinned header, scrolling body, pinned footer - which is what
            makes the CTA reachable by construction rather than by the tag count staying small. The
-           padding went with the split: `px-6` per region, and `pb-8` (thumb clearance, `lg:pb-6`)
-           moved to the footer, where it now clears the screen edge the footer actually meets. -->
+           padding went with the split: `px-6` per region, and the bottom clearance moved to the
+           footer, where it clears the screen edge the footer actually meets.
+           **The header's 24 reads as 30, and that is the ✕, not the padding.** The close button is
+           44px (a touch target, §8) while the title's line box is 32, so `items-center` leaves 6px
+           of slack above and below the text that every declared padding stacks on. Symmetric
+           `py-6` is therefore what reads as balanced here; do not chase the 6px, it is the price of
+           the touch target. -->
       <div
         v-if="open"
         ref="panel"
@@ -144,7 +149,7 @@ onBeforeUnmount(unlock);
              edgeless, and having no edge is what separates it from every control that acts on the
              filters - this one only acts on the panel. (It also rules out `.pill-action`, whose white
              fill would vanish on a white sheet.) -->
-        <header class="shrink-0 flex items-center justify-between gap-3 px-6 pt-6 pb-8">
+        <header class="shrink-0 flex items-center justify-between gap-3 px-6 py-6">
           <h2
             id="sheet-title"
             class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50"
@@ -233,7 +238,7 @@ onBeforeUnmount(unlock);
              Named for what it clears, to keep it distinct from the feed's `Tout réinitialiser`,
              which also drops search mode. -->
         <div
-          class="shrink-0 flex flex-col gap-3 sm:flex-row border-t border-slate-200 dark:border-slate-700 px-6 pt-3 pb-8 lg:pb-6"
+          class="shrink-0 flex flex-col gap-3 sm:flex-row border-t border-slate-200 dark:border-slate-700 px-6 pt-3 pb-6"
         >
           <button
             v-if="activeFilterCount"
