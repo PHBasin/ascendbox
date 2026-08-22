@@ -89,6 +89,12 @@ const filtered = computed<Exercise[]>(() =>
  *   search mode, so the sheet advertised tags the query had already excluded);
  * - a selected tag is always present, even at count 0, so an applied filter never loses the toggle
  *   that would remove it.
+ *
+ * Ties break **alphabetically**, and that is not cosmetic. Sorting on the count alone left equal
+ * counts in `Map` insertion order - first-appearance order *in the currently filtered list* - so
+ * toggling a duration bucket silently reshuffled the chips under the thumb. §5.5 already refuses
+ * that for the applied-filter chips ("a row that reshuffles is harder to re-find than one that holds
+ * still"); the sheet's own options were never held to the same rule.
  */
 const availableTags = computed<string[]>(() => {
   const counts = new Map<string, number>();
@@ -96,7 +102,9 @@ const availableTags = computed<string[]>(() => {
     for (const tag of exercise.tags) counts.set(tag, (counts.get(tag) ?? 0) + 1);
   }
   for (const tag of selectedTags.value) if (!counts.has(tag)) counts.set(tag, 0);
-  return [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([tag]) => tag);
+  return [...counts.entries()]
+    .sort(([tagA, countA], [tagB, countB]) => countB - countA || tagA.localeCompare(tagB, 'fr'))
+    .map(([tag]) => tag);
 });
 
 const { items: exercises, hasMore, loadMore, resetPage } = createPagination(() => filtered.value);

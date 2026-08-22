@@ -42,12 +42,25 @@ async function run(): Promise<void> {
     error.value = messageFor(cause);
   } finally {
     isLoading.value = false;
-    pending = null;
   }
 }
 
+/**
+ * Assign the promise, then clear it **by identity** - never from inside `run`'s own `finally`.
+ *
+ * `pending ??= run()` reads as the same thing and is not: `run()` is called *before* the assignment
+ * lands, so a `run` that ever settled synchronously would null out `pending` and then have the
+ * settled promise written back over the null. `pending` would stay non-null forever, and
+ * `loadCatalogue` / `retryCatalogue` would both become permanent no-ops - the app pinned to its
+ * error state behind a `Réessayer` button that does nothing. It only worked because `run` always
+ * suspends at the `await`; one early guard clause above it was all it would have taken.
+ */
 function start(): void {
-  pending ??= run();
+  if (pending) return;
+  const current = run().finally(() => {
+    if (pending === current) pending = null;
+  });
+  pending = current;
 }
 
 /**

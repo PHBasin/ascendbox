@@ -87,8 +87,22 @@ export function useFocusTrap(container: Ref<HTMLElement | null>, isOpen: () => b
         });
       } else {
         release();
-        previouslyFocused?.focus();
+        const restoreTo = previouslyFocused;
         previouslyFocused = null;
+        // **`nextTick`, and it is load-bearing** - the restore is not symmetric with the capture.
+        // The caller holds `inert` on the app root as the other half of `aria-modal`, and it drops
+        // it in *its own* watcher on the same state. Watchers run in creation order, and the trap is
+        // installed first, so restoring synchronously aimed `.focus()` at a control still inside an
+        // inert subtree: refused outright, no error, focus left behind in the closing panel and then
+        // dropped to <body> when it unmounted. The promise in DESIGN §8 - focus returns to the
+        // invoking control - was never actually kept. Deferring past the flush lets `inert` come off
+        // first, and mirrors the `nextTick` the open path already needs.
+        void nextTick(() => {
+          // Still in the document: `.focus()` on a detached node is a silent no-op. The invoking
+          // control can genuinely be gone by now (the sheet's reset button unmounts once the last
+          // filter clears), so this is a real path, not a defensive flourish.
+          if (restoreTo?.isConnected === true) restoreTo.focus();
+        });
       }
     },
     // A surface that mounts already open (a deep link, a restored keep-alive) must be trapped too -

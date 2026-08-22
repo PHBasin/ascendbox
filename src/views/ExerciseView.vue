@@ -10,7 +10,14 @@ import ResetIcon from '@/components/icons/ResetIcon.vue';
 // the **Déroulement** is the payload they came for, so it is a scannable list - never a paragraph.
 const props = defineProps<{ id: string }>();
 
-const { exercise, notFound, isLoading, error, retry } = useExercise(() => Number(props.id));
+// Strict, not `Number(props.id)`: that accepts `0x0c` (→ 12), `1e2` (→ 100) and ` 12 `, so a single
+// exercise answered to several URLs that were not its own - shared links that look different and
+// resolve the same. Anything else yields NaN, which the `notFound` branch below already handles.
+function routeId(raw: string): number {
+  return /^\d+$/.test(raw) ? Number(raw) : Number.NaN;
+}
+
+const { exercise, notFound, isLoading, error, retry } = useExercise(() => routeId(props.id));
 
 // Read only inside `v-else-if="exercise"`, but a computed evaluates regardless - hence the guard,
 // falling back to '' until the catalogue lands. (The category badge takes `exercise.categoryId`
@@ -57,7 +64,7 @@ const variantBlocks = computed<VariantBlock[]>(() => {
 // unmount so the catalogue does not inherit an exercise's name.
 const BASE_TITLE = 'AscendBox';
 watchEffect(() => {
-  document.title = exercise.value ? `${exercise.value.title} — ${BASE_TITLE}` : BASE_TITLE;
+  document.title = exercise.value ? `${exercise.value.title} - ${BASE_TITLE}` : BASE_TITLE;
 });
 onBeforeUnmount(() => {
   document.title = BASE_TITLE;

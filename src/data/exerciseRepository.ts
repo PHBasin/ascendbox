@@ -41,18 +41,27 @@ let inFlight: Promise<Exercise[]> | null = null;
  * `index.html` - not editorial ones, which CI already refuses before the file ships. So it rejects
  * the payload wholesale when the shape is wrong, and drops individual malformed entries rather than
  * denying a coach the other 122 exercises over one bad record.
+ *
+ * `tags` is checked **element by element** and `id` for integerness, because "it is an array" and
+ * "it is a number" are not the promises the app spends downstream: a numeric tag renders as `#1` on
+ * the card and never matches the string in the filter's `Set`, and a fractional id can never be
+ * reached by a route. Both are shapes `validate:data` refuses - but that gate reads the file in CI,
+ * and this one exists for what a *deploy* does to it afterwards.
  */
 function isUsable(value: unknown): value is Exercise {
   if (typeof value !== 'object' || value === null) return false;
   const entry = value as Record<string, unknown>;
+  const tags: unknown = entry['tags'];
   return (
     typeof entry['id'] === 'number' &&
+    Number.isInteger(entry['id']) &&
     typeof entry['title'] === 'string' &&
     typeof entry['teaser'] === 'string' &&
     isCategoryId(entry['categoryId']) &&
     isLevel(entry['level']) &&
     typeof entry['duration'] === 'number' &&
-    Array.isArray(entry['tags'])
+    Array.isArray(tags) &&
+    (tags as unknown[]).every((tag) => typeof tag === 'string')
   );
 }
 
