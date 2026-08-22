@@ -93,7 +93,7 @@ Uses the **v4** engine, wired into Vite via the `@tailwindcss/postcss` plugin in
 - **`src/components/categoryStyles.ts`** - `CATEGORY_TINT` / `CATEGORY_RULE`, the single home for the category palette.
 - **`src/components/toggleStyles.ts`** - `TOGGLE_ON` / `TOGGLE_OFF`, the one toggle recipe shared by the scope pills (§5.2) and the filter sheet's options (§5.5). Only the **duration** lives here, because that is the part that differs by state (§6): 300ms to fill, 150ms to recede.
 
-Repeated class strings live in `@layer components` (`.card`, `.pill-action`, `.toggle-on`/`.toggle-off`, `.eyebrow`, `.app-bar`, `.meta-chip`, `.state-block`, `.state-error`, `.page-gutter`, `.btn-ink`) and carry a **skin, never a box**: size, padding and any deliberate timing stay at the call site, so two controls can share a look without being fused. A glyph used in more than one place is a component in `src/components/icons/`; single-use glyphs stay inline. DESIGN §10/§11 hold both rules.
+Repeated class strings live in `@layer components` (`.card`, `.pill-action`, `.toggle-on`/`.toggle-off`, `.eyebrow`, `.app-bar`, `.meta-chip`, `.state-block`, `.state-error`, `.page-gutter`, `.btn-ink`, `.btn-ghost`) and carry a **skin, never a box**: size, padding and any deliberate timing stay at the call site, so two controls can share a look without being fused. A glyph used in more than one place is a component in `src/components/icons/`; single-use glyphs stay inline. DESIGN §10/§11 hold both rules.
 
 ### PWA and offline
 

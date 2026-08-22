@@ -523,7 +523,8 @@ visible around it, which is worth something when filters apply live.
 **The ✕ is the one control here with neither fill nor ring, deliberately.** A close is conventionally
 edgeless, and having no edge is what separates it from every control that acts on the filters - it
 acts only on the panel. (It also rules out `.pill-action`, whose white fill would vanish on a white
-sheet.)
+sheet.) That edgeless look is `.btn-ghost` (§11), shared with the search field's ✕ (§5.9): the two
+closes are one skin, and each keeps its own box.
 
 **Surface.** The sheet takes the `.card` surface (`bg-white dark:bg-slate-800`) plus a top border -
 the §4 rule, not an exception to it. It must never wear the page's background token: that is what
@@ -833,7 +834,10 @@ check `matchMedia`. Motion is reinforcement only - never the sole carrier of a s
 ## 8. Accessibility
 
 - **Touch targets** ≥ 44px everywhere (`min-h-11`); 48px comfortable; the primary full-width CTA
-  ~52px. Every _primary_ control stays ≥ 44px.
+  ~52px. Every _primary_ control stays ≥ 44px. **A control drawn smaller carries a 44px hit area
+  rather than shrinking the target with it:** the search field's ✕ is a 32px circle, because a 44px
+  one would crowd a 44px field, so it takes `after:absolute after:-inset-1.5` and the target is 44px
+  even where the ink is not. Draw small, tap big - never the reverse.
 - **Redundant encoding (hard rule):** category = icon + label + colour; level = filled-segment count +
   label. Nothing relies on hue alone. Verify with a grayscale + CVD pass.
 - **Contrast:** primary text/actions target AAA (§2.4); never ship below AA.
@@ -944,6 +948,7 @@ without fusing two different controls:
 | `.toggle-on` / `.toggle-off` | a selected / unselected toggle - scope pills (§5.2) and sheet options (§5.5) |
 | `.eyebrow`                   | the small uppercase section label (§5.5, §5.6)                               |
 | `.btn-ink`                   | the solid-ink pill CTA - the feed's and detail's reset / back-to-catalogue   |
+| `.btn-ghost`                 | the edgeless circular close - the sheet's ✕ (§5.5), the search's ✕ (§5.9)    |
 | `.app-bar`                   | the opaque sticky bar chrome - feed header and detail back nav (§5.8)        |
 | `.meta-chip`                 | the small inline icon+value label - category badge, duration, gauge (§5.4)   |
 | `.state-error`               | the load-failure message - feed and detail (§2.2 keeps rose for error text)  |

@@ -92,7 +92,7 @@ watch(searchOpen, (open) => {
             <button
               type="button"
               aria-label="Fermer la recherche"
-              class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-8 h-8 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-150 ease-out"
+              class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-8 h-8 btn-ghost after:absolute after:-inset-1.5"
               @click="closeSearch"
             >
               <CloseIcon class="w-4 h-4" />

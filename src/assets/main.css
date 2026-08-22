@@ -82,6 +82,19 @@
            transition duration-150 ease-out active:scale-95;
   }
 
+  /* Edgeless circular close, shared by the filter sheet's ✕ (§5.5) and the search field's ✕ (§5.9).
+     Neither fill nor ring, and that is what says it acts on the *surface* rather than on its
+     contents - the opposite half of `.pill-action` above, which is exactly what a close must not
+     look like (a white fill also vanishes on the white sheet).
+     `transition` bare, never `transition-colors`: the header comment above records why - pairing
+     `active:scale-*` with a transition that excludes `transform` means the press never animates.
+     The search ✕ carried that pairing, so it had no press feedback at all until this class. */
+  .btn-ghost {
+    @apply rounded-full text-slate-500 dark:text-slate-400
+           hover:bg-slate-100 dark:hover:bg-slate-700
+           transition duration-150 ease-out active:scale-95;
+  }
+
   /* Toggle skin, shared by the scope pills (§5.2) and the filter sheet's options (§5.5) - §5.5 asks
      for the same interaction, this is it made literal, motion included. Active = solid ink, never
      hue (§2.4).
