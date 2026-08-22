@@ -13,7 +13,7 @@ const isActive = (id: CategoryId): boolean => !props.searching && props.activeCa
 
 // Full static class strings for the JIT (§10).
 
-// Phone: `flex-auto` sizes each pill to its own label, then grows them to fill the row —
+// Phone: `flex-auto` sizes each pill to its own label, then grows them to fill the row -
 // proportional, not equal thirds, so the widest label is never crushed. Full labels + icons hold
 // one line from the 360px target up; `truncate` only fires below ~340px (§5.2). `sm+`: natural width.
 // The box only. Skin *and* motion come from `.toggle-on`/`.toggle-off` (main.css) with the arrival
