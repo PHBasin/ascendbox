@@ -48,6 +48,10 @@ async function openSearch(page) {
   await page.waitForTimeout(300);
 }
 
+// The two-line-per-viewport shape is the point: this is a table to scan, and exploding it to six
+// lines per row buys nothing but height. The marker below must stay exactly `// prettier-ignore`,
+// alone on the line directly above the node - any trailing text on it and Prettier ignores it.
+// prettier-ignore
 const VIEWPORTS = [
   { name: 'mobile-390', w: 390, h: 844,
     note: 'the stated target: 3 scope axes on one line, labels complete' },
@@ -87,7 +91,9 @@ for (const { name, w, h, action, note } of VIEWPORTS) {
   const target = FULL_PAGE ? page : page.locator('header').first();
   await target.screenshot({ path: join(OUT, `${name}.png`), fullPage: FULL_PAGE || undefined });
 
-  console.log(`${overflow === 0 ? 'ok  ' : 'FAIL'} ${name.padEnd(20)} ${`${w}x${h}`.padEnd(9)} ${note}`);
+  console.log(
+    `${overflow === 0 ? 'ok  ' : 'FAIL'} ${name.padEnd(20)} ${`${w}x${h}`.padEnd(9)} ${note}`
+  );
   await ctx.close();
 }
 

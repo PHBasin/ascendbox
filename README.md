@@ -70,7 +70,7 @@ npm run dev      # start the dev server at http://localhost:3000
 | `npm run data:import`   | CSV → JSON (`-- --in fichier.csv`).                                                                               |
 | `npm run format`        | Prettier write across the project ([`.prettierrc`](.prettierrc): 100 cols, single quotes, `es5` trailing commas). |
 
-> 📄 **`data:import` converts; it does not check.** Editing 123 exercises is a job for a spreadsheet,
+> 📄 **`data:import` converts; it does not check.** Editing ~150 exercises is a job for a spreadsheet,
 > so the catalogue round-trips through a `;`-separated, BOM'd CSV that a French Excel opens without an
 > import wizard. The converter refuses only what would make the conversion _unfaithful_ (a `|` inside
 > a value, a mismatched header, a file with no data row - which would otherwise erase the catalogue
@@ -120,7 +120,7 @@ domain  →  data  →  application  →  presentation
 | ---------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Domain**       | [`src/domain/exercise.ts`](src/domain/exercise.ts)                 | Pure business entities & types. Single source of truth for the closed vocabularies - `CATEGORIES` and `LEVELS`, with their label records derived from them. Zero framework dependency.                                                                                                       |
 | **Data**         | [`src/data/exerciseRepository.ts`](src/data/exerciseRepository.ts) | The only module that knows the source. `fetch`es the JSON, **validates the payload**, freezes and caches it, and aborts after 10 s. Swap it to move to an API.                                                                                                                               |
-| **Application**  | [`src/application/`](src/application/)                             | State as a shared singleton, split by owner: `useCatalogue` (data + load/retry), `useSearch`, `useFilters`, `usePagination`, and `useExercises` as the façade. Behavior lives here, not in components.                                                                                       |
+| **Application**  | [`src/application/`](src/application/)                             | State as a shared singleton, split by owner: `useCatalogue` (data + load/retry), `useSearch`, `useFilters`, `usePagination`, `useExercises` as the façade, and `plural` (French agreement). Behavior lives here, not in components.                                                          |
 | **Presentation** | [`src/views/`](src/views/) + [`src/components/`](src/components/)  | One component per route (`HomeView`, `ExerciseView`) over an `App.vue` that is only a `<RouterView>`, plus presentational components - `HeaderToolbar`, `CategoryScope`, `ExerciseFeed`, `ExerciseCard`, `FilterSheet`, `LevelGauge`, `CategoryBadge`, `ToggleChip` and the `icons/` glyphs. |
 
 - **Path alias**: `@` → `./src` (declared in both `vite.config.ts` **and** `tsconfig.json`).
@@ -144,7 +144,7 @@ Exercises live in [`public/data/exercises.json`](public/data/exercises.json), **
 (out of the JS bundle for a better _time-to-interactive_; preloaded via `<link rel="preload">` in
 [`index.html`](index.html)).
 
-The catalogue holds **123 exercises**. Each entry conforms to the `Exercise` interface: seven fields
+The catalogue holds **149 exercises** (measured 2026-08-22). Each entry conforms to the `Exercise` interface: seven fields
 are required, and the rest feed the detail page (DESIGN §5.6) and are **optional by design** - the
 catalogue is authored incrementally, and a section with no data simply does not render.
 
@@ -176,8 +176,8 @@ catalogue is authored incrementally, and a section with no data simply does not 
   loud ("3 min", never "180 s") - a fixed vocabulary of `reps`/`sets`/`restSec` could not describe a
   hand-authored catalogue (DESIGN §5.6).
 
-**Authoring status** (2026-08-22): `objective` and `instructions` are complete on all 123 entries;
-`equipment` is on 40, `variants` on 28 and `safety` on 4.
+**Authoring status** (2026-08-22): `objective` and `instructions` are complete on all 149 entries;
+`equipment` is on 52, `variants` on 35 and `safety` on 8.
 
 > Because the JSON is _fetched_ (not imported), `vue-tsc` cannot see it - a schema drift would only
 > fail at runtime, in the field. **`npm run validate:data` is the gate that closes this** and runs in
@@ -246,7 +246,7 @@ ascendbox/
 ├── src/
 │   ├── domain/               # entities & types
 │   ├── data/                 # data access
-│   ├── application/          # state & logic (5 composables)
+│   ├── application/          # state & logic (5 composables + plural.ts)
 │   ├── router/               # routes (hash history)
 │   ├── views/                # one component per route
 │   ├── components/           # Vue components
@@ -293,7 +293,7 @@ Work actually in flight is tracked in [`.claude/CLAUDE.md`](.claude/CLAUDE.md), 
 
 ### Content
 
-- **Finish the detail data** - `equipment` (40/123), `variants` (28/123) and `safety` (4/123) are
+- **Finish the detail data** - `equipment` (52/149), `variants` (35/149) and `safety` (8/149) are
   still partial. Content authoring, not code: the model is settled and every section self-hides, so
   a gap is a non-event. `safety` is the one field that cannot be bulk-filled - it is coaching advice,
   so it needs a human who coaches.
