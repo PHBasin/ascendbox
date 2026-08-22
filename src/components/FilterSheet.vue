@@ -245,7 +245,7 @@ onBeforeUnmount(unlock);
              Named for what it clears, to keep it distinct from the feed's `Tout réinitialiser`,
              which also drops search mode. -->
         <div
-          class="shrink-0 flex flex-col gap-3 sm:flex-row border-t border-slate-200 dark:border-slate-700 px-6 pt-3 pb-6"
+          class="shrink-0 flex flex-col gap-3 sm:flex-row border-t border-slate-200 dark:border-slate-700 px-6 py-6"
         >
           <button
             v-if="activeFilterCount"
